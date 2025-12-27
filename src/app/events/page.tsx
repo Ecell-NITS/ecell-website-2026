@@ -56,10 +56,13 @@ export default function EventsPage() {
                     initiative.imagePosition === "left" && "lg:flex-row"
                   } items-center gap-6 lg:gap-10`}
                 >
+                  <h2 className="font-poppins w-full text-left text-2xl font-semibold text-white sm:text-3xl md:text-4xl lg:hidden">
+                    {initiative.title}
+                  </h2>
                   <div className="aspect-[344/468] w-full flex-shrink-0 rounded-lg bg-gradient-to-br from-[#757575] to-[#505050] shadow-2xl transition-all duration-500 hover:scale-105 sm:w-4/5 md:w-3/5 lg:w-[344px] xl:w-[400px]" />
 
                   <div className="flex flex-1 flex-col gap-4 lg:gap-6">
-                    <h2 className="font-poppins text-2xl font-semibold text-white sm:text-3xl md:text-4xl lg:text-5xl">
+                    <h2 className="font-poppins hidden text-2xl font-semibold text-white sm:text-3xl md:text-4xl lg:block lg:text-5xl">
                       {initiative.title}
                     </h2>
                     <p className="font-poppins text-sm leading-relaxed font-medium text-white/90 sm:text-base lg:text-lg xl:text-xl">

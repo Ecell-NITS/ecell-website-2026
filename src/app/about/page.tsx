@@ -66,7 +66,7 @@ export default function AboutPage() {
 
 
   <div className="w-full">
-     <h1 className={`${poppins.className} text-3xl 2xl:text-5xl lg:text-3.5xl md:text-3xl sm:text-2.7xl xl:text-4xl text-center `}>PILLARS OF E-CELL</h1>
+     <h1 className={`${poppins.className} 2xl:text-5xl lg:text-3xl md:text-2.5xl sm:text-2xl xl:text-4xl text-center `}>PILLARS OF E-CELL</h1>
      <hr className="mx-2 sm:mx-6 lg:mx-8 xl:mx-10 border-0.5 sm:border-1.0 md:border-1.0 lg:border-1.5 xl:border-2 2xl:border-2.3"></hr>
      <br/>
   </div>

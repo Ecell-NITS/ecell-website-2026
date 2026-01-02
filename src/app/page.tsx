@@ -4,7 +4,6 @@ import Image from "next/image";
 import Link from "next/link";
 import { motion, AnimatePresence } from "framer-motion";
 import { Calendar, ArrowRight, Quote, Image as ImageIcon } from "lucide-react";
-
 import AnimatedBackground from "~/components/animated-background";
 import Navbar from "~/components/navbar";
 
@@ -241,15 +240,12 @@ export default function HomePage() {
 
       {/* --- HERO SECTION --- */}
       <section className="relative z-10 flex min-h-screen w-full items-center justify-center overflow-hidden px-4 pt-24 pb-12">
-        {/* CHANGED: md:grid-cols-2 -> xl:grid-cols-2. 
-           This keeps Tablet/1024px screens STACKED (mobile view), fixing the overflow issue. */}
         <div className="container grid max-w-7xl grid-cols-1 items-center gap-8 md:gap-12 xl:grid-cols-2 2xl:max-w-[1600px] 2xl:gap-24">
           <div className="group relative order-1 flex justify-center xl:order-1 xl:justify-center">
             <motion.div
               initial={{ opacity: 0, scale: 0.8, x: -50 }}
               animate={{ opacity: 1, scale: 1, x: 0 }}
               transition={{ duration: 0.8 }}
-              // Responsive sizes: Mobile -> Tablet -> Desktop
               className="animate-float relative h-60 w-60 sm:h-72 sm:w-72 md:h-[400px] md:w-[500px] xl:h-[450px] xl:w-[550px] 2xl:h-[650px] 2xl:w-[750px]"
             >
               <Image
@@ -267,7 +263,6 @@ export default function HomePage() {
               animate={{ opacity: 1, x: 0 }}
               transition={{ duration: 0.8, delay: 0.2 }}
             >
-              {/* Scaled Text: Large on Tablets (since it's stacked) but not too large */}
               <h1 className="mb-6 text-4xl leading-tight font-extrabold tracking-tight sm:text-6xl md:text-7xl xl:text-7xl 2xl:text-7xl">
                 Entrepreneurship Cell <br />
                 <span className="bg-gradient-to-r from-blue-400 via-cyan-400 to-blue-500 bg-clip-text text-transparent">
@@ -366,11 +361,6 @@ export default function HomePage() {
             Events
           </h2>
 
-          {/* RESPONSIVE LOGIC:
-             - flex-nowrap + overflow-x-auto: Ensures Horizontal Scroll on ALL screens up to XL.
-             - xl:flex-wrap: Only wraps into a grid on extra-large (1280px+) screens.
-             - This keeps 1024px/Tablets in scroll mode (Mobile Version).
-          */}
           <div className="no-scrollbar flex snap-x snap-mandatory flex-nowrap gap-5 overflow-x-auto px-4 pb-8 md:gap-8 xl:flex-wrap xl:justify-center xl:overflow-visible 2xl:gap-16">
             {events.map((item) => (
               <div
@@ -445,15 +435,18 @@ export default function HomePage() {
                 className="glaze-border testimonial-card absolute inset-0 rounded-[2rem]"
               >
                 <div className="relative flex h-full w-full flex-col overflow-hidden rounded-[2rem] bg-[#0a0a0a] shadow-2xl shadow-cyan-900/10 md:flex-row">
-                  {/* Image Part */}
+                  {/* Image Part - Added ?. check here */}
                   <div className="relative h-40 w-full shrink-0 overflow-hidden sm:h-40 md:h-full md:w-1/3">
                     <div
-                      className={`relative h-full w-full bg-gray-900 ${!testimonials[currentTestimonial].image ? "flex items-center justify-center" : ""}`}
+                      className={`relative h-full w-full bg-gray-900 ${!testimonials[currentTestimonial]?.image ? "flex items-center justify-center" : ""}`}
                     >
-                      {testimonials[currentTestimonial].image ? (
+                      {testimonials[currentTestimonial]?.image ? (
                         <Image
-                          src={testimonials[currentTestimonial].image}
-                          alt={testimonials[currentTestimonial].name}
+                          src={testimonials[currentTestimonial]?.image || ""}
+                          alt={
+                            testimonials[currentTestimonial]?.name ||
+                            "Testimonial"
+                          }
                           fill
                           className="object-cover"
                         />
@@ -464,13 +457,13 @@ export default function HomePage() {
                     </div>
                   </div>
 
-                  {/* Content Part */}
+                  {/* Content Part - Added ?. checks here */}
                   <div className="flex h-full w-full flex-col bg-gradient-to-br from-[#0a0a0a] to-[#0f172a] p-6 md:w-2/3 md:p-12 2xl:p-24">
                     <div className="flex h-full flex-col gap-4 md:justify-between md:gap-6">
                       <div className="no-scrollbar relative overflow-y-auto pr-2">
                         <Quote className="mb-2 h-6 w-6 text-cyan-500/30 md:mb-4 md:h-10 md:w-10 2xl:h-20 2xl:w-20" />
                         <p className="text-sm leading-relaxed font-light text-blue-100/90 italic sm:text-base md:text-2xl 2xl:text-5xl">
-                          &quot;{testimonials[currentTestimonial].text}&quot;
+                          &quot;{testimonials[currentTestimonial]?.text}&quot;
                         </p>
                       </div>
 
@@ -478,10 +471,10 @@ export default function HomePage() {
                       <div className="flex shrink-0 justify-end">
                         <div className="text-right">
                           <h4 className="bg-gradient-to-r from-cyan-400 to-blue-500 bg-clip-text text-xl font-bold text-transparent md:text-3xl 2xl:text-6xl">
-                            {testimonials[currentTestimonial].name}
+                            {testimonials[currentTestimonial]?.name}
                           </h4>
                           <p className="mt-1 text-xs font-bold tracking-widest text-gray-500 uppercase md:text-sm 2xl:text-2xl">
-                            {testimonials[currentTestimonial].role}
+                            {testimonials[currentTestimonial]?.role}
                           </p>
                         </div>
                       </div>

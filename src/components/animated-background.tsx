@@ -1,4 +1,4 @@
-/* eslint-disable @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-member-access */
+/* eslint-disable @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-member-access, @typescript-eslint/prefer-optional-chain */
 "use client";
 
 import React, { useEffect, useRef } from "react";
@@ -21,7 +21,6 @@ const AnimatedBackground = () => {
     });
 
     // CRITICAL FIX: Force pixel ratio to 1.
-    // This fixes the "left half" scaling bug AND the "laggy" performance.
     renderer.setPixelRatio(1);
     renderer.setSize(window.innerWidth, window.innerHeight);
     container.appendChild(renderer.domElement);
@@ -82,7 +81,7 @@ const AnimatedBackground = () => {
 
           float f = 2.0 + fbm(p + vec2(iTime * 5.0, 0.0)) * 0.5;
 
-          for (float i = 0.0; i < 25.0; i++) { // Reduced iterations from 35 to 25 for FPS boost
+          for (float i = 0.0; i < 25.0; i++) { 
             vec2 v = p + cos(i * i + (iTime + p.x * 0.08) * 0.025 + i * vec2(13.0, 11.0)) * 3.5 + vec2(sin(iTime * 3.0 + i) * 0.003, cos(iTime * 3.5 - i) * 0.003);
             float tailNoise = fbm(v + vec2(iTime * 0.5, i)) * 0.3 * (1.0 - (i / 35.0));
             
@@ -111,7 +110,9 @@ const AnimatedBackground = () => {
 
     let frameId: number;
     const animate = () => {
-      material.uniforms.iTime.value += 0.005;
+      if (material.uniforms && material.uniforms.iTime) {
+        material.uniforms.iTime.value += 0.005;
+      }
       renderer.render(scene, camera);
       frameId = requestAnimationFrame(animate);
     };
@@ -119,12 +120,14 @@ const AnimatedBackground = () => {
 
     const handleResize = () => {
       renderer.setSize(window.innerWidth, window.innerHeight);
-      // Keep pixel ratio at 1 on resize
       renderer.setPixelRatio(1);
-      material.uniforms.iResolution.value.set(
-        window.innerWidth,
-        window.innerHeight,
-      );
+
+      if (material.uniforms && material.uniforms.iResolution) {
+        material.uniforms.iResolution.value.set(
+          window.innerWidth,
+          window.innerHeight,
+        );
+      }
     };
     window.addEventListener("resize", handleResize);
 

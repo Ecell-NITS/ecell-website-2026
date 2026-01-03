@@ -7,35 +7,39 @@ import Image from "next/image";
 
 export default function AboutPage() {
   return (
-    <div className="relative min-w-screen text-white min-h-screen overflow-x-hidden">
+    <div className="relative min-w-screen text-white min-h-screen overflow-x-hidden bg-gradient-to-r from-[#191734] to-[#000002]">
   
     
 
-    <main className="flex flex-col w-full items-center justify-center min-h-screen bg-linear-to-b from-[#050224e4] to-[#020223]">
-    <header className="">
+    <main className="flex flex-col w-full items-center justify-center min-h-screen">
+    <header className="bg-gradient-to-r from-[#191734] to-[#000002] lg:px-0 px-6 lg:py-0 py-2">
         <br/>
         <div className="">
           <h1 className={`${poppins.className} text-3xl lg:text-3.5xl md:text-3xl sm:text-2.7xl xl:text-4xl 2xl:text-5xl text-center `}>WHO ARE WE?</h1>
         </div>
-        <hr className="mx-2 sm:mx-6 lg:mx-8 xl:mx-10 border-0.5 sm:border-1.0 md:border-1.0 lg:border-1.5 xl:border-2 2xl:border-2.3"></hr>
         <br/>
         <h3 className={`${poppins.className} px-4 sm:px-6 lg:px-9 xl:px-12 2xl:px-15 text-sm sm:text-lg md:text-xl lg:text-1.0xl xl:text-1.7xl 2xl:text-2xl text-center`}>E-Cell, NIT Silchar is a non-profit student-run organization promoting and nurturing the entrepreneurial spirit among students. It offers pre-incubation facilities to startups and encourages students to work on their ideas through events. E-Cell's mission is to improve the culture of entrepreneurship in technical and non-technical fields and uplift students to innovate and develop their models. Its objective is to develop the spirit of entrepreneurship by providing various programs and events such as Srijan to educate students on financial literacy, real-world problem-solving skills, and event management.</h3>
+        <div className="bg-gradient-to-r from-[#191734] to-[#000002]">
+          <br/>
+          <br/>
+          <br/>
+          <br/>
+          <br/>
+        </div>
+       
     </header>
 
 
-     <br/>
-     <br/>
-     <br/>
+    
 
     <div className="">
       
         <div className="">
-          <h1 className={`${poppins.className} text-3xl 2xl:text-5xl lg:text-3.5xl md:text-3xl sm:text-2.7xl xl:text-4xl text-center `}>MOTTO</h1>
-          <hr className="mx-2 sm:mx-6 lg:mx-8 xl:mx-10 border-0.5 sm:border-1.0 md:border-1.0 lg:border-1.5 xl:border-2 2xl:border-2.3"></hr>
+          <h1 className={`${poppins.className} text-3xl 2xl:text-5xl lg:text-3.5xl md:text-3xl sm:text-2.7xl xl:text-4xl text-center bg-gradient-to-r from-[#191734] to-[#000002] `}>MOTTO</h1>
           <br/>
         </div>
 
-        <div className="cards-set-1 w-full flex mx-2 sm:mx-4 lg:mx-0 flex-wrap gap-10 justify-evenly">
+        <div className="cards-set-1 w-full bg-gradient-to-r from-[#000002] to-[#050231] flex px-8 sm:px-4 flex-wrap gap-10 justify-evenly">
           
           <div className="about_card_ justify-content-center shadow-lg transition-transform duration-500 ease-out hover:scale-105 w-full sm:w-80 lg:w-84 h-84 items-center border-gray-800 border-6">
             <div className="image_style pt-2 h-1/2 justify-items-center bg-linear-to-b from-[#000000] to-[#05290dcf]"><Image src="https://res.cloudinary.com/dw3n9vflw/image/upload/v1767000084/ICON_xhuywa.png" alt="cardimage" width={200} height={200} className="image_style"/></div>
@@ -55,28 +59,32 @@ export default function AboutPage() {
           </div>
           <div className="about_card_ justify-content-center shadow-lg transition-transform duration-500 ease-out hover:scale-105 w-full sm:w-80 lg:w-84 h-84 items-center border-gray-800 border-6">
             <div className="image_style justify-items-center h-1/2 bg-linear-to-b from-[#000000] to-[#05290dcf]"><Image src="https://res.cloudinary.com/dw3n9vflw/image/upload/v1767000495/Frame_1116606601_bz40iq.png" alt="cardimage" width={200} height={200} className="image_style"/></div>
-            <div className="motto_card_text h-1/2 pt-6 text-center text-sm w-full bg-linear-to-b from-[#05290dcf] to-[#0A231D]">Creating a Community of Entrepreneurs."We aim to create a culture of entrepreneurship on campus by celebrating success stories, organizing interactive sessions, and inspiring students to think beyond traditional career paths.</div></div>
-          </div>
-  
+            <div className="motto_card_text h-1/2 pt-6 text-center text-sm w-full bg-linear-to-b from-[#05290dcf] to-[#0A231D]">Creating a Community of Entrepreneurs."We aim to create a culture of entrepreneurship on campus by celebrating success stories, organizing interactive sessions, and inspiring students to think beyond traditional career paths.</div>
+          </div> 
+
+        </div>
+          
+        <div className="bg-gradient-to-r from-[#000002] to-[#050231]">
+          <br/>
+          <br/>
+          <br/>
+          <br/>
+        </div>
+         
    </div>
 
-   <br/>
-   <br/>
-   <br/>
 
-
-  <div className="w-full">
-     <h1 className={`${poppins.className} 2xl:text-5xl lg:text-3xl md:text-2.5xl sm:text-2xl xl:text-4xl text-center `}>PILLARS OF E-CELL</h1>
-     <hr className="mx-2 sm:mx-6 lg:mx-8 xl:mx-10 border-0.5 sm:border-1.0 md:border-1.0 lg:border-1.5 xl:border-2 2xl:border-2.3"></hr>
+  <div className="w-full bg-gradient-to-r from-[#000002] to-[#050231]">
+     <h1 className={`${poppins.className} text-3xl 2xl:text-5xl lg:text-3.5xl md:text-3xl sm:text-2.7xl xl:text-4xl text-center `}>PILLARS OF E-CELL</h1>
      <br/>
   </div>
 
 
-  <div className="flex mx-10 mb-4 w-full lg:mb-6 lg:mx-0 flex-wrap gap-10 justify-evenly">
+  <div className="flex mx-10 px-12 lg:px-10 bg-[#0b0f14] bg-[radial-gradient(60%_50%_at_20%_80%,_rgba(0,221,115,0.25)_0%,_rgba(0,221,115,0.12)_30%,_rgba(0,0,0,0)_70%),linear-gradient(180deg,_rgba(0,0,0,0.6)_0%,_rgba(0,0,0,0.9)_100%)] pb-10 w-full lg:pb-12 lg:mx-0 flex-nowrap lg:flex-wrap gap-10 overflow-x-auto lg:overflow-x-hidden lg:justify-evenly">
 
 
 
-     <div className=" flex flex-col border-2 rounded-md shadow-lg transition-transform duration-500 ease-out hover:scale-105 justify-content-center w-84 items-center">
+     <div className="flex flex-col shadow-lg bg-black transition-transform duration-500 ease-out hover:scale-105 justify-content-center w-84 items-center">
       <div className="ellipse pt-4">
         <Image src="https://res.cloudinary.com/ecell/image/upload/v1756627441/IMG_174134284467cac87c778b1_kzqtmj.jpg" alt="" width={100} height={100} className="rounded-full object-cover"/>
       </div>
@@ -84,14 +92,14 @@ export default function AboutPage() {
       <div className="text-center pb-4 lg:pb-6 rectangle h-1/2">
         <span className="name_pillars text-center text-xl lg:text-2xl w-full"><b>Prof. Rahul Dev Misra</b></span><br/>
         <span className="designation_pillars text-center text-lg lg:text-xl w-full">IIC President, NIT Silchar.</span><br/><br/><br/>
-        <p className="description_pillars w-full max-w-[14rem] sm:max-w-[16rem] text-center text-md lg:text-lg ">Prof. Rahul Dev Misra is a professor in the mechanical engineering department and the president of IIC, NIT Silchar. He is the backbone of IIC and has been an excellent mentor to the students and a great support to the organization.</p>
+        <p className="description_pillars text-center text-md lg:text-lg w-57">Prof. Rahul Dev Misra is a professor in the mechanical engineering department and the president of IIC, NIT Silchar. He is the backbone of IIC and has been an excellent mentor to the students and a great support to the organization.</p>
       </div>
      </div>
 
 
 
 
-     <div className=" flex flex-col border-2 rounded-md shadow-lg transition-transform duration-500 ease-out hover:scale-105 justify-content-center w-84 items-center">
+     <div className=" flex flex-col bg-black shadow-lg transition-transform duration-500 ease-out hover:scale-105 justify-content-center w-84 items-center">
        <div className="ellipse pt-4">
          <Image src="https://res.cloudinary.com/dw3n9vflw/image/upload/v1767025863/WasimArifSir-d33400e4_qmpii4.jpg" alt="" width={100} height={100} className="rounded-full object-cover"/>
        </div>
@@ -107,7 +115,7 @@ export default function AboutPage() {
 
 
 
-     <div className="flex flex-col border-2 rounded-md  shadow-lg transition-transform duration-500 ease-out hover:scale-105 justify-items-center w-84 items-center">
+     <div className="flex flex-col bg-black shadow-lg transition-transform duration-500 ease-out hover:scale-105 justify-items-center w-84 items-center">
         <div className="ellipse item-center pt-4 justify-items-center">
          <Image src="https://res.cloudinary.com/dw3n9vflw/image/upload/v1767035373/sertf_edymgq.jpg" alt="" width={100} height={100} className="rounded-full object-cover"/>
         </div>
@@ -120,8 +128,12 @@ export default function AboutPage() {
         </div>
      </div>
 
-
-
+     <div className="bg-[radial-gradient(60%_50%_at_20%_80%,_rgba(0,221,115,0.25)_0%,_rgba(0,221,115,0.12)_30%,_rgba(0,0,0,0)_70%),linear-gradient(180deg,_rgba(0,0,0,0.6)_0%,_rgba(0,0,0,0.9)_100%)]">
+      <br/>
+      <br/>
+      <br/>
+      <br/>
+     </div>
 
 
 

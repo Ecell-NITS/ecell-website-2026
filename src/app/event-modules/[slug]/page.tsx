@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState, use, useCallback, useEffect } from "react";
+import { motion } from "framer-motion";
 import { eventModules } from "../../../content/modules";
 import Image from "next/image";
 
@@ -155,28 +156,86 @@ export default function ModulePage({ params }: PageProps) {
 
             <div className="mt-10 flex flex-row flex-wrap justify-center gap-6">
               {/* About Button */}
-              <div className="group relative inline-flex cursor-pointer overflow-hidden rounded-full p-[4px] transition-all hover:scale-105 active:scale-95">
-                <span className="absolute inset-[-1000%] animate-[spin_2s_linear_infinite] bg-[image:var(--grad-blue-conic)]" />
+              <motion.div
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+                className="group relative inline-flex cursor-pointer overflow-hidden rounded-full p-[2px]"
+              >
+                <div
+                  className="absolute inset-0 rounded-full"
+                  style={{
+                    padding: "2px",
+                    WebkitMask:
+                      "linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0)",
+                    WebkitMaskComposite: "destination-out",
+                    maskComposite: "exclude",
+                  }}
+                >
+                  <motion.div
+                    animate={{ rotate: [0, 90, 180, 270, 360] }}
+                    transition={{
+                      duration: 3,
+                      repeat: Infinity,
+                      ease: "linear",
+                      times: [0, 0.25, 0.5, 0.75, 1],
+                    }}
+                    style={{
+                      background:
+                        "conic-gradient(from 90deg at 50% 50%, #3b82f6 0%, transparent 40%, transparent 100%)",
+                    }}
+                    className="absolute inset-[-500%]"
+                  />
+                </div>
+
                 <a
                   href="#about"
                   onClick={(e) => handleScroll(e, "about")}
-                  className="font-jakarta relative flex items-center justify-center rounded-full bg-[#000002] px-10 py-5 text-lg font-bold tracking-wider uppercase"
+                  className="font-jakarta relative flex items-center justify-center rounded-full bg-transparent px-8 py-4 text-sm font-bold tracking-wider text-white uppercase transition-colors group-hover:bg-white/5 sm:text-base lg:px-10 lg:py-4 lg:text-lg"
                 >
                   About {eventModule.btntitle}
                 </a>
-              </div>
+              </motion.div>
 
               {/* Explore Button */}
-              <div className="group relative inline-flex cursor-pointer overflow-hidden rounded-full p-[4px] transition-all hover:scale-105 active:scale-95">
-                <span className="absolute inset-[-1000%] animate-[spin_2s_linear_infinite] bg-[image:var(--grad-blue-conic)]" />
+              <motion.div
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+                className="group relative inline-flex cursor-pointer overflow-hidden rounded-full p-[2px]"
+              >
+                <div
+                  className="absolute inset-0 rounded-full"
+                  style={{
+                    padding: "2px",
+                    WebkitMask:
+                      "linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0)",
+                    WebkitMaskComposite: "destination-out",
+                    maskComposite: "exclude",
+                  }}
+                >
+                  <motion.div
+                    animate={{ rotate: [0, 90, 180, 270, 360] }}
+                    transition={{
+                      duration: 3,
+                      repeat: Infinity,
+                      ease: "linear",
+                      times: [0, 0.25, 0.5, 0.75, 1],
+                    }}
+                    style={{
+                      background:
+                        "conic-gradient(from 90deg at 50% 50%, #3b82f6 0%, transparent 40%, transparent 100%)",
+                    }}
+                    className="absolute inset-[-500%]"
+                  />
+                </div>
+
                 <a
                   href="#explore"
                   onClick={(e) => handleScroll(e, "explore")}
-                  className="font-jakarta relative flex items-center justify-center rounded-full bg-[#000002] px-10 py-5 text-lg font-bold tracking-wider uppercase"
+                  className="font-jakarta relative flex items-center justify-center rounded-full bg-transparent px-8 py-4 text-sm font-bold tracking-wider text-white uppercase transition-colors group-hover:bg-white/5 sm:text-base lg:px-10 lg:py-4 lg:text-lg"
                 >
                   Explore Events
                 </a>
-              </div>
+              </motion.div>
             </div>
           </div>
         </section>

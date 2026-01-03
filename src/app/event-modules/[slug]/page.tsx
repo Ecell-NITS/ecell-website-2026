@@ -104,21 +104,29 @@ export default function ModulePage({ params }: PageProps) {
       <div className="relative z-10">
         {/* HERO SECTION */}
         <section className="relative flex h-screen w-full flex-col items-center justify-center overflow-hidden px-4 text-center">
-          <div className="pointer-events-none absolute inset-0 z-0 flex flex-col justify-center gap-6 opacity-30 blur-[1px]">
-            {eventModule.heroRows?.map((rowImages, rowIndex) => (
-              <div
-                key={rowIndex}
-                className="relative flex w-[200%] overflow-hidden"
-              >
+          <div className="pointer-events-none absolute inset-0 z-0 flex flex-col justify-center gap-6 overflow-hidden opacity-30 blur-[1px]">
+            {eventModule.heroRows?.map((rowImages, rowIndex) => {
+              // Reverse direction for the middle row
+              const isReverse = rowIndex === 1;
+
+              return (
                 <div
-                  className={`flex gap-6 whitespace-nowrap ${
-                    rowIndex === 1
-                      ? "animate-scroll-right"
-                      : "animate-scroll-left"
-                  }`}
+                  key={rowIndex}
+                  className="relative flex w-full overflow-hidden"
                 >
-                  {[...rowImages, ...rowImages, ...rowImages, ...rowImages].map(
-                    (img, i) => (
+                  <motion.div
+                    className="flex gap-6 whitespace-nowrap"
+                    animate={{
+                      x: isReverse ? ["-50%", "0%"] : ["0%", "-50%"],
+                    }}
+                    transition={{
+                      duration: 30, // Adjust speed here (higher = slower)
+                      repeat: Infinity,
+                      ease: "linear",
+                    }}
+                  >
+                    {/* We only need to double the images for a seamless loop with -50% translation */}
+                    {[...rowImages, ...rowImages].map((img, i) => (
                       <div
                         key={i}
                         className="relative h-44 w-72 flex-shrink-0 overflow-hidden rounded-2xl border border-white/10 sm:h-56 sm:w-96"
@@ -129,13 +137,14 @@ export default function ModulePage({ params }: PageProps) {
                           fill
                           className="object-cover"
                           priority={rowIndex === 0}
+                          sizes="(max-width: 768px) 288px, 384px"
                         />
                       </div>
-                    ),
-                  )}
+                    ))}
+                  </motion.div>
                 </div>
-              </div>
-            ))}
+              );
+            })}
           </div>
 
           <div className="relative z-10 w-full">
@@ -159,12 +168,13 @@ export default function ModulePage({ params }: PageProps) {
               <motion.div
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
-                className="group relative inline-flex cursor-pointer overflow-hidden rounded-full p-[2px]"
+                className="group relative inline-flex cursor-pointer overflow-hidden rounded-full p-[4px]"
               >
+                {/* The Rotating Gradient Mask Layer */}
                 <div
                   className="absolute inset-0 rounded-full"
                   style={{
-                    padding: "2px",
+                    padding: "4px",
                     WebkitMask:
                       "linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0)",
                     WebkitMaskComposite: "destination-out",
@@ -174,14 +184,14 @@ export default function ModulePage({ params }: PageProps) {
                   <motion.div
                     animate={{ rotate: [0, 90, 180, 270, 360] }}
                     transition={{
-                      duration: 3,
+                      duration: 2,
                       repeat: Infinity,
                       ease: "linear",
                       times: [0, 0.25, 0.5, 0.75, 1],
                     }}
                     style={{
                       background:
-                        "conic-gradient(from 90deg at 50% 50%, #3b82f6 0%, transparent 40%, transparent 100%)",
+                        "conic-gradient(from 90deg at 50% 50%, #3b82f6 0%, transparent 15%, transparent 100%)",
                     }}
                     className="absolute inset-[-500%]"
                   />
@@ -190,7 +200,11 @@ export default function ModulePage({ params }: PageProps) {
                 <a
                   href="#about"
                   onClick={(e) => handleScroll(e, "about")}
-                  className="font-jakarta relative flex items-center justify-center rounded-full bg-transparent px-8 py-4 text-sm font-bold tracking-wider text-white uppercase transition-colors group-hover:bg-white/5 sm:text-base lg:px-10 lg:py-4 lg:text-lg"
+                  /* Adjusted transparency:
+       bg-white/[0.05] gives it about 5% white overlay (very transparent)
+       backdrop-blur-md makes the background behind it look professional
+    */
+                  className="font-jakarta relative flex items-center justify-center rounded-full bg-white/[0.05] px-8 py-4 text-sm font-bold tracking-wider text-white uppercase backdrop-blur-lg transition-all duration-300 group-hover:bg-white/[0.15] sm:text-base lg:px-10 lg:py-4 lg:text-lg"
                 >
                   About {eventModule.btntitle}
                 </a>
@@ -200,12 +214,12 @@ export default function ModulePage({ params }: PageProps) {
               <motion.div
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
-                className="group relative inline-flex cursor-pointer overflow-hidden rounded-full p-[2px]"
+                className="group relative inline-flex cursor-pointer overflow-hidden rounded-full p-[4px]"
               >
                 <div
                   className="absolute inset-0 rounded-full"
                   style={{
-                    padding: "2px",
+                    padding: "4px",
                     WebkitMask:
                       "linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0)",
                     WebkitMaskComposite: "destination-out",
@@ -215,23 +229,24 @@ export default function ModulePage({ params }: PageProps) {
                   <motion.div
                     animate={{ rotate: [0, 90, 180, 270, 360] }}
                     transition={{
-                      duration: 3,
+                      duration: 2,
                       repeat: Infinity,
                       ease: "linear",
                       times: [0, 0.25, 0.5, 0.75, 1],
                     }}
                     style={{
                       background:
-                        "conic-gradient(from 90deg at 50% 50%, #3b82f6 0%, transparent 40%, transparent 100%)",
+                        "conic-gradient(from 90deg at 50% 50%, #3b82f6 0%, transparent 15%, transparent 100%)",
                     }}
-                    className="absolute inset-[-500%]"
+                    className="absolute inset-[-1000%]"
                   />
                 </div>
 
                 <a
                   href="#explore"
                   onClick={(e) => handleScroll(e, "explore")}
-                  className="font-jakarta relative flex items-center justify-center rounded-full bg-transparent px-8 py-4 text-sm font-bold tracking-wider text-white uppercase transition-colors group-hover:bg-white/5 sm:text-base lg:px-10 lg:py-4 lg:text-lg"
+                  /* Changed bg-transparent to bg-white/10 and added backdrop-blur-sm */
+                  className="font-jakarta relative flex items-center justify-center rounded-full bg-white/[0.05] px-8 py-4 text-sm font-bold tracking-wider text-white uppercase backdrop-blur-lg transition-all duration-300 group-hover:bg-white/[0.15] sm:text-base lg:px-10 lg:py-4 lg:text-lg"
                 >
                   Explore Events
                 </a>
@@ -242,23 +257,54 @@ export default function ModulePage({ params }: PageProps) {
 
         {/* ABOUT SECTION */}
         <div id="about" className="relative mx-4 mt-20 sm:mx-10 lg:mx-20">
-          <div
-            className="group relative overflow-hidden rounded-[40px] p-[10px]"
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.8 }}
+            className="group relative overflow-hidden rounded-[38px] p-[2px]"
             style={{
               boxShadow:
                 "0 10px 30px -10px rgba(0, 0, 0, 0.5), 0 0 20px -5px rgba(255, 255, 255, 0.05)",
             }}
           >
-            <span className="absolute inset-[-1000%] animate-[spin_5s_linear_infinite] bg-[image:var(--grad-about-conic)]" />
+            {/* Animated Border Layer with Opposite Lines */}
+            <div
+              className="absolute inset-0 rounded-[38px]"
+              style={{
+                padding: "2px",
+                WebkitMask:
+                  "linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0)",
+                WebkitMaskComposite: "destination-out",
+                maskComposite: "exclude",
+              }}
+            >
+              <motion.div
+                animate={{ rotate: [0, 90, 180, 270, 360] }}
+                transition={{
+                  duration: 5,
+                  repeat: Infinity,
+                  ease: "linear",
+                  times: [0, 0.25, 0.5, 0.75, 1],
+                }}
+                style={{
+                  /* This gradient creates two light segments 180 degrees apart */
+                  background: "var(--grad-about-conic)",
+                }}
+                className="absolute inset-[-500%]"
+              />
+            </div>
 
-            <div className="relative z-10 rounded-[30px] bg-[#000002] px-8 py-16">
+            {/* Content Container - Dimensions Unchanged */}
+            <div className="relative z-10 rounded-[36px] bg-[#000002] px-8 py-16">
               <h2 className="font-poppins text-3xl font-normal text-white uppercase md:text-4xl">
                 About{" "}
-                <span className="font-bold text-[var(--blue-accent)]">
+                <span className="font-bold text-[#3b82f6]">
                   {eventModule.title}
                 </span>
               </h2>
 
+              {/* Decorative Line */}
               <div className="my-4 h-[5px] w-1/2 rounded-full bg-gradient-to-r from-white via-white/70 to-transparent" />
 
               <div className="flex flex-col gap-6">
@@ -271,7 +317,7 @@ export default function ModulePage({ params }: PageProps) {
                 ))}
               </div>
             </div>
-          </div>
+          </motion.div>
         </div>
 
         {/* EXPLORE EVENTS SECTION */}
@@ -283,19 +329,41 @@ export default function ModulePage({ params }: PageProps) {
             Explore{" "}
             <span className="font-bold text-[var(--blue-accent)]">Events</span>
           </h2>
+
           <div className="flex flex-wrap justify-center gap-6">
             {eventModule.bottomCards.map((card, idx) => (
-              <div
+              <motion.div
                 key={idx}
-                className="group relative flex w-full flex-col overflow-hidden rounded-[40px] border-2 border-[var(--blue-accent)]/30 transition-all duration-500 hover:scale-[1.03] md:w-[calc(50%-24px)] lg:w-[calc(33.333%-24px)] lg:border-white/10"
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                // Triggers scaling and provides a hover state for children
+                whileHover="hover"
+                transition={{ type: "spring", stiffness: 300, damping: 20 }}
+                className="group relative flex w-full flex-col overflow-hidden rounded-[40px] border-2 border-[var(--blue-accent)]/30 md:w-[calc(50%-24px)] lg:w-[calc(33.333%-24px)] lg:border-white/10"
               >
-                <div className="absolute inset-0 opacity-0 transition-opacity duration-500 group-hover:opacity-100">
+                {/* --- BORDER ANIMATION LAYER --- */}
+                <motion.div
+                  variants={{
+                    hover: { opacity: 1 },
+                  }}
+                  initial={{ opacity: 0 }}
+                  transition={{ duration: 0.5 }}
+                  className="absolute inset-0"
+                >
                   <span className="absolute inset-[-1000%] animate-[spin_3s_linear_infinite] bg-[image:var(--grad-card-conic)]" />
-                </div>
+                </motion.div>
 
+                {/* --- MAIN CARD BODY --- */}
                 <div className="relative z-10 m-[10px] flex flex-1 flex-col overflow-hidden rounded-[30px] bg-[#000002] p-4">
-                  <div
-                    className="pointer-events-none absolute inset-0 z-0 opacity-0 transition-opacity duration-500 group-hover:opacity-100"
+                  {/* INNER GLOW MASK (matches your About section style) */}
+                  <motion.div
+                    variants={{
+                      hover: { opacity: 1 },
+                    }}
+                    initial={{ opacity: 0 }}
+                    transition={{ duration: 0.5 }}
+                    className="pointer-events-none absolute inset-0 z-0"
                     style={{
                       WebkitMaskImage:
                         "linear-gradient(to bottom, black, transparent 4%, transparent 96%, black), linear-gradient(to right, black, transparent 4%, transparent 96%, black)",
@@ -306,22 +374,26 @@ export default function ModulePage({ params }: PageProps) {
                     }}
                   >
                     <span className="absolute inset-[-100%] animate-[spin_3s_linear_infinite] bg-[image:var(--grad-card-conic)] opacity-30 blur-[4px]" />
-                  </div>
+                  </motion.div>
 
                   <div className="relative z-10 flex flex-1 flex-col p-4">
+                    {/* IMAGE */}
                     <div className="relative h-[100vw] w-full overflow-hidden rounded-xl md:h-[50vw] lg:h-[35vw]">
                       <Image
                         src={card.image}
                         alt={card.alt}
                         fill
+                        className="object-cover transition-transform duration-500 group-hover:scale-105"
                         sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 35vw"
                       />
                     </div>
 
+                    {/* TEXT CONTENT */}
                     <div className="flex flex-1 flex-col pt-5 text-left">
                       <h3 className="font-poppins text-2xl font-bold uppercase">
                         {card.text}
                       </h3>
+
                       {card.date && (
                         <p className="font-jakarta mt-1 text-lg font-bold text-[var(--blue-accent)]/90 uppercase">
                           {card.date}
@@ -331,7 +403,6 @@ export default function ModulePage({ params }: PageProps) {
                       {card.location && (
                         <div className="mt-2 flex items-center gap-2 rounded-lg border border-white/30 bg-white/10 p-2.5">
                           <span className="text-sm">📍</span>
-
                           <p className="font-jakarta text-[12px] font-bold text-white/70 uppercase">
                             Venue: {card.location}
                           </p>
@@ -339,19 +410,20 @@ export default function ModulePage({ params }: PageProps) {
                       )}
 
                       <div className="mt-4 flex flex-row gap-2">
-                        {card.mode &&
-                          (card.mode.toLowerCase() === "online" ? (
-                            <span className="font-jakarta rounded-full border border-cyan-500/30 bg-cyan-500/30 px-3 py-1 text-[10px] font-bold tracking-wider text-cyan-400 uppercase">
-                              Online
-                            </span>
-                          ) : (
-                            <span className="font-jakarta rounded-full border border-lime-500/30 bg-lime-500/30 px-3 py-1 text-[10px] font-bold tracking-wider text-lime-400 uppercase">
-                              On-site
-                            </span>
-                          ))}
+                        {card.mode && (
+                          <span
+                            className={`font-jakarta rounded-full border px-3 py-1 text-[10px] font-bold tracking-wider uppercase ${
+                              card.mode.toLowerCase() === "online"
+                                ? "border-cyan-500/30 bg-cyan-500/30 text-cyan-400"
+                                : "border-lime-500/30 bg-lime-500/30 text-lime-400"
+                            }`}
+                          >
+                            {card.mode}
+                          </span>
+                        )}
 
                         {card.teamSize && (
-                          <span className="font-jakarta border-white-500/30 bg-white-500/30 rounded-full border px-3 py-1 text-[10px] font-bold text-white/80 uppercase">
+                          <span className="font-jakarta rounded-full border border-white/30 bg-white/10 px-3 py-1 text-[10px] font-bold text-white/80 uppercase">
                             Team: {card.teamSize}
                           </span>
                         )}
@@ -360,7 +432,6 @@ export default function ModulePage({ params }: PageProps) {
                       {card.deadline && (
                         <div className="mt-4 flex items-center gap-2 rounded-lg border border-red-500/30 bg-red-500/10 p-2.5">
                           <span className="text-sm">📅</span>
-
                           <p className="font-jakarta text-[12px] font-bold text-red-400 uppercase">
                             Registration Deadline: {card.deadline}
                           </p>
@@ -371,32 +442,48 @@ export default function ModulePage({ params }: PageProps) {
                         {card.description}
                       </p>
 
+                      {/* BUTTON */}
                       <div className="mt-auto pt-6">
-                        <div className="group/btn relative inline-flex w-full cursor-pointer overflow-hidden rounded-2xl p-[2px] transition-transform active:scale-95">
-                          <span
-                            className="absolute inset-[-1000%] animate-[spin_3s_linear_infinite]"
+                        <motion.div
+                          whileHover={{ scale: 1.02 }}
+                          whileTap={{ scale: 0.98 }}
+                          className="group/btn relative inline-flex w-full cursor-pointer overflow-hidden rounded-full p-[2px]"
+                        >
+                          <div
+                            className="absolute inset-0 rounded-full"
                             style={{
-                              background:
-                                "conic-gradient(from 0deg at 50% 50%, #3b82f6 0%, transparent 10%, transparent 40%, #3b82f6 50%, transparent 60%, transparent 100%)",
+                              padding: "2px",
+                              WebkitMask:
+                                "linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0)",
+                              WebkitMaskComposite: "destination-out",
+                              maskComposite: "exclude",
                             }}
-                          />
-
-                          <button
-                            className={
-                              "font-jakarta relative m-[5px] flex w-full cursor-pointer items-center justify-center gap-2 overflow-hidden rounded-2xl bg-[#000002] py-6 text-lg font-bold text-white transition-all active:bg-[var(--blue-accent)]"
-                            }
                           >
-                            <div className="absolute inset-0 z-0 hidden h-full w-full -translate-x-full bg-gradient-to-r from-transparent via-blue-700/40 to-transparent transition-transform duration-600 ease-in-out lg:block lg:group-hover/btn:translate-x-full" />
-                            <span className="relative z-10 flex items-center gap-2">
+                            <motion.div
+                              animate={{ rotate: 360 }}
+                              transition={{
+                                duration: 3,
+                                repeat: Infinity,
+                                ease: "linear",
+                              }}
+                              style={{
+                                background:
+                                  "conic-gradient(from 0deg at 50% 50%, #3b82f6 0%, transparent 15%, transparent 100%)",
+                              }}
+                              className="absolute inset-[-500%]"
+                            />
+                          </div>
+                          <button className="font-jakarta relative flex w-full cursor-pointer items-center justify-center gap-2 overflow-hidden rounded-full bg-transparent py-5 text-lg font-bold text-white backdrop-blur-sm transition-all group-hover/btn:bg-white/5">
+                            <span className="relative z-10 flex items-center gap-2 tracking-wider uppercase">
                               View Details
                             </span>
                           </button>
-                        </div>
+                        </motion.div>
                       </div>
                     </div>
                   </div>
                 </div>
-              </div>
+              </motion.div>
             ))}
           </div>
         </section>
@@ -405,34 +492,52 @@ export default function ModulePage({ params }: PageProps) {
         <div className="mt-28 w-full overflow-hidden pb-40">
           <h2 className="font-poppins mb-12 text-center text-3xl font-normal tracking-widest uppercase md:text-4xl">
             Previous{" "}
-            <span className="font-bold text-[var(--blue-accent)]">
-              Events Gallery
-            </span>
+            <span className="font-bold text-[#3b82f6]">Events Gallery</span>
           </h2>
+
           <div className="relative w-full">
+            {/* Left Gradient Overlay */}
             <div className="pointer-events-none absolute top-0 left-0 z-30 hidden h-full w-24 bg-gradient-to-r from-[#000002] via-[#000002]/80 to-transparent lg:block lg:w-40" />
 
+            {/* Right Gradient Overlay */}
             <div className="pointer-events-none absolute top-0 right-0 z-30 hidden h-full w-24 bg-gradient-to-l from-[#000002] via-[#000002]/80 to-transparent lg:block lg:w-40" />
 
-            <div className="gallery-container relative flex w-full overflow-hidden">
-              <div className="animate-gallery flex gap-6 py-10">
+            <div className="relative flex w-full overflow-hidden">
+              <motion.div
+                className="flex gap-6 py-10"
+                animate={{
+                  x: ["0%", "-50%"],
+                }}
+                transition={{
+                  duration: 40, // Adjust for speed (higher = slower)
+                  repeat: Infinity,
+                  ease: "linear",
+                }}
+              >
+                {/* Doubling images for a seamless loop */}
                 {[...images, ...images].map((imgSrc, idx) => (
-                  <div
+                  <motion.div
                     key={idx}
-                    onClick={() => openModal(idx)}
-                    className="relative z-10 h-48 w-72 flex-shrink-0 cursor-pointer overflow-hidden rounded-2xl border border-white/10 transition-all hover:z-20 hover:scale-110"
+                    onClick={() => openModal(idx % images.length)} // modulo to get correct index
+                    whileHover={{
+                      scale: 1.1,
+                      zIndex: 20,
+                      transition: { duration: 0.3 },
+                    }}
+                    className="relative z-10 h-48 w-72 flex-shrink-0 cursor-pointer overflow-hidden rounded-2xl border border-white/10"
                   >
                     {imgSrc && (
                       <Image
                         src={imgSrc}
-                        alt="Gallery"
+                        alt="Gallery Item"
                         fill
                         className="object-cover"
+                        sizes="(max-width: 768px) 288px, 384px"
                       />
                     )}
-                  </div>
+                  </motion.div>
                 ))}
-              </div>
+              </motion.div>
             </div>
           </div>
         </div>

@@ -25,10 +25,14 @@
   );
   --grad-card-conic: conic-gradient(
     from 0deg at 50% 50%,
-    #ff0d1d 0%,
-    #ff0d1d 50%,
-    #c300c2 50%,
-    #c300c2 100%
+    #0000ff 0%,
+    #00dd73 25%,
+    transparent 30%,
+    transparent 50%,
+    #0000ff 50%,
+    #00dd73 75%,
+    transparent 80%,
+    transparent 100%
   );
 }
 
@@ -55,7 +59,7 @@
 }
 
 /* Hero bg */
-@keyframes scroll-left {
+/* @keyframes scroll-left {
   from {
     transform: translateX(0);
   }
@@ -87,7 +91,7 @@
   animation: gallery-scroll 40s linear infinite;
 }
 
-/* Previous Event Gallery */
+
 @keyframes gallery-scroll {
   from {
     transform: translateX(0);
@@ -127,4 +131,4 @@
   display: flex;
   width: max-content;
   animation: scroll-left 40s linear infinite;
-}
+} */

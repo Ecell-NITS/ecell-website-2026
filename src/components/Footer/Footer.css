@@ -1,0 +1,235 @@
+.footer-section {
+  background: linear-gradient(
+    to bottom,
+    rgba(0, 0, 0, 0) 0%,
+    rgba(0, 0, 0, 0.8) 100%
+  );
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  padding: 4rem 1rem 1rem;
+  margin-top: auto;
+  position: relative;
+  z-index: 10;
+  font-family: var(--font-sans);
+  overflow: hidden;
+}
+
+.footer-section::before {
+  content: "";
+  position: absolute;
+  bottom: -50px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 80%;
+  height: 200px;
+  background: radial-gradient(
+    circle,
+    rgba(123, 92, 255, 0.15) 0%,
+    transparent 70%
+  );
+  filter: blur(80px);
+  z-index: -1;
+  pointer-events: none;
+}
+
+.fcontainer {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 1fr 1.2fr 1fr 1.5fr;
+  gap: 3rem;
+  padding-bottom: 3rem;
+}
+
+.h2 {
+  font-family: var(--font-sans);
+  font-size: 1.1rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: #ffffff;
+  margin-bottom: 1.5rem;
+}
+
+.p1,
+.p2 {
+  font-family: var(--font-sans);
+  color: rgba(255, 255, 255, 0.7);
+  font-size: 0.95rem;
+  line-height: 1.6;
+  font-weight: 400;
+}
+
+.fcontainer a,
+.fcontainer a:hover,
+.footer_social_Logo,
+.i-text {
+  text-decoration: none !important;
+  color: rgba(255, 255, 255, 0.7) !important;
+  transition:
+    color 0.3s ease,
+    transform 0.3s ease;
+  font-family: var(--font-sans);
+  font-weight: 400;
+}
+
+.fcontainer a:hover,
+.footer_social_Logo:hover,
+.footer_social_Logo:hover .i-text {
+  color: #ffffff !important;
+}
+
+.no-bullets {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.no-bullets li {
+  display: flex;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+.f_icon {
+  color: #7b5cff;
+  font-size: 1.2rem;
+  margin-right: 0.75rem;
+  flex-shrink: 0;
+}
+
+.footer_social_Logo {
+  display: flex;
+  align-items: center;
+  margin-bottom: 1rem;
+  font-size: 1rem;
+}
+
+.footer_social_Logo svg {
+  margin-right: 0.75rem;
+  font-size: 1.4rem;
+  transition: transform 0.3s ease;
+}
+
+.footer_social_Logo:hover svg {
+  transform: translateY(-3px);
+  color: #7b5cff !important;
+}
+
+.container4 .p1 {
+  margin-bottom: 1.5rem;
+}
+
+.newsletterform00 {
+  width: 100%;
+}
+
+.fill {
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: 50px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.5rem 1rem;
+  transition:
+    border-color 0.3s ease,
+    background 0.3s ease;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.fill:focus-within {
+  border-color: #7b5cff;
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.fill input {
+  background: transparent;
+  border: none;
+  outline: none;
+  color: #ffffff;
+  font-family: var(--font-sans);
+  flex-grow: 1;
+  min-width: 0;
+  padding: 0.5rem 0.5rem 0.5rem 0;
+  font-size: 0.95rem;
+}
+
+.fill input::placeholder {
+  color: rgba(255, 255, 255, 0.4);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.btnnewsformletter {
+  background: transparent;
+  border: none;
+  color: #7b5cff;
+  font-size: 1.4rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition:
+    transform 0.2s ease,
+    color 0.2s ease;
+  flex-shrink: 0;
+  padding-left: 0.5rem;
+}
+
+.btnnewsformletter:hover {
+  transform: translateX(3px);
+  color: #ffffff;
+}
+
+.container5 {
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  padding-top: 2rem;
+  text-align: center;
+  width: 100%;
+  grid-column: 1 / -1;
+}
+
+.p2 {
+  font-size: 0.85rem;
+  opacity: 0.5;
+}
+
+@media (max-width: 1024px) {
+  .fcontainer {
+    grid-template-columns: 1fr 1fr;
+    gap: 2rem;
+    padding: 0 2rem 3rem;
+  }
+}
+
+@media (max-width: 640px) {
+  .footer-section {
+    padding-top: 3rem;
+    padding-left: 1.5rem;
+    padding-right: 1.5rem;
+  }
+
+  .fcontainer {
+    display: flex;
+    flex-direction: column;
+    gap: 2.5rem;
+    text-align: center;
+    padding: 0;
+  }
+
+  .fill {
+    padding: 0.4rem 0.8rem;
+  }
+
+  .no-bullets li,
+  .footer_social_Logo {
+    justify-content: center;
+  }
+
+  .container1 {
+    display: flex;
+    justify-content: center;
+  }
+}

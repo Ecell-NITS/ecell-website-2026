@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Admin Dashboard - Add New Blog</title>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#2b6cee",
+                        "background-light": "#f6f6f8",
+                        "background-dark": "#101622",
+                    },
+                    fontFamily: {
+                        "display": ["Inter", "sans-serif"]
+                    },
+                    borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
+                },
+            },
+        }
+    </script>
+<style type="text/tailwindcss">
+        .rte-button {
+            @apply p-1.5 rounded text-slate-500 hover:text-slate-700 hover:bg-slate-200 dark:text-slate-400 dark:hover:text-slate-200 dark:hover:bg-[#2d3b55] transition-colors flex items-center justify-center;
+        }
+        .rte-icon {
+            font-size: 20px !important;
+        }
+        .form-section {
+            @apply bg-white dark:bg-[#1e2736] rounded-xl border border-slate-200 dark:border-[#2d3b55] p-6 shadow-sm;
+        }
+        .form-label {
+            @apply block text-xl font-bold text-slate-800 dark:text-slate-100 mb-2;
+        }
+        .form-helper {
+            @apply block text-sm text-slate-500 dark:text-slate-400 mb-4;
+        }
+    </style>
+</head>
+<body class="bg-background-light dark:bg-background-dark text-slate-900 dark:text-white font-display antialiased min-h-screen flex flex-col">
+<div class="sticky top-0 z-50 w-full border-b border-gray-200 dark:border-[#232f48] bg-white dark:bg-[#111722]/95 backdrop-blur">
+<div class="max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-8">
+<header class="flex h-16 items-center justify-between gap-4">
+<div class="flex items-center gap-4">
+<div class="flex items-center justify-center size-8 rounded bg-primary/10 text-primary">
+<span class="material-symbols-outlined">edit_document</span>
+</div>
+<h1 class="text-lg font-bold tracking-tight text-slate-900 dark:text-white hidden sm:block">Content Manager</h1>
+</div>
+<div class="flex flex-1 max-w-md mx-4">
+<div class="relative w-full">
+<div class="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3 text-slate-400">
+<span class="material-symbols-outlined text-[20px]">search</span>
+</div>
+<input class="block w-full rounded-lg border-0 bg-slate-100 dark:bg-[#232f48] py-2 pl-10 pr-3 text-sm text-slate-900 dark:text-white placeholder:text-slate-500 focus:ring-2 focus:ring-primary focus:ring-inset sm:leading-6" placeholder="Search blogs..." type="text"/>
+</div>
+</div>
+<div class="flex items-center gap-3">
+<button class="relative rounded-full p-2 text-slate-500 hover:bg-slate-100 dark:text-slate-400 dark:hover:bg-[#232f48] transition-colors">
+<span class="material-symbols-outlined">notifications</span>
+<span class="absolute top-2 right-2 size-2 rounded-full bg-red-500 ring-2 ring-white dark:ring-[#111722]"></span>
+</button>
+<div class="h-8 w-px bg-slate-200 dark:bg-[#232f48]"></div>
+<div class="flex items-center gap-2">
+<div class="size-8 rounded-full bg-slate-200 dark:bg-[#232f48] bg-cover bg-center" data-alt="Admin user profile picture" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuDbV_1i4rWrbYOGDrqlOjSKrKv6FzpwNodTWn-reryYLXtstYjnQ3gD-IvOi0y_TsULsMyU3vi-sXnDYU4eoluhWnjnNmOHzpMhFl894vJUNZXLJX4gDYBVJHMb72ER2sUkSEjgHbVpy9309WljP9U1bX04xOVgdyusmfRc9ZIOgSgOPYcQKrBxm8qMRcTH0cPot5AjAzJOzo1RE5ZhnZKqr_kWpoFA_lMyliePIV2HXkBa32rkHTs1xJHuOd0Fioi4r8Y0lr0c_afO");'></div>
+<span class="text-sm font-medium text-slate-700 dark:text-slate-200 hidden md:block">Tom Cook</span>
+</div>
+</div>
+</header>
+</div>
+</div>
+<main class="flex-1 w-full max-w-[1000px] mx-auto px-4 sm:px-6 lg:px-8 py-8">
+<div class="mb-8">
+<h2 class="text-3xl font-bold tracking-tight text-slate-900 dark:text-white">Add New Blog</h2>
+</div>
+<div class="flex flex-col gap-6">
+<div class="form-section">
+<label class="form-label" for="blog-title">Title</label>
+<p class="form-helper">Be specific with your title</p>
+<input class="block w-full rounded-lg border-0 bg-slate-50 dark:bg-[#232f48] py-3 px-4 text-slate-900 dark:text-white shadow-sm ring-1 ring-inset ring-slate-300 dark:ring-[#374151] focus:ring-2 focus:ring-inset focus:ring-primary sm:text-sm sm:leading-6 placeholder:text-slate-400" id="blog-title" placeholder="Enter your title" type="text"/>
+</div>
+<div class="form-section">
+<label class="form-label">Brief Introduction</label>
+<p class="form-helper">Write a brief introduction to your blog in about 40-50 words</p>
+<div class="rounded-lg border border-slate-300 dark:border-[#374151] overflow-hidden bg-white dark:bg-[#1e2736] focus-within:ring-2 focus-within:ring-primary">
+<div class="flex flex-wrap items-center gap-1 bg-slate-50 dark:bg-[#232f48] p-2 border-b border-slate-300 dark:border-[#374151]">
+<button class="rte-button" title="Bold"><span class="material-symbols-outlined rte-icon">format_bold</span></button>
+<button class="rte-button" title="Italic"><span class="material-symbols-outlined rte-icon">format_italic</span></button>
+<button class="rte-button" title="Underline"><span class="material-symbols-outlined rte-icon">format_underlined</span></button>
+<div class="w-px h-5 bg-slate-300 dark:bg-slate-600 mx-1"></div>
+<button class="rte-button" title="Bulleted List"><span class="material-symbols-outlined rte-icon">format_list_bulleted</span></button>
+<button class="rte-button" title="Numbered List"><span class="material-symbols-outlined rte-icon">format_list_numbered</span></button>
+<div class="w-px h-5 bg-slate-300 dark:bg-slate-600 mx-1"></div>
+<button class="rte-button" title="Insert Link"><span class="material-symbols-outlined rte-icon">link</span></button>
+<button class="rte-button" title="Insert Image"><span class="material-symbols-outlined rte-icon">image</span></button>
+<div class="flex-1"></div>
+<button class="rte-button" title="Undo"><span class="material-symbols-outlined rte-icon">undo</span></button>
+<button class="rte-button" title="Redo"><span class="material-symbols-outlined rte-icon">redo</span></button>
+</div>
+<textarea class="block w-full border-0 bg-transparent p-4 text-slate-900 dark:text-white placeholder:text-slate-400 focus:ring-0 min-h-[120px] resize-y" placeholder="Start writing..."></textarea>
+<div class="bg-slate-50 dark:bg-[#232f48] px-3 py-1.5 border-t border-slate-300 dark:border-[#374151] flex justify-end">
+<span class="text-xs font-mono text-slate-400">CHARS: 0 WORDS: 0</span>
+</div>
+</div>
+</div>
+<div class="form-section">
+<label class="form-label">Content</label>
+<p class="form-helper">Write about your topic</p>
+<div class="rounded-lg border border-slate-300 dark:border-[#374151] overflow-hidden bg-white dark:bg-[#1e2736] focus-within:ring-2 focus-within:ring-primary">
+<div class="flex flex-wrap items-center gap-1 bg-slate-50 dark:bg-[#232f48] p-2 border-b border-slate-300 dark:border-[#374151]">
+<select class="bg-transparent border-none text-sm font-medium text-slate-700 dark:text-slate-200 focus:ring-0 cursor-pointer mr-2">
+<option>Normal</option>
+<option>Heading 1</option>
+<option>Heading 2</option>
+</select>
+<div class="w-px h-5 bg-slate-300 dark:bg-slate-600 mx-1"></div>
+<button class="rte-button" title="Bold"><span class="material-symbols-outlined rte-icon">format_bold</span></button>
+<button class="rte-button" title="Italic"><span class="material-symbols-outlined rte-icon">format_italic</span></button>
+<button class="rte-button" title="Strikethrough"><span class="material-symbols-outlined rte-icon">strikethrough_s</span></button>
+<div class="w-px h-5 bg-slate-300 dark:bg-slate-600 mx-1"></div>
+<button class="rte-button" title="Align Left"><span class="material-symbols-outlined rte-icon">format_align_left</span></button>
+<button class="rte-button" title="Align Center"><span class="material-symbols-outlined rte-icon">format_align_center</span></button>
+<button class="rte-button" title="Align Right"><span class="material-symbols-outlined rte-icon">format_align_right</span></button>
+<div class="w-px h-5 bg-slate-300 dark:bg-slate-600 mx-1"></div>
+<button class="rte-button" title="Code Block"><span class="material-symbols-outlined rte-icon">code</span></button>
+<button class="rte-button" title="Quote"><span class="material-symbols-outlined rte-icon">format_quote</span></button>
+<button class="rte-button" title="Insert Image"><span class="material-symbols-outlined rte-icon">image</span></button>
+<div class="flex-1"></div>
+<button class="rte-button" title="Fullscreen"><span class="material-symbols-outlined rte-icon">fullscreen</span></button>
+</div>
+<textarea class="block w-full border-0 bg-transparent p-4 text-slate-900 dark:text-white placeholder:text-slate-400 focus:ring-0 min-h-[300px] resize-y" placeholder="Start writing..."></textarea>
+<div class="bg-slate-50 dark:bg-[#232f48] px-3 py-1.5 border-t border-slate-300 dark:border-[#374151] flex justify-end">
+<span class="text-xs font-mono text-slate-400">CHARS: 0 WORDS: 0</span>
+</div>
+</div>
+</div>
+<div class="form-section">
+<label class="form-label" for="blog-tags">Tags</label>
+<p class="form-helper">Add tags to describe your blog<br/>(Separate tags by space like #tag1 #tag2)</p>
+<input class="block w-full rounded-lg border-0 bg-slate-50 dark:bg-[#232f48] py-3 px-4 text-slate-900 dark:text-white shadow-sm ring-1 ring-inset ring-slate-300 dark:ring-[#374151] focus:ring-2 focus:ring-inset focus:ring-primary sm:text-sm sm:leading-6 placeholder:text-slate-400" id="blog-tags" placeholder="Enter tags" type="text"/>
+</div>
+<div class="form-section">
+<label class="form-label">Topic picture</label>
+<p class="form-helper">Add a picture to your blog<br/>Only jpg, jpeg, png, webp, or avif file types of size less than 300KB are accepted</p>
+<div class="mt-4 flex items-center justify-center rounded-lg border border-dashed border-slate-300 dark:border-[#374151] px-6 py-10 hover:bg-slate-50 dark:hover:bg-[#232f48]/50 transition-colors cursor-pointer">
+<div class="text-center">
+<span class="material-symbols-outlined mx-auto text-4xl text-slate-300 dark:text-slate-500 mb-4">image</span>
+<div class="mt-4 flex text-sm leading-6 text-slate-600 dark:text-slate-400 justify-center">
+<label class="relative cursor-pointer rounded-md font-semibold text-primary focus-within:outline-none focus-within:ring-2 focus-within:ring-primary focus-within:ring-offset-2 hover:text-primary/80" for="file-upload">
+<span>Upload a file</span>
+<input class="sr-only" id="file-upload" name="file-upload" type="file"/>
+</label>
+<p class="pl-1">or drag and drop</p>
+</div>
+<p class="text-xs leading-5 text-slate-500 dark:text-slate-500">PNG, JPG, GIF up to 300KB</p>
+</div>
+</div>
+</div>
+<div class="mt-4">
+<button class="inline-flex items-center justify-center rounded-lg bg-primary px-8 py-3 text-base font-bold text-white shadow-lg shadow-primary/25 hover:bg-primary/90 hover:shadow-primary/40 transition-all active:scale-[0.98]">
+                    Post Blog
+                </button>
+</div>
+</div>
+</main>
+
+</body></html>

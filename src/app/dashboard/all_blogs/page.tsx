@@ -246,15 +246,15 @@ export default function Dashboard() {
             </div>
             <div className="flex flex-col gap-6">
               <nav className="flex items-center gap-6 border-b border-[#232f48]">
-                <button className="text-primary border-primary flex items-center gap-2 border-b-2 pb-3 text-sm font-medium">
+                <button 
+                onClick={()=>router.push("/dashboard")}
+                className="text-primary border-primary flex items-center gap-2  pb-3 text-sm font-medium">
                   Published Blogs
                   <span className="bg-primary rounded-full px-1.5 py-0.5 text-[10px] text-white">
                     {blogs.length}
                   </span>
                 </button>
-                <button 
-                onClick={()=> router.push("/dashboard/all_blogs")}
-                className="border-b-2 border-transparent pb-3 text-sm font-medium text-[#92a4c9] transition-colors hover:border-[#334155] hover:text-white">
+                <button className=" text-primary border-primary flex items-center gap-2 border-b-2 pb-3 text-sm font-medium">
                   All Blogs
                 </button>
                 <button 

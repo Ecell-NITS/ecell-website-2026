@@ -246,7 +246,9 @@ export default function Dashboard() {
             </div>
             <div className="flex flex-col gap-6">
               <nav className="flex items-center gap-6 border-b border-[#232f48]">
-                <button className="text-primary border-primary flex items-center gap-2 border-b-2 pb-3 text-sm font-medium">
+                <button 
+                onClick={()=> router.push("/dashboard")}
+                className="border-b-2 border-transparent pb-3 text-sm font-medium text-[#92a4c9] transition-colors hover:border-[#334155] hover:text-white">
                   Published Blogs
                   <span className="bg-primary rounded-full px-1.5 py-0.5 text-[10px] text-white">
                     {blogs.length}
@@ -258,74 +260,80 @@ export default function Dashboard() {
                   All Blogs
                 </button>
                 <button 
-                onClick={()=> router.push("/dashboard/liked_blogs")}
-                className="border-b-2 border-transparent pb-3 text-sm font-medium text-[#92a4c9] transition-colors hover:border-[#334155] hover:text-white">
+                
+                className="text-primary border-primary flex items-center gap-2 border-b-2 pb-3 text-sm font-medium">
                   Liked Blogs
                 </button>
               </nav>
               <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
                 
-                {blogs.map((blog)=>(
-                  <a
-                  className="group flex h-full flex-col overflow-hidden rounded-xl border border-[#334155]/30 bg-[#232f48] transition-all hover:border-[#2b6cee]/30 hover:shadow-xl hover:shadow-[#2b6cee]/10"
-                  href="#"
-                  key={blog.id}
-                >
-                  <div className="relative h-48 overflow-hidden bg-[#111722]">
-                    <div className="absolute inset-0 z-10 bg-gradient-to-t from-[#232f48] to-transparent"
-                    ><img
-                        alt="Profile"
-                        className="h-full w-full object-cover"
-                        src={blog.cover_image}
-                      />
-                      </div>
-                    <span className="material-symbols-outlined absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-6xl text-[#334155] transition-transform duration-300 group-hover:scale-110">
-                      code_blocks
-                    </span>
-                    <div className="absolute top-3 right-3 z-20">
-                      <span className="rounded bg-[#111722]/80 px-2 py-1 text-xs font-medium text-white backdrop-blur shadow-[0_0_20px_rgba(0,199,255,0.8)]">
-                        {blog.category}
-                      </span>
-                    </div>
-                  </div>
-                  <div className="flex flex-1 flex-col p-5">
-                    <div className="mb-3 flex items-center gap-2 text-xs text-[#92a4c9]">
-                      <span className="flex items-center gap-1">
-                        <span className="material-symbols-outlined text-[14px]">
-                          calendar_today
-                        </span>{" "}
-                        {blog.posted_on}
-                      </span>
-                      <span>•</span>
-                      <span>{blog.read_time}</span>
-                    </div>
-                    <h3 className="group-hover:text-primary mb-2 line-clamp-2 text-lg font-bold text-white transition-colors ">
-                      {blog.title}
-                    </h3>
-                    <p className="mb-4 line-clamp-3 flex-1 text-sm text-[#92a4c9]">
-                      {blog.brief_intro}
-                    </p>
-                    <div className="mt-auto flex items-center justify-between border-t border-[#334155] pt-4 text-sm">
-                      <span className="text-primary font-medium hover:underline">
-                        Read More
-                      </span>
-                      <div className="flex items-center gap-3 text-[#92a4c9]">
-                        <span className="flex cursor-pointer items-center gap-1 transition-colors hover:text-red-400">
-                          <span className="material-symbols-outlined text-[16px]">
-                            favorite
-                          </span>{" "}
-                          {blog.likes}
-                        </span>
-                        <span className="flex cursor-pointer items-center gap-1 transition-colors hover:text-white">
-                          <span className="material-symbols-outlined text-[16px]">
-                            chat_bubble
-                          </span>{" "}
-                          {blog.comments}
-                        </span>
-                      </div>
-                    </div>
-                  </div>
-                </a>))}
+                {blogs.map((blog) => {
+                  if (blog.is_liked === true) {
+                    return (
+                      <a
+                        className="group flex h-full flex-col overflow-hidden rounded-xl border border-[#334155]/30 bg-[#232f48] transition-all hover:border-[#2b6cee]/30 hover:shadow-xl hover:shadow-[#2b6cee]/10"
+                        href="#"
+                        key={blog.id}
+                      >
+                        <div className="relative h-48 overflow-hidden bg-[#111722]">
+                          <div className="absolute inset-0 z-10 bg-gradient-to-t from-[#232f48] to-transparent">
+                            <img
+                              alt="Profile"
+                              className="h-full w-full object-cover"
+                              src={blog.cover_image}
+                            />
+                          </div>
+                          <span className="material-symbols-outlined absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-6xl text-[#334155] transition-transform duration-300 group-hover:scale-110">
+                            code_blocks
+                          </span>
+                          <div className="absolute top-3 right-3 z-20">
+                            <span className="rounded bg-[#111722]/80 px-2 py-1 text-xs font-medium text-white backdrop-blur shadow-[0_0_20px_rgba(0,199,255,0.8)]">
+                              {blog.category}
+                            </span>
+                          </div>
+                        </div>
+                        <div className="flex flex-1 flex-col p-5">
+                          <div className="mb-3 flex items-center gap-2 text-xs text-[#92a4c9]">
+                            <span className="flex items-center gap-1">
+                              <span className="material-symbols-outlined text-[14px]">
+                                calendar_today
+                              </span>{" "}
+                              {blog.posted_on}
+                            </span>
+                            <span>•</span>
+                            <span>{blog.read_time}</span>
+                          </div>
+                          <h3 className="group-hover:text-primary mb-2 line-clamp-2 text-lg font-bold text-white transition-colors ">
+                            {blog.title}
+                          </h3>
+                          <p className="mb-4 line-clamp-3 flex-1 text-sm text-[#92a4c9]">
+                            {blog.brief_intro}
+                          </p>
+                          <div className="mt-auto flex items-center justify-between border-t border-[#334155] pt-4 text-sm">
+                            <span className="text-primary font-medium hover:underline">
+                              Read More
+                            </span>
+                            <div className="flex items-center gap-3 text-[#92a4c9]">
+                              <span className="flex cursor-pointer items-center gap-1 transition-colors hover:text-red-400">
+                                <span className="material-symbols-outlined text-[16px]">
+                                  favorite
+                                </span>{" "}
+                                {blog.likes}
+                              </span>
+                              <span className="flex cursor-pointer items-center gap-1 transition-colors hover:text-white">
+                                <span className="material-symbols-outlined text-[16px]">
+                                  chat_bubble
+                                </span>{" "}
+                                {blog.comments}
+                              </span>
+                            </div>
+                          </div>
+                        </div>
+                      </a>
+                    );
+                  }
+                  return null;
+                })}
               </div>
             </div>
           </div>

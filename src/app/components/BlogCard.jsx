@@ -1,16 +1,15 @@
+// @ts-nocheck
 "use client";
+
 import { useState } from "react";
 
 export default function BlogCard({ blog }) {
-  // ✅ STATE (top of component)
   const [liked, setLiked] = useState(false);
   const [likesCount, setLikesCount] = useState(blog.likes);
 
-  // ✅ READ TIME CALCULATION
   const words = blog.description.split(" ").length;
   const readTime = Math.ceil(words / 200);
 
-  // ✅ FUNCTION (before return)
   function toggleLike() {
     if (liked) {
       setLikesCount(likesCount - 1);
@@ -20,7 +19,6 @@ export default function BlogCard({ blog }) {
     setLiked(!liked);
   }
 
-  // ✅ JSX ONLY INSIDE RETURN
   return (
     <div className="group w-full max-w-xl overflow-hidden rounded-3xl bg-sky-950/80 ring-1 ring-white/10 hover:scale-[1.02]">
       {/* Image */}

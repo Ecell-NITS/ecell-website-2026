@@ -1,15 +1,14 @@
 "use client";
 
-import React, { useState, use, useCallback, useEffect } from "react";
+import { useState, use, useCallback, useEffect } from "react";
 import { motion } from "framer-motion";
 import { eventModules } from "../../../content/modules";
 import Image from "next/image";
 
-type PageProps = { params: Promise<{ slug: string }> };
+type PageProps = { params: { slug: string } };
 
 export default function ModulePage({ params }: PageProps) {
-  const unwrappedParams = use(params);
-  const slug = unwrappedParams.slug.replace(/-/g, "").toLowerCase();
+  const slug = params.slug.replace(/-/g, "").toLowerCase();
   const eventModule = eventModules[slug];
 
   const [selectedIdx, setSelectedIdx] = useState<number | null>(null);
@@ -556,7 +555,7 @@ export default function ModulePage({ params }: PageProps) {
 
       {/* PICTURE BOX */}
       {selectedIdx !== null && images.length > 0 && images[selectedIdx] && (
-        <div className="onTouchStart={handleTouchStart} onTouchEnd={handleTouchEnd} fixed inset-0 z-[100] flex flex-col items-center justify-center p-4">
+        <div className="fixed inset-0 z-[100] flex flex-col items-center justify-center p-4">
           <div
             className="absolute inset-0 cursor-default bg-[#000002]/90"
             onClick={closeModal}

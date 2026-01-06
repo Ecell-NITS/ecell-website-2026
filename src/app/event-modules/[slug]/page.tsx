@@ -5,10 +5,11 @@ import { motion } from "framer-motion";
 import { eventModules } from "../../../content/modules";
 import Image from "next/image";
 
-type PageProps = { params: { slug: string } };
+type PageProps = { params: Promise<{ slug: string }> };
 
 export default function ModulePage({ params }: PageProps) {
-  const slug = params.slug.replace(/-/g, "").toLowerCase();
+  const unwrappedParams = use(params);
+  const slug = unwrappedParams.slug.replace(/-/g, "").toLowerCase();
   const eventModule = eventModules[slug];
 
   const [selectedIdx, setSelectedIdx] = useState<number | null>(null);

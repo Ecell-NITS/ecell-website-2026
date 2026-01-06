@@ -106,7 +106,6 @@ export default function ModulePage({ params }: PageProps) {
         <section className="relative flex h-screen w-full flex-col items-center justify-center overflow-hidden px-4 text-center">
           <div className="pointer-events-none absolute inset-0 z-0 flex flex-col justify-center gap-6 overflow-hidden opacity-30 blur-[1px]">
             {eventModule.heroRows?.map((rowImages, rowIndex) => {
-              // Reverse direction for the middle row
               const isReverse = rowIndex === 1;
 
               return (
@@ -120,12 +119,11 @@ export default function ModulePage({ params }: PageProps) {
                       x: isReverse ? ["-50%", "0%"] : ["0%", "-50%"],
                     }}
                     transition={{
-                      duration: 30, // Adjust speed here (higher = slower)
+                      duration: 30,
                       repeat: Infinity,
                       ease: "linear",
                     }}
                   >
-                    {/* We only need to double the images for a seamless loop with -50% translation */}
                     {[...rowImages, ...rowImages].map((img, i) => (
                       <div
                         key={i}
@@ -170,7 +168,6 @@ export default function ModulePage({ params }: PageProps) {
                 whileTap={{ scale: 0.95 }}
                 className="group relative inline-flex cursor-pointer overflow-hidden rounded-full p-[4px]"
               >
-                {/* The Rotating Gradient Mask Layer */}
                 <div
                   className="absolute inset-0 rounded-full"
                   style={{
@@ -200,10 +197,6 @@ export default function ModulePage({ params }: PageProps) {
                 <a
                   href="#about"
                   onClick={(e) => handleScroll(e, "about")}
-                  /* Adjusted transparency:
-       bg-white/[0.05] gives it about 5% white overlay (very transparent)
-       backdrop-blur-md makes the background behind it look professional
-    */
                   className="font-jakarta relative flex items-center justify-center rounded-full bg-white/[0.05] px-8 py-4 text-sm font-bold tracking-wider text-white uppercase backdrop-blur-lg transition-all duration-300 group-hover:bg-white/[0.15] sm:text-base lg:px-10 lg:py-4 lg:text-lg"
                 >
                   About {eventModule.btntitle}
@@ -245,7 +238,6 @@ export default function ModulePage({ params }: PageProps) {
                 <a
                   href="#explore"
                   onClick={(e) => handleScroll(e, "explore")}
-                  /* Changed bg-transparent to bg-white/10 and added backdrop-blur-sm */
                   className="font-jakarta relative flex items-center justify-center rounded-full bg-white/[0.05] px-8 py-4 text-sm font-bold tracking-wider text-white uppercase backdrop-blur-lg transition-all duration-300 group-hover:bg-white/[0.15] sm:text-base lg:px-10 lg:py-4 lg:text-lg"
                 >
                   Explore Events
@@ -268,7 +260,6 @@ export default function ModulePage({ params }: PageProps) {
                 "0 10px 30px -10px rgba(0, 0, 0, 0.5), 0 0 20px -5px rgba(255, 255, 255, 0.05)",
             }}
           >
-            {/* Animated Border Layer with Opposite Lines */}
             <div
               className="absolute inset-0 rounded-[38px]"
               style={{
@@ -280,22 +271,21 @@ export default function ModulePage({ params }: PageProps) {
               }}
             >
               <motion.div
-                animate={{ rotate: [0, 90, 180, 270, 360] }}
+                animate={{ rotate: 360, opacity: 0.6 }}
                 transition={{
-                  duration: 5,
+                  duration: 10,
                   repeat: Infinity,
                   ease: "linear",
-                  times: [0, 0.25, 0.5, 0.75, 1],
                 }}
                 style={{
-                  /* This gradient creates two light segments 180 degrees apart */
                   background: "var(--grad-about-conic)",
+                  filter: "blur(15px)",
+                  opacity: 0.4,
                 }}
                 className="absolute inset-[-500%]"
               />
             </div>
 
-            {/* Content Container - Dimensions Unchanged */}
             <div className="relative z-10 rounded-[36px] bg-[#000002] px-8 py-16">
               <h2 className="font-poppins text-3xl font-normal text-white uppercase md:text-4xl">
                 About{" "}
@@ -304,7 +294,6 @@ export default function ModulePage({ params }: PageProps) {
                 </span>
               </h2>
 
-              {/* Decorative Line */}
               <div className="my-4 h-[5px] w-1/2 rounded-full bg-gradient-to-r from-white via-white/70 to-transparent" />
 
               <div className="flex flex-col gap-6">
@@ -337,58 +326,79 @@ export default function ModulePage({ params }: PageProps) {
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
-                // Triggers scaling and provides a hover state for children
                 whileHover="hover"
                 transition={{ type: "spring", stiffness: 300, damping: 20 }}
-                className="group relative flex w-full flex-col overflow-hidden rounded-[40px] border-2 border-[var(--blue-accent)]/30 md:w-[calc(50%-24px)] lg:w-[calc(33.333%-24px)] lg:border-white/10"
+                className="group relative flex w-full flex-col overflow-hidden rounded-[40px] border-2 border-[var(--blue-accent)]/30 md:w-[calc(50%-24px)] lg:w-[calc(33.333%-24px)] lg:border-white/10 lg:hover:border-none"
               >
-                {/* --- BORDER ANIMATION LAYER --- */}
                 <motion.div
-                  variants={{
-                    hover: { opacity: 1 },
-                  }}
+                  variants={{ hover: { opacity: 1 } }}
                   initial={{ opacity: 0 }}
                   transition={{ duration: 0.5 }}
                   className="absolute inset-0"
                 >
-                  <span className="absolute inset-[-1000%] animate-[spin_3s_linear_infinite] bg-[image:var(--grad-card-conic)]" />
+                  <motion.div
+                    animate={{ rotate: [0, 90, 180, 270, 360] }}
+                    transition={{
+                      duration: 6,
+                      repeat: Infinity,
+                      ease: "linear",
+                      times: [0, 0.25, 0.5, 0.75, 1],
+                    }}
+                    style={{
+                      background: "var(--grad-card-conic)",
+                    }}
+                    className="absolute inset-[-1000%]"
+                  />
                 </motion.div>
 
-                {/* --- MAIN CARD BODY --- */}
-                <div className="relative z-10 m-[10px] flex flex-1 flex-col overflow-hidden rounded-[30px] bg-[#000002] p-4">
-                  {/* INNER GLOW MASK (matches your About section style) */}
-                  <motion.div
-                    variants={{
-                      hover: { opacity: 1 },
-                    }}
-                    initial={{ opacity: 0 }}
-                    transition={{ duration: 0.5 }}
-                    className="pointer-events-none absolute inset-0 z-0"
+                <div className="relative z-10 m-[2px] flex flex-1 flex-col overflow-hidden rounded-[38px] bg-[#000002] p-2">
+                  <div
+                    className="pointer-events-none absolute inset-0 z-0 opacity-0 transition-opacity duration-500 group-hover:opacity-100"
                     style={{
                       WebkitMaskImage:
-                        "linear-gradient(to bottom, black, transparent 4%, transparent 96%, black), linear-gradient(to right, black, transparent 4%, transparent 96%, black)",
+                        "linear-gradient(to bottom, black, transparent 6%, transparent 94%, black), linear-gradient(to right, black, transparent 6%, transparent 94%, black)",
                       WebkitMaskComposite: "source-over",
                       maskImage:
-                        "linear-gradient(to bottom, black, transparent 4%, transparent 96%, black), linear-gradient(to right, black, transparent 4%, transparent 96%, black)",
+                        "linear-gradient(to bottom, black, transparent 6%, transparent 94%, black), linear-gradient(to right, black, transparent 6%, transparent 94%, black)",
                       maskComposite: "add",
                     }}
                   >
-                    <span className="absolute inset-[-100%] animate-[spin_3s_linear_infinite] bg-[image:var(--grad-card-conic)] opacity-30 blur-[4px]" />
-                  </motion.div>
+                    <span
+                      className="absolute inset-0"
+                      style={{
+                        background: `
+                radial-gradient(80% 40% at 50% 0%, rgba(0,221,115,0.45), transparent 70%),
+                radial-gradient(30% 70% at 0% 20%, rgba(0,221,115,0.45), transparent 75%),
+                radial-gradient(30% 70% at 100% 20%, rgba(0,221,115,0.45), transparent 75%)
+              `,
+                        filter: "blur(47px)",
+                      }}
+                    />
+
+                    <span
+                      className="absolute inset-0"
+                      style={{
+                        background: `
+                radial-gradient(80% 40% at 50% 100%, rgba(0,0,255,0.45), transparent 30%),
+                radial-gradient(30% 70% at 0% 80%, rgba(0,0,255,0.45), transparent 75%),
+                radial-gradient(30% 70% at 100% 80%, rgba(0,0,255,0.45), transparent 75%)
+              `,
+                        filter: "blur(47px)",
+                      }}
+                    />
+                  </div>
 
                   <div className="relative z-10 flex flex-1 flex-col p-4">
-                    {/* IMAGE */}
                     <div className="relative h-[100vw] w-full overflow-hidden rounded-xl md:h-[50vw] lg:h-[35vw]">
                       <Image
                         src={card.image}
                         alt={card.alt}
                         fill
-                        className="object-cover transition-transform duration-500 group-hover:scale-105"
+                        className="transition-transform duration-500 group-hover:scale-105"
                         sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 35vw"
                       />
                     </div>
 
-                    {/* TEXT CONTENT */}
                     <div className="flex flex-1 flex-col pt-5 text-left">
                       <h3 className="font-poppins text-2xl font-bold uppercase">
                         {card.text}
@@ -443,7 +453,7 @@ export default function ModulePage({ params }: PageProps) {
                       </p>
 
                       {/* BUTTON */}
-                      <div className="mt-auto pt-6">
+                      <div className="mt-auto py-8">
                         <motion.div
                           whileHover={{ scale: 1.02 }}
                           whileTap={{ scale: 0.98 }}
@@ -460,11 +470,12 @@ export default function ModulePage({ params }: PageProps) {
                             }}
                           >
                             <motion.div
-                              animate={{ rotate: 360 }}
+                              animate={{ rotate: [0, 90, 180, 270, 360] }}
                               transition={{
                                 duration: 3,
                                 repeat: Infinity,
                                 ease: "linear",
+                                times: [0, 0.25, 0.5, 0.75, 1],
                               }}
                               style={{
                                 background:
@@ -473,7 +484,10 @@ export default function ModulePage({ params }: PageProps) {
                               className="absolute inset-[-500%]"
                             />
                           </div>
-                          <button className="font-jakarta relative flex w-full cursor-pointer items-center justify-center gap-2 overflow-hidden rounded-full bg-transparent py-5 text-lg font-bold text-white backdrop-blur-sm transition-all group-hover/btn:bg-white/5">
+
+                          <button className="font-jakarta relative flex w-full cursor-pointer items-center justify-center gap-2 overflow-hidden rounded-full bg-transparent py-5 text-lg font-bold text-white backdrop-blur-sm transition-all group-hover/btn:bg-white/5 group-active/btn:bg-white/5">
+                            <div className="absolute inset-0 z-0 hidden h-full w-full -translate-x-full bg-gradient-to-r from-transparent via-white/10 to-transparent transition-transform duration-1000 ease-in-out lg:block lg:group-hover/btn:translate-x-full" />
+
                             <span className="relative z-10 flex items-center gap-2 tracking-wider uppercase">
                               View Details
                             </span>
@@ -496,10 +510,8 @@ export default function ModulePage({ params }: PageProps) {
           </h2>
 
           <div className="relative w-full">
-            {/* Left Gradient Overlay */}
             <div className="pointer-events-none absolute top-0 left-0 z-30 hidden h-full w-24 bg-gradient-to-r from-[#000002] via-[#000002]/80 to-transparent lg:block lg:w-40" />
 
-            {/* Right Gradient Overlay */}
             <div className="pointer-events-none absolute top-0 right-0 z-30 hidden h-full w-24 bg-gradient-to-l from-[#000002] via-[#000002]/80 to-transparent lg:block lg:w-40" />
 
             <div className="relative flex w-full overflow-hidden">
@@ -509,16 +521,15 @@ export default function ModulePage({ params }: PageProps) {
                   x: ["0%", "-50%"],
                 }}
                 transition={{
-                  duration: 40, // Adjust for speed (higher = slower)
+                  duration: 40,
                   repeat: Infinity,
                   ease: "linear",
                 }}
               >
-                {/* Doubling images for a seamless loop */}
                 {[...images, ...images].map((imgSrc, idx) => (
                   <motion.div
                     key={idx}
-                    onClick={() => openModal(idx % images.length)} // modulo to get correct index
+                    onClick={() => openModal(idx % images.length)}
                     whileHover={{
                       scale: 1.1,
                       zIndex: 20,

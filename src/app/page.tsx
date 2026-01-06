@@ -1,37 +1,53 @@
-import Link from "next/link";
+import blogs from "./data/blogs.json";
+import BlogCard from "./components/BlogCard";
 
-export default function HomePage() {
+export default function Page() {
   return (
-    <main className="flex min-h-screen flex-col items-center justify-center bg-gradient-to-b from-[#2e026d] to-[#15162c] text-white">
-      <div className="container flex flex-col items-center justify-center gap-12 px-4 py-16">
-        <h1 className="text-5xl font-extrabold tracking-tight text-white sm:text-[5rem]">
-          Create <span className="text-[hsl(280,100%,70%)]">T3</span> App
-        </h1>
-        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 md:gap-8">
-          <Link
-            className="flex max-w-xs flex-col gap-4 rounded-xl bg-white/10 p-4 text-white hover:bg-white/20"
-            href="https://create.t3.gg/en/usage/first-steps"
-            target="_blank"
-          >
-            <h3 className="text-2xl font-bold">First Steps →</h3>
-            <div className="text-lg">
-              Just the basics - Everything you need to know to set up your
-              database and authentication.
-            </div>
-          </Link>
-          <Link
-            className="flex max-w-xs flex-col gap-4 rounded-xl bg-white/10 p-4 text-white hover:bg-white/20"
-            href="https://create.t3.gg/en/introduction"
-            target="_blank"
-          >
-            <h3 className="text-2xl font-bold">Documentation →</h3>
-            <div className="text-lg">
-              Learn more about Create T3 App, the libraries it uses, and how to
-              deploy it.
-            </div>
-          </Link>
+    <div className="min-h-screen bg-black py-40">
+      {/* PAGE WRAPPER (THIS IS KEY) */}
+      <div className="mx-auto w-full max-w-6xl px-4 md:px-8 lg:px-12">
+        {/* Insight pill */}
+        <div className="mb-8 inline-flex rounded-full px-4 py-2 ring-2 ring-white/50">
+          <h1 className="text-[10px] tracking-widest text-sky-400 uppercase">
+            INSIGHTS FROM THE ECOSYSTEM
+          </h1>
+        </div>
+
+        {/* TITLE SECTION */}
+        <div className="mb-12 text-center lg:text-left">
+          <h1 className="text-3xl font-bold text-white md:text-4xl lg:text-8xl">
+            THE STARTUP
+          </h1>
+          <h1 className="text-3xl leading-tight font-bold text-sky-500 italic md:text-4xl lg:text-8xl">
+            CHRONICLES
+          </h1>
+        </div>
+
+        {/* SEARCH + SORT */}
+        <div className="mb-16 flex w-full max-w-xl flex-col gap-4 lg:max-w-7xl lg:flex-row">
+          {/* Search */}
+          <input
+            type="text"
+            placeholder="Search by keywords, tags, or"
+            className="w-full rounded-full bg-blue-900/40 px-5 py-3 text-sm text-white ring-1 ring-white/10 outline-none placeholder:text-sky-300/50"
+          />
+
+          {/* Sort */}
+          <div className="group flex cursor-pointer items-center justify-between rounded-2xl bg-blue-900/40 px-5 py-4 ring-1 ring-white/10">
+            <span className="text-xs tracking-widest text-blue-300 uppercase group-hover:text-white">
+              Sort
+            </span>
+            <span className="text-blue-300">▼</span>
+          </div>
+        </div>
+
+        {/* BLOG LIST (mobile first) */}
+        <div className="mt-10 grid grid-cols-1 place-items-center gap-8 md:grid-cols-2 lg:grid-cols-3">
+          {blogs.map((blog) => (
+            <BlogCard key={blog.id} blog={blog} />
+          ))}
         </div>
       </div>
-    </main>
+    </div>
   );
 }

@@ -2,7 +2,7 @@
 
 import { useState, useCallback, useEffect } from "react";
 import { motion } from "framer-motion";
-import { eventModules } from "../../../content/modules";
+import { eventModules } from "src/content/modules";
 import Image from "next/image";
 
 export default function ModulePageClient({ slug }: { slug: string }) {

@@ -686,3 +686,143 @@
     filter: drop-shadow(0 0 40px hsl(195, 100%, 60%));
   }
 }
+
+/* EMPRESARIO Professional Dark Theme Styles */
+@layer components {
+  .empresario-page {
+    --empresario-background: 220 20% 6%;
+    --empresario-foreground: 210 20% 95%;
+    --empresario-card: 220 18% 10%;
+    --empresario-gold: 38 95% 55%;
+    --empresario-gold-dark: 35 85% 42%;
+    --empresario-accent: 210 60% 50%;
+    --empresario-primary-foreground: 220 20% 6%;
+    --empresario-muted: 220 15% 18%;
+    --empresario-muted-foreground: 220 10% 55%;
+    --empresario-border: 220 15% 20%;
+
+    --empresario-gradient-gold: linear-gradient(
+      135deg,
+      hsl(38, 95%, 55%),
+      hsl(35, 85%, 42%)
+    );
+    --empresario-shadow-gold: 0 0 30px hsla(38, 95%, 55%, 0.3);
+    --empresario-shadow-gold-intense: 0 0 60px hsla(38, 95%, 55%, 0.5);
+  }
+
+  .empresario-page {
+    background-color: hsl(var(--empresario-background));
+    color: hsl(var(--empresario-foreground));
+    font-family: "Inter", sans-serif;
+  }
+
+  .empresario-font-display {
+    font-family: "Playfair Display", serif;
+  }
+
+  .empresario-font-body {
+    font-family: "Inter", sans-serif;
+  }
+
+  .empresario-text-glow {
+    text-shadow:
+      0 0 20px hsla(38, 95%, 55%, 0.6),
+      0 0 40px hsla(38, 95%, 55%, 0.4),
+      0 0 60px hsla(38, 95%, 55%, 0.2);
+  }
+
+  .empresario-glow-subtle {
+    text-shadow:
+      0 0 10px hsla(38, 95%, 55%, 0.4),
+      0 0 20px hsla(38, 95%, 55%, 0.2);
+    color: hsl(210 20% 95%);
+  }
+
+  .empresario-text-gradient-gold {
+    background: linear-gradient(to right, hsl(38, 95%, 55%), hsl(35, 85%, 42%));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .empresario-mask-gradient-x {
+    mask-image: linear-gradient(
+      to right,
+      transparent,
+      black 10%,
+      black 90%,
+      transparent
+    );
+    -webkit-mask-image: linear-gradient(
+      to right,
+      transparent,
+      black 10%,
+      black 90%,
+      transparent
+    );
+  }
+
+  .empresario-bg-gold-glow {
+    background: radial-gradient(
+      circle at center,
+      hsla(38, 95%, 55%, 0.3) 0%,
+      transparent 70%
+    );
+  }
+
+  .empresario-card-hover {
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .empresario-card-hover:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 0 40px hsla(38, 95%, 55%, 0.2);
+  }
+
+  .empresario-noise-overlay {
+    position: relative;
+  }
+
+  .empresario-noise-overlay::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+    opacity: 0.015;
+    pointer-events: none;
+  }
+}
+
+@layer utilities {
+  .empresario-animate-float {
+    animation: empresario-float 6s ease-in-out infinite;
+  }
+
+  .empresario-animate-pulse-glow {
+    animation: empresario-pulse-glow 2s ease-in-out infinite;
+  }
+}
+
+@keyframes empresario-float {
+  0%,
+  100% {
+    transform: translateY(0px);
+  }
+
+  50% {
+    transform: translateY(-20px);
+  }
+}
+
+@keyframes empresario-pulse-glow {
+  0%,
+  100% {
+    opacity: 1;
+    filter: drop-shadow(0 0 20px hsl(38, 95%, 55%));
+  }
+
+  50% {
+    opacity: 0.9;
+    filter: drop-shadow(0 0 40px hsl(38, 95%, 65%));
+  }
+}

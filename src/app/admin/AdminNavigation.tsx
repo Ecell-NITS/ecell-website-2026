@@ -45,7 +45,6 @@ export default function AdminNavigation({
 
   return (
     <>
-      {/* ========== DESKTOP SIDEBAR ========== */}
       <aside className="4xl:w-80 4xl:p-10 fixed top-0 left-0 hidden h-screen w-64 flex-col border-r border-white/10 bg-gradient-to-b from-[#0f152a] to-[#0a0f1a] p-6 lg:flex 2xl:w-72 2xl:p-8">
         {/* Logo */}
         <h1 className="4xl:text-3xl 4xl:mb-12 mb-8 bg-gradient-to-r from-blue-400 to-blue-600 bg-clip-text text-xl font-bold text-transparent 2xl:mb-10 2xl:text-2xl">

@@ -73,6 +73,13 @@ export default function AdminMessagesPage() {
     subject: "",
     body: "",
   });
+  const [deleteConfirm, setDeleteConfirm] = useState<{
+    open: boolean;
+    messageId: number | null;
+  }>({
+    open: false,
+    messageId: null,
+  });
 
   const unread = messages.filter((m) => m.status === "unread");
   const read = messages.filter((m) => m.status === "read");
@@ -92,7 +99,7 @@ export default function AdminMessagesPage() {
     <div className="flex min-h-screen bg-gradient-to-br from-[#0b1220] to-[#060b16] text-white">
       <AdminNavigation active="messages" mobileMenu={false} />
 
-      <main className="4xl:ml-80 flex-1 p-4 sm:p-6 lg:ml-64 lg:p-8 2xl:ml-72">
+      <main className="4xl:ml-80 flex-1 p-4 pt-20 sm:p-6 sm:pt-24 lg:ml-64 lg:p-8 2xl:ml-72">
         {/* Header */}
         <div className="mb-6 flex items-center justify-between sm:mb-8">
           <h1 className="text-xl font-semibold sm:text-2xl lg:text-3xl">
@@ -118,7 +125,12 @@ export default function AdminMessagesPage() {
                     })
                   }
                   onMark={() => markStatus(m.id, "read")}
-                  onDelete={() => deleteMessage(m.id)}
+                  onDelete={() =>
+                    setDeleteConfirm({
+                      open: true,
+                      messageId: m.id,
+                    })
+                  }
                 />
               ))
             ) : (
@@ -152,6 +164,47 @@ export default function AdminMessagesPage() {
           </Section>
         </div>
       </main>
+      {/* ================= DELETE CONFIRM POPUP ================= */}
+      {deleteConfirm.open && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 p-4 backdrop-blur-md">
+          <div className="w-full max-w-md rounded-xl border border-white/10 bg-[#121a2f] p-6 text-center shadow-xl">
+            {/* Warning Icon */}
+            <div className="mb-4 flex justify-center">
+              <div className="flex h-12 w-12 items-center justify-center rounded-full bg-yellow-500/20 text-yellow-400">
+                ⚠️
+              </div>
+            </div>
+
+            <h3 className="mb-2 text-lg font-semibold">Are you sure?</h3>
+            <p className="mb-6 text-sm text-white/60">
+              This message will be permanently removed.
+            </p>
+
+            <div className="flex justify-center gap-3">
+              <button
+                onClick={() =>
+                  setDeleteConfirm({ open: false, messageId: null })
+                }
+                className="rounded-lg px-4 py-2 text-sm text-white/70 hover:text-white"
+              >
+                Cancel
+              </button>
+
+              <button
+                onClick={() => {
+                  if (deleteConfirm.messageId !== null) {
+                    deleteMessage(deleteConfirm.messageId);
+                  }
+                  setDeleteConfirm({ open: false, messageId: null });
+                }}
+                className="rounded-lg bg-red-600 px-5 py-2 text-sm font-semibold hover:bg-red-500"
+              >
+                Confirm
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
 
       {/* ================= READ MORE POPUP ================= */}
       {activeMessage && (

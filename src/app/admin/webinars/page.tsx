@@ -108,7 +108,7 @@ export default function AdminWebinarsPage() {
     <div className="flex min-h-screen bg-gradient-to-br from-[#0b1220] to-[#060b16] text-white">
       <AdminNavigation active="webinars" mobileMenu={false} />
 
-      <main className="4xl:p-16 4xl:ml-80 flex-1 p-3 sm:p-4 md:p-6 lg:ml-64 lg:p-8 2xl:ml-72 2xl:p-12">
+      <main className="4xl:p-16 4xl:ml-80 flex-1 p-3 pt-20 sm:p-4 sm:pt-24 md:p-6 lg:ml-64 lg:p-8 lg:pt-0 2xl:ml-72 2xl:p-12">
         <div className="mb-6 flex flex-col gap-4 sm:mb-8 sm:flex-row sm:items-center sm:justify-between sm:gap-6 2xl:mb-12">
           <div>
             <h1 className="4xl:text-5xl text-xl font-semibold sm:text-2xl lg:text-3xl 2xl:text-4xl">

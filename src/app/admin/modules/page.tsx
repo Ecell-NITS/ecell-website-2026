@@ -345,7 +345,7 @@ export default function AdminModulesPage() {
     <div className="flex min-h-screen bg-gradient-to-br from-[#0b1220] to-[#060b16] text-white">
       <AdminNavigation active="modules" mobileMenu={false} />
 
-      <main className="w-full flex-1 space-y-3 overflow-x-hidden px-3 py-3 sm:space-y-4 sm:px-4 sm:py-4 md:space-y-6 md:px-6 md:py-6 lg:ml-64 lg:px-8">
+      <main className="w-full flex-1 space-y-3 overflow-x-hidden px-3 py-3 pt-20 sm:space-y-4 sm:px-4 sm:py-4 sm:pt-24 md:space-y-6 md:px-6 md:py-6 lg:ml-64 lg:px-8 lg:pt-0">
         {/* ================= EVENTS ================= */}
         {view === "EVENTS" && (
           <>

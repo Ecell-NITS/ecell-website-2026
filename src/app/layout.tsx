@@ -1,32 +1,32 @@
-import "@/styles/globals.css";
-import "bootstrap/dist/css/bootstrap.min.css";
-
 import type { Metadata } from "next";
 import { Poppins } from "next/font/google";
-
 import NavbarTeam from "@/components/Navbar/NavbarTeam";
 import Footer from "@/components/Footer/Footer";
-
-export const metadata: Metadata = {
-  title: "E-Cell NIT Silchar",
-  description: "Official website of E-Cell NIT Silchar",
-  icons: [{ rel: "icon", url: "/favicon.ico" }],
-};
+import "@/styles/theme.css";
 
 const poppins = Poppins({
   subsets: ["latin"],
-  weight: ["400", "500", "600", "700"],
+  weight: ["300", "400", "500", "600", "700", "800", "900"],
+  style: ["normal", "italic"],
   variable: "--font-poppins",
+  display: "swap",
 });
+
+export const metadata: Metadata = {
+  title: "E-Cell | NIT Silchar",
+  description: "The Entrepreneurship Cell of NIT Silchar",
+};
 
 export default function RootLayout({
   children,
-}: {
+}: Readonly<{
   children: React.ReactNode;
-}) {
+}>) {
   return (
-    <html lang="en" className={poppins.variable}>
-      <body>
+    <html lang="en">
+      <body
+        className={`${poppins.variable} bg-[#020617] font-sans antialiased`}
+      >
         <NavbarTeam />
         {children}
         <Footer />

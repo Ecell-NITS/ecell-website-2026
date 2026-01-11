@@ -5,10 +5,8 @@ import JuniorDevelopers from "./Jundev/Developers1";
 
 export default function Developers() {
   return (
-    <div className="developers-wrapper" style={{ paddingBottom: "2rem" }}>
+    <div className="flex w-full flex-col gap-32">
       <SeniorDevelopers />
-      {/* Divider or spacing if needed */}
-      <div style={{ height: "4rem" }}></div>
       <JuniorDevelopers />
     </div>
   );

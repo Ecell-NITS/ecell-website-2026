@@ -1,102 +1,44 @@
 "use client";
 
-import Image from "next/image";
-// import "./Developers.css"; // Styles are now global
-import { FaFacebook, FaLinkedin } from "react-icons/fa";
-import { BsGithub } from "react-icons/bs";
-
+import { motion } from "framer-motion";
+import TeamCard from "@/components/Teampage/TeamCard";
 import { juniorDevelopers } from "@/data/developers";
 import type { Developer } from "@/data/developers";
 
 export default function JuniorDevelopers() {
   return (
-    <section
-      className="junior-developers-section"
-      style={{ marginTop: "4rem" }}
-    >
-      {/* Heading */}
-      <div style={{ textAlign: "center", marginBottom: "3rem" }}>
-        <h1
-          style={{ fontSize: "2.5rem", fontWeight: "bold", color: "#ffffff" }}
-        >
-          Junior Developers
-        </h1>
-      </div>
+    <section className="relative border-t border-white/5 bg-white/0 py-32">
+      <div className="container mx-auto px-6">
+        <div className="mb-24 flex flex-col items-center">
+          <h2 className="text-center text-5xl leading-none font-black tracking-tighter text-white uppercase italic md:text-7xl">
+            Junior Developers
+          </h2>
+          <div className="mt-6 h-1 w-24 rounded-full bg-blue-600 opacity-50 shadow-[0_0_10px_rgba(37,99,235,0.8)]" />
+        </div>
 
-      {/* Grid Container */}
-      <div
-        style={{
-          display: "grid",
-          gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))",
-          gap: "2.5rem",
-        }}
-      >
-        {juniorDevelopers.map((dev: Developer) => (
-          <div className="profile-card" key={dev.id}>
-            {/* Image Wrapper */}
-            <div className="profile-card-image-wrapper">
-              {dev.image && (
-                <Image
-                  src={dev.image}
-                  alt={dev.name}
-                  width={400}
-                  height={400}
-                  className="profile-card-image"
-                />
-              )}
-            </div>
-
-            {/* Text Content */}
-            <div className="profile-card-content">
-              <h3 className="profile-name">{dev.name}</h3>
-              <p className="profile-role">{dev.rank}</p>
-
-              {/* Social Icons (Dark color for white card) */}
-              <div
-                style={{
-                  display: "flex",
-                  justifyContent: "center",
-                  gap: "1rem",
-                  marginTop: "1rem",
-                  color: "#333",
+        <div className="mx-auto grid max-w-7xl grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+          {juniorDevelopers.map((dev: Developer, index) => (
+            <motion.div
+              key={dev.id}
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ delay: index * 0.05, duration: 0.5 }}
+            >
+              {/* Fixed: || -> ?? */}
+              <TeamCard
+                name={dev.name}
+                role={dev.rank}
+                image={dev.image ?? ""}
+                socials={{
+                  facebook: dev.fb,
+                  linkedin: dev.linkedln,
+                  github: dev.git,
                 }}
-              >
-                {dev.fb && (
-                  <a
-                    href={dev.fb}
-                    target="_blank"
-                    rel="noreferrer"
-                    className="transition-colors hover:text-blue-600"
-                  >
-                    <FaFacebook size={24} />
-                  </a>
-                )}
-
-                {dev.linkedln && (
-                  <a
-                    href={dev.linkedln}
-                    target="_blank"
-                    rel="noreferrer"
-                    className="transition-colors hover:text-blue-700"
-                  >
-                    <FaLinkedin size={24} />
-                  </a>
-                )}
-
-                {dev.git && (
-                  <a
-                    href={dev.git}
-                    target="_blank"
-                    rel="noreferrer"
-                    className="transition-colors hover:text-black"
-                  >
-                    <BsGithub size={24} />
-                  </a>
-                )}
-              </div>
-            </div>
-          </div>
-        ))}
+              />
+            </motion.div>
+          ))}
+        </div>
       </div>
     </section>
   );

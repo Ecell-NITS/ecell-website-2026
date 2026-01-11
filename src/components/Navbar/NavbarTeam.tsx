@@ -1,161 +1,52 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import React, { useState } from "react";
 import Link from "next/link";
+import Image from "next/image";
 import { usePathname } from "next/navigation";
-import { ImCross } from "react-icons/im";
-import { GiHamburgerMenu } from "react-icons/gi";
-import { Poppins } from "next/font/google";
-
-import "./NavbarTeam.css";
-
-const poppins = Poppins({
-  subsets: ["latin"],
-  weight: ["400", "500", "600", "700"],
-  display: "swap",
-});
+import { Menu, X } from "lucide-react";
 
 export default function NavbarTeam() {
-  const [expanded, setExpanded] = useState(false);
-  const [scrolled, setScrolled] = useState(false);
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const pathname = usePathname();
 
-  useEffect(() => {
-    const handleScroll = () => {
-      const isScrolled = window.scrollY > 20;
-      if (isScrolled !== scrolled) {
-        setScrolled(isScrolled);
-      }
-    };
-    window.addEventListener("scroll", handleScroll, { passive: true });
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, [scrolled]);
-
-  // Lock body scroll when menu is open
-  useEffect(() => {
-    if (expanded) {
-      document.body.style.overflow = "hidden";
-    } else {
-      document.body.style.overflow = "unset";
-    }
-  }, [expanded]);
-
   const navLinks = [
-    { name: "About Us", href: "/about" },
-    { name: "Events", href: "/events" },
-    { name: "Our Team", href: "/team" },
-    { name: "Gallery", href: "/gallery" },
+    { name: "HOME", path: "/" },
+    { name: "ABOUT US", path: "/about" },
+    { name: "INITIATIVES", path: "/initiatives" },
+    { name: "EVENTS", path: "/events" },
+    { name: "BLOGS", path: "/blogs" },
+    { name: "TEAM", path: "/team" },
+    { name: "GALLERY", path: "/gallery" },
   ];
 
   return (
-    <nav
-      className={`navbar-fixed fixed top-0 left-0 z-50 ${poppins.className} ${
-        scrolled ? "navbar-scrolled" : "navbar-transparent"
-      }`}
-      role="navigation"
-      aria-label="Main Navigation"
-    >
-      <div className="mx-auto flex h-full max-w-[1440px] items-center justify-between px-6 md:px-10">
-        {/* --- DESKTOP LOGO --- */}
-        <Link
-          href="/"
-          className="relative z-50 flex-shrink-0 !no-underline"
-          aria-label="E-Cell Home"
-          onClick={() => setExpanded(false)}
-        >
-          <img
-            className="nav-logo-img object-contain"
-            src="https://res.cloudinary.com/dp92qug2f/image/upload/v1678341163/Ecell%20website/ecell-logo-bw2_sayvqp.webp"
+    <nav className="glass fixed top-0 z-50 w-full border-b border-white/10 py-4 transition-all duration-300">
+      <div className="container mx-auto flex items-center justify-between px-6">
+        <Link href="/" className="flex items-center gap-3">
+          <Image
             alt="E-Cell Logo"
+            width={120}
+            height={40}
+            className="h-10 w-auto brightness-0 invert"
+            src="https://res.cloudinary.com/dp92qug2f/image/upload/v1678341163/Ecell%20website/ecell-logo-bw2_sayvqp.webp"
           />
         </Link>
 
-        {/* --- DESKTOP MENU --- */}
-        <div className="hidden items-center gap-[48px] md:flex">
+        <div className="hidden items-center gap-8 lg:flex">
           {navLinks.map((link) => {
-            const isActive = pathname === link.href;
+            const isActive =
+              pathname === link.path ||
+              (link.path === "/team" && pathname.startsWith("/team"));
+
             return (
               <Link
                 key={link.name}
-                href={link.href}
-                className={`nav-link-item ${isActive ? "active" : ""}`}
-              >
-                {link.name}
-                {isActive && <span className="active-nav-pill" />}
-              </Link>
-            );
-          })}
-
-          <Link
-            href="/signup"
-            className="join-us-btn group"
-            aria-label="Join Us"
-          >
-            <div className="join-us-fill" />
-            <div className="join-us-border-ring" />
-            <span className="join-us-text">Join Us</span>
-          </Link>
-        </div>
-
-        {/* --- MOBILE TOGGLE BUTTON --- */}
-        <button
-          className={`relative z-50 p-2 text-white transition-opacity duration-300 focus:outline-none md:hidden ${
-            expanded ? "pointer-events-none opacity-0" : "opacity-100"
-          }`}
-          onClick={() => setExpanded(true)}
-          aria-label="Open Menu"
-        >
-          <GiHamburgerMenu size={26} />
-        </button>
-      </div>
-
-      {/* ================= MOBILE MENU OVERLAY ================= */}
-      {/* CRITICAL FIX: 
-          1. z-[9999] ensures it is on top of everything.
-          2. inline style backgroundColor: "#000000 !important" forces solid black.
-      */}
-      <div
-        className={`fixed inset-0 z-[9999] flex h-screen w-screen flex-col transition-all duration-300 md:hidden ${
-          expanded
-            ? "visible opacity-100"
-            : "pointer-events-none invisible opacity-0"
-        }`}
-        style={{ backgroundColor: "#000000" }}
-      >
-        {/* 1. HEADER ROW (Logo Left + Close Button Right) */}
-        <div className="flex h-[93px] w-full flex-shrink-0 items-center justify-between px-6">
-          {/* Logo inside Menu */}
-          <Link href="/" onClick={() => setExpanded(false)}>
-            <img
-              className="h-auto w-[70px] object-contain"
-              src="https://res.cloudinary.com/dp92qug2f/image/upload/v1678341163/Ecell%20website/ecell-logo-bw2_sayvqp.webp"
-              alt="E-Cell Logo"
-            />
-          </Link>
-
-          {/* Close 'X' Button */}
-          <button
-            className="p-2 text-white focus:outline-none"
-            onClick={() => setExpanded(false)}
-            aria-label="Close Menu"
-          >
-            <ImCross size={20} />
-          </button>
-        </div>
-
-        {/* 2. MENU LINKS (Centered Vertically) */}
-        <div className="flex flex-grow flex-col items-center justify-center gap-10 pb-20">
-          {navLinks.map((link) => {
-            const isActive = pathname === link.href;
-            return (
-              <Link
-                key={link.name}
-                href={link.href}
-                onClick={() => setExpanded(false)}
-                className={`text-[24px] font-bold tracking-wide !no-underline transition-colors duration-300 ${
+                href={link.path}
+                className={`text-xs font-bold tracking-widest transition-colors ${
                   isActive
-                    ? "text-[#3b82f6]"
-                    : "text-[#3b82f6] hover:text-white"
+                    ? "text-blue-400"
+                    : "text-gray-300 hover:text-blue-400"
                 }`}
               >
                 {link.name}
@@ -163,23 +54,41 @@ export default function NavbarTeam() {
             );
           })}
 
-          {/* 3. JOIN US BUTTON */}
-          <Link
-            href="/signup"
-            onClick={() => setExpanded(false)}
-            className="join-us-btn mt-4"
-            style={{ width: "160px", height: "56px" }}
-          >
-            {/* Transparent fill so ring shows */}
-            <div
-              className="join-us-fill"
-              style={{ backgroundColor: "transparent" }}
+          <div className="flex h-10 w-10 cursor-pointer items-center justify-center overflow-hidden rounded-full border border-blue-500/20 bg-blue-500/10 transition-transform hover:scale-110">
+            <Image
+              alt="Profile"
+              width={40}
+              height={40}
+              className="h-full w-full object-cover"
+              src="https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png"
             />
-            <div className="join-us-border-ring" />
-            <span className="join-us-text text-lg">Join Us</span>
-          </Link>
+          </div>
         </div>
+
+        <button
+          className="text-white focus:outline-none lg:hidden"
+          onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+        >
+          {mobileMenuOpen ? <X size={28} /> : <Menu size={28} />}
+        </button>
       </div>
+
+      {mobileMenuOpen && (
+        <div className="glass absolute top-full left-0 flex w-full flex-col gap-6 border-b border-white/10 bg-[#020617] p-6 shadow-2xl lg:hidden">
+          {navLinks.map((link) => (
+            <Link
+              key={link.name}
+              href={link.path}
+              className={`text-sm font-bold tracking-widest ${
+                pathname === link.path ? "text-blue-400" : "text-gray-300"
+              }`}
+              onClick={() => setMobileMenuOpen(false)}
+            >
+              {link.name}
+            </Link>
+          ))}
+        </div>
+      )}
     </nav>
   );
 }

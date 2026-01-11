@@ -1,105 +1,57 @@
 "use client";
 
-import Image from "next/image";
-import { FaFacebook, FaLinkedin, FaInstagram } from "react-icons/fa";
-import { BsGithub } from "react-icons/bs";
-
+import { motion } from "framer-motion";
+import { Users } from "lucide-react";
 import { coreTeams, type CoreYear } from "@/data/coreTeam";
+import TeamCard from "@/components/Teampage/TeamCard";
+
 interface CoreTeamProps {
   year: CoreYear;
 }
 
 export default function CoreTeam({ year }: CoreTeamProps) {
-  const members = coreTeams[year];
+  // Fixed: || -> ??
+  const members = coreTeams[year] ?? [];
 
   return (
-    <section className="core-team-section">
-      <div style={{ textAlign: "center", marginBottom: "3rem" }}>
-        <h1
-          style={{ fontSize: "2.5rem", fontWeight: "bold", color: "#ffffff" }}
-        >
-          Core Team {year}
-        </h1>
-      </div>
-
-      <div
-        style={{
-          display: "grid",
-          gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))",
-          gap: "2.5rem",
-        }}
-      >
-        {members.map((member) => (
-          <div className="profile-card" key={member.id}>
-            <div className="profile-card-image-wrapper">
-              {member.image && (
-                <Image
-                  src={member.image}
-                  alt={member.name}
-                  width={400}
-                  height={400}
-                  className="profile-card-image"
-                />
-              )}
-            </div>
-
-            <div className="profile-card-content">
-              <h3 className="profile-name">{member.name}</h3>
-              <p className="profile-role">{member.rank}</p>
-
-              <div
-                style={{
-                  display: "flex",
-                  justifyContent: "center",
-                  gap: "1rem",
-                  marginTop: "1rem",
-                  color: "#333",
-                }}
-              >
-                {member.fb && (
-                  <a
-                    href={member.fb}
-                    target="_blank"
-                    rel="noreferrer"
-                    className="transition-colors hover:text-blue-600"
-                  >
-                    <FaFacebook size={24} />
-                  </a>
-                )}
-                {member.linkedln && (
-                  <a
-                    href={member.linkedln}
-                    target="_blank"
-                    rel="noreferrer"
-                    className="transition-colors hover:text-blue-700"
-                  >
-                    <FaLinkedin size={24} />
-                  </a>
-                )}
-                {member.insta && (
-                  <a
-                    href={member.insta}
-                    target="_blank"
-                    rel="noreferrer"
-                    className="transition-colors hover:text-pink-600"
-                  >
-                    <FaInstagram size={24} />
-                  </a>
-                )}
-                {member.git && (
-                  <a
-                    href={member.git}
-                    target="_blank"
-                    rel="noreferrer"
-                    className="transition-colors hover:text-black"
-                  >
-                    <BsGithub size={24} />
-                  </a>
-                )}
-              </div>
-            </div>
+    <section className="relative">
+      <div className="container mx-auto px-6">
+        <div className="mb-24 flex flex-col items-center">
+          <div className="mb-4 flex items-center gap-3 text-blue-500">
+            <Users className="animate-pulse" size={20} />
+            <span className="text-xs font-black tracking-[0.4em] uppercase">
+              The Backbone
+            </span>
           </div>
-        ))}
+          <h2 className="text-center text-5xl leading-none font-black tracking-tighter text-white uppercase italic md:text-7xl">
+            Core Team {year}
+          </h2>
+        </div>
+
+        <div className="mx-auto grid max-w-7xl grid-cols-1 gap-12 md:grid-cols-2 lg:grid-cols-3">
+          {members.map((member, index) => (
+            <motion.div
+              key={member.id}
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ delay: index * 0.05, duration: 0.5 }}
+            >
+              {/* Fixed: || -> ?? */}
+              <TeamCard
+                name={member.name}
+                role={member.rank}
+                image={member.image ?? ""}
+                socials={{
+                  facebook: member.fb,
+                  linkedin: member.linkedln,
+                  github: member.git,
+                  instagram: member.insta,
+                }}
+              />
+            </motion.div>
+          ))}
+        </div>
       </div>
     </section>
   );

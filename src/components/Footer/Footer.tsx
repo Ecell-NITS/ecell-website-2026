@@ -4,16 +4,18 @@
 import { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import "./Footer.css";
-
-import { FaFacebook, FaInstagram, FaLinkedin } from "react-icons/fa";
-import { BiUserCircle } from "react-icons/bi";
-import { MdLocationOn, MdSend } from "react-icons/md";
-import { BsFillTelephoneFill } from "react-icons/bs";
-import { FiMail } from "react-icons/fi";
-
 import axios from "axios";
 import { toast } from "react-toastify";
+import {
+  Facebook,
+  Instagram,
+  Linkedin,
+  Twitter,
+  ArrowUp,
+  MapPin,
+  Mail,
+  Phone,
+} from "lucide-react";
 
 const Footer = () => {
   const [email, setEmail] = useState("");
@@ -36,6 +38,7 @@ const Footer = () => {
     try {
       setDisableSend(true);
       setCheckingEmail(true);
+      // Ensure your .env variables are set correctly for these to work
       const check = await axios.post(
         `${process.env.NEXT_PUBLIC_APIMAIN}/check-email`,
         { email },
@@ -57,128 +60,187 @@ const Footer = () => {
     }
   };
 
-  return (
-    <footer className="footer-section">
-      <div className="fcontainer">
-        {/* LOGO */}
-        <div className="container1">
-          <Link href="/" className="!no-underline">
-            <Image
-              src="https://res.cloudinary.com/dp92qug2f/image/upload/v1678341670/Ecell%20website/E-Cell-Logo-White_qhkb0q.webp"
-              alt="E-Cell Logo"
-              width={140}
-              height={140}
-              className="img-foot-centr transition-opacity hover:opacity-90"
-            />
-          </Link>
-        </div>
+  const scrollToTop = () => {
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  };
 
-        {/* ORG */}
-        <div className="container2">
-          <h2 className="h2">Organisation</h2>
-          <ul className="no-bullets">
-            <li>
-              <BiUserCircle className="f_icon" />
-              <span className="i-text">StartUp Center</span>
-            </li>
-            <li>
-              <MdLocationOn className="f_icon" />
+  return (
+    <footer className="relative overflow-hidden border-t border-white/5 bg-[#020617] pt-24 pb-12 font-sans text-white">
+      <div className="container mx-auto px-6">
+        <div className="mb-20 grid grid-cols-1 gap-16 md:grid-cols-2 lg:grid-cols-4">
+          {/* COLUMN 1: BRAND & SOCIALS */}
+          <div className="lg:col-span-1">
+            <Link href="/" className="mb-8 inline-block">
+              <Image
+                src="https://res.cloudinary.com/dp92qug2f/image/upload/v1678341670/Ecell%20website/E-Cell-Logo-White_qhkb0q.webp"
+                alt="E-Cell Logo"
+                width={150}
+                height={50}
+                className="h-16 w-auto opacity-90 transition-opacity hover:opacity-100"
+              />
+            </Link>
+            <p className="mb-8 font-sans text-sm leading-relaxed text-gray-500">
+              Empowering the next generation of innovators at NIT Silchar. We
+              build, nurture, and grow the entrepreneurial ecosystem of North
+              East India.
+            </p>
+            <div className="flex gap-4">
               <a
-                className="i-text"
-                href="https://goo.gl/maps/YOUR_MAP_LINK_HERE"
+                href="https://www.facebook.com/ecell.nit.silchar"
                 target="_blank"
                 rel="noreferrer"
+                className="glass flex h-10 w-10 items-center justify-center rounded-xl text-gray-400 transition-all hover:border-blue-500/30 hover:text-blue-500"
               >
-                NIT Silchar, Assam - 788010
+                <Facebook size={18} />
               </a>
-            </li>
-            <li>
-              <FiMail className="f_icon" />
-              <a className="i-text" href="mailto:ecell@nits.ac.in">
-                ecell@nits.ac.in
+              <a
+                href="https://instagram.com/ecell.nitsilchar"
+                target="_blank"
+                rel="noreferrer"
+                className="glass flex h-10 w-10 items-center justify-center rounded-xl text-gray-400 transition-all hover:border-blue-500/30 hover:text-blue-500"
+              >
+                <Instagram size={18} />
               </a>
-            </li>
-            <li>
-              <BsFillTelephoneFill className="f_icon" />
-              <a className="i-text" href="tel:+916388689290">
-                +91 6388689290
+              <a
+                href="https://www.linkedin.com/company/ecell-nit-silchar/"
+                target="_blank"
+                rel="noreferrer"
+                className="glass flex h-10 w-10 items-center justify-center rounded-xl text-gray-400 transition-all hover:border-blue-500/30 hover:text-blue-500"
+              >
+                <Linkedin size={18} />
               </a>
-            </li>
-          </ul>
-        </div>
+              <a
+                href="https://twitter.com/ecell_nits"
+                target="_blank"
+                rel="noreferrer"
+                className="glass flex h-10 w-10 items-center justify-center rounded-xl text-gray-400 transition-all hover:border-blue-500/30 hover:text-blue-500"
+              >
+                <Twitter size={18} />
+              </a>
+            </div>
+          </div>
 
-        {/* SOCIAL */}
-        <div className="container3">
-          <h2 className="h2">Social</h2>
-          <a
-            href="https://www.facebook.com/ecell.nit.silchar"
-            target="_blank"
-            rel="noreferrer"
-            className="footer_social_Logo"
-          >
-            <FaFacebook /> <span className="i-text">Facebook</span>
-          </a>
-          <a
-            href="https://www.linkedin.com/company/ecell-nit-silchar/"
-            target="_blank"
-            rel="noreferrer"
-            className="footer_social_Logo"
-          >
-            <FaLinkedin /> <span className="i-text">LinkedIn</span>
-          </a>
-          <a
-            href="https://instagram.com/ecell.nitsilchar"
-            target="_blank"
-            rel="noreferrer"
-            className="footer_social_Logo"
-          >
-            <FaInstagram /> <span className="i-text">Instagram</span>
-          </a>
-        </div>
+          {/* COLUMN 2: NAVIGATION */}
+          <div>
+            <h4 className="mb-8 font-sans text-xs font-bold tracking-widest text-white uppercase">
+              Navigation
+            </h4>
+            <ul className="space-y-4">
+              {["Home", "About Us", "Events", "Our Team", "Gallery"].map(
+                (item) => (
+                  <li key={item}>
+                    <Link
+                      href={
+                        item === "Home"
+                          ? "/"
+                          : `/${item.toLowerCase().replace(" ", "")}`
+                      }
+                      className="font-sans text-sm text-gray-500 transition-colors hover:text-blue-400"
+                    >
+                      {item}
+                    </Link>
+                  </li>
+                ),
+              )}
+            </ul>
+          </div>
 
-        {/* SUBSCRIBE */}
-        <div className="container4">
-          <h2 className="h2">Subscribe</h2>
-          <p className="p1">
-            Keep yourself updated. Subscribe to our newsletter.
-          </p>
-          <form
-            className="newsletterform00"
-            onSubmit={(e) => e.preventDefault()}
-          >
-            <div className="fill">
+          {/* COLUMN 3: CONTACT / ORGANISATION */}
+          <div>
+            <h4 className="mb-8 font-sans text-xs font-bold tracking-widest text-white uppercase">
+              Contact Us
+            </h4>
+            <ul className="space-y-4">
+              <li className="flex items-start gap-3 font-sans text-sm text-gray-500">
+                <MapPin
+                  size={16}
+                  className="mt-1 flex-shrink-0 text-blue-500"
+                />
+                <span className="transition-colors hover:text-white">
+                  NIT Silchar, Assam - 788010
+                </span>
+              </li>
+              <li className="flex items-center gap-3 font-sans text-sm text-gray-500">
+                <Mail size={16} className="text-blue-500" />
+                <a
+                  href="mailto:ecell@nits.ac.in"
+                  className="transition-colors hover:text-white"
+                >
+                  ecell@nits.ac.in
+                </a>
+              </li>
+              <li className="flex items-center gap-3 font-sans text-sm text-gray-500">
+                <Phone size={16} className="text-blue-500" />
+                <a
+                  href="tel:+916388689290"
+                  className="transition-colors hover:text-white"
+                >
+                  +91 6388689290
+                </a>
+              </li>
+            </ul>
+          </div>
+
+          {/* COLUMN 4: NEWSLETTER */}
+          <div>
+            <h4 className="mb-8 font-sans text-xs font-bold tracking-widest text-white uppercase">
+              Newsletter
+            </h4>
+            <p className="mb-6 font-sans text-sm leading-relaxed text-gray-500">
+              Keep yourself updated. Subscribe to our monthly newsletter.
+            </p>
+            <form
+              onSubmit={(e) => createUser(e as any)}
+              className="group relative"
+            >
               <input
                 type="email"
-                placeholder="Your email address"
+                placeholder="Email address"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 disabled={disableSend}
+                className="w-full rounded-2xl border border-white/10 bg-white/5 px-6 py-4 font-sans text-sm text-white transition-all placeholder:text-gray-600 focus:border-blue-500 focus:outline-none"
               />
               <button
-                onClick={createUser}
+                type="submit"
                 disabled={disableSend}
-                className="btnnewsformletter"
-                aria-label="Subscribe"
+                className="absolute top-2 right-2 bottom-2 rounded-xl bg-blue-600 px-4 font-sans text-xs font-bold tracking-wide text-white transition-colors hover:bg-blue-700 disabled:cursor-not-allowed disabled:opacity-50"
               >
-                <MdSend />
+                {checkingEmail ? "..." : "JOIN"}
               </button>
-            </div>
-          </form>
-          {checkingEmail && (
-            <p
-              className="p1"
-              style={{ marginTop: "0.5rem", fontSize: "0.8rem" }}
-            >
-              Verifying...
-            </p>
-          )}
+            </form>
+          </div>
         </div>
 
-        {/* COPYRIGHT */}
-        <div className="container5">
-          <p className="p2">All Rights Reserved © E-Cell, NIT Silchar</p>
+        {/* BOTTOM BAR */}
+        <div className="flex flex-col items-center justify-between gap-6 border-t border-white/5 pt-12 md:flex-row">
+          <p className="font-sans text-xs text-gray-600">
+            © 2026 E-Cell, NIT Silchar. All rights reserved.
+          </p>
+          <div className="flex gap-8">
+            <Link
+              href="/privacy"
+              className="font-sans text-xs text-gray-600 transition-colors hover:text-white"
+            >
+              Privacy Policy
+            </Link>
+            <Link
+              href="/terms"
+              className="font-sans text-xs text-gray-600 transition-colors hover:text-white"
+            >
+              Terms of Use
+            </Link>
+          </div>
         </div>
       </div>
+
+      {/* SCROLL TO TOP BUTTON */}
+      <button
+        onClick={scrollToTop}
+        className="glass fixed right-8 bottom-8 z-40 flex h-12 w-12 items-center justify-center rounded-full border border-white/10 text-gray-400 transition-all hover:text-blue-500 hover:shadow-2xl hover:shadow-blue-500/20"
+      >
+        <ArrowUp size={20} />
+      </button>
     </footer>
   );
 };

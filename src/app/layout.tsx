@@ -19,6 +19,22 @@ export default function RootLayout({
 }: Readonly<{ children: React.ReactNode }>) {
   return (
     <html lang="en" className={`${geist.variable}`}>
+      <head>
+        <link
+          href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap"
+          rel="stylesheet"
+        />
+        <link
+          href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+          rel="stylesheet"
+        />
+        <link href="https://fonts.googleapis.com" rel="preconnect" />
+        <link
+          crossOrigin=""
+          href="https://fonts.gstatic.com"
+          rel="preconnect"
+        />
+      </head>
       <body>{children}</body>
     </html>
   );

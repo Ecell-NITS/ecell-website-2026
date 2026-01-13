@@ -20,7 +20,7 @@ export default function BlogCard({ blog }) {
   }
 
   return (
-    <div className="group w-full max-w-xl overflow-hidden rounded-3xl bg-sky-950/80 ring-1 ring-white/10 hover:scale-[1.02]">
+    <div className="group w-full max-w-xl overflow-hidden rounded-3xl bg-black ring-1 ring-white/10 hover:scale-[1.02]">
       {/* Image */}
       <div className="relative h-56 group-hover:scale-100">
         <img
@@ -52,14 +52,14 @@ export default function BlogCard({ blog }) {
           />
           <div>
             <p className="text-sm font-medium text-white">{blog.author}</p>
-            <p className="text-xs tracking-wide text-sky-400 uppercase">
+            <p className="text-xs tracking-wide text-gray-500 uppercase">
               {blog.role}
             </p>
           </div>
         </div>
 
         {/* Title */}
-        <h2 className="mb-3 text-2xl leading-tight font-bold text-sky-400 group-hover:text-blue-700">
+        <h2 className="mb-3 text-2xl leading-tight font-bold text-white group-hover:text-blue-400">
           {blog.title}
         </h2>
 
@@ -76,7 +76,7 @@ export default function BlogCard({ blog }) {
               onClick={toggleLike}
               className="flex cursor-pointer items-center gap-1"
             >
-              <span className={liked ? "text-red-400" : "text-sky-300"}>
+              <span className={liked ? "text-red-400" : "text-sky-200/60"}>
                 {liked ? "♥" : "♡"}
               </span>
               <span>{likesCount}</span>
@@ -86,7 +86,7 @@ export default function BlogCard({ blog }) {
             <span>⏱ {readTime} min read</span>
           </div>
 
-          <button className="text-xs tracking-widest text-white uppercase">
+          <button className="text-xs tracking-widest text-blue-400 uppercase hover:text-white">
             Read More →
           </button>
         </div>

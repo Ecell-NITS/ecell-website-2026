@@ -14,7 +14,7 @@ export default function HomePage() {
     <main className="relative min-h-screen overflow-x-hidden bg-[#020617] text-white selection:bg-blue-500/30">
       <Background />
       <Navbar />
-      <div className="relative z-10 flex flex-col xl:pt-20">
+      <div className="relative z-10 flex flex-col pt-0 xl:pt-20">
         <Hero />
         <Partners />
         <About />

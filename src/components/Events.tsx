@@ -69,7 +69,7 @@ const Events: React.FC = () => {
     isMobile?: boolean;
   }) => (
     <div
-      className={`relative ${isMobile ? "h-[280px]" : "h-[620px]"} flex overflow-hidden rounded-[2rem] bg-[#020617] p-6 lg:p-10 ${isMobile ? "flex-row items-center gap-4" : "flex-col items-start"} group shadow-2xl`}
+      className={`relative ${isMobile ? "h-[280px]" : "h-[620px]"} flex overflow-hidden rounded-[2.5rem] bg-[#020617] p-6 lg:p-10 ${isMobile ? "flex-row items-center gap-4" : "flex-col items-start"} group shadow-2xl`}
     >
       {/* Background Image */}
       <div className="absolute inset-0 z-0 opacity-25 transition-all duration-700 group-hover:opacity-10">

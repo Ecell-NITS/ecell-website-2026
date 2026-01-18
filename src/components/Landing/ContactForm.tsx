@@ -17,7 +17,7 @@ const ContactForm: React.FC = () => {
             viewport={{ once: true }}
             className="lg:w-1/2"
           >
-            <h2 className="mb-6 text-5xl font-extrabold tracking-tight text-white uppercase">
+            <h2 className="mb-6 text-4xl leading-none font-black tracking-tighter text-white uppercase lg:text-6xl">
               Contact <span className="text-blue-500">Us</span>
             </h2>
             <p className="mb-12 text-lg text-gray-400">

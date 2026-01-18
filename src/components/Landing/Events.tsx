@@ -69,7 +69,11 @@ const Events: React.FC = () => {
     isMobile?: boolean;
   }) => (
     <div
-      className={`relative ${isMobile ? "h-[280px]" : "h-[620px]"} flex overflow-hidden rounded-[2.5rem] bg-[#020617] p-6 lg:p-10 ${isMobile ? "flex-row items-center gap-4" : "flex-col items-start"} group shadow-2xl`}
+      className={`relative flex w-full overflow-hidden rounded-[2.5rem] bg-[#020617] p-6 shadow-2xl transition-all duration-300 hover:shadow-blue-900/10 lg:p-10 ${
+        isMobile
+          ? "flex-col gap-6 sm:flex-row sm:items-center"
+          : "h-full flex-col items-start justify-between"
+      } group`}
     >
       {/* Background Image */}
       <div className="absolute inset-0 z-0 opacity-25 transition-all duration-700 group-hover:opacity-10">
@@ -86,65 +90,49 @@ const Events: React.FC = () => {
 
       {/* Content */}
       <div
-        className={`relative z-10 flex ${isMobile ? "w-full gap-4" : "h-full flex-col"}`}
+        className={`relative z-10 flex w-full ${isMobile ? "flex-col gap-4 sm:flex-row sm:gap-6" : "h-full flex-col justify-between"}`}
       >
-        {/* Icon Section */}
+        {/* Icon & Category Top */}
         <div
-          className={`flex flex-col items-center ${isMobile ? "w-1/4 shrink-0 justify-center" : "mb-14 items-start"}`}
+          className={`flex shrink-0 items-start ${isMobile ? "w-full justify-between sm:w-auto sm:flex-col sm:justify-start sm:gap-4" : "mb-8 w-full justify-between"}`}
         >
-          <div className="flex h-14 w-14 items-center justify-center rounded-full border border-white/10 bg-white/5 shadow-2xl backdrop-blur-xl lg:h-16 lg:w-16">
+          <div className="flex h-12 w-12 items-center justify-center rounded-full border border-white/10 bg-white/5 shadow-2xl backdrop-blur-xl md:h-14 md:w-14 lg:h-16 lg:w-16">
             <event.icon
               size={24}
               className="text-white opacity-80 lg:h-[26px] lg:w-[26px]"
             />
           </div>
-          {/* Desktop Category */}
-          {!isMobile && (
-            <span
-              className={`mt-4 bg-gradient-to-r text-sm font-black tracking-[0.25em] uppercase ${event.tagGradient} bg-clip-text text-transparent`}
-            >
-              {event.category}
-            </span>
-          )}
+
+          <span
+            className={`bg-gradient-to-r text-[10px] font-black tracking-widest uppercase ${event.tagGradient} bg-clip-text text-transparent sm:text-xs ${!isMobile ? "lg:text-sm" : ""}`}
+          >
+            {event.category}
+          </span>
         </div>
 
-        {/* Text Section */}
-        <div
-          className={`flex flex-col ${isMobile ? "grow justify-center" : ""}`}
-        >
-          {/* Mobile Category */}
-          {isMobile && (
-            <span
-              className={`bg-gradient-to-r text-[10px] font-bold tracking-[0.2em] uppercase ${event.tagGradient} mb-1 bg-clip-text text-transparent`}
-            >
-              {event.category}
-            </span>
-          )}
-
+        {/* Text Information */}
+        <div className={`flex flex-col ${isMobile ? "mt-2" : "mt-auto"}`}>
           <h3
-            className={`${isMobile ? "mb-1 text-2xl" : "mb-2 text-5xl"} leading-tight font-black tracking-tighter whitespace-pre-line text-white`}
+            className={`leading-none font-black tracking-tight text-white ${isMobile ? "mb-2 text-2xl" : "mb-4 text-3xl lg:text-5xl"}`}
           >
             {isMobile ? event.title.replace("\n", " ") : event.title}
           </h3>
 
-          <p className="text-[10px] font-bold tracking-widest text-gray-500 uppercase lg:text-xs">
+          <h4 className="mb-2 text-xs font-bold tracking-wider text-gray-400 uppercase md:text-sm">
             {event.subtitle}
-          </p>
+          </h4>
 
-          {/* Description (Desktop Only) */}
+          <div
+            className={`${isMobile ? "line-clamp-3" : "line-clamp-4 lg:line-clamp-none"}`}
+          >
+            <p className="text-sm leading-relaxed font-medium text-gray-500 md:text-base">
+              {event.desc}
+            </p>
+          </div>
+
           {!isMobile && (
-            <div className="mt-auto pt-6">
-              <p className="mb-10 text-lg leading-snug font-normal text-white/80">
-                {event.desc}
-              </p>
-              <div className="flex items-center justify-between border-t border-white/5 pt-6">
-                <span className="text-[10px] font-black tracking-[0.4em] text-gray-500 uppercase">
-                  Details
-                </span>
-                <div className="flex h-10 w-10 items-center justify-center rounded-full border border-white/10">
-                  →
-                </div>
-              </div>
+            <div className="mt-6 flex h-10 w-10 items-center justify-center rounded-full border border-white/10 text-white transition-colors hover:bg-white/10">
+              →
             </div>
           )}
         </div>

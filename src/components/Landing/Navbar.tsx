@@ -33,7 +33,7 @@ const Navbar: React.FC = () => {
           : "bg-transparent py-6"
       }`}
     >
-      <div className="container mx-auto flex items-center justify-between px-6">
+      <div className="mx-[6vw] flex items-center justify-between lg:mx-[2vw]">
         <Link href="/" className="flex items-center gap-3">
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img

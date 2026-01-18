@@ -53,9 +53,14 @@ const Testimonials: React.FC = () => {
       </div>
 
       <div className="relative z-10 container mx-auto px-6">
+        <div className="mb-16 text-center">
+          <h2 className="text-4xl leading-none font-black tracking-tighter text-white uppercase lg:text-6xl">
+            Success <span className="text-blue-500">Stories</span>
+          </h2>
+        </div>
         <div className="mx-auto max-w-5xl">
           {/* Main Card */}
-          <div className="glass flex min-h-[500px] items-center rounded-[3rem] border border-white/10 p-12 md:p-20">
+          <div className="glass flex min-h-[400px] items-center rounded-[3rem] border border-white/10 p-8 md:min-h-[500px] md:p-12 lg:p-20">
             {/* AnimatePresence handles the smooth fading switch between data */}
             <AnimatePresence mode="wait">
               <motion.div
@@ -87,7 +92,7 @@ const Testimonials: React.FC = () => {
                     className="absolute -top-10 -left-6 text-blue-500/20"
                     size={80}
                   />
-                  <p className="relative z-10 mb-10 text-xl leading-relaxed font-light text-gray-300 italic md:text-2xl">
+                  <p className="relative z-10 mb-6 text-lg leading-relaxed font-light text-gray-300 italic sm:text-xl md:mb-10 md:text-2xl lg:text-3xl">
                     &quot;{testimonialsData[currentIndex].text}&quot;
                   </p>
 

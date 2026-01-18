@@ -64,7 +64,7 @@ const Timeline: React.FC = () => {
     >
       <div className="container mx-auto px-6">
         <div className="mb-24 text-center">
-          <h2 className="mb-6 text-5xl font-black tracking-tighter text-white uppercase italic">
+          <h2 className="mb-6 text-4xl leading-none font-black tracking-tighter text-white uppercase lg:text-6xl">
             The Roadmap
           </h2>
           <p className="mx-auto max-w-2xl text-lg font-light text-gray-500">

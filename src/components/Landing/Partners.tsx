@@ -38,10 +38,13 @@ const Partners: React.FC = () => {
 
   return (
     <section className="overflow-hidden border-y border-white/5 bg-gray-950/20 py-24">
-      <div className="container mx-auto mb-16 px-6">
-        <h3 className="text-center text-xs font-bold tracking-[0.4em] text-gray-500 uppercase">
-          Trusted Partners & Collaborators
-        </h3>
+      <div className="container mx-auto mb-16 px-6 text-center">
+        <h2 className="text-4xl leading-none font-black tracking-tighter text-white uppercase lg:text-6xl">
+          Trusted <span className="text-blue-500">Partners</span>
+        </h2>
+        <p className="mt-4 text-xs font-bold tracking-[0.4em] text-gray-500 uppercase">
+          & Collaborators
+        </p>
       </div>
 
       <div className="relative flex overflow-hidden">
@@ -52,12 +55,12 @@ const Partners: React.FC = () => {
             repeat: Infinity,
             ease: "linear",
           }}
-          className="flex items-center gap-20 px-10 whitespace-nowrap"
+          className="flex items-center gap-10 px-4 whitespace-nowrap md:gap-20 md:px-10"
         >
           {marqueeItems.map((partner, i) => (
             <div
               key={i}
-              className="flex h-16 w-40 cursor-pointer items-center justify-center opacity-40 grayscale transition-all duration-500 hover:opacity-100 hover:grayscale-0 md:w-56"
+              className="flex h-12 w-32 cursor-pointer items-center justify-center opacity-40 grayscale transition-all duration-500 hover:opacity-100 hover:grayscale-0 md:h-16 md:w-56"
             >
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img

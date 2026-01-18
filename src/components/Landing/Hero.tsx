@@ -26,7 +26,7 @@ const Hero: React.FC = () => {
   }, []);
 
   return (
-    <section className="relative flex min-h-screen items-center justify-center overflow-hidden">
+    <section className="relative flex min-h-[100dvh] items-center justify-center overflow-hidden lg:pt-32 xl:pt-0">
       {/* 4. GRID LAYER: Structural Grid */}
       <div
         style={{
@@ -51,13 +51,13 @@ const Hero: React.FC = () => {
       {/* FOREGROUND CONTENT */}
       <motion.div
         style={{ opacity: heroOpacity, scale: heroScale }}
-        className="relative z-20 container mx-auto px-6 text-center"
+        className="relative z-20 container mx-auto px-6 py-4 text-center lg:py-0"
       >
         <motion.div
           initial={{ opacity: 0, y: -20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 1, ease: "easeOut" }}
-          className="glass mb-8 inline-flex items-center gap-2 rounded-full border border-blue-400/20 px-6 py-2.5 text-[10px] font-bold tracking-[0.3em] text-blue-400 uppercase shadow-2xl shadow-blue-500/10 md:text-xs"
+          className="glass mt-[10vh] mb-8 inline-flex items-center gap-2 rounded-full border border-blue-400/20 px-4 py-2 text-[8px] font-bold tracking-[0.2em] text-blue-400 uppercase shadow-2xl shadow-blue-500/10 sm:text-[10px] sm:tracking-[0.3em] md:px-6 md:py-2.5 md:text-xs lg:mt-0"
         >
           <Sparkles size={14} className="animate-pulse text-blue-300" />
           The Future of Innovation Starts Here
@@ -73,7 +73,7 @@ const Hero: React.FC = () => {
             initial={{ opacity: 0, scale: 0.9, rotateX: 20 }}
             animate={{ opacity: 1, scale: 1, rotateX: 0 }}
             transition={{ duration: 1.5, ease: [0.16, 1, 0.3, 1] }}
-            className="mb-2 text-[clamp(5rem,22vw,16rem)] leading-none font-black tracking-tighter text-white drop-shadow-[0_0_80px_rgba(37,99,235,0.2)] selection:bg-blue-500/30"
+            className="mb-2 text-[clamp(3rem,18vw,12rem)] leading-none font-black tracking-tighter text-white drop-shadow-[0_0_80px_rgba(37,99,235,0.2)] selection:bg-blue-500/30 sm:text-[clamp(5rem,20vw,14rem)] md:text-[clamp(6rem,21vw,16rem)]"
           >
             E-CELL
           </motion.h1>
@@ -90,7 +90,7 @@ const Hero: React.FC = () => {
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ duration: 1, delay: 0.8 }}
-          className="mt-16 mb-12 text-lg font-light tracking-[0.5em] text-gray-400/80 uppercase md:text-4xl"
+          className="mt-8 mb-8 text-sm font-light tracking-[0.3em] text-gray-400/80 uppercase sm:mt-12 sm:mb-12 sm:text-xl sm:tracking-[0.5em] md:mt-16 md:text-2xl lg:text-4xl"
         >
           Entrepreneurship Cell{" "}
           <span className="font-extrabold tracking-tight text-blue-500">
@@ -102,7 +102,7 @@ const Hero: React.FC = () => {
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ duration: 1, delay: 1.2 }}
-          className="mx-auto min-h-[5rem] max-w-4xl px-4 text-xl leading-relaxed font-light text-gray-300/60 md:text-2xl"
+          className="mx-auto min-h-[4rem] max-w-4xl px-4 text-base leading-relaxed font-light text-gray-300/60 sm:min-h-[5rem] sm:text-xl md:text-2xl"
         >
           <TypingAnimation />
         </motion.div>
@@ -113,42 +113,20 @@ const Hero: React.FC = () => {
           transition={{ duration: 0.8, delay: 1.5 }}
           className="mt-16 flex flex-col items-center justify-center gap-6 sm:flex-row"
         >
-          <button className="group relative overflow-hidden rounded-2xl bg-blue-600 px-14 py-6 shadow-[0_25px_60px_rgba(37,99,235,0.4)] transition-all hover:scale-105 active:scale-95">
+          <button className="group relative overflow-hidden rounded-2xl bg-blue-600 px-8 py-3 shadow-[0_25px_60px_rgba(37,99,235,0.4)] transition-all hover:scale-105 active:scale-95 sm:px-14 sm:py-6">
             <div className="absolute inset-0 bg-gradient-to-r from-blue-400 to-blue-800 opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
-            <span className="relative z-10 flex items-center gap-3 text-lg font-black tracking-wide text-white">
-              Explore Our Vision{" "}
+            <span className="relative z-10 flex items-center gap-2 text-sm font-black tracking-wide text-white sm:gap-3 sm:text-lg">
+              Our Initiatives{" "}
               <span className="transition-transform duration-300 group-hover:translate-x-2">
                 →
               </span>
             </span>
           </button>
 
-          <button className="group glass rounded-2xl border border-white/10 px-14 py-6 font-bold text-white transition-all hover:scale-105 hover:border-white/20 hover:bg-white/5 active:scale-95">
-            Join the Community
+          <button className="group glass rounded-2xl border border-white/10 px-8 py-3 text-sm font-bold text-white transition-all hover:scale-105 hover:border-white/20 hover:bg-white/5 active:scale-95 sm:px-14 sm:py-6 sm:text-lg">
+            Join Us
           </button>
         </motion.div>
-      </motion.div>
-
-      {/* BOTTOM SCROLL INDICATOR */}
-      <motion.div
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ delay: 2.5, duration: 1 }}
-        className="group absolute bottom-12 left-1/2 flex -translate-x-1/2 cursor-pointer flex-col items-center gap-4"
-        onClick={() =>
-          window.scrollTo({ top: window.innerHeight, behavior: "smooth" })
-        }
-      >
-        <span className="text-[9px] font-semibold tracking-[0.6em] text-gray-500 uppercase transition-colors group-hover:text-blue-400">
-          Discover
-        </span>
-        <div className="relative h-11 w-7 rounded-full border-2 border-white/10 p-1.5 transition-colors group-hover:border-blue-500/30">
-          <motion.div
-            animate={{ y: [0, 18, 0] }}
-            transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
-            className="h-2.5 w-full rounded-full bg-blue-500 shadow-[0_0_10px_rgba(59,130,246,0.5)]"
-          />
-        </div>
       </motion.div>
     </section>
   );

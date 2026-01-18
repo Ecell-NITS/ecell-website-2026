@@ -44,15 +44,15 @@ const StatCounter: React.FC<{
   return (
     <div ref={ref} className="group cursor-default">
       <motion.div
-        className="mb-2 flex items-baseline gap-1 text-4xl font-black text-white md:text-5xl"
+        className="mb-2 flex items-baseline gap-1 text-3xl font-black text-white sm:text-4xl md:text-5xl lg:text-6xl"
         whileHover={{ scale: 1.05, x: 5 }}
       >
         <span className="bg-gradient-to-r from-blue-400 to-blue-600 bg-clip-text text-transparent">
           {count}
         </span>
-        <span className="text-2xl text-blue-500">{suffix}</span>
+        <span className="text-xl text-blue-500 md:text-3xl">{suffix}</span>
       </motion.div>
-      <p className="text-[10px] font-bold tracking-[0.2em] text-gray-500 uppercase transition-colors group-hover:text-gray-400 md:text-sm">
+      <p className="text-xs font-bold tracking-[0.2em] text-gray-500 uppercase transition-colors group-hover:text-gray-400 md:text-sm">
         {label}
       </p>
     </div>
@@ -120,7 +120,7 @@ const About: React.FC = () => {
               Our Ecosystem
             </div>
 
-            <h2 className="mb-8 text-4xl leading-[1.1] font-black tracking-tighter text-white md:text-7xl">
+            <h2 className="mb-8 text-4xl leading-none font-black tracking-tighter text-white uppercase lg:text-6xl">
               Pioneering <br />
               <span className="relative inline-block">
                 <span className="relative z-10 bg-gradient-to-r from-blue-400 via-blue-200 to-white bg-clip-text text-transparent">

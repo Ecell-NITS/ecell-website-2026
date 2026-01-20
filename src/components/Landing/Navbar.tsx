@@ -19,7 +19,7 @@ const Navbar: React.FC = () => {
   const navLinks = [
     { name: "HOME", href: "/", isRoute: true },
     { name: "ABOUT US", href: "/about", isRoute: true },
-    { name: "INITIATIVES", href: "/#initiatives", isRoute: true },
+    { name: "INITIATIVES", href: "/initiatives", isRoute: true },
     { name: "EVENTS", href: "#events", isRoute: false },
     { name: "TEAM", href: "#", isRoute: false },
     { name: "GALLERY", href: "/#gallery", isRoute: true },

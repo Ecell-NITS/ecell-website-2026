@@ -1,0 +1,38 @@
+[
+  {
+    "id": 1,
+    "title": "Mastering the Seed Round: A Founder's Guide",
+    "description": "Navigating the complexities of early-stage funding requires more than just a deck.",
+    "author": "Ananya Sharma",
+    "role": "Venture Lead",
+    "readTime": "8 min read",
+    "likes": 0,
+    "tags": ["Funding", "Startup", "Growth"],
+    "image": "https://png.pngtree.com/background/20230328/original/pngtree-the-concept-of-start-up-and-entrepreneurship-vector-picture-image_2179764.jpg",
+    "avatar": "/avatar.jpg"
+  },
+  {
+    "id": 2,
+    "title": "Mastering the Seed Round: A Founder's",
+    "description": "Navigating the complexities of early-stage funding requires more than just a deck.",
+    "author": "Ananya Sharma",
+    "role": "Venture Lead",
+    "readTime": "8 min read",
+    "likes": 0,
+    "tags": ["Funding", "Startup", "Growth"],
+    "image": "https://png.pngtree.com/background/20230328/original/pngtree-the-concept-of-start-up-and-entrepreneurship-vector-picture-image_2179764.jpg",
+    "avatar": "/avatar.jpg"
+  },
+  {
+    "id": 3,
+    "title": "Mastering the Seed Round: A Founder's",
+    "description": "Navigating the complexities of early-stage funding requires more than just a deck.",
+    "author": "Ananya Sharma",
+    "role": "Venture Lead",
+    "readTime": "8 min read",
+    "likes": 0,
+    "tags": ["Funding", "Startup", "Growth"],
+    "image": "https://png.pngtree.com/background/20230328/original/pngtree-the-concept-of-start-up-and-entrepreneurship-vector-picture-image_2179764.jpg",
+    "avatar": "/avatar.jpg"
+  }
+]

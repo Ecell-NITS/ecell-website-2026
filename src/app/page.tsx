@@ -9,7 +9,7 @@ import Testimonials from "../components/Landing/Testimonials";
 import ContactForm from "../components/Landing/ContactForm";
 import Footer from "../components/Landing/Footer";
 
-export default function HomePage() {
+export default function Page() {
   return (
     <main className="relative min-h-screen overflow-x-hidden bg-[#020617] text-white selection:bg-blue-500/30">
       <Background />

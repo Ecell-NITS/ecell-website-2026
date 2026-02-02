@@ -1,0 +1,192 @@
+export interface Developer {
+  id: number;
+  name: string;
+  rank: string;
+  image?: string;
+  fb?: string;
+  linkedln?: string;
+  git?: string;
+}
+
+/* -------- Senior Developers -------- */
+
+export const seniorDevelopers: Developer[] = [
+  {
+    id: 1,
+    name: "Ayush Singh",
+    rank: "Senior UI/UX Developer",
+    image:
+      "https://res.cloudinary.com/dw3n9vflw/image/upload/v1756898039/ayush_bh_ogxptn.jpg",
+    fb: "https://www.facebook.com/profile.php?id=61550890263865&mibextid=ZbWKwL",
+    linkedln: "https://www.linkedin.com/in/ayush-singh-1b0a8827b",
+    git: "",
+  },
+  {
+    id: 2,
+    name: "Bishal Das",
+    rank: "Senior Web Developer",
+    image:
+      "https://res.cloudinary.com/dddcd0hco/image/upload/v1724540788/1703525292449_-_ME_054_Bishal_Das_qgth4a.webp",
+    fb: "https://www.facebook.com/profile.php?id=100051391303848&mibextid=ZbWKwLr",
+    linkedln: "https://www.linkedin.com/in/bishal-das-babbb02a3",
+    git: "https://github.com/Bishal-NITS-2003",
+  },
+  {
+    id: 3,
+    name: "Gulista Khatun",
+    rank: "Senior Web Associate",
+    image:
+      "https://res.cloudinary.com/dw3n9vflw/image/upload/v1756833166/IMG_20240817_191401_-_Gulista_Khatun_dp2nu0.jpg",
+    fb: "https://www.facebook.com/profile.php?id=61555806877486&mibextid=ZbWKwL",
+    linkedln: "https://www.linkedin.com/in/gulista-khatun-9414b6314/",
+    git: "https://github.com/GulistaKhatun06",
+  },
+  {
+    id: 4,
+    name: "Muskan Bharti",
+    rank: "Senior Web Developer",
+    image:
+      "https://res.cloudinary.com/dddcd0hco/image/upload/v1724541726/20240815_145722_-_MUSKAN_BHARTI_wro0mk.webp",
+    fb: "https://www.facebook.com/muskan.bharti.18062?mibextid=ZbWKwL",
+    linkedln: "https://www.linkedin.com/in/muskan-bharti-a7440b28b/",
+    git: "https://github.com/muskan170604",
+  },
+  {
+    id: 5,
+    name: "Premansh Chakraborty",
+    rank: "Senior Flutter Developer",
+    image:
+      "https://res.cloudinary.com/dddcd0hco/image/upload/v1724541172/Screenshot_2024_0814_002329_-_Preeti_Chakraborty_axjy7c.webp",
+    fb: "https://www.facebook.com/profile.php?id=61550513922111&mibextid=ZbWKwL",
+    linkedln: "https://www.linkedin.com/in/premansh-chakraborty-825812314",
+    git: "https://github.com/PremanshChakraborty",
+  },
+];
+
+/* -------- Junior Developers -------- */
+
+export const juniorDevelopers: Developer[] = [
+  {
+    id: 1,
+    name: "Anusna Pradhan",
+    rank: "Junior UI/UX Developer",
+    image:
+      "https://res.cloudinary.com/dw3n9vflw/image/upload/v1756827501/20240710_210335_-_ANUSNA_PRADHAN_zda2vh.jpg",
+    fb: "https://www.facebook.com/profile.php?id=61572853598024",
+    linkedln: "https://www.linkedin.com/in/anusna-pradhan",
+    git: "https://github.com/iz4nam1",
+  },
+  {
+    id: 2,
+    name: "Ayushman Swain",
+    rank: "Junior Web Developer",
+    image:
+      "https://res.cloudinary.com/dw3n9vflw/image/upload/v1756824571/20241002_165333_-_Ayushman_Swain_dlwkfw.jpg",
+    fb: "https://www.facebook.com/share/16uRusuTLS/",
+    linkedln:
+      "https://www.linkedin.com/in/ayushman-swain-as?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=android_app",
+    git: "https://github.com/Ayushman-Swain",
+  },
+  {
+    id: 3,
+    name: "Debangshu Mounas",
+    rank: "Junior Flutter Developer",
+    image:
+      "https://res.cloudinary.com/dw3n9vflw/image/upload/v1756827078/IMG-20241103-WA0103_2_-_Debangshu_Mounas_bkldr8.jpg",
+    fb: "https://www.facebook.com/profile.php?id=61561971812602&mibextid=ZbWKwL",
+    linkedln: "https://www.linkedin.com/in/debangshu-mounas-3b273b317",
+    git: "https://github.com/DMounas",
+  },
+  {
+    id: 4,
+    name: "Dhruba Agarwalla",
+    rank: "Junior Web Developer",
+    image:
+      "https://res.cloudinary.com/dw3n9vflw/image/upload/v1756822796/dhruba_igzhj2.jpg",
+    fb: "https://www.facebook.com/profile.php?id=61573045432606",
+    linkedln: "https://www.linkedin.com/in/dhruba-kumar-agarwalla-7a5346270/",
+    git: "https://github.com/DhrubaAgarwalla",
+  },
+  {
+    id: 5,
+    name: "Harshit Agarwal",
+    rank: "Junior Web Developer",
+    image:
+      "https://res.cloudinary.com/dw3n9vflw/image/upload/v1756918762/hars_az1761.jpg",
+    fb: "https://m.facebook.com/harshit.agarwal.905220/",
+    linkedln: "https://www.linkedin.com/in/harshit-agarwal-a119a4332/",
+    git: "https://github.com/agarwal-harshit00",
+  },
+  {
+    id: 6,
+    name: "Madhurjya Kaushik",
+    rank: "Junior Web Developer",
+    image:
+      "https://res.cloudinary.com/dw3n9vflw/image/upload/v1756826090/sas_-_MADHURJYA_KAUSHIK_b9snbk.jpg",
+    fb: "https://www.facebook.com/madhurjya.kaushik.2025/",
+    linkedln: "https://www.linkedin.com/in/madhurjya-kaushik-752a53323",
+    git: "https://github.com/xanthate8",
+  },
+  {
+    id: 7,
+    name: "Md.Iqbal",
+    rank: "Junior Web Developer",
+    image:
+      "https://res.cloudinary.com/dw3n9vflw/image/upload/v1756825794/WhatsApp_Image_2025-08-26_at_20.22.07_-_Iqbal_gxcvbq.jpg",
+    fb: "https://www.facebook.com/share/1CftTu5XUM/",
+    linkedln: "https://www.linkedin.com/in/mr-iqbal-khan-30b818307",
+    git: "https://github.com/Md-Iqbal786",
+  },
+  {
+    id: 8,
+    name: "Muskan Agarwala",
+    rank: "Junior Web Developer",
+    image:
+      "https://res.cloudinary.com/dw3n9vflw/image/upload/v1756821225/IMG20241012213516_2_yi7h1r.jpg",
+    fb: "https://www.facebook.com/profile.php?id=61572456184997",
+    linkedln: "https://www.linkedin.com/in/muskanagarwala01",
+    git: "https://github.com/Muskan596",
+  },
+  {
+    id: 9,
+    name: "Shovit Sharma",
+    rank: "Junior UI/UX Developer",
+    image:
+      "https://res.cloudinary.com/dw3n9vflw/image/upload/v1756824950/shovit_2025_-_Shovit__Sharma_13_tegrz6.jpg",
+    fb: "https://www.facebook.com/profile.php?id=61580164532875",
+    linkedln: "https://www.linkedin.com/in/shovit-sharma-2b1445327/",
+    git: "https://github.com/shovitsharma",
+  },
+  {
+    id: 10,
+    name: "Swarup Das",
+    rank: "Junior Web Developer",
+    image:
+      "https://res.cloudinary.com/dw3n9vflw/image/upload/v1756825528/WhatsApp_Image_2024-12-11_at_22.00.26_-_Swarup_Das_jdiiqe.jpg",
+    fb: "https://www.facebook.com/share/17JQG2iTf1/",
+    linkedln: "https://www.linkedin.com/in/swarup81/",
+    git: "https://github.com/swarup081",
+  },
+  {
+    id: 11,
+    name: "Swastika Paul",
+    rank: "Junior Web Developer",
+    image:
+      "https://res.cloudinary.com/dw3n9vflw/image/upload/v1756825291/IMG_20250212_153350_090_-_Swastika_Paul_dai8it.webp",
+    fb: "https://www.facebook.com/share/16rXxbaYzT/",
+    linkedln:
+      "https://www.linkedin.com/in/swastika-paul-05186a381?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=android_app",
+    git: "https://github.com/swastika-paul",
+  },
+  {
+    id: 12,
+    name: "Nabonit Paul",
+    rank: "Junior Web Developer",
+    image:
+      "https://res.cloudinary.com/dw3n9vflw/image/upload/v1756826881/IMG20250827132137_3_-_Nabonit_Paul_bkfes8.jpg",
+    fb: "https://www.facebook.com/profile.php?id=100069786992468",
+    linkedln:
+      "https://www.linkedin.com/in/nabonit-paul-869050320?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=android_app",
+    git: "https://github.com/studen-bot",
+  },
+];

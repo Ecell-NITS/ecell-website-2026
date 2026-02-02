@@ -9,7 +9,8 @@ const events = [
     title: "Board of Directors",
     subtitle: "Strategy Simulation Challenge",
     mode: "Startup Centre / Offline",
-    image: "/EIC/poster-board.jpg",
+    image:
+      "https://res.cloudinary.com/dtt4ftdrw/image/upload/v1770062256/bd_aulph0.png",
     description:
       "Step into the shoes of corporate leaders in this high-stakes strategy simulation. Navigate complex business scenarios, make critical decisions, and prove your leadership mettle. Compete against the brightest minds in a battle of wits and strategic thinking.",
   },
@@ -18,7 +19,8 @@ const events = [
     title: "Ad-O-Venture",
     subtitle: "Creative Ad-Making Challenge",
     mode: "Online",
-    image: "/EIC/poster-ad.jpg",
+    image:
+      "https://res.cloudinary.com/dtt4ftdrw/image/upload/v1770062726/ad_red8c1.png",
     description:
       "Unleash your creativity in this advertising showdown! Create compelling ads that capture attention and drive engagement. From concept to execution, showcase your marketing genius and compete for glory in this creative battleground.",
   },
@@ -27,7 +29,8 @@ const events = [
     title: "Business Beats",
     subtitle: "Pitch & Business Storytelling",
     mode: "Main Auditorium / Offline",
-    image: "/EIC/poster-beats.jpg",
+    image:
+      "https://res.cloudinary.com/dtt4ftdrw/image/upload/v1770062272/bb_cmtfrh.png",
     description:
       "Transform your business ideas into captivating stories. Master the art of pitching as you present your vision to judges and audience alike. Rhythm, flow, and substance—combine all three to create the perfect business beat.",
   },
@@ -36,7 +39,8 @@ const events = [
     title: "Campus Rewired",
     subtitle: "Innovation Hunt & Problem Solving",
     mode: "Campus-Wide / Hybrid",
-    image: "/EIC/poster-rewired.jpg",
+    image:
+      "https://res.cloudinary.com/dtt4ftdrw/image/upload/v1770062262/cr_pdxn35.png",
     description:
       "Explore, discover, and innovate! Navigate through campus challenges that test your problem-solving abilities and creative thinking. Decode clues, solve puzzles, and rewire your perspective on innovation.",
   },
@@ -45,7 +49,8 @@ const events = [
     title: "The Entrepreneur's Escape",
     subtitle: "Startup Escape Challenge",
     mode: "E-Cell Hub / Offline",
-    image: "/EIC/poster-escape.jpg",
+    image:
+      "https://res.cloudinary.com/dtt4ftdrw/image/upload/v1770062250/ee_unkr0p.png",
     description:
       "Enter the ultimate startup escape room experience. Solve entrepreneurial puzzles, crack business codes, and navigate through challenges that test your startup instincts. Can you escape before time runs out?",
   },

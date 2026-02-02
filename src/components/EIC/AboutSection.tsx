@@ -1,8 +1,8 @@
 "use client";
 
 import { motion, useScroll, useTransform } from "framer-motion";
+import { Clock, Sparkles, Trophy, Users } from "lucide-react";
 import { useRef } from "react";
-import { Clock, Users, Trophy, Sparkles } from "lucide-react";
 
 const stats = [
   { icon: Clock, value: "4", label: "Days of Innovation" },

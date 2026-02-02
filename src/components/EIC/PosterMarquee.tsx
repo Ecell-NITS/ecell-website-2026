@@ -4,12 +4,36 @@ import { motion } from "framer-motion";
 import Image from "next/image";
 
 const posters = [
-  { id: 1, src: "/EIC/poster-board.jpg", title: "Board of Directors" },
-  { id: 2, src: "/EIC/poster-ad.jpg", title: "Ad-O-Venture" },
-  { id: 3, src: "/EIC/poster-beats.jpg", title: "Business Beats" },
-  { id: 4, src: "/EIC/poster-rewired.jpg", title: "Campus Rewired" },
-  { id: 5, src: "/EIC/poster-escape.jpg", title: "Entrepreneur's Escape" },
-  { id: 6, src: "/EIC/poster-hero.jpg", title: "EIC Main Event" },
+  {
+    id: 1,
+    src: "https://res.cloudinary.com/dtt4ftdrw/image/upload/v1770062256/bd_aulph0.png",
+    title: "Board of Directors",
+  },
+  {
+    id: 2,
+    src: "https://res.cloudinary.com/dtt4ftdrw/image/upload/v1770062726/ad_red8c1.png",
+    title: "Ad-O-Venture",
+  },
+  {
+    id: 3,
+    src: "https://res.cloudinary.com/dtt4ftdrw/image/upload/v1770062272/bb_cmtfrh.png",
+    title: "Business Beats",
+  },
+  {
+    id: 4,
+    src: "https://res.cloudinary.com/dtt4ftdrw/image/upload/v1770062262/cr_pdxn35.png",
+    title: "Campus Rewired",
+  },
+  {
+    id: 5,
+    src: "https://res.cloudinary.com/dtt4ftdrw/image/upload/v1770062250/ee_unkr0p.png",
+    title: "Entrepreneur's Escape",
+  },
+  {
+    id: 6,
+    src: "https://res.cloudinary.com/dtt4ftdrw/image/upload/v1770063363/eic_y3w5pc.png",
+    title: "EIC Main Event",
+  },
 ];
 
 const PosterMarquee = () => {

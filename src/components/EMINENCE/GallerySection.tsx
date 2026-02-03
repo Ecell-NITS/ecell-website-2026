@@ -4,11 +4,11 @@ import { motion } from "framer-motion";
 import Image from "next/image";
 
 const galleryImages = [
-  "/EMINENCE/e-questa.png",
-  "/EMINENCE/e-hack.png",
-  "/EMINENCE/investors-gambit.png",
-  "/EMINENCE/founders-funders.png",
-  "/EMINENCE/eminence-hero.png",
+  "https://res.cloudinary.com/dtt4ftdrw/image/upload/v1770137527/emain_sweptn.png",
+  "https://res.cloudinary.com/dtt4ftdrw/image/upload/v1770137561/emi_bz3gpl.png",
+  "https://res.cloudinary.com/dtt4ftdrw/image/upload/v1770137571/r1_ktxtlr.png",
+  "https://res.cloudinary.com/dtt4ftdrw/image/upload/v1770137577/r2_vqgl8b.png",
+  "https://res.cloudinary.com/dtt4ftdrw/image/upload/v1770137585/r3_zc0atn.png",
 ];
 
 const Marquee = ({
@@ -30,7 +30,7 @@ const Marquee = ({
           (src, index) => (
             <div
               key={index}
-              className="group relative h-[200px] w-[300px] flex-shrink-0 overflow-hidden rounded-xl border border-[hsl(195_100%_50%/0.1)] transition-colors hover:border-[hsl(195_100%_50%/0.5)] md:h-[250px] md:w-[400px]"
+              className="group relative h-50 w-75 shrink-0 overflow-hidden rounded-xl border border-[hsl(195_100%_50%/0.1)] transition-colors hover:border-[hsl(195_100%_50%/0.5)] md:h-62.5 md:w-100"
             >
               <Image
                 src={src}

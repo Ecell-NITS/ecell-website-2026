@@ -30,18 +30,6 @@ const eventsData = [
     ],
   },
   {
-    title: "Investor's Gambit",
-    subtitle: "Strategic Investment Game",
-    description:
-      "A parallel track where participants analyzed startups and bet on potential. Thinking like investors, they strategized portfolios and competed for the highest returns.",
-    venue: "New Gallery",
-    rules: [
-      "Analyzed startup pitches and made investment decisions",
-      "Managed mock portfolios strategically",
-      "Winners became the 'Funders' in the grand finale",
-    ],
-  },
-  {
     title: "Founders × Funders",
     subtitle: "The Grand Finale",
     description:

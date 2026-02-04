@@ -46,7 +46,7 @@ export default function EventPage() {
 
           <div className="space-y-[30vw] md:space-y-[20vw]">
             {events.map((event: EventData, idx: number) => {
-              const Icon = event.icon;
+              // const Icon = event.icon;
 
               return (
                 <div

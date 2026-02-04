@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Sparkles, X } from "lucide-react";
+import { X } from "lucide-react";
 import { facultiesData } from "@/data/faculties";
 import TeamCard from "@/components/Teampage/TeamCard";
 import ModalCardFaculties from "../Modal/ModalCardFaculties";

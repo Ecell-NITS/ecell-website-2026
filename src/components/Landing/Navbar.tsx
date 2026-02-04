@@ -59,14 +59,17 @@ const Navbar: React.FC = () => {
               {link.name}
             </Link>
           ))}
-          <div className="flex h-10 w-10 cursor-pointer items-center justify-center overflow-hidden rounded-full border border-blue-500/20 bg-blue-500/10 transition-transform hover:scale-110">
+          <Link
+            href="/dashboard"
+            className="flex h-10 w-10 cursor-pointer items-center justify-center overflow-hidden rounded-full border border-blue-500/20 bg-blue-500/10 transition-transform hover:scale-110"
+          >
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img
               src="https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png"
               alt="Profile"
               className="h-full w-full object-cover"
             />
-          </div>
+          </Link>
         </div>
 
         {/* Mobile Menu Button */}

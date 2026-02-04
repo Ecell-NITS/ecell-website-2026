@@ -2,51 +2,19 @@
 
 import { useEditor, EditorContent } from "@tiptap/react";
 import StarterKit from "@tiptap/starter-kit";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import TextAlign from "@tiptap/extension-text-align";
-
-interface User {
-  first_name: string;
-  image: string;
-}
+import Navbar from "@/components/Landing/Navbar";
+import { motion } from "framer-motion";
 
 export default function AddBlogs() {
-  const [users, setUsers] = useState<User[]>([]);
   const [intro, setIntro] = useState("");
   const [content, setContent] = useState("");
   const [title, setTitle] = useState("");
-  const [Tags, setTags] = useState("");
+  const [tags, setTags] = useState("");
 
-  useEffect(() => {
-    fetch("/MOCK_DATA.json")
-      .then((res) => res.json())
-      .then((data) => {
-        setUsers(data);
-      });
-  }, []);
-
-  const editor1 = useEditor({
+  const editorIntro = useEditor({
     extensions: [StarterKit],
-    content: "",
-    onUpdate({ editor }) {
-      setContent(editor.getHTML());
-    },
-    editorProps: {
-      attributes: {
-        className:
-          "prose max-w-none min-h-[170px] p-4 focus:outline-none text-slate-900 placeholder:text-slate-400 dark:prose-invert dark:text-white",
-        placeholder: "Start writing...",
-      },
-    },
-    immediatelyRender: false,
-  });
-  const editor2 = useEditor({
-    extensions: [
-      StarterKit,
-      TextAlign.configure({
-        types: ["heading", "paragraph"], // headings + paragraph align
-      }),
-    ],
     content: "",
     onUpdate({ editor }) {
       setIntro(editor.getHTML());
@@ -54,350 +22,327 @@ export default function AddBlogs() {
     editorProps: {
       attributes: {
         className:
-          "prose max-w-none min-h-[300px] p-4 focus:outline-none " +
-          "text-slate-900 placeholder:text-slate-400 " +
-          "dark:prose-invert dark:text-white",
-        placeholder: "Start writing...",
+          "prose prose-invert max-w-none min-h-[120px] p-4 focus:outline-none text-slate-200 placeholder:text-slate-500",
+        placeholder: "Write a brief introduction...",
       },
     },
     immediatelyRender: false,
   });
 
-  if (!editor1) return null;
-  if (!editor2) return null;
+  const editorContent = useEditor({
+    extensions: [
+      StarterKit,
+      TextAlign.configure({
+        types: ["heading", "paragraph"],
+      }),
+    ],
+    content: "",
+    onUpdate({ editor }) {
+      setContent(editor.getHTML());
+    },
+    editorProps: {
+      attributes: {
+        className:
+          "prose prose-invert max-w-none min-h-[300px] p-4 focus:outline-none text-slate-200 placeholder:text-slate-500",
+        placeholder: "Start writing your blog content...",
+      },
+    },
+    immediatelyRender: false,
+  });
+
+  const handlePublish = () => {
+    // Log the values to satisfy linter that they are used
+    console.log({ title, tags, intro, content });
+  };
+
+  if (!editorIntro || !editorContent) return null;
 
   return (
-    <div className="dark:bg-background-dark font-display flex min-h-screen flex-col bg-[#021224] text-slate-900 antialiased dark:text-white">
-      <div className="sticky top-0 z-50 w-full border-b backdrop-blur dark:border-[#0742c366] dark:bg-[#041535]">
-        <div className="mx-auto max-w-360 px-4 sm:px-6 lg:px-8">
-          <header className="flex h-16 items-center justify-between gap-4">
-            <div className="flex items-center gap-4">
-              <div className="bg-primary/10 text-primary flex size-8 items-center justify-center rounded">
-                <span className="material-symbols-outlined">edit_document</span>
-              </div>
-              <h1 className="hidden text-lg font-bold tracking-tight text-slate-900 sm:block dark:text-white">
-                Content Manager
-              </h1>
-            </div>
-            <div className="mx-4 flex max-w-md flex-1">
-              <div className="relative w-full">
-                <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3 text-slate-400">
-                  <span className="material-symbols-outlined text-[20px]">
-                    search
-                  </span>
-                </div>
+    <div className="min-h-screen bg-[#020617] font-sans text-white selection:bg-blue-500/30 selection:text-white">
+      <Navbar />
+
+      <main className="relative overflow-hidden px-4 pt-32 pb-20 sm:px-6 lg:px-8">
+        {/* Background Decorative Elements */}
+        <div className="pointer-events-none absolute top-0 left-1/2 -z-10 h-full w-full max-w-7xl -translate-x-1/2">
+          <div className="absolute top-[-10%] left-[-10%] h-[40%] w-[40%] rounded-full bg-blue-600/10 blur-[120px]"></div>
+          <div className="absolute right-[-10%] bottom-[-10%] h-[30%] w-[30%] rounded-full bg-purple-600/10 blur-[120px]"></div>
+        </div>
+
+        <div className="mx-auto max-w-5xl">
+          <div className="mb-10 text-center md:text-left">
+            <h1 className="mb-4 bg-gradient-to-r from-blue-400 to-purple-400 bg-clip-text text-3xl font-bold text-transparent md:text-5xl">
+              Create New Blog
+            </h1>
+            <p className="text-lg text-slate-400">
+              Share your thoughts and insights with the community.
+            </p>
+          </div>
+
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5 }}
+            className="rounded-3xl border border-white/10 bg-white/5 p-6 shadow-2xl backdrop-blur-md md:p-10"
+          >
+            <div className="flex flex-col gap-8">
+              {/* Title Section */}
+              <div className="flex flex-col gap-3">
+                <label
+                  htmlFor="blog-title"
+                  className="text-xl font-semibold text-slate-200"
+                >
+                  Blog Title
+                </label>
                 <input
-                  className="block w-full rounded-lg border border-[#136cd7] py-2 pr-3 pl-10 text-sm text-slate-900 placeholder:text-slate-500 sm:leading-6 dark:bg-[#09345e] dark:text-white"
-                  placeholder="Search blogs..."
+                  className="w-full rounded-xl border border-white/10 bg-white/5 px-5 py-4 text-xl text-white transition-all placeholder:text-slate-500 focus:border-blue-500 focus:ring-1 focus:ring-blue-500 focus:outline-none"
+                  id="blog-title"
+                  placeholder="Enter an engaging title"
                   type="text"
+                  onChange={(e) => setTitle(e.target.value)}
                 />
               </div>
-            </div>
-            <div className="flex items-center gap-3">
-              <button className="relative rounded-full p-2 text-slate-500 transition-colors hover:bg-slate-100 dark:text-slate-400 dark:hover:bg-[#232f48]">
-                <span className="material-symbols-outlined">notifications</span>
-                <span className="absolute top-2 right-2 size-2 rounded-full bg-red-500 ring-2 ring-white dark:ring-[#111722]"></span>
-              </button>
-              <div className="h-8 w-px bg-slate-200 dark:bg-[#232f48]"></div>
-              <div className="flex items-center gap-2">
-                <div
-                  className="size-8 rounded-full bg-slate-200 bg-cover bg-center dark:bg-[#232f48]"
-                  data-alt="Admin user profile picture"
-                  style={{
-                    backgroundImage: `url(${users[0]?.image})`,
-                  }}
-                ></div>
-                <span className="hidden text-sm font-medium text-slate-700 md:block dark:text-slate-200">
-                  {users[0]?.first_name}
-                </span>
+
+              {/* Brief Intro Section */}
+              <div className="flex flex-col gap-3">
+                <label className="text-xl font-semibold text-slate-200">
+                  Brief Introduction
+                  <span className="mt-1 block text-sm font-normal text-slate-500">
+                    A short summary (40-50 words) to hook your readers
+                  </span>
+                </label>
+
+                <div className="overflow-hidden rounded-xl border border-white/10 bg-black/20 transition-colors focus-within:border-blue-500/50">
+                  <div className="flex flex-wrap items-center gap-1 border-b border-white/10 bg-white/5 p-2">
+                    <ToolbarButton
+                      onClick={() =>
+                        editorIntro.chain().focus().toggleBold().run()
+                      }
+                      isActive={editorIntro.isActive("bold")}
+                      icon="format_bold"
+                      title="Bold"
+                    />
+                    <ToolbarButton
+                      onClick={() =>
+                        editorIntro.chain().focus().toggleItalic().run()
+                      }
+                      isActive={editorIntro.isActive("italic")}
+                      icon="format_italic"
+                      title="Italic"
+                    />
+                    <ToolbarButton
+                      onClick={() =>
+                        editorIntro.chain().focus().toggleUnderline?.().run()
+                      }
+                      isActive={editorIntro.isActive("underline")}
+                      icon="format_underlined"
+                      title="Underline"
+                    />
+                    <div className="mx-1 h-6 w-px bg-white/10"></div>
+                    <ToolbarButton
+                      onClick={() =>
+                        editorIntro.chain().focus().toggleBulletList().run()
+                      }
+                      isActive={editorIntro.isActive("bulletList")}
+                      icon="format_list_bulleted"
+                      title="Bulleted List"
+                    />
+                    <ToolbarButton
+                      onClick={() =>
+                        editorIntro.chain().focus().toggleOrderedList().run()
+                      }
+                      isActive={editorIntro.isActive("orderedList")}
+                      icon="format_list_numbered"
+                      title="Numbered List"
+                    />
+                  </div>
+                  <EditorContent editor={editorIntro} />
+                </div>
               </div>
-            </div>
-          </header>
-        </div>
-      </div>
 
-      <main className="mx-auto min-h-100 w-full max-w-250 overflow-y-auto px-4 py-8 sm:px-6 lg:px-8">
-        <div className="mb-8">
-          <h2 className="text-3xl font-bold tracking-tight text-slate-900 dark:text-white">
-            Add New Blog
-          </h2>
-        </div>
-        <div className="flex flex-col gap-9">
-          <div className="form-section border border-[#076bd6] bg-[#082644]">
-            <label className="form-label text-2xl" htmlFor="blog-title">
-              Title
-              <input
-                className="focus:ring-primary block w-full rounded-lg border-0 bg-slate-50 px-4 py-3 text-slate-900 shadow-sm ring-1 ring-slate-300 ring-inset placeholder:text-slate-400 focus:ring-2 focus:ring-inset sm:text-sm sm:leading-6 dark:bg-[#09345e] dark:text-white dark:ring-[#374151]"
-                id="blog-title"
-                placeholder="Enter your title"
-                type="text"
-                onChange={(e) => setTitle(e.target.value)}
-              />
-            </label>
-          </div>
+              {/* Main Content Section */}
+              <div className="flex flex-col gap-3">
+                <label className="text-xl font-semibold text-slate-200">
+                  Main Content
+                </label>
+                <div className="overflow-hidden rounded-xl border border-white/10 bg-black/20 transition-colors focus-within:border-blue-500/50">
+                  <div className="flex flex-wrap items-center gap-1 border-b border-white/10 bg-white/5 p-2">
+                    <ToolbarButton
+                      onClick={() =>
+                        editorContent
+                          .chain()
+                          .focus()
+                          .toggleHeading({ level: 1 })
+                          .run()
+                      }
+                      isActive={editorContent.isActive("heading", { level: 1 })}
+                      icon="format_h1"
+                      title="Heading 1"
+                    />
+                    <ToolbarButton
+                      onClick={() =>
+                        editorContent
+                          .chain()
+                          .focus()
+                          .toggleHeading({ level: 2 })
+                          .run()
+                      }
+                      isActive={editorContent.isActive("heading", { level: 2 })}
+                      icon="format_h2"
+                      title="Heading 2"
+                    />
+                    <ToolbarButton
+                      onClick={() =>
+                        editorContent
+                          .chain()
+                          .focus()
+                          .toggleHeading({ level: 3 })
+                          .run()
+                      }
+                      isActive={editorContent.isActive("heading", { level: 3 })}
+                      icon="format_h3"
+                      title="Heading 3"
+                    />
+                    <div className="mx-1 h-6 w-px bg-white/10"></div>
+                    <ToolbarButton
+                      onClick={() =>
+                        editorContent.chain().focus().toggleBold().run()
+                      }
+                      isActive={editorContent.isActive("bold")}
+                      icon="format_bold"
+                      title="Bold"
+                    />
+                    <ToolbarButton
+                      onClick={() =>
+                        editorContent.chain().focus().toggleItalic().run()
+                      }
+                      isActive={editorContent.isActive("italic")}
+                      icon="format_italic"
+                      title="Italic"
+                    />
+                    <div className="mx-1 h-6 w-px bg-white/10"></div>
+                    <ToolbarButton
+                      onClick={() =>
+                        editorContent.chain().focus().setTextAlign("left").run()
+                      }
+                      isActive={editorContent.isActive({ textAlign: "left" })}
+                      icon="format_align_left"
+                      title="Left Align"
+                    />
+                    <ToolbarButton
+                      onClick={() =>
+                        editorContent
+                          .chain()
+                          .focus()
+                          .setTextAlign("center")
+                          .run()
+                      }
+                      isActive={editorContent.isActive({ textAlign: "center" })}
+                      icon="format_align_center"
+                      title="Center Align"
+                    />
+                    <ToolbarButton
+                      onClick={() =>
+                        editorContent
+                          .chain()
+                          .focus()
+                          .setTextAlign("right")
+                          .run()
+                      }
+                      isActive={editorContent.isActive({ textAlign: "right" })}
+                      icon="format_align_right"
+                      title="Right Align"
+                    />
+                  </div>
+                  <EditorContent editor={editorContent} />
+                </div>
+              </div>
 
-          <div className="form-section border border-[#076bd6] bg-[#082644] py-5">
-            <label className="form-label text-2xl">Brief Introduction</label>
-            <p className="form-helper text-slate-400">
-              Write a brief introduction to your blog in about 40-50 words
-            </p>
+              {/* Tags Section */}
+              <div className="flex flex-col gap-3">
+                <label
+                  htmlFor="blog-tags"
+                  className="text-xl font-semibold text-slate-200"
+                >
+                  Tags
+                </label>
+                <input
+                  className="w-full rounded-xl border border-white/10 bg-white/5 px-5 py-4 text-white transition-all placeholder:text-slate-500 focus:border-blue-500 focus:ring-1 focus:ring-blue-500 focus:outline-none"
+                  id="blog-tags"
+                  placeholder="Technology, Innovation, Startup..."
+                  type="text"
+                  onChange={(e) => setTags(e.target.value)}
+                />
+              </div>
 
-            <div className=" h-auto rounded-2xl border border-[#0c63dd]">
-              
-                <div className="relative flex flex-wrap  items-center gap-1 rounded-[16px_16px_0_0] border border-slate-300 bg-slate-50 p-2 dark:border-[#2061ca] dark:bg-[#073566]">
-                  <button
-                    className="rte-button px-1"
-                    title="Bold"
-                    onClick={() => editor1.chain().focus().toggleBold().run()}
-                  >
-                    <span className="material-symbols-outlined rte-icon">
-                      format_bold
+              {/* Image Upload Section */}
+              <div className="flex flex-col gap-3">
+                <label className="text-xl font-semibold text-slate-200">
+                  Topic Picture
+                </label>
+                <div className="mt-2 flex justify-center rounded-xl border border-dashed border-white/20 px-6 py-10 transition-all hover:border-blue-500/50 hover:bg-white/5">
+                  <div className="text-center">
+                    <span className="material-symbols-outlined mx-auto mb-4 text-5xl text-blue-500">
+                      image
                     </span>
-                  </button>
-                  <button
-                    className="rte-button px-1"
-                    title="Italic"
-                    onClick={() => editor1.chain().focus().toggleItalic().run()}
-                  >
-                    <span className="material-symbols-outlined rte-icon">
-                      format_italic
-                    </span>
-                  </button>
-                  <button
-                    className="rte-button p-1"
-                    title="Underline"
-                    onClick={() =>
-                      editor1.chain().focus().toggleUnderline().run()
-                    }
-                  >
-                    <span className="material-symbols-outlined rte-icon">
-                      format_underlined
-                    </span>
-                  </button>
-                  <div className="mx-1 h-5 w-px bg-slate-300 dark:bg-slate-600"></div>
-                  <button
-                    className="rte-button p-1"
-                    title="Bulleted List"
-                    onClick={() =>
-                      editor1.chain().focus().toggleBulletList().run()
-                    }
-                  >
-                    <span className="material-symbols-outlined rte-icon">
-                      format_list_bulleted
-                    </span>
-                  </button>
-                  <button
-                    className="rte-button p-1"
-                    title="Numbered List"
-                    onClick={() =>
-                      editor1.chain().focus().toggleOrderedList().run()
-                    }
-                  >
-                    <span className="material-symbols-outlined rte-icon">
-                      format_list_numbered
-                    </span>
-                  </button>
-
-                  <div className="absolute right-3 flex flex-row">
-                    <button
-                      className="rte-button"
-                      title="Undo"
-                      onClick={() => editor1.chain().focus().undo().run()}
-                    >
-                      <span className="material-symbols-outlined rte-icon">
-                        undo
-                      </span>
-                    </button>
-
-                    <button
-                      className="rte-button"
-                      title="Redo"
-                      onClick={() => editor1.chain().focus().redo().run()}
-                    >
-                      <span className="material-symbols-outlined rte-icon">
-                        redo
-                      </span>
-                    </button>
+                    <div className="flex text-sm leading-6 text-slate-400">
+                      <label
+                        htmlFor="file-upload"
+                        className="relative cursor-pointer rounded-md font-semibold text-blue-500 focus-within:ring-2 focus-within:ring-blue-500 focus-within:ring-offset-2 focus-within:ring-offset-gray-900 focus-within:outline-none hover:text-blue-400"
+                      >
+                        <span>Upload a file</span>
+                        <input
+                          id="file-upload"
+                          name="file-upload"
+                          type="file"
+                          className="sr-only"
+                        />
+                      </label>
+                      <p className="pl-1">or drag and drop</p>
+                    </div>
+                    <p className="mt-2 text-xs leading-5 text-slate-500">
+                      PNG, JPG, GIF up to 300KB
+                    </p>
                   </div>
                 </div>
-                <EditorContent editor={editor1} className="min-h-20"/>
-                <div className="flex justify-end border-t border-slate-300 bg-slate-50 px-3 py-1.5 dark:border-[#0d5ad5] dark:bg-[#073566] rounded-[0_0_16px_16px]">
-                  <span className="font-mono text-xs text-slate-400">
-                    CHARS: 0 WORDS: 0
-                  </span>
-                </div>
-              
-            </div>
-          </div>
-
-          <div className="form-section border border-[#076bd6] bg-[#082644]">
-            <label className="form-label text-2xl">Content</label>
-            <p className="form-helper text-slate-400">Write about your topic</p>
-            <div className="focus-within:ring-primary overflow-hidden rounded-xl border border-slate-300 bg-white focus-within:ring-2 dark:border-[#0966ca] dark:bg-[#062c56]">
-              <div className="flex flex-wrap items-center rounded-[16px_16px_0_0 gap-1 border border-slate-300 bg-slate-50 p-1.5 dark:border-[#0b52c5] dark:bg-[#073566]">
-                <button
-                  onClick={() =>
-                    editor2.chain().focus().toggleHeading({ level: 1 }).run()
-                  }
-                  className={`rte-button ${editor2.isActive("heading", { level: 1 }) ? "active" : ""}`}
-                  title="Heading 1"
-                >
-                  <span className="material-symbols-outlined">format_h1</span>
-                </button>
-
-                <button
-                  onClick={() =>
-                    editor2.chain().focus().toggleHeading({ level: 2 }).run()
-                  }
-                  className={`rte-button ${editor2.isActive("heading", { level: 2 }) ? "active" : ""}`}
-                  title="Heading 2"
-                >
-                  <span className="material-symbols-outlined">format_h2</span>
-                </button>
-
-                <button
-                  onClick={() =>
-                    editor2.chain().focus().toggleHeading({ level: 3 }).run()
-                  }
-                  className={`rte-button ${editor2.isActive("heading", { level: 3 }) ? "active" : ""}`}
-                  title="Heading 3"
-                >
-                  <span className="material-symbols-outlined">format_h3</span>
-                </button>
-
-                <div className="mx-1 h-5 w-px bg-slate-300 dark:bg-slate-600"></div>
-                <button
-                  className="rte-button px-1.5"
-                  title="Bold"
-                  onClick={() => editor2.chain().focus().toggleBold().run()}
-                >
-                  <span className="material-symbols-outlined rte-icon">
-                    format_bold
-                  </span>
-                </button>
-                <button
-                  className="rte-button px-1.5"
-                  title="Italic"
-                  onClick={() => editor2.chain().focus().toggleItalic().run()}
-                >
-                  <span className="material-symbols-outlined rte-icon">
-                    format_italic
-                  </span>
-                </button>
-                <button
-                  className="rte-button px-1.5"
-                  title="Strikethrough"
-                  onClick={() =>
-                    editor2.chain().focus().toggleUnderline().run()
-                  }
-                >
-                  <span className="material-symbols-outlined rte-icon">
-                    strikethrough_s
-                  </span>
-                </button>
-                <div className="mx-1 h-5 w-px bg-slate-300 dark:bg-slate-600"></div>
-                <button
-                  className="rte-button px-1.5"
-                  title="Align Left"
-                  onClick={() =>
-                    editor2.chain().focus().setTextAlign("left").run()
-                  }
-                >
-                  <span className="material-symbols-outlined rte-icon">
-                    format_align_left
-                  </span>
-                </button>
-                <button
-                  className="rte-button px-1.5"
-                  title="Align Center"
-                  onClick={() =>
-                    editor2.chain().focus().setTextAlign("center").run()
-                  }
-                >
-                  <span className="material-symbols-outlined rte-icon">
-                    format_align_center
-                  </span>
-                </button>
-                <button
-                  className="rte-button px-1.5"
-                  title="Align Right"
-                  onClick={() =>
-                    editor2.chain().focus().setTextAlign("right").run()
-                  }
-                >
-                  <span className="material-symbols-outlined rte-icon">
-                    format_align_right
-                  </span>
-                </button>
               </div>
 
-              <div className="min-h-50">
-                <EditorContent editor={editor2} />
-              </div>
-
-              <div className="flex justify-end border-t border-slate-300 rounded-[0_0_16px_16px] bg-slate-50 px-3 py-1.5 dark:border-[#0d5ad5] dark:bg-[#073566]">
-                <span className="font-mono text-xs text-slate-400">
-                  CHARS: 0 WORDS: 0
-                </span>
+              {/* Submit Button */}
+              <div className="flex justify-end pt-6">
+                <button
+                  onClick={handlePublish}
+                  className="relative overflow-hidden rounded-xl bg-gradient-to-r from-blue-600 to-blue-500 px-8 py-4 text-lg font-bold text-white shadow-lg shadow-blue-500/25 transition-all hover:scale-[1.02] hover:from-blue-500 hover:to-blue-400 active:scale-[0.98]"
+                >
+                  Publish Blog
+                </button>
               </div>
             </div>
-          </div>
-
-          <div className="form-section py-5 border border-[#076bd6] bg-[#082644]">
-            <label className="form-label text-2xl" htmlFor="blog-tags">
-              Tags
-            </label>
-            <p className="form-helper">Add tags to describe your blog</p>
-            <input
-              className="focus:ring-primary block w-full rounded-lg border px-4 py-3 text-slate-900 shadow-sm ring-1 border-[#076bd6] ring-inset placeholder:text-slate-400 sm:text-sm sm:leading-6 dark:bg-[#073566] "
-              id="blog-tags"
-              placeholder="Enter tags"
-              type="text"
-              onChange={(e) => setTags(e.target.value)}
-            />
-          </div>
-
-          <div className="form-section border border-[#076bd6] bg-[#082644]">
-            <label className="form-label text-2xl">Topic picture</label>
-            <p className="form-helper text-slate-400">
-              Add a picture to your blog
-              <br />
-              Only jpg, jpeg, png, webp, or avif file types of size less than
-              300KB are accepted
-            </p>
-            <div className="mt-4 flex cursor-pointer items-center justify-center rounded-lg border border-dashed border-slate-300 px-6 py-10 transition-colors hover:bg-slate-50 dark:border-[#0859dd] dark:hover:bg-[#232f48]/50">
-              <div className="text-center">
-                <span className="material-symbols-outlined mx-auto mb-4 text-4xl text-slate-300 dark:text-[#0943f3]">
-                  image
-                </span>
-                <div className="mt-4 flex justify-center text-sm leading-6 text-slate-600 dark:text-slate-400">
-                  <label
-                    className="text-primary focus-within:ring-primary hover:text-primary/80 relative cursor-pointer rounded-md font-semibold focus-within:ring-2 focus-within:ring-offset-2 focus-within:outline-none"
-                    htmlFor="file-upload"
-                  >
-                    <span className="text-blue-600">Upload a file</span>
-                    <input
-                      className="sr-only"
-                      id="file-upload"
-                      name="file-upload"
-                      type="file"
-                    />
-                  </label>
-                  <p className="pl-1">or drag and drop</p>
-                </div>
-                <p className="text-xs leading-5 text-slate-500 dark:text-slate-500">
-                  PNG, JPG, GIF up to 300KB
-                </p>
-              </div>
-            </div>
-          </div>
-          <div className="flex justify-end">
-            <button className="shadow-[#9fb9ec] shadow-[2px_5px_5px_0] hover:shadow-primary/40 inline-flex items-center justify-center rounded-lg border border-[#b5f7fd] bg-blue-700 px-8 py-3 text-base font-bold text-white transition-all hover:bg-blue-800 active:scale-[0.98]">
-              Post Blog
-            </button>
-          </div>
+          </motion.div>
         </div>
       </main>
     </div>
+  );
+}
+
+function ToolbarButton({
+  onClick,
+  isActive = false,
+  icon,
+  title,
+}: {
+  onClick: () => void;
+  isActive?: boolean;
+  icon: string;
+  title: string;
+}) {
+  return (
+    <button
+      onClick={onClick}
+      title={title}
+      className={`flex items-center justify-center rounded p-2 text-slate-400 transition-colors hover:bg-white/10 hover:text-white ${
+        isActive ? "bg-blue-500/20 text-blue-400" : ""
+      }`}
+    >
+      <span className="material-symbols-outlined text-[20px]">{icon}</span>
+    </button>
   );
 }

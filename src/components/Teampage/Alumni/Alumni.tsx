@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { GraduationCap, X } from "lucide-react";
+import { X } from "lucide-react";
 import { alumniData } from "@/data/alumni";
 import TeamCard from "@/components/Teampage/TeamCard";
 import ModalCardAlumni from "../Modal/ModalCardAlumni";

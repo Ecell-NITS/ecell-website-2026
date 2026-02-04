@@ -51,7 +51,7 @@ const HeroSection = () => {
 
       <motion.div
         style={{ y, opacity, scale }}
-        className="relative z-10 mx-auto max-w-5xl px-4 pt-20 text-center"
+        className="relative z-10 px-4 pt-20 text-center"
       >
         {/* Main Title */}
         <motion.h1
@@ -79,7 +79,7 @@ const HeroSection = () => {
           <div className="rounded-full bg-white px-6 py-2 text-lg font-bold text-black">
             26-29 JAN
           </div>
-          <div className="h-0.5 w-12 bg-[hsl(0_0%_15%)]" />
+          <div className="h-0.5 w-12 bg-amber-50" />
           <span className="font-medium text-[hsl(0_0%_70%)]">E-CELL</span>
         </motion.div>
 
@@ -93,59 +93,6 @@ const HeroSection = () => {
           <p className="text-lg font-medium text-white">
             Innovate. Compete. Conquer.
           </p>
-        </motion.div>
-
-        {/* Trophy Animation */}
-        <motion.div
-          initial={{ opacity: 0, y: 50 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, delay: 0.8 }}
-          className="mt-12"
-        >
-          <motion.div
-            className="relative mx-auto h-40 w-40 md:h-56 md:w-56"
-            animate={{
-              y: [0, -15, 0],
-              rotate: [0, 2, -2, 0],
-            }}
-            transition={{
-              duration: 4,
-              repeat: Infinity,
-              ease: "easeInOut",
-            }}
-          >
-            <Image
-              src="/EIC/trophy.png"
-              alt="Trophy"
-              fill
-              className="object-contain"
-            />
-          </motion.div>
-        </motion.div>
-
-        {/* Scroll Indicator */}
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 1.5 }}
-          className="absolute bottom-8 left-1/2 -translate-x-1/2"
-        >
-          <motion.div
-            animate={{ y: [0, 10, 0] }}
-            transition={{ duration: 1.5, repeat: Infinity }}
-            className="flex flex-col items-center gap-2"
-          >
-            <span className="text-xs tracking-widest text-[hsl(0_0%_70%)] uppercase">
-              Scroll to explore
-            </span>
-            <div className="flex h-8 w-5 justify-center rounded-full border-2 border-[hsl(0_0%_70%)] pt-2">
-              <motion.div
-                animate={{ y: [0, 8, 0] }}
-                transition={{ duration: 1.5, repeat: Infinity }}
-                className="h-1 w-1 rounded-full bg-[hsl(141_73%_42%)]"
-              />
-            </div>
-          </motion.div>
         </motion.div>
       </motion.div>
     </section>

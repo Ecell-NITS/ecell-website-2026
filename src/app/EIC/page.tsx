@@ -4,6 +4,8 @@ import { motion } from "framer-motion";
 import Navbar from "~/components/EIC/Navbar";
 import HeroSection from "~/components/EIC/HeroSection";
 import EventsSection from "~/components/EIC/EventsSection";
+import GallerySection from "~/components/EIC/GallerySection";
+import ExperiencesSection from "~/components/EIC/ExperiencesSection";
 import PosterMarquee from "~/components/EIC/PosterMarquee";
 import SponsorsSection from "~/components/EIC/SponsorsSection";
 import AboutSection from "~/components/EIC/AboutSection";
@@ -30,15 +32,14 @@ export default function EICPage() {
         <HeroSection />
         <AboutSection />
         <EventsSection />
+        <GallerySection />
+        <ExperiencesSection />
         <PosterMarquee />
         <SponsorsSection />
         <CTASection />
       </main>
 
       <Footer />
-
-      {/* Spotify Player Bar */}
-      <SpotifyPlayer currentEvent="EIC 2025 - Innovate. Compete. Conquer." />
     </motion.div>
   );
 }

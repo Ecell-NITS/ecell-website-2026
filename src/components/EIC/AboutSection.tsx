@@ -27,12 +27,6 @@ const AboutSection = () => {
       ref={containerRef}
       className="relative overflow-hidden py-24"
     >
-      {/* Animated Background Line */}
-      <motion.div
-        style={{ x }}
-        className="absolute top-1/2 left-0 h-0.5 w-full bg-gradient-to-r from-transparent via-[hsl(141_73%_42%/0.3)] to-transparent"
-      />
-
       <motion.div style={{ opacity }} className="mx-auto max-w-6xl px-4">
         {/* About Content */}
         <div className="mb-20 grid items-center gap-16 lg:grid-cols-2">

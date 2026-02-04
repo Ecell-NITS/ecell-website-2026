@@ -8,6 +8,8 @@ const navLinks = [
   { name: "Home", href: "#home" },
   { name: "About", href: "#about" },
   { name: "Events", href: "#events" },
+  { name: "Gallery", href: "#gallery" },
+  { name: "Experiences", href: "#experiences" },
   { name: "Sponsors", href: "#sponsors" },
 ];
 
@@ -49,7 +51,7 @@ const Navbar = () => {
           : "bg-transparent"
       }`}
     >
-      <div className="container mx-auto px-4">
+      <div className="container mx-auto px-8">
         <div className="flex h-16 items-center justify-between md:h-20">
           {/* Logo */}
           <motion.a
@@ -90,7 +92,7 @@ const Navbar = () => {
             whileTap={{ scale: 0.95 }}
             className="hidden items-center gap-2 rounded-full bg-[hsl(141_73%_42%)] px-5 py-2.5 text-sm font-semibold text-black transition-shadow hover:shadow-lg hover:shadow-[hsl(141_73%_42%/0.3)] md:flex"
           >
-            Get in Touch
+            Coming Soon
           </motion.a>
 
           {/* Mobile Menu Button */}

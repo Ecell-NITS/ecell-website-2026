@@ -5,6 +5,7 @@ import HeroSection from "~/components/EMPRESARIO/HeroSection";
 import AboutSection from "~/components/EMPRESARIO/AboutSection";
 import EventsSection from "~/components/EMPRESARIO/EventsSection";
 import GallerySection from "~/components/EMPRESARIO/GallerySection";
+import ExperiencesSection from "~/components/EMPRESARIO/ExperiencesSection";
 import ConclusionSection from "~/components/EMPRESARIO/ConclusionSection";
 import Footer from "~/components/EMPRESARIO/Footer";
 
@@ -16,6 +17,7 @@ export default function EMPRESARIOPage() {
       <AboutSection />
       <EventsSection />
       <GallerySection />
+      <ExperiencesSection />
       <ConclusionSection />
       <Footer />
     </main>

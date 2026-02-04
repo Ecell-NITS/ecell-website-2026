@@ -5,6 +5,7 @@ import HeroSection from "~/components/EMINENCE/HeroSection";
 import AboutSection from "~/components/EMINENCE/AboutSection";
 import EventsSection from "~/components/EMINENCE/EventsSection";
 import GallerySection from "~/components/EMINENCE/GallerySection";
+import ExperiencesSection from "~/components/EMINENCE/ExperiencesSection";
 import SponsorsSection from "~/components/EMINENCE/SponsorsSection";
 import ConclusionSection from "~/components/EMINENCE/ConclusionSection";
 import Footer from "~/components/EMINENCE/Footer";
@@ -17,6 +18,7 @@ export default function EMINENCEPage() {
       <AboutSection />
       <EventsSection />
       <GallerySection />
+      <ExperiencesSection />
       <SponsorsSection />
       <ConclusionSection />
       <Footer />

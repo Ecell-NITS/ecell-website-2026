@@ -6,6 +6,7 @@ import HeroSection from "~/components/ENGENIUS/HeroSection";
 import EventsSection from "~/components/ENGENIUS/EventsSection";
 import AboutSection from "~/components/ENGENIUS/AboutSection";
 import GallerySection from "~/components/ENGENIUS/GallerySection";
+import ExperiencesSection from "~/components/ENGENIUS/ExperiencesSection";
 import SponsorsSection from "~/components/ENGENIUS/SponsorsSection";
 import ConclusionSection from "~/components/ENGENIUS/ConclusionSection";
 import Footer from "~/components/ENGENIUS/Footer";
@@ -19,6 +20,7 @@ export default function ENGENIUSPage() {
       <AboutSection />
       <EventsSection />
       <GallerySection />
+      <ExperiencesSection />
       <SponsorsSection />
       <ConclusionSection />
       <Footer />

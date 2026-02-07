@@ -16,7 +16,7 @@ import { type CoreYear } from "@/data/coreTeam";
 export default function TeamPage() {
   const [activeTab, setActiveTab] = useState<
     "faculty" | "alumni" | "core" | "developers"
-  >("developers");
+  >("faculty");
   const [selectedYear, setSelectedYear] = useState<CoreYear>("2025-2026");
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);

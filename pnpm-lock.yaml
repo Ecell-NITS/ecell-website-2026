@@ -47,8 +47,8 @@ importers:
         specifier: ^2.1.1
         version: 2.1.1
       framer-motion:
-        specifier: ^12.25.0
-        version: 12.25.0(react-dom@19.2.3(react@19.2.3))(react@19.2.3)
+        specifier: ^12.29.2
+        version: 12.31.2(react-dom@19.2.3(react@19.2.3))(react@19.2.3)
       lucide-react:
         specifier: ^0.562.0
         version: 0.562.0(react@19.2.3)
@@ -2437,10 +2437,10 @@ packages:
       }
     engines: { node: ">= 6" }
 
-  framer-motion@12.25.0:
+  framer-motion@12.31.2:
     resolution:
       {
-        integrity: sha512-mlWqd0rApIjeyhTCSNCqPYsUAEhkcUukZxH3ke6KbstBRPcxhEpuIjmiUQvB+1E9xkEm5SpNHBgHCapH/QHTWg==,
+        integrity: sha512-mAQBbF483rLC4fzIVQExylxh/ny2GFlr8jkzRLZeoh7blHSsZQWK4+5FHTSpoK/lDjMzkVF+oEvd0/Uc7YBOvA==,
       }
     peerDependencies:
       "@emotion/is-prop-valid": "*"
@@ -3185,16 +3185,16 @@ packages:
         integrity: sha512-2yyAR8qBkN3YuheJanUpWC5U3bb5osDywNB8RzDVlDwDHbocAJveqqj1u8+SVD7jkWT4yvsHCpWqqWqAxb0zCA==,
       }
 
-  motion-dom@12.24.11:
+  motion-dom@12.31.2:
     resolution:
       {
-        integrity: sha512-DlWOmsXMJrV8lzZyd+LKjG2CXULUs++bkq8GZ2Sr0R0RRhs30K2wtY+LKiTjhmJU3W61HK+rB0GLz6XmPvTA1A==,
+        integrity: sha512-5rt1UQjAsEPfIm9LDdqkd9rXtcLaqUaKLniPCt509DLnyWISICQBjlAjkT7cvtIKnTvP4Iy9X9oC5AC6XzMNCA==,
       }
 
-  motion-utils@12.24.10:
+  motion-utils@12.29.2:
     resolution:
       {
-        integrity: sha512-x5TFgkCIP4pPsRLpKoI86jv/q8t8FQOiM/0E8QKBzfMozWHfkKap2gA1hOki+B5g3IsBNpxbUnfOum1+dgvYww==,
+        integrity: sha512-G3kc34H2cX2gI63RqU+cZq+zWRRPSsNIOjpdl9TN4AQwC4sgwYPl/Q/Obf/d53nOm569T0fYK+tcoSV50BWx8A==,
       }
 
   ms@2.1.3:
@@ -5811,10 +5811,10 @@ snapshots:
       hasown: 2.0.2
       mime-types: 2.1.35
 
-  framer-motion@12.25.0(react-dom@19.2.3(react@19.2.3))(react@19.2.3):
+  framer-motion@12.31.2(react-dom@19.2.3(react@19.2.3))(react@19.2.3):
     dependencies:
-      motion-dom: 12.24.11
-      motion-utils: 12.24.10
+      motion-dom: 12.31.2
+      motion-utils: 12.29.2
       tslib: 2.8.1
     optionalDependencies:
       react: 19.2.3
@@ -6234,11 +6234,11 @@ snapshots:
 
   minimist@1.2.8: {}
 
-  motion-dom@12.24.11:
+  motion-dom@12.31.2:
     dependencies:
-      motion-utils: 12.24.10
+      motion-utils: 12.29.2
 
-  motion-utils@12.24.10: {}
+  motion-utils@12.29.2: {}
 
   ms@2.1.3: {}
 

@@ -9,12 +9,11 @@ import "./src/env.js";
 /** @type {import("next").NextConfig} */
 const config = {
   images: {
-    domains: [
-      "res.cloudinary.com",
-      "cdn.pixabay.com",
-      "images.unsplash.com",
-      "i.pravatar.cc",
-      "png.pngtree.com",
+    remotePatterns: [
+      {
+        protocol: "https",
+        hostname: "**",
+      },
     ],
   },
 };

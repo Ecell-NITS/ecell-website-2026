@@ -1,16 +1,20 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
+import { useState, useEffect, type SyntheticEvent } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 
-export default function Preloader() {
+interface PreloaderProps {
+  onDone?: () => void;
+}
+
+export default function Preloader({ onDone }: PreloaderProps) {
   const [isLoading, setIsLoading] = useState(true);
   const [progress, setProgress] = useState(0);
 
   useEffect(() => {
     // Animate progress from 0 to 100
     const interval = setInterval(() => {
-      setProgress((prev) => {
+      setProgress((prev: number) => {
         if (prev >= 100) {
           clearInterval(interval);
           return 100;
@@ -26,10 +30,13 @@ export default function Preloader() {
 
   useEffect(() => {
     if (progress === 100) {
-      const timeout = setTimeout(() => setIsLoading(false), 400);
+      const timeout = setTimeout(() => {
+        setIsLoading(false);
+        onDone?.();
+      }, 400);
       return () => clearTimeout(timeout);
     }
-  }, [progress]);
+  }, [progress, onDone]);
 
   return (
     <AnimatePresence>

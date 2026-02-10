@@ -4,6 +4,8 @@ import { Poppins } from "next/font/google";
 import Navbar from "../../components/Landing/Navbar";
 import Footer from "../../components/Landing/Footer";
 import Background from "../../components/Landing/Background";
+import Achievements from "../../components/Landing/Achievements";
+import History from "../../components/Landing/History";
 import { motion } from "framer-motion";
 import { useState, useRef, useEffect } from "react";
 
@@ -101,7 +103,7 @@ export default function AboutPage() {
           whileInView={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8 }}
           viewport={{ once: true }}
-          className="w-full py-20 lg:py-32"
+          className="w-full py-10 lg:py-32"
         >
           <div className="mx-auto max-w-7xl px-6 text-center">
             <h2 className="text-center text-4xl font-black opacity-100 sm:text-5xl md:text-6xl lg:text-7xl">
@@ -128,7 +130,7 @@ export default function AboutPage() {
           whileInView={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8 }}
           viewport={{ once: true }}
-          className="relative overflow-hidden py-20"
+          className="relative overflow-hidden py-12 md:py-16 lg:py-20"
         >
           {/* Background Blobs */}
           <div className="absolute top-0 left-1/4 -z-10 h-[500px] w-[500px] rounded-full bg-blue-600/5 blur-[120px]" />
@@ -136,7 +138,7 @@ export default function AboutPage() {
 
           <div className="relative z-10 container mx-auto px-6">
             {/* Heading */}
-            <div className="mb-24 text-center">
+            <div className="mb-16 text-center md:mb-20 lg:mb-24">
               <div className="inline-block">
                 <h2 className="mb-3 text-4xl font-black tracking-tighter text-white uppercase italic sm:text-5xl md:text-6xl">
                   Our <span className="text-blue-500">Motto</span>
@@ -210,7 +212,7 @@ export default function AboutPage() {
           whileInView={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8 }}
           viewport={{ once: true }}
-          className="relative overflow-hidden bg-gray-950/20 py-40"
+          className="relative overflow-hidden bg-gray-950/20 py-12 md:py-16 lg:py-20"
         >
           {/* Background text */}
           <div className="pointer-events-none absolute inset-0 overflow-hidden opacity-10 select-none">
@@ -224,7 +226,7 @@ export default function AboutPage() {
 
           <div className="relative z-10 container mx-auto px-6">
             {/* Heading */}
-            <div className="mb-24 flex flex-col items-center text-center">
+            <div className="mb-16 flex flex-col items-center text-center md:mb-20 lg:mb-24">
               <h2 className="mb-6 text-4xl font-black tracking-tighter text-white uppercase italic sm:text-5xl md:text-6xl lg:text-7xl">
                 The <span className="text-blue-500">Pillars</span>
               </h2>
@@ -311,6 +313,9 @@ export default function AboutPage() {
             </div>
           </div>
         </motion.section>
+
+        <Achievements />
+        <History />
 
         <Footer />
       </div>

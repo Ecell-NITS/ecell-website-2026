@@ -23,7 +23,7 @@ const Navbar: React.FC = () => {
     { name: "EVENTS", href: "#events", isRoute: false },
     { name: "BLOGS", href: "/blogs", isRoute: true },
     { name: "TEAM", href: "/team", isRoute: true },
-    { name: "GALLERY", href: "/#gallery", isRoute: true },
+    { name: "GALLERY", href: "/gallery", isRoute: true },
   ];
 
   return (

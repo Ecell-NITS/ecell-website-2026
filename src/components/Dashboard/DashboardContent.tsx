@@ -208,32 +208,34 @@ export function DashboardContent() {
                     transition={{ delay: 0.6 }}
                     className="flex flex-wrap items-center justify-center gap-4 pt-2 md:justify-start"
                   >
-                    {[
-                      {
-                        icon: FaFacebook,
-                        url: user?.facebook_profile,
-                        color: "hover:text-blue-500",
-                      },
-                      {
-                        icon: FaInstagram,
-                        url: user?.instagram_handle,
-                        color: "hover:text-pink-500",
-                      },
-                      {
-                        icon: FaLinkedin,
-                        url: user?.linkedin_profile,
-                        color: "hover:text-blue-400",
-                      },
-                      {
-                        icon: FaGithub,
-                        url: user?.github,
-                        color: "hover:text-white",
-                      },
-                    ].map((social, idx) => (
+                    {(
+                      [
+                        {
+                          icon: FaFacebook,
+                          url: user?.facebook_profile,
+                          color: "hover:text-blue-500",
+                        },
+                        {
+                          icon: FaInstagram,
+                          url: user?.instagram_handle,
+                          color: "hover:text-pink-500",
+                        },
+                        {
+                          icon: FaLinkedin,
+                          url: user?.linkedin_profile,
+                          color: "hover:text-blue-400",
+                        },
+                        {
+                          icon: FaGithub,
+                          url: user?.github,
+                          color: "hover:text-white",
+                        },
+                      ] as const
+                    ).map((social, idx) => (
                       <motion.a
                         key={idx}
                         whileHover={{ y: -3, scale: 1.1 }}
-                        href={social.url}
+                        href={social.url ?? "#"}
                         target="_blank"
                         rel="noopener noreferrer"
                         className={`flex size-10 items-center justify-center rounded-xl border border-white/10 bg-white/5 text-gray-400 transition-all hover:border-blue-500/50 hover:bg-blue-500/10 ${social.color}`}

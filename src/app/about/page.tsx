@@ -7,7 +7,8 @@ import Background from "../../components/Landing/Background";
 import Achievements from "../../components/Landing/Achievements";
 import History from "../../components/Landing/History";
 import { motion } from "framer-motion";
-import { useState, useRef, useEffect } from "react";
+import { useState, useRef } from "react";
+import Image from "next/image";
 
 const poppins = Poppins({
   subsets: ["latin"],
@@ -171,10 +172,12 @@ export default function AboutPage() {
                     />
 
                     <div className="relative z-10 mb-8 flex justify-center">
-                      <img
+                      <Image
                         src={item.img}
                         alt={item.title}
-                        className="h-24 w-auto transition-transform duration-700 ease-in-out group-hover:-translate-y-3 group-hover:animate-[float_3s_ease-in-out_infinite]"
+                        width={96}
+                        height={96}
+                        className="h-24 w-auto object-contain transition-transform duration-700 ease-in-out group-hover:-translate-y-3 group-hover:animate-[float_3s_ease-in-out_infinite]"
                       />
                     </div>
 
@@ -271,9 +274,11 @@ export default function AboutPage() {
                       <div className="absolute inset-0 scale-125 rounded-full border border-blue-500/10 opacity-50 transition-transform duration-1000 group-hover:scale-150" />
 
                       <div className="relative z-10 h-full w-full overflow-hidden rounded-full border-4 border-white/5 shadow-2xl">
-                        <img
+                        <Image
                           src={person.img}
                           alt={person.name}
+                          width={176}
+                          height={176}
                           className="h-full w-full object-cover grayscale transition-all duration-700 group-hover:scale-110 group-hover:grayscale-0"
                         />
                       </div>

@@ -55,7 +55,7 @@ const Testimonials: React.FC = () => {
       <div className="relative z-10 container mx-auto px-6">
         <div className="mb-16 text-center">
           <h2 className="text-4xl leading-none font-black tracking-tighter text-white uppercase lg:text-6xl">
-            Success <span className="text-blue-500">Stories</span>
+            Testimonials
           </h2>
         </div>
         <div className="mx-auto max-w-5xl">

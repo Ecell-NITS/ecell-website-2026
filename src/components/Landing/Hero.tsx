@@ -4,7 +4,7 @@
 /* eslint-disable @typescript-eslint/no-unsafe-assignment */
 
 import React, { useState, useEffect } from "react";
-import { motion, useScroll, useTransform } from "framer-motion";
+import { motion, useScroll, useTransform, useMotionValue } from "framer-motion";
 import { Sparkles } from "lucide-react";
 
 const Hero: React.FC = () => {
@@ -12,28 +12,40 @@ const Hero: React.FC = () => {
   const heroOpacity = useTransform(scrollY, [0, 800], [1, 0]);
   const heroScale = useTransform(scrollY, [0, 800], [1, 0.9]);
 
-  // Mouse tracking for subtle parallax
-  const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
+  // Mouse tracking for subtle parallax using MotionValues for performance
+  const mouseX = useMotionValue(0);
+  const mouseY = useMotionValue(0);
+
+  // Transform values for the grid
+  const gridX = useTransform(mouseX, (value) => value);
+  const gridY = useTransform(mouseY, (value) => value);
+
+  // Transform values for the text parallax (0.5 multiplier)
+  const textX = useTransform(mouseX, (value) => value * 0.5);
+  const textY = useTransform(mouseY, (value) => value * 0.5);
+
   useEffect(() => {
     const handleMove = (e: MouseEvent) => {
-      setMousePos({
-        x: (e.clientX - window.innerWidth / 2) * 0.05,
-        y: (e.clientY - window.innerHeight / 2) * 0.05,
-      });
+      // Calculate normalized position from center
+      const x = (e.clientX - window.innerWidth / 2) * 0.05;
+      const y = (e.clientY - window.innerHeight / 2) * 0.05;
+
+      mouseX.set(x);
+      mouseY.set(y);
     };
     window.addEventListener("mousemove", handleMove);
     return () => window.removeEventListener("mousemove", handleMove);
-  }, []);
+  }, [mouseX, mouseY]);
 
   return (
     <section className="relative flex min-h-[100dvh] items-center justify-center overflow-hidden lg:pt-32 xl:pt-0">
       {/* 4. GRID LAYER: Structural Grid */}
-      <div
+      <motion.div
         style={{
-          transform: `translate(${mousePos.x}px, ${mousePos.y}px)`,
+          x: gridX,
+          y: gridY,
           backgroundImage: `radial-gradient(circle, #3b82f6 0.5px, transparent 0.5px)`,
           backgroundSize: "60px 60px",
-          transition: "transform 0.1s ease-out",
         }}
         className="pointer-events-none absolute inset-0 z-0 opacity-20 will-change-transform"
       />
@@ -65,7 +77,8 @@ const Hero: React.FC = () => {
 
         <motion.div
           style={{
-            transform: `translate(${mousePos.x * 0.5}px, ${mousePos.y * 0.5}px)`,
+            x: textX,
+            y: textY,
           }}
           className="perspective-2000 relative transition-transform duration-100 ease-out will-change-transform"
         >

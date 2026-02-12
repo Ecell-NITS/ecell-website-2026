@@ -3,7 +3,21 @@
 import React, { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 
+import Image from "next/image";
+
 export default function Preloader() {
+  // ...
+  // ...
+  <div className="relative mb-8 h-16 w-auto sm:h-20">
+    <Image
+      src="/ecelllogo.png"
+      alt="E-Cell Logo"
+      width={100}
+      height={80}
+      className="h-full w-auto object-contain brightness-0 invert"
+      priority
+    />
+  </div>;
   const [isLoading, setIsLoading] = useState(true);
   const [progress, setProgress] = useState(0);
 

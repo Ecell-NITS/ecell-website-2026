@@ -1,9 +1,10 @@
 "use client";
 
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useCallback } from "react";
 import { createPortal } from "react-dom";
 import { motion, AnimatePresence } from "framer-motion";
-import { X, Award } from "lucide-react";
+import { X } from "lucide-react";
+import Image from "next/image";
 
 interface Achievement {
   id: number;
@@ -91,7 +92,7 @@ const Achievements: React.FC = () => {
   const [activeIndex, setActiveIndex] = useState(0);
   const scrollRef = useRef<HTMLDivElement>(null);
 
-  const handleScroll = () => {
+  const handleScroll = useCallback(() => {
     if (scrollRef.current) {
       const scrollLeft = scrollRef.current.scrollLeft;
       const scrollWidth = scrollRef.current.scrollWidth;
@@ -99,7 +100,7 @@ const Achievements: React.FC = () => {
       const index = Math.round(scrollLeft / itemWidth);
       setActiveIndex(Math.min(Math.max(index, 0), achievementsData.length - 1));
     }
-  };
+  }, []);
 
   return (
     <>
@@ -151,9 +152,12 @@ const Achievements: React.FC = () => {
                 <div className="relative h-full overflow-hidden rounded-2xl border border-white/10 bg-white/[0.02] backdrop-blur-sm transition-all duration-500 hover:border-blue-500/30 hover:bg-white/[0.05]">
                   {/* Image Container */}
                   <div className="relative h-56 overflow-hidden bg-gradient-to-br from-blue-600/20 to-transparent">
-                    <img
+                    <Image
                       src={achievement.image}
                       alt={achievement.title}
+                      width={500}
+                      height={300}
+                      sizes="(max-width: 768px) 85vw, (max-width: 1024px) 45vw, 30vw"
                       className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-110"
                     />
                     <div className="absolute inset-0 bg-gradient-to-t from-[#020617] via-transparent to-transparent" />
@@ -241,9 +245,12 @@ const Achievements: React.FC = () => {
                   <div className="flex flex-col md:flex-row">
                     {/* Image */}
                     <div className="relative h-64 w-full overflow-hidden bg-gradient-to-br from-blue-600/20 to-transparent md:h-auto md:w-1/2">
-                      <img
+                      <Image
                         src={selectedAchievement.image}
                         alt={selectedAchievement.title}
+                        width={600}
+                        height={400}
+                        sizes="(max-width: 768px) 100vw, 50vw"
                         className="h-full w-full object-cover"
                       />
                       <div className="absolute inset-0 bg-gradient-to-t from-[#0c1324] via-transparent to-transparent md:hidden" />

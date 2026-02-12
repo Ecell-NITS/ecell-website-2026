@@ -17,6 +17,7 @@ import {
   FaComment,
   FaCalendarAlt,
   FaClock,
+  FaUserShield,
 } from "react-icons/fa";
 
 interface User {
@@ -63,6 +64,7 @@ export function DashboardClientWrapper({
   const [user] = useState<User | null>(initialUser);
   const [allUsers] = useState<User[]>(initialAllUsers);
   const [loadedImages, setLoadedImages] = useState<Set<string>>(new Set());
+  const [isAdmin] = useState<boolean>(true); // TODO: Replace with actual admin check
   const router = useRouter();
   const searchParams = useSearchParams();
   const [activeTab, setActiveTab] = useState(
@@ -163,6 +165,14 @@ export function DashboardClientWrapper({
                     >
                       <FaPlusCircle /> New Blog
                     </button>
+                    {isAdmin && (
+                      <Link
+                        href="/admin"
+                        className="flex items-center gap-2 rounded-xl bg-purple-600 px-6 py-2.5 font-semibold text-white shadow-lg shadow-purple-500/20 transition-all hover:bg-purple-700"
+                      >
+                        <FaUserShield /> Admin Panel
+                      </Link>
+                    )}
                   </div>
 
                   {/* Social Icons */}

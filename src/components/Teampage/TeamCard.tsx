@@ -1,5 +1,3 @@
-"use client";
-
 import React from "react";
 import Image from "next/image";
 import { Facebook, Github, Linkedin, Instagram } from "lucide-react";
@@ -14,6 +12,7 @@ interface TeamCardProps {
     github?: string;
     instagram?: string;
   };
+  priority?: boolean;
 }
 
 export default function TeamCard({
@@ -21,6 +20,7 @@ export default function TeamCard({
   role,
   image,
   socials,
+  priority = false,
 }: TeamCardProps) {
   return (
     // Added 'cursor-default' to match reference behavior
@@ -34,6 +34,9 @@ export default function TeamCard({
             alt={name}
             width={400}
             height={500}
+            sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
+            priority={priority}
+            placeholder="empty"
             className="h-full w-full object-cover transition-all duration-1000 ease-out group-hover:scale-105"
           />
           {/* Dark Overlay that lightens on hover */}

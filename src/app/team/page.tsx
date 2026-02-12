@@ -8,15 +8,14 @@ import Navbar from "@/components/Landing/Navbar";
 import Footer from "@/components/Landing/Footer";
 
 import Faculties from "@/components/Teampage/Faculties/Faculties";
-import Alumni from "@/components/Teampage/Alumni/Alumni";
 import CoreTeam from "@/components/Teampage/CoreTeam/CoreTeam";
 import Developers from "@/components/Teampage/Developers/Developers";
 import { type CoreYear } from "@/data/coreTeam";
 
 export default function TeamPage() {
-  const [activeTab, setActiveTab] = useState<
-    "faculty" | "alumni" | "core" | "developers"
-  >("developers");
+  const [activeTab, setActiveTab] = useState<"faculty" | "core" | "developers">(
+    "faculty",
+  );
   const [selectedYear, setSelectedYear] = useState<CoreYear>("2025-2026");
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
@@ -106,24 +105,6 @@ export default function TeamPage() {
               >
                 <span className="relative z-10">FACULTIES</span>
                 {activeTab === "faculty" && (
-                  <motion.div
-                    layoutId="activeTabPill"
-                    className="absolute inset-0 rounded-full border border-blue-500/50 bg-blue-600/20"
-                    transition={{ type: "spring", bounce: 0.2, duration: 0.6 }}
-                  />
-                )}
-              </button>
-
-              <button
-                onClick={() => setActiveTab("alumni")}
-                className={`relative px-4 py-2 text-xs font-bold tracking-widest uppercase transition-all sm:px-5 md:px-6 md:text-sm ${
-                  activeTab === "alumni"
-                    ? "text-white"
-                    : "text-gray-500 hover:text-gray-300"
-                }`}
-              >
-                <span className="relative z-10">ALUMNI</span>
-                {activeTab === "alumni" && (
                   <motion.div
                     layoutId="activeTabPill"
                     className="absolute inset-0 rounded-full border border-blue-500/50 bg-blue-600/20"
@@ -226,7 +207,6 @@ export default function TeamPage() {
               transition={{ duration: 0.3 }}
             >
               {activeTab === "faculty" && <Faculties />}
-              {activeTab === "alumni" && <Alumni />}
               {activeTab === "core" && <CoreTeam year={selectedYear} />}
               {activeTab === "developers" && <Developers />}
             </motion.div>

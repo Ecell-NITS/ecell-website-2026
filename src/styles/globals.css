@@ -1,7 +1,32 @@
 @import "tailwindcss";
 
+@import "../styles/_variables.scss";
+@import "../styles/_keyframe-animations.scss";
+
+@layer components {
+  .rte-button {
+    @apply flex items-center justify-center rounded p-1.5 text-slate-500 transition-colors hover:bg-slate-200 hover:text-slate-700 dark:text-slate-400 dark:hover:bg-[#2d3b55] dark:hover:text-slate-200;
+  }
+
+  .rte-icon {
+    font-size: 20px !important;
+  }
+
+  .form-section {
+    @apply rounded-xl border border-slate-200 bg-white p-6 shadow-sm dark:border-[#2d3b55] dark:bg-[#1e2736];
+  }
+
+  .form-label {
+    @apply mb-2 block text-xl font-bold text-slate-800 dark:text-slate-100;
+  }
+
+  .form-helper {
+    @apply mb-4 block text-sm text-slate-500 dark:text-slate-400;
+  }
+}
+
 @theme {
-  --font-sans: var(--font-geist-sans);
+  --font-sans: var(--font-inter);
   --font-mono: var(--font-geist-mono);
 }
 
@@ -33,6 +58,7 @@
     --chart-5: 27 87% 67%;
     --radius: 0.5rem;
   }
+
   .dark {
     --background: 0 0% 3.9%;
     --foreground: 0 0% 98%;
@@ -59,11 +85,13 @@
     --chart-4: 280 65% 60%;
     --chart-5: 340 75% 55%;
   }
+
   :root {
     --blue-accent: #3b82f6;
   }
+
   @theme {
-    --font-sans: var(--font-geist-sans), ui-sans-serif, system-ui, sans-serif;
+    --font-sans: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
     --font-poppins: var(--font-poppins), sans-serif;
     --font-jakarta: var(--font-jakarta), sans-serif;
   }
@@ -72,6 +100,7 @@
     * {
       border-color: hsl(var(--border));
     }
+
     body {
       background-color: hsl(var(--background));
       color: hsl(var(--foreground));
@@ -96,13 +125,16 @@
   ::-webkit-scrollbar {
     width: 8px;
   }
+
   ::-webkit-scrollbar-track {
     background: #020617;
   }
+
   ::-webkit-scrollbar-thumb {
     background: #1e293b;
     border-radius: 4px;
   }
+
   ::-webkit-scrollbar-thumb:hover {
     background: #334155;
   }
@@ -117,6 +149,7 @@
     0% {
       --gradient-angle: 0deg;
     }
+
     100% {
       --gradient-angle: 360deg;
     }
@@ -154,6 +187,7 @@
   .glowing-border:hover::before {
     opacity: 1;
   }
+
   .glowing-border:hover::after {
     opacity: 0.8;
   }
@@ -162,9 +196,11 @@
   .perspective-1000 {
     perspective: 1000px;
   }
+
   .perspective-2000 {
     perspective: 2000px;
   }
+
   .preserve-3d {
     transform-style: preserve-3d;
   }
@@ -172,6 +208,7 @@
   .scrollbar-hide::-webkit-scrollbar {
     display: none;
   }
+
   .scrollbar-hide {
     -ms-overflow-style: none;
     scrollbar-width: none;
@@ -183,6 +220,17 @@
     font-feature-settings:
       "rlig" 1,
       "calt" 1;
+  }
+
+  /* Gallery skeleton shimmer */
+  @keyframes shimmer {
+    0% {
+      background-position: 200% 0;
+    }
+
+    100% {
+      background-position: -200% 0;
+    }
   }
 }
 

@@ -1,5 +1,6 @@
 "use client";
 
+import { useMemo } from "react";
 import Image from "next/image";
 import { alumniData, type AlumniMember } from "@/data/alumni";
 
@@ -8,7 +9,10 @@ interface ModalCardAlumniProps {
 }
 
 export default function ModalCardAlumni({ dataid }: ModalCardAlumniProps) {
-  const member = alumniData.find((item: AlumniMember) => item.id === dataid);
+  const member = useMemo(
+    () => alumniData.find((item: AlumniMember) => item.id === dataid),
+    [dataid],
+  );
 
   if (!member) {
     return <p className="py-4 text-center text-red-400">Data not found.</p>;
@@ -24,7 +28,10 @@ export default function ModalCardAlumni({ dataid }: ModalCardAlumniProps) {
               src={member.image2}
               alt={member.name}
               fill
+              sizes="(max-width: 768px) 100vw, 33vw"
               className="object-cover"
+              placeholder="empty"
+              priority
             />
           ) : (
             <div className="flex h-full w-full items-center justify-center bg-gray-800 text-gray-500">

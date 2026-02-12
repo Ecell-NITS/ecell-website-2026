@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useCallback } from "react";
 import { createPortal } from "react-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import { X } from "lucide-react";
@@ -92,7 +92,7 @@ const Achievements: React.FC = () => {
   const [activeIndex, setActiveIndex] = useState(0);
   const scrollRef = useRef<HTMLDivElement>(null);
 
-  const handleScroll = () => {
+  const handleScroll = useCallback(() => {
     if (scrollRef.current) {
       const scrollLeft = scrollRef.current.scrollLeft;
       const scrollWidth = scrollRef.current.scrollWidth;
@@ -100,7 +100,7 @@ const Achievements: React.FC = () => {
       const index = Math.round(scrollLeft / itemWidth);
       setActiveIndex(Math.min(Math.max(index, 0), achievementsData.length - 1));
     }
-  };
+  }, []);
 
   return (
     <>
@@ -157,6 +157,7 @@ const Achievements: React.FC = () => {
                       alt={achievement.title}
                       width={500}
                       height={300}
+                      sizes="(max-width: 768px) 85vw, (max-width: 1024px) 45vw, 30vw"
                       className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-110"
                     />
                     <div className="absolute inset-0 bg-gradient-to-t from-[#020617] via-transparent to-transparent" />
@@ -249,6 +250,7 @@ const Achievements: React.FC = () => {
                         alt={selectedAchievement.title}
                         width={600}
                         height={400}
+                        sizes="(max-width: 768px) 100vw, 50vw"
                         className="h-full w-full object-cover"
                       />
                       <div className="absolute inset-0 bg-gradient-to-t from-[#0c1324] via-transparent to-transparent md:hidden" />

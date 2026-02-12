@@ -1,11 +1,60 @@
 "use client";
 
-import { useEditor, EditorContent } from "@tiptap/react";
-import StarterKit from "@tiptap/starter-kit";
-import { useState } from "react";
-import TextAlign from "@tiptap/extension-text-align";
+import { useState, Suspense } from "react";
 import Navbar from "@/components/Landing/Navbar";
-import { motion } from "framer-motion";
+import dynamic from "next/dynamic";
+
+// Lazy load TipTap editors to reduce initial bundle size
+const TipTapEditors = dynamic(
+  () =>
+    import("@/components/Dashboard/TipTapEditor").then((mod) => ({
+      default: ({
+        onIntroChange,
+        onContentChange,
+      }: {
+        onIntroChange: (html: string) => void;
+        onContentChange: (html: string) => void;
+      }) => (
+        <>
+          <div className="flex flex-col gap-3">
+            <label className="text-xl font-semibold text-slate-200">
+              Brief Introduction
+              <span className="mt-1 block text-sm font-normal text-slate-500">
+                A short summary (40-50 words) to hook your readers
+              </span>
+            </label>
+            <mod.TipTapIntroEditor content="" onUpdate={onIntroChange} />
+          </div>
+
+          <div className="flex flex-col gap-3">
+            <label className="text-xl font-semibold text-slate-200">
+              Main Content
+            </label>
+            <mod.TipTapContentEditor content="" onUpdate={onContentChange} />
+          </div>
+        </>
+      ),
+    })),
+  {
+    ssr: false,
+    loading: () => (
+      <>
+        <div className="flex flex-col gap-3">
+          <label className="text-xl font-semibold text-slate-200">
+            Brief Introduction
+          </label>
+          <div className="min-h-[160px] animate-pulse rounded-xl border border-white/10 bg-black/20"></div>
+        </div>
+        <div className="flex flex-col gap-3">
+          <label className="text-xl font-semibold text-slate-200">
+            Main Content
+          </label>
+          <div className="min-h-[340px] animate-pulse rounded-xl border border-white/10 bg-black/20"></div>
+        </div>
+      </>
+    ),
+  },
+);
 
 export default function AddBlogs() {
   const [intro, setIntro] = useState("");
@@ -13,49 +62,10 @@ export default function AddBlogs() {
   const [title, setTitle] = useState("");
   const [tags, setTags] = useState("");
 
-  const editorIntro = useEditor({
-    extensions: [StarterKit],
-    content: "",
-    onUpdate({ editor }) {
-      setIntro(editor.getHTML());
-    },
-    editorProps: {
-      attributes: {
-        className:
-          "prose prose-invert max-w-none min-h-[120px] p-4 focus:outline-none text-slate-200 placeholder:text-slate-500",
-        placeholder: "Write a brief introduction...",
-      },
-    },
-    immediatelyRender: false,
-  });
-
-  const editorContent = useEditor({
-    extensions: [
-      StarterKit,
-      TextAlign.configure({
-        types: ["heading", "paragraph"],
-      }),
-    ],
-    content: "",
-    onUpdate({ editor }) {
-      setContent(editor.getHTML());
-    },
-    editorProps: {
-      attributes: {
-        className:
-          "prose prose-invert max-w-none min-h-[300px] p-4 focus:outline-none text-slate-200 placeholder:text-slate-500",
-        placeholder: "Start writing your blog content...",
-      },
-    },
-    immediatelyRender: false,
-  });
-
   const handlePublish = () => {
     // Log the values to satisfy linter that they are used
     console.log({ title, tags, intro, content });
   };
-
-  if (!editorIntro || !editorContent) return null;
 
   return (
     <div className="min-h-screen bg-[#020617] font-sans text-white selection:bg-blue-500/30 selection:text-white">
@@ -78,12 +88,7 @@ export default function AddBlogs() {
             </p>
           </div>
 
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5 }}
-            className="rounded-3xl border border-white/10 bg-white/5 p-6 shadow-2xl backdrop-blur-md md:p-10"
-          >
+          <div className="animate-[fadeIn_0.5s_ease-out_forwards] rounded-3xl border border-white/10 bg-white/5 p-6 opacity-0 shadow-2xl backdrop-blur-md md:p-10">
             <div className="flex flex-col gap-8">
               {/* Title Section */}
               <div className="flex flex-col gap-3">
@@ -102,160 +107,30 @@ export default function AddBlogs() {
                 />
               </div>
 
-              {/* Brief Intro Section */}
-              <div className="flex flex-col gap-3">
-                <label className="text-xl font-semibold text-slate-200">
-                  Brief Introduction
-                  <span className="mt-1 block text-sm font-normal text-slate-500">
-                    A short summary (40-50 words) to hook your readers
-                  </span>
-                </label>
-
-                <div className="overflow-hidden rounded-xl border border-white/10 bg-black/20 transition-colors focus-within:border-blue-500/50">
-                  <div className="flex flex-wrap items-center gap-1 border-b border-white/10 bg-white/5 p-2">
-                    <ToolbarButton
-                      onClick={() =>
-                        editorIntro.chain().focus().toggleBold().run()
-                      }
-                      isActive={editorIntro.isActive("bold")}
-                      icon="format_bold"
-                      title="Bold"
-                    />
-                    <ToolbarButton
-                      onClick={() =>
-                        editorIntro.chain().focus().toggleItalic().run()
-                      }
-                      isActive={editorIntro.isActive("italic")}
-                      icon="format_italic"
-                      title="Italic"
-                    />
-                    <ToolbarButton
-                      onClick={() =>
-                        editorIntro.chain().focus().toggleUnderline?.().run()
-                      }
-                      isActive={editorIntro.isActive("underline")}
-                      icon="format_underlined"
-                      title="Underline"
-                    />
-                    <div className="mx-1 h-6 w-px bg-white/10"></div>
-                    <ToolbarButton
-                      onClick={() =>
-                        editorIntro.chain().focus().toggleBulletList().run()
-                      }
-                      isActive={editorIntro.isActive("bulletList")}
-                      icon="format_list_bulleted"
-                      title="Bulleted List"
-                    />
-                    <ToolbarButton
-                      onClick={() =>
-                        editorIntro.chain().focus().toggleOrderedList().run()
-                      }
-                      isActive={editorIntro.isActive("orderedList")}
-                      icon="format_list_numbered"
-                      title="Numbered List"
-                    />
-                  </div>
-                  <EditorContent editor={editorIntro} />
-                </div>
-              </div>
-
-              {/* Main Content Section */}
-              <div className="flex flex-col gap-3">
-                <label className="text-xl font-semibold text-slate-200">
-                  Main Content
-                </label>
-                <div className="overflow-hidden rounded-xl border border-white/10 bg-black/20 transition-colors focus-within:border-blue-500/50">
-                  <div className="flex flex-wrap items-center gap-1 border-b border-white/10 bg-white/5 p-2">
-                    <ToolbarButton
-                      onClick={() =>
-                        editorContent
-                          .chain()
-                          .focus()
-                          .toggleHeading({ level: 1 })
-                          .run()
-                      }
-                      isActive={editorContent.isActive("heading", { level: 1 })}
-                      icon="format_h1"
-                      title="Heading 1"
-                    />
-                    <ToolbarButton
-                      onClick={() =>
-                        editorContent
-                          .chain()
-                          .focus()
-                          .toggleHeading({ level: 2 })
-                          .run()
-                      }
-                      isActive={editorContent.isActive("heading", { level: 2 })}
-                      icon="format_h2"
-                      title="Heading 2"
-                    />
-                    <ToolbarButton
-                      onClick={() =>
-                        editorContent
-                          .chain()
-                          .focus()
-                          .toggleHeading({ level: 3 })
-                          .run()
-                      }
-                      isActive={editorContent.isActive("heading", { level: 3 })}
-                      icon="format_h3"
-                      title="Heading 3"
-                    />
-                    <div className="mx-1 h-6 w-px bg-white/10"></div>
-                    <ToolbarButton
-                      onClick={() =>
-                        editorContent.chain().focus().toggleBold().run()
-                      }
-                      isActive={editorContent.isActive("bold")}
-                      icon="format_bold"
-                      title="Bold"
-                    />
-                    <ToolbarButton
-                      onClick={() =>
-                        editorContent.chain().focus().toggleItalic().run()
-                      }
-                      isActive={editorContent.isActive("italic")}
-                      icon="format_italic"
-                      title="Italic"
-                    />
-                    <div className="mx-1 h-6 w-px bg-white/10"></div>
-                    <ToolbarButton
-                      onClick={() =>
-                        editorContent.chain().focus().setTextAlign("left").run()
-                      }
-                      isActive={editorContent.isActive({ textAlign: "left" })}
-                      icon="format_align_left"
-                      title="Left Align"
-                    />
-                    <ToolbarButton
-                      onClick={() =>
-                        editorContent
-                          .chain()
-                          .focus()
-                          .setTextAlign("center")
-                          .run()
-                      }
-                      isActive={editorContent.isActive({ textAlign: "center" })}
-                      icon="format_align_center"
-                      title="Center Align"
-                    />
-                    <ToolbarButton
-                      onClick={() =>
-                        editorContent
-                          .chain()
-                          .focus()
-                          .setTextAlign("right")
-                          .run()
-                      }
-                      isActive={editorContent.isActive({ textAlign: "right" })}
-                      icon="format_align_right"
-                      title="Right Align"
-                    />
-                  </div>
-                  <EditorContent editor={editorContent} />
-                </div>
-              </div>
+              {/* TipTap Editors - Lazy loaded */}
+              <Suspense
+                fallback={
+                  <>
+                    <div className="flex flex-col gap-3">
+                      <label className="text-xl font-semibold text-slate-200">
+                        Brief Introduction
+                      </label>
+                      <div className="min-h-[160px] animate-pulse rounded-xl border border-white/10 bg-black/20"></div>
+                    </div>
+                    <div className="flex flex-col gap-3">
+                      <label className="text-xl font-semibold text-slate-200">
+                        Main Content
+                      </label>
+                      <div className="min-h-[340px] animate-pulse rounded-xl border border-white/10 bg-black/20"></div>
+                    </div>
+                  </>
+                }
+              >
+                <TipTapEditors
+                  onIntroChange={setIntro}
+                  onContentChange={setContent}
+                />
+              </Suspense>
 
               {/* Tags Section */}
               <div className="flex flex-col gap-3">
@@ -316,33 +191,9 @@ export default function AddBlogs() {
                 </button>
               </div>
             </div>
-          </motion.div>
+          </div>
         </div>
       </main>
     </div>
-  );
-}
-
-function ToolbarButton({
-  onClick,
-  isActive = false,
-  icon,
-  title,
-}: {
-  onClick: () => void;
-  isActive?: boolean;
-  icon: string;
-  title: string;
-}) {
-  return (
-    <button
-      onClick={onClick}
-      title={title}
-      className={`flex items-center justify-center rounded p-2 text-slate-400 transition-colors hover:bg-white/10 hover:text-white ${
-        isActive ? "bg-blue-500/20 text-blue-400" : ""
-      }`}
-    >
-      <span className="material-symbols-outlined text-[20px]">{icon}</span>
-    </button>
   );
 }

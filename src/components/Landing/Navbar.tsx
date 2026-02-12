@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef, useCallback } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { Menu, X } from "lucide-react";
@@ -8,13 +8,32 @@ import { Menu, X } from "lucide-react";
 const Navbar: React.FC = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
+  const scrollTimeout = useRef<NodeJS.Timeout | null>(null);
 
   useEffect(() => {
     const handleScroll = () => {
-      setIsScrolled(window.scrollY > 50);
+      // Throttle scroll events for better performance
+      if (scrollTimeout.current) return;
+
+      scrollTimeout.current = setTimeout(() => {
+        setIsScrolled(window.scrollY > 50);
+        scrollTimeout.current = null;
+      }, 100);
     };
+
     window.addEventListener("scroll", handleScroll, { passive: true });
-    return () => window.removeEventListener("scroll", handleScroll);
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+      if (scrollTimeout.current) clearTimeout(scrollTimeout.current);
+    };
+  }, []);
+
+  const toggleMenu = useCallback(() => {
+    setIsOpen((prev) => !prev);
+  }, []);
+
+  const closeMenu = useCallback(() => {
+    setIsOpen(false);
   }, []);
 
   const navLinks = [
@@ -43,8 +62,10 @@ const Navbar: React.FC = () => {
                 src="/ecelllogo.png"
                 alt="E-Cell Logo"
                 fill
+                sizes="40px"
                 className="object-contain brightness-0 invert"
                 priority
+                placeholder="empty"
               />
             </div>
           </Link>
@@ -68,7 +89,9 @@ const Navbar: React.FC = () => {
                 src="https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png"
                 alt="Profile"
                 fill
+                sizes="40px"
                 className="object-cover"
+                loading="lazy"
               />
             </Link>
           </div>
@@ -76,7 +99,8 @@ const Navbar: React.FC = () => {
           {/* Mobile Menu Button */}
           <button
             className="text-white lg:hidden"
-            onClick={() => setIsOpen(!isOpen)}
+            onClick={toggleMenu}
+            aria-label={isOpen ? "Close menu" : "Open menu"}
           >
             {isOpen ? <X size={28} /> : <Menu size={28} />}
           </button>
@@ -90,7 +114,7 @@ const Navbar: React.FC = () => {
             <Link
               key={link.name}
               href={link.href}
-              onClick={() => setIsOpen(false)}
+              onClick={closeMenu}
               className="text-sm font-bold tracking-widest text-gray-300 transition-colors hover:text-blue-400"
             >
               {link.name}

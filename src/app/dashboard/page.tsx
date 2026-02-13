@@ -1,7 +1,7 @@
 // src/app/dashboard/page.tsx
 import { Suspense } from "react";
 import Navbar from "../../components/Landing/Navbar";
-import { DashboardContent } from "@/components/Dashboard/DashboardContent";
+import { DashboardContent } from "@/components/Dashboard/DashboardContentServer";
 
 function DashboardSkeleton() {
   return (

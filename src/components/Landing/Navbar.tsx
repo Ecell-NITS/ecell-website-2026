@@ -1,29 +1,49 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef, useCallback } from "react";
 import Link from "next/link";
+import Image from "next/image";
 import { Menu, X } from "lucide-react";
 
 const Navbar: React.FC = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
+  const scrollTimeout = useRef<NodeJS.Timeout | null>(null);
 
   useEffect(() => {
     const handleScroll = () => {
-      setIsScrolled(window.scrollY > 50);
+      // Throttle scroll events for better performance
+      if (scrollTimeout.current) return;
+
+      scrollTimeout.current = setTimeout(() => {
+        setIsScrolled(window.scrollY > 50);
+        scrollTimeout.current = null;
+      }, 100);
     };
-    window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
+
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+      if (scrollTimeout.current) clearTimeout(scrollTimeout.current);
+    };
+  }, []);
+
+  const toggleMenu = useCallback(() => {
+    setIsOpen((prev) => !prev);
+  }, []);
+
+  const closeMenu = useCallback(() => {
+    setIsOpen(false);
   }, []);
 
   const navLinks = [
-    { name: "HOME", href: "/", isRoute: true },
-    { name: "ABOUT US", href: "/about", isRoute: true },
-    { name: "INITIATIVES", href: "/initiatives", isRoute: true },
-    { name: "BLOGS", href: "/blogs", isRoute: true },
-    { name: "TEAM", href: "/team", isRoute: true },
-    { name: "ALUMNI", href: "/alumni", isRoute: true },
-    { name: "GALLERY", href: "/gallery", isRoute: true },
+    { name: "HOME", href: "/" },
+    { name: "ABOUT US", href: "/about" },
+    { name: "INITIATIVES", href: "/initiatives" },
+    { name: "BLOGS", href: "/blogs" },
+    { name: "TEAM", href: "/team" },
+    { name: "ALUMNI", href: "/alumni" },
+    { name: "GALLERY", href: "/gallery" },
   ];
 
   return (
@@ -37,17 +57,17 @@ const Navbar: React.FC = () => {
       >
         <div className="mx-[6vw] flex items-center justify-between lg:mx-[2vw]">
           <Link href="/" className="flex items-center gap-3">
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img
-              src="/ecelllogo.png"
-              alt="E-Cell Logo"
-              className="h-10 w-auto brightness-0 invert"
-              onError={(e) => {
-                e.currentTarget.style.display = "none";
-                e.currentTarget.nextElementSibling?.classList.remove("hidden");
-              }}
-            />
-            <span className="hidden text-xl font-bold text-white">E-CELL</span>
+            <div className="relative h-10 w-10">
+              <Image
+                src="/ecelllogo.png"
+                alt="E-Cell Logo"
+                fill
+                sizes="40px"
+                className="object-contain brightness-0 invert"
+                priority
+                placeholder="empty"
+              />
+            </div>
           </Link>
 
           {/* Desktop Links */}
@@ -63,13 +83,15 @@ const Navbar: React.FC = () => {
             ))}
             <Link
               href="/dashboard"
-              className="flex h-10 w-10 cursor-pointer items-center justify-center overflow-hidden rounded-full border border-blue-500/20 bg-blue-500/10 transition-transform hover:scale-110"
+              className="relative flex h-10 w-10 cursor-pointer items-center justify-center overflow-hidden rounded-full border border-blue-500/20 bg-blue-500/10 transition-transform hover:scale-110"
             >
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img
+              <Image
                 src="https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png"
                 alt="Profile"
-                className="h-full w-full object-cover"
+                fill
+                sizes="40px"
+                className="object-cover"
+                loading="lazy"
               />
             </Link>
           </div>
@@ -77,7 +99,8 @@ const Navbar: React.FC = () => {
           {/* Mobile Menu Button */}
           <button
             className="text-white lg:hidden"
-            onClick={() => setIsOpen(!isOpen)}
+            onClick={toggleMenu}
+            aria-label={isOpen ? "Close menu" : "Open menu"}
           >
             {isOpen ? <X size={28} /> : <Menu size={28} />}
           </button>
@@ -91,7 +114,7 @@ const Navbar: React.FC = () => {
             <Link
               key={link.name}
               href={link.href}
-              onClick={() => setIsOpen(false)}
+              onClick={closeMenu}
               className="text-sm font-bold tracking-widest text-gray-300 transition-colors hover:text-blue-400"
             >
               {link.name}

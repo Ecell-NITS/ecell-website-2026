@@ -2,11 +2,49 @@
 // @ts-nocheck
 "use client";
 
-import React from "react";
+import React, { useState } from "react";
 import { motion } from "framer-motion";
 import { Send, MapPin, Mail, Phone } from "lucide-react";
+import { toast } from "react-toastify";
+import api from "@/lib/api";
 
 const ContactForm: React.FC = () => {
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [message, setMessage] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+
+    if (!name.trim() || !email.trim() || !message.trim()) {
+      toast.error("Please fill in all fields");
+      return;
+    }
+
+    setIsLoading(true);
+    try {
+      await api.post("/api/query/send", { name, email, message });
+      toast.success(
+        "Message sent successfully! We'll get back to you soon. 📩",
+      );
+      setName("");
+      setEmail("");
+      setMessage("");
+    } catch (err: unknown) {
+      const error = err as {
+        response?: { data?: { message?: string; error?: string } };
+      };
+      toast.error(
+        error.response?.data?.message ??
+          error.response?.data?.error ??
+          "Failed to send message. Please try again.",
+      );
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
   return (
     <section className="bg-gray-950/40 py-32">
       <div className="container mx-auto px-6">
@@ -66,7 +104,10 @@ const ContactForm: React.FC = () => {
             viewport={{ once: true }}
             className="lg:w-1/2"
           >
-            <form className="glass space-y-6 rounded-[2.5rem] border border-white/10 bg-white/5 p-8 md:p-12">
+            <form
+              onSubmit={handleSubmit}
+              className="glass space-y-6 rounded-[2.5rem] border border-white/10 bg-white/5 p-8 md:p-12"
+            >
               <div>
                 <label className="mb-2 ml-1 block text-sm font-bold text-gray-400">
                   Full Name
@@ -74,6 +115,9 @@ const ContactForm: React.FC = () => {
                 <input
                   type="text"
                   placeholder="John Doe"
+                  value={name}
+                  onChange={(e) => setName(e.target.value)}
+                  required
                   className="w-full rounded-2xl border border-white/10 bg-black/40 px-6 py-4 text-white transition-colors focus:border-blue-500 focus:outline-none"
                 />
               </div>
@@ -84,6 +128,9 @@ const ContactForm: React.FC = () => {
                 <input
                   type="email"
                   placeholder="john@example.com"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  required
                   className="w-full rounded-2xl border border-white/10 bg-black/40 px-6 py-4 text-white transition-colors focus:border-blue-500 focus:outline-none"
                 />
               </div>
@@ -94,11 +141,24 @@ const ContactForm: React.FC = () => {
                 <textarea
                   rows={4}
                   placeholder="Tell us about your idea..."
+                  value={message}
+                  onChange={(e) => setMessage(e.target.value)}
+                  required
                   className="w-full rounded-2xl border border-white/10 bg-black/40 px-6 py-4 text-white transition-colors focus:border-blue-500 focus:outline-none"
                 />
               </div>
-              <button className="flex w-full items-center justify-center gap-3 rounded-2xl bg-blue-600 py-5 font-bold text-white transition-all hover:bg-blue-700 hover:shadow-[0_10px_40px_rgba(37,99,235,0.3)]">
-                Send Message <Send size={20} />
+              <button
+                type="submit"
+                disabled={isLoading}
+                className="flex w-full items-center justify-center gap-3 rounded-2xl bg-blue-600 py-5 font-bold text-white transition-all hover:bg-blue-700 hover:shadow-[0_10px_40px_rgba(37,99,235,0.3)] disabled:cursor-not-allowed disabled:opacity-60"
+              >
+                {isLoading ? (
+                  <div className="h-5 w-5 animate-spin rounded-full border-2 border-white/30 border-t-white" />
+                ) : (
+                  <>
+                    Send Message <Send size={20} />
+                  </>
+                )}
               </button>
             </form>
           </motion.div>

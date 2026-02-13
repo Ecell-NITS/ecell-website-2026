@@ -2,6 +2,8 @@
 
 import React from "react";
 
+const API_URL = process.env.NEXT_PUBLIC_API_URL ?? "http://localhost:4000";
+
 interface GoogleButtonProps {
   label?: string;
   onClick?: () => void;
@@ -11,10 +13,19 @@ export default function GoogleButton({
   label = "Continue with Google",
   onClick,
 }: GoogleButtonProps) {
+  const handleClick = () => {
+    if (onClick) {
+      onClick();
+    } else {
+      // Navigate to backend Google OAuth endpoint
+      window.location.href = `${API_URL}/api/auth/google`;
+    }
+  };
+
   return (
     <button
       type="button"
-      onClick={onClick}
+      onClick={handleClick}
       className="group flex w-full items-center justify-center gap-3 rounded-xl border border-white/10 bg-white/[0.03] px-5 py-3.5 text-sm font-semibold text-gray-300 backdrop-blur-sm transition-all duration-300 hover:border-white/20 hover:bg-white/[0.06] hover:text-white active:scale-[0.98]"
     >
       {/* Google "G" logo SVG */}

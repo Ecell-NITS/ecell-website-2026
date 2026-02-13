@@ -120,6 +120,13 @@ const Navbar: React.FC = () => {
               {link.name}
             </Link>
           ))}
+          <Link
+            href="/dashboard"
+            onClick={closeMenu}
+            className="mt-2 flex items-center justify-center gap-2 rounded-xl bg-blue-600 px-6 py-3 text-sm font-bold tracking-widest text-white transition-all hover:bg-blue-700"
+          >
+            DASHBOARD
+          </Link>
         </div>
       )}
     </>

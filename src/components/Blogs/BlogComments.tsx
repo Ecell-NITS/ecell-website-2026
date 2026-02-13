@@ -1,43 +1,104 @@
+/* eslint-disable @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-floating-promises, @typescript-eslint/no-unsafe-return */
 "use client";
 
-import { useState, useCallback } from "react";
+import { useState, useCallback, useEffect } from "react";
+import { useRouter } from "next/navigation";
 import Image from "next/image";
+import { toast } from "react-toastify";
+import { useAuth } from "@/lib/auth-context";
+import api from "@/lib/api";
 
-interface Comment {
-  name: string;
-  time: string;
+interface ApiComment {
+  id: string;
   text: string;
-  avatar: string;
+  commentAuthor: string;
+  commentPic: string;
+  userId: string;
+  createdAt: string;
 }
 
-const initialComments: Comment[] = [
-  {
-    name: "Ishaan Gupta",
-    time: "2 hours ago",
-    text: "This breakdown was incredibly helpful!",
-    avatar: "https://i.pravatar.cc/150?u=ishaan",
-  },
-  {
-    name: "Sarah Jenkins",
-    time: "5 hours ago",
-    text: "Great insights on investor psychology!",
-    avatar: "https://i.pravatar.cc/150?u=sarah",
-  },
-];
+interface BlogCommentsProps {
+  blogId: string;
+}
 
-export default function BlogComments() {
+export default function BlogComments({ blogId }: BlogCommentsProps) {
   const [comment, setComment] = useState("");
-  const [comments] = useState<Comment[]>(initialComments);
+  const [comments, setComments] = useState<ApiComment[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [submitting, setSubmitting] = useState(false);
+  const { user, isAuthenticated } = useAuth();
+  const router = useRouter();
+
+  // Fetch comments
+  useEffect(() => {
+    const fetchComments = async () => {
+      try {
+        const { data } = await api.get(`/api/comment/apiComment/${blogId}`);
+        const commentsData = data.data ?? data ?? [];
+        setComments(Array.isArray(commentsData) ? commentsData : []);
+      } catch {
+        setComments([]);
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchComments();
+  }, [blogId]);
 
   const handleSubmit = useCallback(
-    (e: React.FormEvent) => {
+    async (e: React.FormEvent) => {
       e.preventDefault();
       if (!comment.trim()) return;
-      // Handle comment submission logic here
-      setComment("");
+
+      if (!isAuthenticated) {
+        toast.error("Please login to comment");
+        router.push("/login");
+        return;
+      }
+
+      setSubmitting(true);
+      try {
+        const { data } = await api.post(`/api/comment/apicomment/${blogId}`, {
+          text: comment,
+          commentAuthor: user?.name ?? "Anonymous",
+          commentPic:
+            user?.picture ?? user?.userimg ?? "https://i.pravatar.cc/150",
+          userId: user?.id ?? "",
+        });
+        const newComment = data.data ?? data;
+        setComments((prev) => [newComment, ...prev]);
+        setComment("");
+        toast.success("Comment posted! 💬");
+      } catch (err: unknown) {
+        const error = err as { response?: { data?: { message?: string } } };
+        toast.error(error.response?.data?.message ?? "Failed to post comment");
+      } finally {
+        setSubmitting(false);
+      }
     },
-    [comment],
+    [comment, isAuthenticated, blogId, router],
   );
+
+  const formatTime = (dateString: string) => {
+    try {
+      const date = new Date(dateString);
+      const now = new Date();
+      const diffMs = now.getTime() - date.getTime();
+      const diffMins = Math.floor(diffMs / 60000);
+      const diffHours = Math.floor(diffMins / 60);
+      const diffDays = Math.floor(diffHours / 24);
+
+      if (diffMins < 60)
+        return `${diffMins} min${diffMins !== 1 ? "s" : ""} ago`;
+      if (diffHours < 24)
+        return `${diffHours} hour${diffHours !== 1 ? "s" : ""} ago`;
+      if (diffDays < 7)
+        return `${diffDays} day${diffDays !== 1 ? "s" : ""} ago`;
+      return date.toLocaleDateString();
+    } catch {
+      return "Recently";
+    }
+  };
 
   return (
     <div className="glass rounded-lg border border-white/10 p-4 backdrop-blur-md sm:rounded-2xl sm:p-6 md:rounded-[2.5rem] md:p-10">
@@ -54,55 +115,78 @@ export default function BlogComments() {
         <textarea
           value={comment}
           onChange={(e) => setComment(e.target.value)}
-          placeholder="Write a comment..."
-          className="min-h-20 w-full resize-none rounded border border-white/10 bg-black/40 p-2 text-[12px] text-white transition-all focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 focus:outline-none sm:min-h-24 sm:rounded-lg sm:p-3 sm:text-xs md:min-h-30 md:rounded-2xl md:p-4 md:text-sm"
+          placeholder={
+            isAuthenticated
+              ? "Write a comment..."
+              : "Login to write a comment..."
+          }
+          disabled={!isAuthenticated}
+          className="min-h-20 w-full resize-none rounded border border-white/10 bg-black/40 p-2 text-[12px] text-white transition-all focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 focus:outline-none disabled:cursor-not-allowed disabled:opacity-50 sm:min-h-24 sm:rounded-lg sm:p-3 sm:text-xs md:min-h-30 md:rounded-2xl md:p-4 md:text-sm"
         />
         <button
           type="submit"
-          className="w-full rounded border bg-blue-600 py-2 text-[7px] font-black tracking-widest text-white uppercase transition-all hover:shadow-[0_10px_30px_rgba(37,99,235,0.3)] sm:rounded-lg sm:py-2 sm:text-[8px] md:rounded-2xl md:py-3 md:text-[10px]"
+          disabled={submitting || !isAuthenticated || !comment.trim()}
+          className="flex w-full items-center justify-center gap-2 rounded border border-white/10 bg-blue-600 px-3 py-1.5 text-[12px] font-bold text-white transition-all hover:bg-blue-700 disabled:cursor-not-allowed disabled:opacity-50 sm:rounded-lg sm:px-4 sm:py-2 sm:text-xs md:rounded-2xl md:px-6 md:py-3 md:text-sm"
         >
-          Post Comment
+          {submitting ? (
+            <div className="h-4 w-4 animate-spin rounded-full border-2 border-white/30 border-t-white" />
+          ) : (
+            "Post Comment"
+          )}
         </button>
       </form>
 
-      {/* Comments list */}
-      <div className="space-y-3 sm:space-y-4 md:space-y-8">
-        {comments.map((commentItem, idx) => (
-          <div key={idx} className="group">
-            <div className="mb-2 flex gap-2 sm:gap-3 md:gap-4">
-              <Image
-                className="h-7 w-7 rounded object-cover sm:h-8 sm:w-8 sm:rounded-lg md:h-10 md:w-10 md:rounded-xl"
-                src={commentItem.avatar}
-                alt={commentItem.name}
-                width={40}
-                height={40}
-                loading="lazy"
-              />
-              <div className="grow">
-                <div className="flex items-center justify-between gap-1">
-                  <h5 className="text-[7px] font-bold text-white sm:text-[8px] md:text-xs">
-                    {commentItem.name}
-                  </h5>
-                  <span className="text-[6px] text-gray-600 sm:text-[7px] md:text-[10px]">
-                    {commentItem.time}
-                  </span>
-                </div>
-                <p className="mt-1 text-[6px] leading-relaxed text-gray-400 sm:text-[7px] md:text-sm">
-                  {commentItem.text}
-                </p>
-              </div>
-            </div>
+      <div className="space-y-3 sm:space-y-4 md:space-y-6">
+        {loading ? (
+          [...Array(2)].map((_, i) => (
+            <div
+              key={i}
+              className="h-20 animate-pulse rounded-lg bg-white/5 sm:h-24 md:h-28"
+            />
+          ))
+        ) : comments.length > 0 ? (
+          comments.map((c) => {
+            const userName = c.commentAuthor ?? "Anonymous";
+            const userAvatar =
+              c.commentPic ?? `https://i.pravatar.cc/150?u=${c.id}`;
 
-            <div className="ml-8 flex items-center gap-2 sm:gap-3 md:gap-4">
-              <button className="text-[6px] font-black tracking-widest text-gray-600 uppercase hover:text-blue-400 sm:text-[7px] md:text-[9px]">
-                Reply
-              </button>
-              <button className="text-[6px] font-black tracking-widest text-gray-600 uppercase hover:text-rose-400 sm:text-[7px] md:text-[9px]">
-                Like
-              </button>
-            </div>
+            return (
+              <div
+                key={c.id}
+                className="flex gap-2 rounded border border-white/5 bg-black/20 p-2 sm:gap-3 sm:rounded-lg sm:p-3 md:gap-4 md:rounded-2xl md:p-5"
+              >
+                <div className="relative size-6 shrink-0 overflow-hidden rounded-full sm:size-8 md:size-10">
+                  <Image
+                    src={userAvatar}
+                    alt={userName}
+                    width={40}
+                    height={40}
+                    className="object-cover"
+                  />
+                </div>
+                <div className="flex-1">
+                  <div className="mb-0.5 flex items-center gap-1 sm:mb-1 md:mb-2">
+                    <span className="text-[11px] font-bold text-white sm:text-xs md:text-sm">
+                      {userName}
+                    </span>
+                    <span className="text-[9px] text-gray-500 sm:text-[10px] md:text-xs">
+                      • {formatTime(c.createdAt)}
+                    </span>
+                  </div>
+                  <p className="text-[11px] leading-relaxed text-gray-400 sm:text-xs md:text-sm">
+                    {c.text}
+                  </p>
+                </div>
+              </div>
+            );
+          })
+        ) : (
+          <div className="py-8 text-center">
+            <p className="text-xs text-gray-500 sm:text-sm">
+              No comments yet. Be the first to share your thoughts!
+            </p>
           </div>
-        ))}
+        )}
       </div>
     </div>
   );

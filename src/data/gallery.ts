@@ -37,7 +37,7 @@ export const galleryImages: GalleryImage[] = [
   // ── 2022-2023 · Srijan ────────────────────────────────────
   {
     id: 1,
-    src: "https://res.cloudinary.com/dfriijrmr/image/upload/v1677396003/samples/GalleryPage/srijan2022-2023/start3_tqu8nr.jpg",
+    src: "https://res.cloudinary.com/dfriijrmr/image/upload/f_auto,q_auto/v1677396003/samples/GalleryPage/srijan2022-2023/start3_tqu8nr.jpg",
     alt: "Srijan 2022-23 event",
     year: "2022-2023",
     event: "Srijan",
@@ -45,7 +45,7 @@ export const galleryImages: GalleryImage[] = [
   },
   {
     id: 2,
-    src: "https://res.cloudinary.com/dfriijrmr/image/upload/v1677395999/samples/GalleryPage/srijan2022-2023/idk_knmujl.jpg",
+    src: "https://res.cloudinary.com/dfriijrmr/image/upload/f_auto,q_auto/v1677395999/samples/GalleryPage/srijan2022-2023/idk_knmujl.jpg",
     alt: "Srijan 2022-23 event",
     year: "2022-2023",
     event: "Srijan",
@@ -53,7 +53,7 @@ export const galleryImages: GalleryImage[] = [
   },
   {
     id: 3,
-    src: "https://res.cloudinary.com/dfriijrmr/image/upload/v1677474955/GalleryPage/Srijan%202022-23/teams_uu7dec.jpg",
+    src: "https://res.cloudinary.com/dfriijrmr/image/upload/f_auto,q_auto/v1677474955/GalleryPage/Srijan%202022-23/teams_uu7dec.jpg",
     alt: "Srijan 2022-23 teams",
     year: "2022-2023",
     event: "Srijan",
@@ -61,7 +61,7 @@ export const galleryImages: GalleryImage[] = [
   },
   {
     id: 4,
-    src: "https://res.cloudinary.com/dfriijrmr/image/upload/v1677395996/samples/GalleryPage/srijan2022-2023/277772067_532544878220799_7467461624549756321_n_vfylc8.jpg",
+    src: "https://res.cloudinary.com/dfriijrmr/image/upload/f_auto,q_auto/v1677395996/samples/GalleryPage/srijan2022-2023/277772067_532544878220799_7467461624549756321_n_vfylc8.jpg",
     alt: "Srijan 2022-23 event",
     year: "2022-2023",
     event: "Srijan",
@@ -69,7 +69,7 @@ export const galleryImages: GalleryImage[] = [
   },
   {
     id: 5,
-    src: "https://res.cloudinary.com/dfriijrmr/image/upload/v1677474945/GalleryPage/Srijan%202022-23/imaugural_ceremony_xihtp2.jpg",
+    src: "https://res.cloudinary.com/dfriijrmr/image/upload/f_auto,q_auto/v1677474945/GalleryPage/Srijan%202022-23/imaugural_ceremony_xihtp2.jpg",
     alt: "Srijan 2022-23 inaugural ceremony",
     year: "2022-2023",
     event: "Srijan",
@@ -77,7 +77,7 @@ export const galleryImages: GalleryImage[] = [
   },
   {
     id: 6,
-    src: "https://res.cloudinary.com/dfriijrmr/image/upload/v1677474942/GalleryPage/Srijan%202022-23/group_pic_wqdelr.jpg",
+    src: "https://res.cloudinary.com/dfriijrmr/image/upload/f_auto,q_auto/v1677474942/GalleryPage/Srijan%202022-23/group_pic_wqdelr.jpg",
     alt: "Srijan 2022-23 group photo",
     year: "2022-2023",
     event: "Srijan",
@@ -85,7 +85,7 @@ export const galleryImages: GalleryImage[] = [
   },
   {
     id: 7,
-    src: "https://res.cloudinary.com/dfriijrmr/image/upload/v1677474940/GalleryPage/Srijan%202022-23/crying_vgczef.jpg",
+    src: "https://res.cloudinary.com/dfriijrmr/image/upload/f_auto,q_auto/v1677474940/GalleryPage/Srijan%202022-23/crying_vgczef.jpg",
     alt: "Srijan 2022-23 event",
     year: "2022-2023",
     event: "Srijan",
@@ -93,7 +93,7 @@ export const galleryImages: GalleryImage[] = [
   },
   {
     id: 8,
-    src: "https://res.cloudinary.com/dfriijrmr/image/upload/v1677474888/GalleryPage/Srijan%202022-23/278647849_532986591509961_3049151441003914535_n_nv4dg4.jpg",
+    src: "https://res.cloudinary.com/dfriijrmr/image/upload/f_auto,q_auto/v1677474888/GalleryPage/Srijan%202022-23/278647849_532986591509961_3049151441003914535_n_nv4dg4.jpg",
     alt: "Srijan 2022-23 event",
     year: "2022-2023",
     event: "Srijan",
@@ -101,7 +101,7 @@ export const galleryImages: GalleryImage[] = [
   },
   {
     id: 9,
-    src: "https://res.cloudinary.com/dfriijrmr/image/upload/v1677474885/GalleryPage/Srijan%202022-23/278422694_532980904843863_3162676106950133638_n_by17db.jpg",
+    src: "https://res.cloudinary.com/dfriijrmr/image/upload/f_auto,q_auto/v1677474885/GalleryPage/Srijan%202022-23/278422694_532980904843863_3162676106950133638_n_by17db.jpg",
     alt: "Srijan 2022-23 event",
     year: "2022-2023",
     event: "Srijan",
@@ -109,7 +109,7 @@ export const galleryImages: GalleryImage[] = [
   },
   {
     id: 10,
-    src: "https://res.cloudinary.com/dfriijrmr/image/upload/v1677474885/GalleryPage/Srijan%202022-23/278332086_532980968177190_3407856614422230693_n_unaf2s.jpg",
+    src: "https://res.cloudinary.com/dfriijrmr/image/upload/f_auto,q_auto/v1677474885/GalleryPage/Srijan%202022-23/278332086_532980968177190_3407856614422230693_n_unaf2s.jpg",
     alt: "Srijan 2022-23 event",
     year: "2022-2023",
     event: "Srijan",
@@ -117,7 +117,7 @@ export const galleryImages: GalleryImage[] = [
   },
   {
     id: 11,
-    src: "https://res.cloudinary.com/dfriijrmr/image/upload/v1677474882/GalleryPage/Srijan%202022-23/278126023_532544801554140_7365133572541381614_n_ggswsn.jpg",
+    src: "https://res.cloudinary.com/dfriijrmr/image/upload/f_auto,q_auto/v1677474882/GalleryPage/Srijan%202022-23/278126023_532544801554140_7365133572541381614_n_ggswsn.jpg",
     alt: "Srijan 2022-23 event",
     year: "2022-2023",
     event: "Srijan",
@@ -125,7 +125,7 @@ export const galleryImages: GalleryImage[] = [
   },
   {
     id: 12,
-    src: "https://res.cloudinary.com/dfriijrmr/image/upload/v1677474882/GalleryPage/Srijan%202022-23/277806645_532985668176720_3858823300515326543_n_s5rtty.jpg",
+    src: "https://res.cloudinary.com/dfriijrmr/image/upload/f_auto,q_auto/v1677474882/GalleryPage/Srijan%202022-23/277806645_532985668176720_3858823300515326543_n_s5rtty.jpg",
     alt: "Srijan 2022-23 event",
     year: "2022-2023",
     event: "Srijan",
@@ -133,7 +133,7 @@ export const galleryImages: GalleryImage[] = [
   },
   {
     id: 13,
-    src: "https://res.cloudinary.com/dfriijrmr/image/upload/v1677474884/GalleryPage/Srijan%202022-23/278247721_532984378176849_8300906852035734564_n_aydgse.jpg",
+    src: "https://res.cloudinary.com/dfriijrmr/image/upload/f_auto,q_auto/v1677474884/GalleryPage/Srijan%202022-23/278247721_532984378176849_8300906852035734564_n_aydgse.jpg",
     alt: "Srijan 2022-23 event",
     year: "2022-2023",
     event: "Srijan",
@@ -141,7 +141,7 @@ export const galleryImages: GalleryImage[] = [
   },
   {
     id: 14,
-    src: "https://res.cloudinary.com/dfriijrmr/image/upload/v1677474887/GalleryPage/Srijan%202022-23/278596414_532986014843352_4474012601936729890_n_x6b6xs.jpg",
+    src: "https://res.cloudinary.com/dfriijrmr/image/upload/f_auto,q_auto/v1677474887/GalleryPage/Srijan%202022-23/278596414_532986014843352_4474012601936729890_n_x6b6xs.jpg",
     alt: "Srijan 2022-23 event",
     year: "2022-2023",
     event: "Srijan",
@@ -151,7 +151,7 @@ export const galleryImages: GalleryImage[] = [
   // ── 2022-2023 · Orientation ───────────────────────────────
   {
     id: 15,
-    src: "https://res.cloudinary.com/dfriijrmr/image/upload/v1677473927/GalleryPage/Orientation%202022-2023/IMG_1473_wvo4vr.jpg",
+    src: "https://res.cloudinary.com/dfriijrmr/image/upload/f_auto,q_auto/v1677473927/GalleryPage/Orientation%202022-2023/IMG_1473_wvo4vr.jpg",
     alt: "Orientation 2022-23",
     year: "2022-2023",
     event: "Orientation",
@@ -159,7 +159,7 @@ export const galleryImages: GalleryImage[] = [
   },
   {
     id: 16,
-    src: "https://res.cloudinary.com/dfriijrmr/image/upload/v1677472654/GalleryPage/Orientation%202022-2023/IMG_1582_fjqenz.jpg",
+    src: "https://res.cloudinary.com/dfriijrmr/image/upload/f_auto,q_auto/v1677472654/GalleryPage/Orientation%202022-2023/IMG_1582_fjqenz.jpg",
     alt: "Orientation 2022-23",
     year: "2022-2023",
     event: "Orientation",
@@ -167,7 +167,7 @@ export const galleryImages: GalleryImage[] = [
   },
   {
     id: 17,
-    src: "https://res.cloudinary.com/dfriijrmr/image/upload/v1677472654/GalleryPage/Orientation%202022-2023/IMG_1579_i7tuyk.jpg",
+    src: "https://res.cloudinary.com/dfriijrmr/image/upload/f_auto,q_auto/v1677472654/GalleryPage/Orientation%202022-2023/IMG_1579_i7tuyk.jpg",
     alt: "Orientation 2022-23",
     year: "2022-2023",
     event: "Orientation",
@@ -175,7 +175,7 @@ export const galleryImages: GalleryImage[] = [
   },
   {
     id: 18,
-    src: "https://res.cloudinary.com/dfriijrmr/image/upload/v1677474386/GalleryPage/Orientation%202022-2023/IMG_1558_vjql6g.jpg",
+    src: "https://res.cloudinary.com/dfriijrmr/image/upload/f_auto,q_auto/v1677474386/GalleryPage/Orientation%202022-2023/IMG_1558_vjql6g.jpg",
     alt: "Orientation 2022-23",
     year: "2022-2023",
     event: "Orientation",
@@ -183,7 +183,7 @@ export const galleryImages: GalleryImage[] = [
   },
   {
     id: 19,
-    src: "https://res.cloudinary.com/dfriijrmr/image/upload/v1677472653/GalleryPage/Orientation%202022-2023/IMG_1479_oiyz1p.jpg",
+    src: "https://res.cloudinary.com/dfriijrmr/image/upload/f_auto,q_auto/v1677472653/GalleryPage/Orientation%202022-2023/IMG_1479_oiyz1p.jpg",
     alt: "Orientation 2022-23",
     year: "2022-2023",
     event: "Orientation",
@@ -191,7 +191,7 @@ export const galleryImages: GalleryImage[] = [
   },
   {
     id: 20,
-    src: "https://res.cloudinary.com/dfriijrmr/image/upload/v1677473928/GalleryPage/Orientation%202022-2023/IMG_1482_uyf84a.jpg",
+    src: "https://res.cloudinary.com/dfriijrmr/image/upload/f_auto,q_auto/v1677473928/GalleryPage/Orientation%202022-2023/IMG_1482_uyf84a.jpg",
     alt: "Orientation 2022-23",
     year: "2022-2023",
     event: "Orientation",
@@ -199,7 +199,7 @@ export const galleryImages: GalleryImage[] = [
   },
   {
     id: 49,
-    src: "https://res.cloudinary.com/dp92qug2f/image/upload/v1685353486/Ecell%20website/IMG_1708_jjc1aj.webp",
+    src: "https://res.cloudinary.com/dp92qug2f/image/upload/f_auto,q_auto/v1685353486/Ecell%20website/IMG_1708_jjc1aj.webp",
     alt: "Orientation 2022-23",
     year: "2022-2023",
     event: "Orientation",
@@ -207,7 +207,7 @@ export const galleryImages: GalleryImage[] = [
   },
   {
     id: 50,
-    src: "https://res.cloudinary.com/dp92qug2f/image/upload/v1685353487/Ecell%20website/IMG_1707_kxtmnu.webp",
+    src: "https://res.cloudinary.com/dp92qug2f/image/upload/f_auto,q_auto/v1685353487/Ecell%20website/IMG_1707_kxtmnu.webp",
     alt: "Orientation 2022-23",
     year: "2022-2023",
     event: "Orientation",
@@ -217,7 +217,7 @@ export const galleryImages: GalleryImage[] = [
   // ── 2022-2023 · Empressario ───────────────────────────────
   {
     id: 32,
-    src: "https://res.cloudinary.com/dfriijrmr/image/upload/v1678297818/GalleryPage/Emprassario%202022-23/WhatsApp_Image_2022-11-16_at_7.52.20_AM_asucfg.jpg",
+    src: "https://res.cloudinary.com/dfriijrmr/image/upload/f_auto,q_auto/v1678297818/GalleryPage/Emprassario%202022-23/WhatsApp_Image_2022-11-16_at_7.52.20_AM_asucfg.jpg",
     alt: "Empressario 2022-23",
     year: "2022-2023",
     event: "Empressario",
@@ -225,7 +225,7 @@ export const galleryImages: GalleryImage[] = [
   },
   {
     id: 33,
-    src: "https://res.cloudinary.com/dfriijrmr/image/upload/v1678297818/GalleryPage/Emprassario%202022-23/WhatsApp_Image_2022-11-20_at_11.43.03_AM_grnx2j.jpg",
+    src: "https://res.cloudinary.com/dfriijrmr/image/upload/f_auto,q_auto/v1678297818/GalleryPage/Emprassario%202022-23/WhatsApp_Image_2022-11-20_at_11.43.03_AM_grnx2j.jpg",
     alt: "Empressario 2022-23",
     year: "2022-2023",
     event: "Empressario",
@@ -233,7 +233,7 @@ export const galleryImages: GalleryImage[] = [
   },
   {
     id: 34,
-    src: "https://res.cloudinary.com/dfriijrmr/image/upload/v1678297818/GalleryPage/Emprassario%202022-23/WhatsApp_Image_2022-11-20_at_11.43.06_AM_bkovkg.jpg",
+    src: "https://res.cloudinary.com/dfriijrmr/image/upload/f_auto,q_auto/v1678297818/GalleryPage/Emprassario%202022-23/WhatsApp_Image_2022-11-20_at_11.43.06_AM_bkovkg.jpg",
     alt: "Empressario 2022-23",
     year: "2022-2023",
     event: "Empressario",
@@ -241,7 +241,7 @@ export const galleryImages: GalleryImage[] = [
   },
   {
     id: 35,
-    src: "https://res.cloudinary.com/dfriijrmr/image/upload/v1678297818/GalleryPage/Emprassario%202022-23/WhatsApp_Image_2022-11-20_at_11.43.05_AM_kfcxb3.jpg",
+    src: "https://res.cloudinary.com/dfriijrmr/image/upload/f_auto,q_auto/v1678297818/GalleryPage/Emprassario%202022-23/WhatsApp_Image_2022-11-20_at_11.43.05_AM_kfcxb3.jpg",
     alt: "Empressario 2022-23",
     year: "2022-2023",
     event: "Empressario",
@@ -251,7 +251,7 @@ export const galleryImages: GalleryImage[] = [
   // ── 2022-2023 · EIC ───────────────────────────────────────
   {
     id: 36,
-    src: "https://res.cloudinary.com/dfriijrmr/image/upload/v1680503445/GalleryPage/EIC/EIC_2022_3_aoi9gr.jpg",
+    src: "https://res.cloudinary.com/dfriijrmr/image/upload/f_auto,q_auto/v1680503445/GalleryPage/EIC/EIC_2022_3_aoi9gr.jpg",
     alt: "EIC 2022-23",
     year: "2022-2023",
     event: "EIC",
@@ -259,7 +259,7 @@ export const galleryImages: GalleryImage[] = [
   },
   {
     id: 37,
-    src: "https://res.cloudinary.com/dfriijrmr/image/upload/v1680503445/GalleryPage/EIC/EIC_2022_2_oy4m4o.jpg",
+    src: "https://res.cloudinary.com/dfriijrmr/image/upload/f_auto,q_auto/v1680503445/GalleryPage/EIC/EIC_2022_2_oy4m4o.jpg",
     alt: "EIC 2022-23",
     year: "2022-2023",
     event: "EIC",
@@ -267,7 +267,7 @@ export const galleryImages: GalleryImage[] = [
   },
   {
     id: 38,
-    src: "https://res.cloudinary.com/dfriijrmr/image/upload/v1680503444/GalleryPage/EIC/EIC_2022_l7c1cl.jpg",
+    src: "https://res.cloudinary.com/dfriijrmr/image/upload/f_auto,q_auto/v1680503444/GalleryPage/EIC/EIC_2022_l7c1cl.jpg",
     alt: "EIC 2022-23",
     year: "2022-2023",
     event: "EIC",
@@ -275,7 +275,7 @@ export const galleryImages: GalleryImage[] = [
   },
   {
     id: 39,
-    src: "https://res.cloudinary.com/dfriijrmr/image/upload/v1680503444/GalleryPage/EIC/EIC_2022_4_oqmmno.jpg",
+    src: "https://res.cloudinary.com/dfriijrmr/image/upload/f_auto,q_auto/v1680503444/GalleryPage/EIC/EIC_2022_4_oqmmno.jpg",
     alt: "EIC 2022-23",
     year: "2022-2023",
     event: "EIC",
@@ -283,7 +283,7 @@ export const galleryImages: GalleryImage[] = [
   },
   {
     id: 40,
-    src: "https://res.cloudinary.com/dfriijrmr/image/upload/v1680503444/GalleryPage/EIC/EIC_2022_6_a71r2s.jpg",
+    src: "https://res.cloudinary.com/dfriijrmr/image/upload/f_auto,q_auto/v1680503444/GalleryPage/EIC/EIC_2022_6_a71r2s.jpg",
     alt: "EIC 2022-23",
     year: "2022-2023",
     event: "EIC",
@@ -291,7 +291,7 @@ export const galleryImages: GalleryImage[] = [
   },
   {
     id: 41,
-    src: "https://res.cloudinary.com/dfriijrmr/image/upload/v1680503444/GalleryPage/EIC/EIC_2022_1_pxpx1h.jpg",
+    src: "https://res.cloudinary.com/dfriijrmr/image/upload/f_auto,q_auto/v1680503444/GalleryPage/EIC/EIC_2022_1_pxpx1h.jpg",
     alt: "EIC 2022-23",
     year: "2022-2023",
     event: "EIC",
@@ -299,7 +299,7 @@ export const galleryImages: GalleryImage[] = [
   },
   {
     id: 42,
-    src: "https://res.cloudinary.com/dfriijrmr/image/upload/v1680503444/GalleryPage/EIC/EIC_2022_7_oelrai.jpg",
+    src: "https://res.cloudinary.com/dfriijrmr/image/upload/f_auto,q_auto/v1680503444/GalleryPage/EIC/EIC_2022_7_oelrai.jpg",
     alt: "EIC 2022-23",
     year: "2022-2023",
     event: "EIC",
@@ -307,7 +307,7 @@ export const galleryImages: GalleryImage[] = [
   },
   {
     id: 43,
-    src: "https://res.cloudinary.com/dfriijrmr/image/upload/v1680503442/GalleryPage/EIC/EIC_2022_8_i2fvof.jpg",
+    src: "https://res.cloudinary.com/dfriijrmr/image/upload/f_auto,q_auto/v1680503442/GalleryPage/EIC/EIC_2022_8_i2fvof.jpg",
     alt: "EIC 2022-23",
     year: "2022-2023",
     event: "EIC",
@@ -315,7 +315,7 @@ export const galleryImages: GalleryImage[] = [
   },
   {
     id: 44,
-    src: "https://res.cloudinary.com/dfriijrmr/image/upload/v1680503443/GalleryPage/EIC/EIC_2022_5_n29tm0.jpg",
+    src: "https://res.cloudinary.com/dfriijrmr/image/upload/f_auto,q_auto/v1680503443/GalleryPage/EIC/EIC_2022_5_n29tm0.jpg",
     alt: "EIC 2022-23",
     year: "2022-2023",
     event: "EIC",
@@ -323,7 +323,7 @@ export const galleryImages: GalleryImage[] = [
   },
   {
     id: 45,
-    src: "https://res.cloudinary.com/dfriijrmr/image/upload/v1680503443/GalleryPage/EIC/EIC_2022_9_dtp9en.jpg",
+    src: "https://res.cloudinary.com/dfriijrmr/image/upload/f_auto,q_auto/v1680503443/GalleryPage/EIC/EIC_2022_9_dtp9en.jpg",
     alt: "EIC 2022-23",
     year: "2022-2023",
     event: "EIC",
@@ -331,7 +331,7 @@ export const galleryImages: GalleryImage[] = [
   },
   {
     id: 46,
-    src: "https://res.cloudinary.com/dfriijrmr/image/upload/v1680503442/GalleryPage/EIC/EIC_2022_11_pszgha.jpg",
+    src: "https://res.cloudinary.com/dfriijrmr/image/upload/f_auto,q_auto/v1680503442/GalleryPage/EIC/EIC_2022_11_pszgha.jpg",
     alt: "EIC 2022-23",
     year: "2022-2023",
     event: "EIC",
@@ -339,7 +339,7 @@ export const galleryImages: GalleryImage[] = [
   },
   {
     id: 47,
-    src: "https://res.cloudinary.com/dfriijrmr/image/upload/v1680503442/GalleryPage/EIC/EIC_2022_12_dkujie.jpg",
+    src: "https://res.cloudinary.com/dfriijrmr/image/upload/f_auto,q_auto/v1680503442/GalleryPage/EIC/EIC_2022_12_dkujie.jpg",
     alt: "EIC 2022-23",
     year: "2022-2023",
     event: "EIC",
@@ -347,7 +347,7 @@ export const galleryImages: GalleryImage[] = [
   },
   {
     id: 48,
-    src: "https://res.cloudinary.com/dfriijrmr/image/upload/v1680503441/GalleryPage/EIC/EIC_2022_10_olgxqh.jpg",
+    src: "https://res.cloudinary.com/dfriijrmr/image/upload/f_auto,q_auto/v1680503441/GalleryPage/EIC/EIC_2022_10_olgxqh.jpg",
     alt: "EIC 2022-23",
     year: "2022-2023",
     event: "EIC",
@@ -357,7 +357,7 @@ export const galleryImages: GalleryImage[] = [
   // ── 2020-2021 · Srijan ────────────────────────────────────
   {
     id: 21,
-    src: "https://res.cloudinary.com/dfriijrmr/image/upload/v1677528539/GalleryPage/Srijan%201.0/73504844_2690552797675835_6353087079890550784_n_hr8ekg.jpg",
+    src: "https://res.cloudinary.com/dfriijrmr/image/upload/f_auto,q_auto/v1677528539/GalleryPage/Srijan%201.0/73504844_2690552797675835_6353087079890550784_n_hr8ekg.jpg",
     alt: "Srijan 1.0 event",
     year: "2020-2021",
     event: "Srijan",
@@ -365,7 +365,7 @@ export const galleryImages: GalleryImage[] = [
   },
   {
     id: 22,
-    src: "https://res.cloudinary.com/dfriijrmr/image/upload/v1677528540/GalleryPage/Srijan%201.0/74794788_2695786133819168_8113573893685379072_n_lobip1.jpg",
+    src: "https://res.cloudinary.com/dfriijrmr/image/upload/f_auto,q_auto/v1677528540/GalleryPage/Srijan%201.0/74794788_2695786133819168_8113573893685379072_n_lobip1.jpg",
     alt: "Srijan 1.0 event",
     year: "2020-2021",
     event: "Srijan",
@@ -373,7 +373,7 @@ export const galleryImages: GalleryImage[] = [
   },
   {
     id: 23,
-    src: "https://res.cloudinary.com/dfriijrmr/image/upload/v1677528541/GalleryPage/Srijan%201.0/74802724_2693318890732559_7952600327612530688_n_wlqg3z.jpg",
+    src: "https://res.cloudinary.com/dfriijrmr/image/upload/f_auto,q_auto/v1677528541/GalleryPage/Srijan%201.0/74802724_2693318890732559_7952600327612530688_n_wlqg3z.jpg",
     alt: "Srijan 1.0 event",
     year: "2020-2021",
     event: "Srijan",
@@ -381,7 +381,7 @@ export const galleryImages: GalleryImage[] = [
   },
   {
     id: 24,
-    src: "https://res.cloudinary.com/dfriijrmr/image/upload/v1677528540/GalleryPage/Srijan%201.0/73284285_2690551787675936_116357986967879680_n_p5hwap.jpg",
+    src: "https://res.cloudinary.com/dfriijrmr/image/upload/f_auto,q_auto/v1677528540/GalleryPage/Srijan%201.0/73284285_2690551787675936_116357986967879680_n_p5hwap.jpg",
     alt: "Srijan 1.0 event",
     year: "2020-2021",
     event: "Srijan",
@@ -389,7 +389,7 @@ export const galleryImages: GalleryImage[] = [
   },
   {
     id: 25,
-    src: "https://res.cloudinary.com/dfriijrmr/image/upload/v1677528539/GalleryPage/Srijan%201.0/73187906_2695788557152259_1331224357480955904_n_unf8sj.jpg",
+    src: "https://res.cloudinary.com/dfriijrmr/image/upload/f_auto,q_auto/v1677528539/GalleryPage/Srijan%201.0/73187906_2695788557152259_1331224357480955904_n_unf8sj.jpg",
     alt: "Srijan 1.0 event",
     year: "2020-2021",
     event: "Srijan",
@@ -397,7 +397,7 @@ export const galleryImages: GalleryImage[] = [
   },
   {
     id: 26,
-    src: "https://res.cloudinary.com/dfriijrmr/image/upload/v1677528542/GalleryPage/Srijan%201.0/75293856_2690551991009249_1320737430323593216_n_jbnbck.jpg",
+    src: "https://res.cloudinary.com/dfriijrmr/image/upload/f_auto,q_auto/v1677528542/GalleryPage/Srijan%201.0/75293856_2690551991009249_1320737430323593216_n_jbnbck.jpg",
     alt: "Srijan 1.0 event",
     year: "2020-2021",
     event: "Srijan",
@@ -405,7 +405,7 @@ export const galleryImages: GalleryImage[] = [
   },
   {
     id: 27,
-    src: "https://res.cloudinary.com/dfriijrmr/image/upload/v1677528542/GalleryPage/Srijan%201.0/74165655_2690552234342558_521364714261839872_n_qib32i.jpg",
+    src: "https://res.cloudinary.com/dfriijrmr/image/upload/f_auto,q_auto/v1677528542/GalleryPage/Srijan%201.0/74165655_2690552234342558_521364714261839872_n_qib32i.jpg",
     alt: "Srijan 1.0 event",
     year: "2020-2021",
     event: "Srijan",
@@ -413,7 +413,7 @@ export const galleryImages: GalleryImage[] = [
   },
   {
     id: 28,
-    src: "https://res.cloudinary.com/dfriijrmr/image/upload/v1677528544/GalleryPage/Srijan%201.0/75418900_2695788787152236_6160675869334437888_n_be6t9k.jpg",
+    src: "https://res.cloudinary.com/dfriijrmr/image/upload/f_auto,q_auto/v1677528544/GalleryPage/Srijan%201.0/75418900_2695788787152236_6160675869334437888_n_be6t9k.jpg",
     alt: "Srijan 1.0 event",
     year: "2020-2021",
     event: "Srijan",
@@ -421,7 +421,7 @@ export const galleryImages: GalleryImage[] = [
   },
   {
     id: 29,
-    src: "https://res.cloudinary.com/dfriijrmr/image/upload/v1677528539/GalleryPage/Srijan%201.0/74158682_2693318850732563_1879555148464783360_n_up4plx.jpg",
+    src: "https://res.cloudinary.com/dfriijrmr/image/upload/f_auto,q_auto/v1677528539/GalleryPage/Srijan%201.0/74158682_2693318850732563_1879555148464783360_n_up4plx.jpg",
     alt: "Srijan 1.0 event",
     year: "2020-2021",
     event: "Srijan",
@@ -429,7 +429,7 @@ export const galleryImages: GalleryImage[] = [
   },
   {
     id: 30,
-    src: "https://res.cloudinary.com/dfriijrmr/image/upload/v1677528546/GalleryPage/Srijan%201.0/76605202_2690552351009213_9048639225221611520_n_owwhgs.jpg",
+    src: "https://res.cloudinary.com/dfriijrmr/image/upload/f_auto,q_auto/v1677528546/GalleryPage/Srijan%201.0/76605202_2690552351009213_9048639225221611520_n_owwhgs.jpg",
     alt: "Srijan 1.0 event",
     year: "2020-2021",
     event: "Srijan",
@@ -437,7 +437,7 @@ export const galleryImages: GalleryImage[] = [
   },
   {
     id: 31,
-    src: "https://res.cloudinary.com/dfriijrmr/image/upload/v1677528549/GalleryPage/Srijan%201.0/76705240_2695791563818625_4162529024490340352_n_hoggcp.jpg",
+    src: "https://res.cloudinary.com/dfriijrmr/image/upload/f_auto,q_auto/v1677528549/GalleryPage/Srijan%201.0/76705240_2695791563818625_4162529024490340352_n_hoggcp.jpg",
     alt: "Srijan 1.0 event",
     year: "2020-2021",
     event: "Srijan",
@@ -487,7 +487,7 @@ export const galleryImages: GalleryImage[] = [
   },
   {
     id: 56,
-    src: "https://res.cloudinary.com/sahincloudinary/image/upload/v1702025411/Orientation%202k23/q7moqohsjidxlydsnkvu.webp",
+    src: "https://res.cloudinary.com/sahincloudinary/image/upload/f_auto,q_auto/v1702025411/Orientation%202k23/q7moqohsjidxlydsnkvu.webp",
     alt: "Orientation 2023-24",
     year: "2023-2024",
     event: "Orientation",
@@ -553,7 +553,7 @@ export const galleryImages: GalleryImage[] = [
   },
   {
     id: 65,
-    src: "https://res.cloudinary.com/sahincloudinary/image/upload/v1711132568/Ecell/Events/empresario/Emp4.webp",
+    src: "https://res.cloudinary.com/sahincloudinary/image/upload/f_auto,q_auto/v1711132568/Ecell/Events/empresario/Emp4.webp",
     alt: "Empressario 2023-24",
     year: "2023-2024",
     event: "Empressario",
@@ -561,7 +561,7 @@ export const galleryImages: GalleryImage[] = [
   },
   {
     id: 66,
-    src: "https://res.cloudinary.com/sahincloudinary/image/upload/v1711132375/Ecell/Events/empresario/Emp3.webp",
+    src: "https://res.cloudinary.com/sahincloudinary/image/upload/f_auto,q_auto/v1711132375/Ecell/Events/empresario/Emp3.webp",
     alt: "Empressario 2023-24",
     year: "2023-2024",
     event: "Empressario",
@@ -571,7 +571,7 @@ export const galleryImages: GalleryImage[] = [
   // ── 2024-2025 · Orientation ───────────────────────────────
   {
     id: 67,
-    src: "https://res.cloudinary.com/dbtifxo6g/image/upload/v1728816666/_DSC0030_cuqhmk.webp",
+    src: "https://res.cloudinary.com/dbtifxo6g/image/upload/f_auto,q_auto/v1728816666/_DSC0030_cuqhmk.webp",
     alt: "Orientation 2024-25",
     year: "2024-2025",
     event: "Orientation",
@@ -579,7 +579,7 @@ export const galleryImages: GalleryImage[] = [
   },
   {
     id: 68,
-    src: "https://res.cloudinary.com/dbtifxo6g/image/upload/v1728816238/DSC_0071_knpcn4.webp",
+    src: "https://res.cloudinary.com/dbtifxo6g/image/upload/f_auto,q_auto/v1728816238/DSC_0071_knpcn4.webp",
     alt: "Orientation 2024-25",
     year: "2024-2025",
     event: "Orientation",
@@ -587,7 +587,7 @@ export const galleryImages: GalleryImage[] = [
   },
   {
     id: 69,
-    src: "https://res.cloudinary.com/dbtifxo6g/image/upload/v1728816050/IMG_5208_ehvq22.webp",
+    src: "https://res.cloudinary.com/dbtifxo6g/image/upload/f_auto,q_auto/v1728816050/IMG_5208_ehvq22.webp",
     alt: "Orientation 2024-25",
     year: "2024-2025",
     event: "Orientation",
@@ -595,7 +595,7 @@ export const galleryImages: GalleryImage[] = [
   },
   {
     id: 70,
-    src: "https://res.cloudinary.com/dbtifxo6g/image/upload/v1728816030/DSC_0009_qfbrku.webp",
+    src: "https://res.cloudinary.com/dbtifxo6g/image/upload/f_auto,q_auto/v1728816030/DSC_0009_qfbrku.webp",
     alt: "Orientation 2024-25",
     year: "2024-2025",
     event: "Orientation",
@@ -603,7 +603,7 @@ export const galleryImages: GalleryImage[] = [
   },
   {
     id: 71,
-    src: "https://res.cloudinary.com/dbtifxo6g/image/upload/v1728816003/DSC_0034_bvw8xq.webp",
+    src: "https://res.cloudinary.com/dbtifxo6g/image/upload/f_auto,q_auto/v1728816003/DSC_0034_bvw8xq.webp",
     alt: "Orientation 2024-25",
     year: "2024-2025",
     event: "Orientation",
@@ -611,7 +611,7 @@ export const galleryImages: GalleryImage[] = [
   },
   {
     id: 72,
-    src: "https://res.cloudinary.com/dbtifxo6g/image/upload/v1728815991/IMG_5400_dql7kq.webp",
+    src: "https://res.cloudinary.com/dbtifxo6g/image/upload/f_auto,q_auto/v1728815991/IMG_5400_dql7kq.webp",
     alt: "Orientation 2024-25",
     year: "2024-2025",
     event: "Orientation",
@@ -619,7 +619,7 @@ export const galleryImages: GalleryImage[] = [
   },
   {
     id: 73,
-    src: "https://res.cloudinary.com/dbtifxo6g/image/upload/v1728469717/ecell%20cloudinary/k8zcrcdn3rlo3c2grmze.webp",
+    src: "https://res.cloudinary.com/dbtifxo6g/image/upload/f_auto,q_auto/v1728469717/ecell%20cloudinary/k8zcrcdn3rlo3c2grmze.webp",
     alt: "Orientation 2024-25",
     year: "2024-2025",
     event: "Orientation",
@@ -627,7 +627,7 @@ export const galleryImages: GalleryImage[] = [
   },
   {
     id: 74,
-    src: "https://res.cloudinary.com/dbtifxo6g/image/upload/v1728469709/ecell%20cloudinary/srnwxbwwdhtcy7c4a9om.webp",
+    src: "https://res.cloudinary.com/dbtifxo6g/image/upload/f_auto,q_auto/v1728469709/ecell%20cloudinary/srnwxbwwdhtcy7c4a9om.webp",
     alt: "Orientation 2024-25",
     year: "2024-2025",
     event: "Orientation",
@@ -635,7 +635,7 @@ export const galleryImages: GalleryImage[] = [
   },
   {
     id: 75,
-    src: "https://res.cloudinary.com/dbtifxo6g/image/upload/v1728469698/ecell%20cloudinary/guc9v8xj2kxkfzqcnqyx.webp",
+    src: "https://res.cloudinary.com/dbtifxo6g/image/upload/f_auto,q_auto/v1728469698/ecell%20cloudinary/guc9v8xj2kxkfzqcnqyx.webp",
     alt: "Orientation 2024-25",
     year: "2024-2025",
     event: "Orientation",
@@ -643,7 +643,7 @@ export const galleryImages: GalleryImage[] = [
   },
   {
     id: 76,
-    src: "https://res.cloudinary.com/dbtifxo6g/image/upload/v1728469686/ecell%20cloudinary/immz31tamhz0wscdbzbf.webp",
+    src: "https://res.cloudinary.com/dbtifxo6g/image/upload/f_auto,q_auto/v1728469686/ecell%20cloudinary/immz31tamhz0wscdbzbf.webp",
     alt: "Orientation 2024-25",
     year: "2024-2025",
     event: "Orientation",
@@ -653,7 +653,7 @@ export const galleryImages: GalleryImage[] = [
   // ── 2024-2025 · Empressario ───────────────────────────────
   {
     id: 77,
-    src: "https://res.cloudinary.com/diu8ohkcn/image/upload/WhatsApp_Image_2025-06-05_at_23.38.56_qpxgkx",
+    src: "https://res.cloudinary.com/diu8ohkcn/image/upload/f_auto,q_auto/WhatsApp_Image_2025-06-05_at_23.38.56_qpxgkx",
     alt: "Empressario 2024-25",
     year: "2024-2025",
     event: "Empressario",
@@ -661,7 +661,7 @@ export const galleryImages: GalleryImage[] = [
   },
   {
     id: 78,
-    src: "https://res.cloudinary.com/diu8ohkcn/image/upload/WhatsApp_Image_2025-06-05_at_23.38.56_2_ixazyv",
+    src: "https://res.cloudinary.com/diu8ohkcn/image/upload/f_auto,q_auto/WhatsApp_Image_2025-06-05_at_23.38.56_2_ixazyv",
     alt: "Empressario 2024-25",
     year: "2024-2025",
     event: "Empressario",
@@ -669,7 +669,7 @@ export const galleryImages: GalleryImage[] = [
   },
   {
     id: 79,
-    src: "https://res.cloudinary.com/diu8ohkcn/image/upload/WhatsApp_Image_2025-06-05_at_23.38.56_1_tggvsz",
+    src: "https://res.cloudinary.com/diu8ohkcn/image/upload/f_auto,q_auto/WhatsApp_Image_2025-06-05_at_23.38.56_1_tggvsz",
     alt: "Empressario 2024-25",
     year: "2024-2025",
     event: "Empressario",
@@ -677,7 +677,7 @@ export const galleryImages: GalleryImage[] = [
   },
   {
     id: 80,
-    src: "https://res.cloudinary.com/diu8ohkcn/image/upload/WhatsApp_Image_2025-06-05_at_23.38.53_1_yhxhf8",
+    src: "https://res.cloudinary.com/diu8ohkcn/image/upload/f_auto,q_auto/WhatsApp_Image_2025-06-05_at_23.38.53_1_yhxhf8",
     alt: "Empressario 2024-25",
     year: "2024-2025",
     event: "Empressario",
@@ -685,7 +685,7 @@ export const galleryImages: GalleryImage[] = [
   },
   {
     id: 81,
-    src: "https://res.cloudinary.com/diu8ohkcn/image/upload/WhatsApp_Image_2025-06-05_at_23.38.53_osmp8m",
+    src: "https://res.cloudinary.com/diu8ohkcn/image/upload/f_auto,q_auto/WhatsApp_Image_2025-06-05_at_23.38.53_osmp8m",
     alt: "Empressario 2024-25",
     year: "2024-2025",
     event: "Empressario",
@@ -693,7 +693,7 @@ export const galleryImages: GalleryImage[] = [
   },
   {
     id: 82,
-    src: "https://res.cloudinary.com/diu8ohkcn/image/upload/WhatsApp_Image_2025-06-05_at_23.38.54_njqxmn",
+    src: "https://res.cloudinary.com/diu8ohkcn/image/upload/f_auto,q_auto/WhatsApp_Image_2025-06-05_at_23.38.54_njqxmn",
     alt: "Empressario 2024-25",
     year: "2024-2025",
     event: "Empressario",
@@ -701,7 +701,7 @@ export const galleryImages: GalleryImage[] = [
   },
   {
     id: 83,
-    src: "https://res.cloudinary.com/diu8ohkcn/image/upload/WhatsApp_Image_2025-06-05_at_23.49.16_a9vnlr",
+    src: "https://res.cloudinary.com/diu8ohkcn/image/upload/f_auto,q_auto/WhatsApp_Image_2025-06-05_at_23.49.16_a9vnlr",
     alt: "Empressario 2024-25",
     year: "2024-2025",
     event: "Empressario",
@@ -709,7 +709,7 @@ export const galleryImages: GalleryImage[] = [
   },
   {
     id: 84,
-    src: "https://res.cloudinary.com/diu8ohkcn/image/upload/WhatsApp_Image_2025-06-05_at_23.38.54_1_l9ki4k",
+    src: "https://res.cloudinary.com/diu8ohkcn/image/upload/f_auto,q_auto/WhatsApp_Image_2025-06-05_at_23.38.54_1_l9ki4k",
     alt: "Empressario 2024-25",
     year: "2024-2025",
     event: "Empressario",
@@ -719,7 +719,7 @@ export const galleryImages: GalleryImage[] = [
   // ── 2024-2025 · Eminence ──────────────────────────────────
   {
     id: 85,
-    src: "https://res.cloudinary.com/dtt4ftdrw/image/upload/v1749193841/Copy_of__DSC0113-1_aubufm.jpg",
+    src: "https://res.cloudinary.com/dtt4ftdrw/image/upload/f_auto,q_auto/v1749193841/Copy_of__DSC0113-1_aubufm.jpg",
     alt: "Eminence 2024-25",
     year: "2024-2025",
     event: "Eminence",
@@ -727,7 +727,7 @@ export const galleryImages: GalleryImage[] = [
   },
   {
     id: 86,
-    src: "https://res.cloudinary.com/dtt4ftdrw/image/upload/v1749193881/Copy_of__DSC0068-1_s0pwm9.jpg",
+    src: "https://res.cloudinary.com/dtt4ftdrw/image/upload/f_auto,q_auto/v1749193881/Copy_of__DSC0068-1_s0pwm9.jpg",
     alt: "Eminence 2024-25",
     year: "2024-2025",
     event: "Eminence",
@@ -735,7 +735,7 @@ export const galleryImages: GalleryImage[] = [
   },
   {
     id: 87,
-    src: "https://res.cloudinary.com/dtt4ftdrw/image/upload/v1749193825/Copy_of__DSC0061_qbxoza.jpg",
+    src: "https://res.cloudinary.com/dtt4ftdrw/image/upload/f_auto,q_auto/v1749193825/Copy_of__DSC0061_qbxoza.jpg",
     alt: "Eminence 2024-25",
     year: "2024-2025",
     event: "Eminence",
@@ -743,7 +743,7 @@ export const galleryImages: GalleryImage[] = [
   },
   {
     id: 88,
-    src: "https://res.cloudinary.com/dtt4ftdrw/image/upload/v1749193715/Copy_of__DSC0262_hx2ohi.jpg",
+    src: "https://res.cloudinary.com/dtt4ftdrw/image/upload/f_auto,q_auto/v1749193715/Copy_of__DSC0262_hx2ohi.jpg",
     alt: "Eminence 2024-25",
     year: "2024-2025",
     event: "Eminence",
@@ -751,7 +751,7 @@ export const galleryImages: GalleryImage[] = [
   },
   {
     id: 89,
-    src: "https://res.cloudinary.com/dtt4ftdrw/image/upload/v1749193706/Copy_of__DSC0301_wb9wtl.jpg",
+    src: "https://res.cloudinary.com/dtt4ftdrw/image/upload/f_auto,q_auto/v1749193706/Copy_of__DSC0301_wb9wtl.jpg",
     alt: "Eminence 2024-25",
     year: "2024-2025",
     event: "Eminence",
@@ -759,7 +759,7 @@ export const galleryImages: GalleryImage[] = [
   },
   {
     id: 90,
-    src: "https://res.cloudinary.com/dtt4ftdrw/image/upload/v1749193940/Copy_of__DSC0078_ovmtcl.jpg",
+    src: "https://res.cloudinary.com/dtt4ftdrw/image/upload/f_auto,q_auto/v1749193940/Copy_of__DSC0078_ovmtcl.jpg",
     alt: "Eminence 2024-25",
     year: "2024-2025",
     event: "Eminence",
@@ -767,7 +767,7 @@ export const galleryImages: GalleryImage[] = [
   },
   {
     id: 91,
-    src: "https://res.cloudinary.com/dtt4ftdrw/image/upload/v1749194282/Copy_of__DSC0058-1_oheraa.jpg",
+    src: "https://res.cloudinary.com/dtt4ftdrw/image/upload/f_auto,q_auto/v1749194282/Copy_of__DSC0058-1_oheraa.jpg",
     alt: "Eminence 2024-25",
     year: "2024-2025",
     event: "Eminence",
@@ -775,7 +775,7 @@ export const galleryImages: GalleryImage[] = [
   },
   {
     id: 92,
-    src: "https://res.cloudinary.com/dtt4ftdrw/image/upload/v1749194141/Copy_of__DSC0070_dym8xw.jpg",
+    src: "https://res.cloudinary.com/dtt4ftdrw/image/upload/f_auto,q_auto/v1749194141/Copy_of__DSC0070_dym8xw.jpg",
     alt: "Eminence 2024-25",
     year: "2024-2025",
     event: "Eminence",
@@ -783,7 +783,7 @@ export const galleryImages: GalleryImage[] = [
   },
   {
     id: 93,
-    src: "https://res.cloudinary.com/dtt4ftdrw/image/upload/v1749195205/Copy_of__DSC0289_mz6uug.jpg",
+    src: "https://res.cloudinary.com/dtt4ftdrw/image/upload/f_auto,q_auto/v1749195205/Copy_of__DSC0289_mz6uug.jpg",
     alt: "Eminence 2024-25",
     year: "2024-2025",
     event: "Eminence",
@@ -793,7 +793,7 @@ export const galleryImages: GalleryImage[] = [
   // ── 2024-2025 · Speaker Sessions ──────────────────────────
   {
     id: 94,
-    src: "https://res.cloudinary.com/dtt4ftdrw/image/upload/v1749196305/WhatsApp_Image_2025-06-03_at_7.19.14_PM_2_1_gssigj.jpg",
+    src: "https://res.cloudinary.com/dtt4ftdrw/image/upload/f_auto,q_auto/v1749196305/WhatsApp_Image_2025-06-03_at_7.19.14_PM_2_1_gssigj.jpg",
     alt: "Speaker Sessions 2024-25",
     year: "2024-2025",
     event: "Speaker Sessions",
@@ -801,7 +801,7 @@ export const galleryImages: GalleryImage[] = [
   },
   {
     id: 95,
-    src: "https://res.cloudinary.com/dtt4ftdrw/image/upload/v1749196321/WhatsApp_Image_2025-06-03_at_7.19.14_PM_xu6unz.jpg",
+    src: "https://res.cloudinary.com/dtt4ftdrw/image/upload/f_auto,q_auto/v1749196321/WhatsApp_Image_2025-06-03_at_7.19.14_PM_xu6unz.jpg",
     alt: "Speaker Sessions 2024-25",
     year: "2024-2025",
     event: "Speaker Sessions",
@@ -809,7 +809,7 @@ export const galleryImages: GalleryImage[] = [
   },
   {
     id: 96,
-    src: "https://res.cloudinary.com/dtt4ftdrw/image/upload/v1749196329/WhatsApp_Image_2025-06-03_at_7.19.14_PM_1_dixj4f.jpg",
+    src: "https://res.cloudinary.com/dtt4ftdrw/image/upload/f_auto,q_auto/v1749196329/WhatsApp_Image_2025-06-03_at_7.19.14_PM_1_dixj4f.jpg",
     alt: "Speaker Sessions 2024-25",
     year: "2024-2025",
     event: "Speaker Sessions",
@@ -817,7 +817,7 @@ export const galleryImages: GalleryImage[] = [
   },
   {
     id: 97,
-    src: "https://res.cloudinary.com/dtt4ftdrw/image/upload/v1749196340/WhatsApp_Image_2025-06-03_at_7.19.13_PM_dzlwib.jpg",
+    src: "https://res.cloudinary.com/dtt4ftdrw/image/upload/f_auto,q_auto/v1749196340/WhatsApp_Image_2025-06-03_at_7.19.13_PM_dzlwib.jpg",
     alt: "Speaker Sessions 2024-25",
     year: "2024-2025",
     event: "Speaker Sessions",
@@ -825,7 +825,7 @@ export const galleryImages: GalleryImage[] = [
   },
   {
     id: 98,
-    src: "https://res.cloudinary.com/dtt4ftdrw/image/upload/v1749196366/WhatsApp_Image_2025-06-03_at_7.18.46_PM_te1x7x.jpg",
+    src: "https://res.cloudinary.com/dtt4ftdrw/image/upload/f_auto,q_auto/v1749196366/WhatsApp_Image_2025-06-03_at_7.18.46_PM_te1x7x.jpg",
     alt: "Speaker Sessions 2024-25",
     year: "2024-2025",
     event: "Speaker Sessions",
@@ -833,7 +833,7 @@ export const galleryImages: GalleryImage[] = [
   },
   {
     id: 99,
-    src: "https://res.cloudinary.com/dtt4ftdrw/image/upload/v1749196354/WhatsApp_Image_2025-06-03_at_7.19.12_PM_1_e9qque.jpg",
+    src: "https://res.cloudinary.com/dtt4ftdrw/image/upload/f_auto,q_auto/v1749196354/WhatsApp_Image_2025-06-03_at_7.19.12_PM_1_e9qque.jpg",
     alt: "Speaker Sessions 2024-25",
     year: "2024-2025",
     event: "Speaker Sessions",
@@ -843,7 +843,7 @@ export const galleryImages: GalleryImage[] = [
   // ── 2024-2025 · Diwali ────────────────────────────────────
   {
     id: 100,
-    src: "https://res.cloudinary.com/dtt4ftdrw/image/upload/v1749196713/WhatsApp_Image_2025-06-03_at_7.23.29_PM_au49le.jpg",
+    src: "https://res.cloudinary.com/dtt4ftdrw/image/upload/f_auto,q_auto/v1749196713/WhatsApp_Image_2025-06-03_at_7.23.29_PM_au49le.jpg",
     alt: "Diwali celebration 2024-25",
     year: "2024-2025",
     event: "Diwali",
@@ -851,7 +851,7 @@ export const galleryImages: GalleryImage[] = [
   },
   {
     id: 101,
-    src: "https://res.cloudinary.com/dtt4ftdrw/image/upload/v1749196702/WhatsApp_Image_2025-06-03_at_7.23.30_PM_1_xusjqa.jpg",
+    src: "https://res.cloudinary.com/dtt4ftdrw/image/upload/f_auto,q_auto/v1749196702/WhatsApp_Image_2025-06-03_at_7.23.30_PM_1_xusjqa.jpg",
     alt: "Diwali celebration 2024-25",
     year: "2024-2025",
     event: "Diwali",
@@ -859,7 +859,7 @@ export const galleryImages: GalleryImage[] = [
   },
   {
     id: 102,
-    src: "https://res.cloudinary.com/dtt4ftdrw/image/upload/v1749196690/WhatsApp_Image_2025-06-03_at_7.23.30_PM_qpvwee.jpg",
+    src: "https://res.cloudinary.com/dtt4ftdrw/image/upload/f_auto,q_auto/v1749196690/WhatsApp_Image_2025-06-03_at_7.23.30_PM_qpvwee.jpg",
     alt: "Diwali celebration 2024-25",
     year: "2024-2025",
     event: "Diwali",
@@ -867,7 +867,7 @@ export const galleryImages: GalleryImage[] = [
   },
   {
     id: 103,
-    src: "https://res.cloudinary.com/dtt4ftdrw/image/upload/c_crop,ar_4:3/v1749196678/WhatsApp_Image_2025-06-03_at_7.23.31_PM_1_rdrfkc.jpg",
+    src: "https://res.cloudinary.com/dtt4ftdrw/image/upload/f_auto,q_auto/c_crop,ar_4:3/v1749196678/WhatsApp_Image_2025-06-03_at_7.23.31_PM_1_rdrfkc.jpg",
     alt: "Diwali celebration 2024-25",
     year: "2024-2025",
     event: "Diwali",
@@ -875,7 +875,7 @@ export const galleryImages: GalleryImage[] = [
   },
   {
     id: 104,
-    src: "https://res.cloudinary.com/dtt4ftdrw/image/upload/v1749196668/WhatsApp_Image_2025-06-03_at_7.23.31_PM_fdkwut.jpg",
+    src: "https://res.cloudinary.com/dtt4ftdrw/image/upload/f_auto,q_auto/v1749196668/WhatsApp_Image_2025-06-03_at_7.23.31_PM_fdkwut.jpg",
     alt: "Diwali celebration 2024-25",
     year: "2024-2025",
     event: "Diwali",
@@ -883,7 +883,7 @@ export const galleryImages: GalleryImage[] = [
   },
   {
     id: 105,
-    src: "https://res.cloudinary.com/dtt4ftdrw/image/upload/c_crop,ar_1:1/v1749196660/WhatsApp_Image_2025-06-03_at_7.25.24_PM_o0dpse.jpg",
+    src: "https://res.cloudinary.com/dtt4ftdrw/image/upload/f_auto,q_auto/c_crop,ar_1:1/v1749196660/WhatsApp_Image_2025-06-03_at_7.25.24_PM_o0dpse.jpg",
     alt: "Diwali celebration 2024-25",
     year: "2024-2025",
     event: "Diwali",
@@ -893,7 +893,7 @@ export const galleryImages: GalleryImage[] = [
   // ── 2024-2025 · EIC ───────────────────────────────────────
   {
     id: 106,
-    src: "https://res.cloudinary.com/diu8ohkcn/image/upload/WhatsApp_Image_2025-06-06_at_11.11.28_g93fqn",
+    src: "https://res.cloudinary.com/diu8ohkcn/image/upload/f_auto,q_auto/WhatsApp_Image_2025-06-06_at_11.11.28_g93fqn",
     alt: "EIC 2024-25",
     year: "2024-2025",
     event: "EIC",
@@ -901,7 +901,7 @@ export const galleryImages: GalleryImage[] = [
   },
   {
     id: 107,
-    src: "https://res.cloudinary.com/diu8ohkcn/image/upload/WhatsApp_Image_2025-06-06_at_11.11.29_brtp0j",
+    src: "https://res.cloudinary.com/diu8ohkcn/image/upload/f_auto,q_auto/WhatsApp_Image_2025-06-06_at_11.11.29_brtp0j",
     alt: "EIC 2024-25",
     year: "2024-2025",
     event: "EIC",
@@ -909,7 +909,7 @@ export const galleryImages: GalleryImage[] = [
   },
   {
     id: 108,
-    src: "https://res.cloudinary.com/diu8ohkcn/image/upload/WhatsApp_Image_2025-06-06_at_11.11.27_s7sa6m",
+    src: "https://res.cloudinary.com/diu8ohkcn/image/upload/f_auto,q_auto/WhatsApp_Image_2025-06-06_at_11.11.27_s7sa6m",
     alt: "EIC 2024-25",
     year: "2024-2025",
     event: "EIC",
@@ -917,7 +917,7 @@ export const galleryImages: GalleryImage[] = [
   },
   {
     id: 109,
-    src: "https://res.cloudinary.com/diu8ohkcn/image/upload/WhatsApp_Image_2025-06-06_at_11.11.27_1_wqbjwb",
+    src: "https://res.cloudinary.com/diu8ohkcn/image/upload/f_auto,q_auto/WhatsApp_Image_2025-06-06_at_11.11.27_1_wqbjwb",
     alt: "EIC 2024-25",
     year: "2024-2025",
     event: "EIC",
@@ -925,7 +925,7 @@ export const galleryImages: GalleryImage[] = [
   },
   {
     id: 110,
-    src: "https://res.cloudinary.com/diu8ohkcn/image/upload/WhatsApp_Image_2025-06-06_at_11.11.26_rwzbw1",
+    src: "https://res.cloudinary.com/diu8ohkcn/image/upload/f_auto,q_auto/WhatsApp_Image_2025-06-06_at_11.11.26_rwzbw1",
     alt: "EIC 2024-25",
     year: "2024-2025",
     event: "EIC",
@@ -933,7 +933,7 @@ export const galleryImages: GalleryImage[] = [
   },
   {
     id: 111,
-    src: "https://res.cloudinary.com/diu8ohkcn/image/upload/WhatsApp_Image_2025-06-06_at_11.11.30_bwtrxr",
+    src: "https://res.cloudinary.com/diu8ohkcn/image/upload/f_auto,q_auto/WhatsApp_Image_2025-06-06_at_11.11.30_bwtrxr",
     alt: "EIC 2024-25",
     year: "2024-2025",
     event: "EIC",
@@ -941,7 +941,7 @@ export const galleryImages: GalleryImage[] = [
   },
   {
     id: 112,
-    src: "https://res.cloudinary.com/diu8ohkcn/image/upload/WhatsApp_Image_2025-06-06_at_11.11.25_1_tpr4zu",
+    src: "https://res.cloudinary.com/diu8ohkcn/image/upload/f_auto,q_auto/WhatsApp_Image_2025-06-06_at_11.11.25_1_tpr4zu",
     alt: "EIC 2024-25",
     year: "2024-2025",
     event: "EIC",
@@ -949,7 +949,7 @@ export const galleryImages: GalleryImage[] = [
   },
   {
     id: 113,
-    src: "https://res.cloudinary.com/diu8ohkcn/image/upload/WhatsApp_Image_2025-06-06_at_11.11.24_aclf6e",
+    src: "https://res.cloudinary.com/diu8ohkcn/image/upload/f_auto,q_auto/WhatsApp_Image_2025-06-06_at_11.11.24_aclf6e",
     alt: "EIC 2024-25",
     year: "2024-2025",
     event: "EIC",

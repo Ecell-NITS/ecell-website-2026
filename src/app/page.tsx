@@ -8,6 +8,9 @@ import Timeline from "../components/Timeline";
 import Testimonials from "../components/Testimonials";
 import ContactForm from "../components/ContactForm";
 import Footer from "../components/Footer";
+import Speakers from "~/components/Speakers";
+import DirectorsMessage from "~/components/DirectorsMessage";
+import FaqSection from "~/components/FaqSection";
 
 export default function HomePage() {
   return (
@@ -18,9 +21,12 @@ export default function HomePage() {
         <Hero />
         <Partners />
         <About />
+        <DirectorsMessage />
+        <Speakers />
         <Events />
         <Timeline />
         <Testimonials />
+        <FaqSection />
         <ContactForm />
         <Footer />
       </div>

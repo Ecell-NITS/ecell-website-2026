@@ -10,7 +10,7 @@ import {
   useTransform,
   useInView,
 } from "framer-motion";
-import { Sparkles, ArrowRight, Activity } from "lucide-react";
+import { ArrowRight, Activity, Rocket } from "lucide-react";
 
 const StatCounter: React.FC<{
   value: number;
@@ -42,17 +42,17 @@ const StatCounter: React.FC<{
   }, [isInView, value]);
 
   return (
-    <div ref={ref} className="group cursor-default">
+    <div ref={ref} className="group cursor-default text-center">
       <motion.div
-        className="mb-2 flex items-baseline gap-1 text-4xl font-black text-white md:text-5xl"
-        whileHover={{ scale: 1.05, x: 5 }}
+        className="mb-1 flex items-baseline justify-center gap-1 text-2xl font-black text-white sm:text-3xl"
+        whileHover={{ scale: 1.05 }}
       >
         <span className="bg-gradient-to-r from-blue-400 to-blue-600 bg-clip-text text-transparent">
           {count}
         </span>
-        <span className="text-2xl text-blue-500">{suffix}</span>
+        <span className="text-xl text-blue-500">{suffix}</span>
       </motion.div>
-      <p className="text-[10px] font-bold tracking-[0.2em] text-gray-500 uppercase transition-colors group-hover:text-gray-400 md:text-sm">
+      <p className="text-[10px] font-bold tracking-[0.1em] text-gray-500 uppercase transition-colors group-hover:text-gray-400">
         {label}
       </p>
     </div>
@@ -80,13 +80,23 @@ const About: React.FC = () => {
   // Image Card Tilt Logic
   const cardX = useMotionValue(0);
   const cardY = useMotionValue(0);
-  const cardRotateX = useTransform(useSpring(cardY), [0, 600], [10, -10]);
-  const cardRotateY = useTransform(useSpring(cardX), [0, 800], [-10, 10]);
+  const cardRotateX = useTransform(useSpring(cardY), [0, 600], [5, -5]);
+  const cardRotateY = useTransform(useSpring(cardX), [0, 800], [-5, 5]);
 
   const handleCardMove = (e: React.MouseEvent<HTMLDivElement>) => {
     const rect = e.currentTarget.getBoundingClientRect();
     cardX.set(e.clientX - rect.left);
     cardY.set(e.clientY - rect.top);
+  };
+
+  // Spotlight Logic for the main card
+  const [spotlightPos, setSpotlightPos] = useState({ x: 0, y: 0 });
+  const handleSpotlightMove = (e: React.MouseEvent<HTMLDivElement>) => {
+    const rect = e.currentTarget.getBoundingClientRect();
+    setSpotlightPos({
+      x: e.clientX - rect.left,
+      y: e.clientY - rect.top,
+    });
   };
 
   return (
@@ -120,7 +130,7 @@ const About: React.FC = () => {
               Our Ecosystem
             </div>
 
-            <h2 className="mb-8 text-4xl leading-[1.1] font-black tracking-tighter text-white md:text-7xl">
+            <h2 className="mb-8 text-4xl leading-none font-black tracking-tighter text-white uppercase lg:text-6xl">
               Pioneering <br />
               <span className="relative inline-block">
                 <span className="relative z-10 bg-gradient-to-r from-blue-400 via-blue-200 to-white bg-clip-text text-transparent">
@@ -144,11 +154,6 @@ const About: React.FC = () => {
               community.
             </p>
 
-            <div className="mx-auto mb-12 grid max-w-sm grid-cols-2 gap-8 md:gap-12 lg:mx-0">
-              <StatCounter value={50} label="Active Startups" suffix="+" />
-              <StatCounter value={20} label="Global Partners" suffix="+" />
-            </div>
-
             <motion.button
               whileHover={{ x: 10 }}
               className="group flex items-center justify-center gap-3 text-sm font-bold tracking-widest text-blue-500 uppercase lg:justify-start"
@@ -160,7 +165,7 @@ const About: React.FC = () => {
             </motion.button>
           </motion.div>
 
-          {/* INTERACTIVE IMAGE CARD */}
+          {/* INTERACTIVE IMAGE CARD (Sleek Glass Panel) */}
           <motion.div
             initial={{ opacity: 0, y: 50 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -169,7 +174,10 @@ const About: React.FC = () => {
             className="perspective-2000 mt-12 w-full lg:mt-0 lg:w-1/2"
           >
             <motion.div
-              onMouseMove={handleCardMove}
+              onMouseMove={(e) => {
+                handleCardMove(e);
+                handleSpotlightMove(e);
+              }}
               onMouseLeave={() => {
                 cardX.set(400);
                 cardY.set(300);
@@ -179,53 +187,87 @@ const About: React.FC = () => {
                 rotateY: cardRotateY,
                 transformStyle: "preserve-3d",
               }}
-              className="relative mx-auto aspect-[4/5] w-full max-w-md md:aspect-square"
+              className="group relative mx-auto aspect-[4/5] w-full max-w-md md:aspect-square"
             >
-              {/* Main Image Glass Container */}
-              <div className="glass group absolute inset-0 overflow-hidden rounded-[2.5rem] border border-white/10 p-3 shadow-2xl md:rounded-[3rem] md:p-4">
-                <div className="pointer-events-none absolute inset-0 z-10 bg-blue-500/5 transition-colors group-hover:bg-blue-500/0" />
-                {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img
-                  src="https://images.unsplash.com/photo-1522202176988-66273c2fd55f?auto=format&fit=crop&q=80&w=1000"
-                  alt="Innovation Lab"
-                  className="h-full w-full scale-105 rounded-[1.8rem] object-cover grayscale-[0.8] transition-all duration-1000 group-hover:scale-100 group-hover:grayscale-0 md:rounded-[2.2rem]"
+              {/* Main Container */}
+              <div className="glass absolute inset-0 overflow-hidden rounded-[2.5rem] border border-white/5 bg-[#0d1117]/40 shadow-2xl backdrop-blur-xl">
+                {/* Spotlight Effect */}
+                <div
+                  className="pointer-events-none absolute -inset-px opacity-0 transition duration-500 group-hover:opacity-100"
+                  style={{
+                    background: `radial-gradient(600px circle at ${spotlightPos.x}px ${spotlightPos.y}px, rgba(59, 130, 246, 0.1), transparent 40%)`,
+                  }}
                 />
+
+                {/* Window Header (Minimal) */}
+                <div className="flex items-center gap-2 border-b border-white/5 bg-white/[0.02] px-6 py-5">
+                  <div className="flex gap-2">
+                    <div className="h-2.5 w-2.5 rounded-full bg-white/10" />
+                    <div className="h-2.5 w-2.5 rounded-full bg-white/10" />
+                  </div>
+                  <div className="ml-auto font-mono text-[10px] text-gray-600 uppercase">
+                    System Active
+                  </div>
+                </div>
+
+                {/* Content: Abstract Map */}
+                <div className="relative flex h-full w-full flex-col items-center justify-center overflow-hidden p-6">
+                  {/* Central Hub */}
+                  <div className="relative z-10 flex flex-col items-center">
+                    <motion.div
+                      animate={{
+                        boxShadow: [
+                          "0 0 20px rgba(59,130,246,0)",
+                          "0 0 40px rgba(59,130,246,0.2)",
+                          "0 0 20px rgba(59,130,246,0)",
+                        ],
+                        scale: [1, 1.05, 1],
+                      }}
+                      transition={{ duration: 4, repeat: Infinity }}
+                      className="flex h-20 w-20 rotate-45 items-center justify-center rounded-2xl border border-blue-500/20 bg-blue-900/10 backdrop-blur-md"
+                    >
+                      <Rocket size={32} className="-rotate-45 text-blue-400" />
+                    </motion.div>
+
+                    <div className="mt-8 text-center">
+                      <h3 className="text-2xl font-black tracking-tight text-white">
+                        Launchpad
+                      </h3>
+                      <p className="mt-1 font-mono text-xs text-blue-400">
+                        INCUBATION_PROTOCOL_V2
+                      </p>
+                    </div>
+                  </div>
+
+                  {/* Minimal Orbit */}
+                  <motion.div
+                    animate={{ rotate: 360 }}
+                    transition={{
+                      duration: 40,
+                      repeat: Infinity,
+                      ease: "linear",
+                    }}
+                    className="pointer-events-none absolute inset-0 z-0"
+                  >
+                    <div className="absolute top-1/2 left-1/2 h-[240px] w-[240px] -translate-x-1/2 -translate-y-1/2 rounded-full border border-dashed border-white/5" />
+                  </motion.div>
+                </div>
               </div>
 
-              {/* Floating Element 1: Badge (EST 2012) */}
+              {/* Floating Element: Stats Box (Slide In from Right) */}
               <motion.div
-                style={{ translateZ: "100px" }}
-                className="glass absolute -top-4 -right-4 z-20 rounded-2xl border border-white/20 px-4 py-4 shadow-2xl md:-top-6 md:-right-6 md:rounded-3xl md:px-6 md:py-6"
+                style={{ translateZ: "50px" }}
+                initial={{ x: 100, opacity: 0 }}
+                whileInView={{ x: 0, opacity: 1 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.8, delay: 0.5, type: "spring" }}
+                className="glass absolute -right-4 bottom-10 z-20 rounded-3xl border border-white/10 bg-[#0d1117]/80 px-8 py-6 shadow-2xl backdrop-blur-xl md:-right-10"
               >
-                <div className="flex flex-col items-center gap-1">
-                  <div className="mb-1 flex h-8 w-8 items-center justify-center rounded-full bg-blue-600 md:h-10 md:w-10">
-                    <Sparkles className="text-white" size={16} />
-                  </div>
-                  <span className="text-[8px] font-black tracking-tighter text-gray-400 uppercase md:text-[10px]">
-                    Est.
-                  </span>
-                  <span className="text-lg leading-none font-black text-white md:text-xl">
-                    2012
-                  </span>
+                <div className="flex items-center gap-10">
+                  <StatCounter value={50} label="Startups" suffix="+" />
+                  <div className="h-10 w-[1px] bg-white/10"></div>
+                  <StatCounter value={20} label="Partners" suffix="+" />
                 </div>
-              </motion.div>
-
-              {/* Floating Element 2: Decorative Ring */}
-              <motion.div
-                animate={{ rotate: 360 }}
-                transition={{ duration: 25, repeat: Infinity, ease: "linear" }}
-                style={{ translateZ: "-30px" }}
-                className="pointer-events-none absolute -bottom-10 -left-10 h-48 w-48 rounded-full border-2 border-dashed border-blue-500/15 md:-bottom-20 md:-left-20 md:h-64 md:w-64"
-              />
-
-              {/* Floating Element 3: Text Tag */}
-              <motion.div
-                style={{ translateZ: "150px" }}
-                className="glass absolute -right-4 bottom-8 z-20 rounded-xl border border-white/10 px-4 py-3 shadow-2xl md:-right-10 md:bottom-10 md:rounded-2xl md:px-6 md:py-4"
-              >
-                <p className="text-[10px] font-bold tracking-widest whitespace-nowrap text-blue-400 uppercase md:text-xs">
-                  Incubating Ideas
-                </p>
               </motion.div>
             </motion.div>
           </motion.div>

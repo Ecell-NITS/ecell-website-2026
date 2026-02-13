@@ -35,16 +35,13 @@ const Partners: React.FC = () => {
   const marqueeItems = [...partners, ...partners, ...partners, ...partners];
 
   return (
-    <section className="relative overflow-hidden border-y border-white/5 bg-[#020617] py-24">
+    <section className="relative overflow-hidden border-y border-white/5 bg-[#020617] py-8 sm:py-12 md:py-16 lg:py-20 xl:py-24">
       {/* Background Glow */}
       <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(59,130,246,0.05)_0%,transparent_70%)]" />
 
-      <div className="relative z-10 container mx-auto mb-16 px-6 text-center">
-        <h2 className="text-4xl leading-none font-black tracking-tighter text-white uppercase lg:text-6xl">
-          Trusted <span className="text-blue-500">Partners</span>
-        </h2>
+      <div className="relative z-10 container mx-auto mb-8 px-6 text-center sm:mb-10 md:mb-12 lg:mb-14 xl:mb-16">
         <p className="mt-4 text-xs font-bold tracking-[0.4em] text-gray-500 uppercase">
-          & Collaborators
+          Trusted Partners & Collaborators
         </p>
       </div>
 
@@ -61,7 +58,7 @@ const Partners: React.FC = () => {
           {marqueeItems.map((partner, i) => (
             <div
               key={i}
-              className="group flex cursor-pointer items-center gap-4 opacity-40 transition-all duration-500 hover:opacity-100"
+              className="group flex cursor-pointer items-center gap-4 transition-all duration-500 hover:opacity-100 lg:opacity-40"
             >
               <div className="h-12 w-12 overflow-hidden rounded-full border border-white/10 bg-white/5 p-2 md:h-16 md:w-16">
                 {/* eslint-disable-next-line @next/next/no-img-element */}
@@ -71,7 +68,7 @@ const Partners: React.FC = () => {
                   className="h-full w-full object-contain"
                 />
               </div>
-              <span className="text-xl font-bold tracking-widest text-white/50 uppercase transition-colors group-hover:text-white">
+              <span className="md:text-md text-xs font-bold tracking-widest text-white/50 uppercase transition-colors group-hover:text-white sm:text-sm lg:text-lg xl:text-xl">
                 {partner.name}
               </span>
             </div>
@@ -79,7 +76,7 @@ const Partners: React.FC = () => {
         </motion.div>
       </div>
 
-      <div className="relative z-10 container mx-auto mt-24 px-6">
+      {/* <div className="relative z-10 container mx-auto mt-24 px-6">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -103,7 +100,7 @@ const Partners: React.FC = () => {
             </p>
           </div>
         </motion.div>
-      </div>
+      </div> */}
     </section>
   );
 };

@@ -10,13 +10,22 @@ import {
   useTransform,
   useInView,
 } from "framer-motion";
-import { ArrowRight, Activity, Rocket } from "lucide-react";
+import {
+  ArrowRight,
+  Activity,
+  Rocket,
+  Users,
+  Calendar,
+  Award,
+  Building2,
+} from "lucide-react";
 
 const StatCounter: React.FC<{
   value: number;
   label: string;
   suffix?: string;
-}> = ({ value, label, suffix = "" }) => {
+  icon?: React.ReactNode;
+}> = ({ value, label, suffix = "", icon }) => {
   const [count, setCount] = useState(0);
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, margin: "-50px" });
@@ -43,16 +52,23 @@ const StatCounter: React.FC<{
 
   return (
     <div ref={ref} className="group cursor-default text-center">
+      {icon && (
+        <div className="mx-auto mb-1.5 flex h-8 w-8 items-center justify-center rounded-lg bg-blue-500/10 text-blue-400 transition-colors group-hover:bg-blue-500/20 sm:mb-2 sm:h-9 sm:w-9 sm:rounded-xl md:h-10 md:w-10">
+          {icon}
+        </div>
+      )}
       <motion.div
-        className="mb-1 flex items-baseline justify-center gap-1 text-2xl font-black text-white sm:text-3xl"
+        className="mb-0.5 flex items-baseline justify-center gap-0.5 text-xl font-black text-white sm:mb-1 sm:text-2xl md:text-3xl"
         whileHover={{ scale: 1.05 }}
       >
         <span className="bg-gradient-to-r from-blue-400 to-blue-600 bg-clip-text text-transparent">
           {count}
         </span>
-        <span className="text-xl text-blue-500">{suffix}</span>
+        <span className="text-sm text-blue-500 sm:text-base md:text-lg">
+          {suffix}
+        </span>
       </motion.div>
-      <p className="text-[10px] font-bold tracking-[0.1em] text-gray-500 uppercase transition-colors group-hover:text-gray-400">
+      <p className="text-[8px] font-bold tracking-[0.08em] text-gray-500 uppercase transition-colors group-hover:text-gray-400 sm:text-[9px] sm:tracking-[0.1em] md:text-[10px]">
         {label}
       </p>
     </div>
@@ -104,7 +120,7 @@ const About: React.FC = () => {
       id="about"
       ref={containerRef}
       onMouseMove={handleMouseMove}
-      className="relative overflow-hidden bg-[#020617] py-24 md:py-32"
+      className="relative overflow-hidden bg-[#020617] pt-16 sm:pt-20 md:pt-24 lg:pt-32"
     >
       {/* Interactive Background Glow */}
       <motion.div
@@ -115,8 +131,8 @@ const About: React.FC = () => {
         className="pointer-events-none absolute z-0 hidden h-[500px] w-[500px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-blue-600/5 blur-[120px] lg:block"
       />
 
-      <div className="relative z-10 container mx-auto px-6">
-        <div className="flex flex-col items-center gap-20 lg:flex-row lg:gap-24">
+      <div className="relative z-10 mx-auto w-full max-w-7xl px-4 sm:px-6 md:px-8 lg:px-12">
+        <div className="flex flex-col items-center gap-10 md:gap-16 lg:flex-row lg:justify-between lg:gap-12">
           {/* TEXT CONTENT */}
           <motion.div
             initial={{ opacity: 0, x: -30 }}
@@ -125,12 +141,12 @@ const About: React.FC = () => {
             transition={{ duration: 0.8, ease: "easeOut" }}
             className="w-full text-center lg:w-1/2 lg:text-left"
           >
-            <div className="glass mb-6 inline-flex items-center gap-2 rounded-full border border-blue-500/20 px-4 py-1.5 text-[10px] font-bold tracking-[0.3em] text-blue-400 uppercase">
-              <Activity size={14} />
+            <div className="glass mb-4 inline-flex items-center gap-1.5 rounded-full border border-blue-500/20 px-3 py-1 text-[9px] font-bold tracking-[0.2em] text-blue-400 uppercase sm:mb-5 sm:gap-2 sm:px-4 sm:py-1.5 sm:text-[10px] sm:tracking-[0.3em] md:mb-6">
+              <Activity size={12} className="sm:h-3.5 sm:w-3.5" />
               Our Ecosystem
             </div>
 
-            <h2 className="mb-8 text-4xl leading-none font-black tracking-tighter text-white uppercase lg:text-6xl">
+            <h2 className="mb-4 text-3xl leading-none font-black tracking-tighter text-white uppercase sm:mb-6 sm:text-4xl md:mb-8 md:text-5xl lg:text-6xl">
               Pioneering <br />
               <span className="relative inline-block">
                 <span className="relative z-10 bg-gradient-to-r from-blue-400 via-blue-200 to-white bg-clip-text text-transparent">
@@ -146,7 +162,7 @@ const About: React.FC = () => {
               </span>
             </h2>
 
-            <p className="mx-auto mb-10 max-w-xl text-lg leading-relaxed font-light text-gray-400 md:text-xl lg:mx-0">
+            <p className="mx-auto mb-6 max-w-md text-sm leading-relaxed font-light text-gray-400 sm:mb-8 sm:max-w-lg sm:text-base md:mb-10 md:max-w-xl md:text-lg lg:mx-0 lg:text-xl">
               E-Cell, NIT Silchar is a non-profit powerhouse. We don&apos;t just
               teach business; we{" "}
               <span className="font-medium text-white">architect ambition</span>
@@ -156,22 +172,22 @@ const About: React.FC = () => {
 
             <motion.button
               whileHover={{ x: 10 }}
-              className="group flex items-center justify-center gap-3 text-sm font-bold tracking-widest text-blue-500 uppercase lg:justify-start"
+              className="group mx-auto flex items-center justify-center gap-2 text-xs font-bold tracking-widest text-blue-500 uppercase sm:gap-3 sm:text-sm lg:mx-0 lg:justify-start"
             >
-              Explore our mission
-              <span className="relative h-[2px] w-8 bg-blue-500/30 transition-all duration-300 group-hover:w-12">
-                <ArrowRight size={16} className="absolute -top-2 -right-2" />
+              Our Initiatives
+              <span className="relative h-[2px] w-6 transition-all duration-300 group-hover:w-10 sm:w-8 sm:group-hover:w-12">
+                <ArrowRight size={16} className="absolute -top-2" />
               </span>
             </motion.button>
           </motion.div>
 
-          {/* INTERACTIVE IMAGE CARD (Sleek Glass Panel) */}
+          {/* INTERACTIVE ANALYTICS DASHBOARD */}
           <motion.div
             initial={{ opacity: 0, y: 50 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 1, ease: [0.16, 1, 0.3, 1] }}
-            className="perspective-2000 mt-12 w-full lg:mt-0 lg:w-1/2"
+            className="perspective-2000 w-full lg:w-auto lg:flex-shrink-0"
           >
             <motion.div
               onMouseMove={(e) => {
@@ -187,10 +203,10 @@ const About: React.FC = () => {
                 rotateY: cardRotateY,
                 transformStyle: "preserve-3d",
               }}
-              className="group relative mx-auto aspect-[4/5] w-full max-w-md md:aspect-square"
+              className="group relative mx-auto w-full max-w-sm sm:max-w-md lg:max-w-lg"
             >
               {/* Main Container */}
-              <div className="glass absolute inset-0 overflow-hidden rounded-[2.5rem] border border-white/5 bg-[#0d1117]/40 shadow-2xl backdrop-blur-xl">
+              <div className="glass overflow-hidden rounded-2xl border border-white/5 bg-[#0d1117]/60 shadow-2xl backdrop-blur-xl sm:rounded-[1.5rem] md:rounded-[2rem]">
                 {/* Spotlight Effect */}
                 <div
                   className="pointer-events-none absolute -inset-px opacity-0 transition duration-500 group-hover:opacity-100"
@@ -199,76 +215,137 @@ const About: React.FC = () => {
                   }}
                 />
 
-                {/* Window Header (Minimal) */}
-                <div className="flex items-center gap-2 border-b border-white/5 bg-white/[0.02] px-6 py-5">
-                  <div className="flex gap-2">
-                    <div className="h-2.5 w-2.5 rounded-full bg-white/10" />
-                    <div className="h-2.5 w-2.5 rounded-full bg-white/10" />
-                  </div>
-                  <div className="ml-auto font-mono text-[10px] text-gray-600 uppercase">
-                    System Active
-                  </div>
-                </div>
-
-                {/* Content: Abstract Map */}
-                <div className="relative flex h-full w-full flex-col items-center justify-center overflow-hidden p-6">
-                  {/* Central Hub */}
-                  <div className="relative z-10 flex flex-col items-center">
+                {/* Header */}
+                <div className="flex items-center justify-between border-b border-white/5 bg-white/[0.02] px-4 py-3 sm:px-5 sm:py-3.5 md:px-6 md:py-4">
+                  <div className="flex items-center gap-2 sm:gap-3">
                     <motion.div
                       animate={{
                         boxShadow: [
-                          "0 0 20px rgba(59,130,246,0)",
-                          "0 0 40px rgba(59,130,246,0.2)",
-                          "0 0 20px rgba(59,130,246,0)",
+                          "0 0 10px rgba(59,130,246,0)",
+                          "0 0 20px rgba(59,130,246,0.3)",
+                          "0 0 10px rgba(59,130,246,0)",
                         ],
-                        scale: [1, 1.05, 1],
                       }}
-                      transition={{ duration: 4, repeat: Infinity }}
-                      className="flex h-20 w-20 rotate-45 items-center justify-center rounded-2xl border border-blue-500/20 bg-blue-900/10 backdrop-blur-md"
+                      transition={{ duration: 2, repeat: Infinity }}
+                      className="flex h-8 w-8 items-center justify-center rounded-lg bg-blue-500/10 sm:h-9 sm:w-9 sm:rounded-xl md:h-10 md:w-10"
                     >
-                      <Rocket size={32} className="-rotate-45 text-blue-400" />
+                      <Rocket
+                        size={16}
+                        className="text-blue-400 sm:h-[18px] sm:w-[18px] md:h-5 md:w-5"
+                      />
                     </motion.div>
-
-                    <div className="mt-8 text-center">
-                      <h3 className="text-2xl font-black tracking-tight text-white">
-                        Launchpad
+                    <div>
+                      <h3 className="text-xs font-bold text-white sm:text-sm">
+                        Our Analytics
                       </h3>
-                      <p className="mt-1 font-mono text-xs text-blue-400">
-                        INCUBATION_PROTOCOL_V2
+                      <p className="text-[8px] text-gray-500 sm:text-[10px]">
+                        Real-time Impact Metrics
                       </p>
                     </div>
                   </div>
+                  <div className="flex items-center gap-1.5 sm:gap-2">
+                    <span className="h-1.5 w-1.5 animate-pulse rounded-full bg-green-500 sm:h-2 sm:w-2"></span>
+                    <span className="text-[8px] font-medium text-green-400 sm:text-[10px]">
+                      LIVE
+                    </span>
+                  </div>
+                </div>
 
-                  {/* Minimal Orbit */}
+                {/* Stats Grid */}
+                <div className="grid grid-cols-2 gap-2.5 p-4 sm:gap-3 sm:p-5 md:gap-4 md:p-6">
+                  {/* Events Card */}
                   <motion.div
-                    animate={{ rotate: 360 }}
-                    transition={{
-                      duration: 40,
-                      repeat: Infinity,
-                      ease: "linear",
-                    }}
-                    className="pointer-events-none absolute inset-0 z-0"
+                    whileHover={{ scale: 1.02 }}
+                    className="rounded-xl border border-white/5 bg-gradient-to-br from-blue-500/5 to-transparent p-3 transition-colors hover:border-blue-500/20 sm:rounded-2xl sm:p-4"
                   >
-                    <div className="absolute top-1/2 left-1/2 h-[240px] w-[240px] -translate-x-1/2 -translate-y-1/2 rounded-full border border-dashed border-white/5" />
+                    <StatCounter
+                      value={25}
+                      label="Events Hosted"
+                      suffix="+"
+                      icon={<Calendar size={18} />}
+                    />
                   </motion.div>
+
+                  {/* Participants Card */}
+                  <motion.div
+                    whileHover={{ scale: 1.02 }}
+                    className="rounded-xl border border-white/5 bg-gradient-to-br from-purple-500/5 to-transparent p-3 transition-colors hover:border-purple-500/20 sm:rounded-2xl sm:p-4"
+                  >
+                    <StatCounter
+                      value={5000}
+                      label="Participants"
+                      suffix="+"
+                      icon={<Users size={18} />}
+                    />
+                  </motion.div>
+
+                  {/* Startups Card */}
+                  <motion.div
+                    whileHover={{ scale: 1.02 }}
+                    className="rounded-xl border border-white/5 bg-gradient-to-br from-cyan-500/5 to-transparent p-3 transition-colors hover:border-cyan-500/20 sm:rounded-2xl sm:p-4"
+                  >
+                    <StatCounter
+                      value={50}
+                      label="Startups Incubated"
+                      suffix="+"
+                      icon={<Rocket size={18} />}
+                    />
+                  </motion.div>
+
+                  {/* Sponsors Card */}
+                  <motion.div
+                    whileHover={{ scale: 1.02 }}
+                    className="rounded-xl border border-white/5 bg-gradient-to-br from-amber-500/5 to-transparent p-3 transition-colors hover:border-amber-500/20 sm:rounded-2xl sm:p-4"
+                  >
+                    <StatCounter
+                      value={30}
+                      label="Sponsors"
+                      suffix="+"
+                      icon={<Building2 size={18} />}
+                    />
+                  </motion.div>
+                </div>
+
+                {/* Bottom Section - Establishment */}
+                <div className="border-t border-white/5 bg-gradient-to-r from-blue-500/5 via-transparent to-purple-500/5 px-4 py-3 sm:px-5 sm:py-3.5 md:px-6 md:py-4">
+                  <div className="flex items-center justify-center gap-2 sm:gap-3">
+                    <div className="flex h-6 w-6 items-center justify-center rounded-md bg-blue-500/10 sm:h-7 sm:w-7 sm:rounded-lg md:h-8 md:w-8">
+                      <Award
+                        size={12}
+                        className="text-blue-400 sm:h-3.5 sm:w-3.5 md:h-4 md:w-4"
+                      />
+                    </div>
+                    <div className="text-center">
+                      <p className="text-[10px] font-semibold text-white sm:text-xs">
+                        Established 2015
+                      </p>
+                      <p className="text-[8px] text-gray-500 sm:text-[10px]">
+                        NIT Silchar, Assam
+                      </p>
+                    </div>
+                  </div>
                 </div>
               </div>
 
-              {/* Floating Element: Stats Box (Slide In from Right) */}
+              {/* Floating Badge
               <motion.div
-                style={{ translateZ: "50px" }}
-                initial={{ x: 100, opacity: 0 }}
+                style={{ translateZ: "60px" }}
+                initial={{ x: 50, opacity: 0 }}
                 whileInView={{ x: 0, opacity: 1 }}
                 viewport={{ once: true }}
-                transition={{ duration: 0.8, delay: 0.5, type: "spring" }}
-                className="glass absolute -right-4 bottom-10 z-20 rounded-3xl border border-white/10 bg-[#0d1117]/80 px-8 py-6 shadow-2xl backdrop-blur-xl md:-right-10"
+                transition={{ duration: 0.8, delay: 0.6, type: "spring" }}
+                className="absolute -top-4 -right-4 z-20 rounded-2xl border border-white/10 bg-[#0d1117]/90 px-4 py-3 shadow-2xl backdrop-blur-xl"
               >
-                <div className="flex items-center gap-10">
-                  <StatCounter value={50} label="Startups" suffix="+" />
-                  <div className="h-10 w-[1px] bg-white/10"></div>
-                  <StatCounter value={20} label="Partners" suffix="+" />
+                <div className="flex items-center gap-2">
+                  <div className="h-8 w-8 rounded-lg bg-gradient-to-br from-blue-500 to-blue-600 p-1.5">
+                    <Activity size={20} className="text-white" />
+                  </div>
+                  <div>
+                    <p className="text-xs font-bold text-white">₹2Cr+</p>
+                    <p className="text-[9px] text-gray-500">Funding Raised</p>
+                  </div>
                 </div>
-              </motion.div>
+              </motion.div> */}
             </motion.div>
           </motion.div>
         </div>

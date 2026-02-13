@@ -146,12 +146,10 @@ const EventCard = ({
             </p>
           </div>
 
-          {!isMobile && (
-            <div className="mt-6 flex items-center gap-2 text-xs font-bold text-blue-500 transition-all group-hover:gap-3 group-hover:text-blue-400">
-              <span>Explore Details</span>
-              <span>→</span>
-            </div>
-          )}
+          <div className="mt-6 flex items-center gap-2 text-xs font-bold text-blue-500 transition-all group-hover:gap-3 group-hover:text-blue-400">
+            <span>Explore Details</span>
+            <span>→</span>
+          </div>
         </div>
       </div>
     </motion.div>

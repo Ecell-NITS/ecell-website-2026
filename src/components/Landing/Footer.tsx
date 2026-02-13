@@ -1,22 +1,24 @@
-"use client";
 import React from "react";
-import { Facebook, Instagram, Linkedin, Twitter, ArrowUp } from "lucide-react";
+import { Facebook, Instagram, Linkedin, Twitter } from "lucide-react";
+import Image from "next/image";
+import ScrollToTopButton from "../About/ScrollToTopButton";
 
 const Footer: React.FC = () => {
-  const scrollToTop = () => {
-    window.scrollTo({ top: 0, behavior: "smooth" });
-  };
-
   return (
     <footer className="relative overflow-hidden border-t border-white/5 bg-black pt-16 pb-12 lg:pt-24">
       <div className="container mx-auto px-6">
         {/* Changed Grid Logic: grid-cols-2 for mobile (2 layers), grid-cols-4 for desktop */}
         <div className="mb-20 grid grid-cols-2 gap-8 lg:grid-cols-4 lg:gap-16">
           <div className="col-span-2 lg:col-span-1">
-            <img
+            <Image
               src="https://res.cloudinary.com/dp92qug2f/image/upload/v1678341670/Ecell%20website/E-Cell-Logo-White_qhkb0q.webp"
               alt="E-Cell Logo"
               className="mb-6 h-12 w-auto lg:mb-8 lg:h-16"
+              width={200}
+              height={64}
+              sizes="(max-width: 1024px) 200px, 200px"
+              loading="lazy"
+              placeholder="empty"
             />
             <p className="mb-8 pr-4 text-sm leading-relaxed text-gray-500">
               Empowering the next generation of innovators at NIT Silchar. We
@@ -127,12 +129,7 @@ const Footer: React.FC = () => {
         </div>
       </div>
 
-      <button
-        onClick={scrollToTop}
-        className="glass fixed right-8 bottom-8 z-40 flex h-12 w-12 items-center justify-center rounded-full border border-white/10 text-gray-400 transition-all hover:text-blue-500 hover:shadow-2xl hover:shadow-blue-500/20"
-      >
-        <ArrowUp size={20} />
-      </button>
+      <ScrollToTopButton />
     </footer>
   );
 };

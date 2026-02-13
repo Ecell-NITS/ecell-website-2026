@@ -1,0 +1,43 @@
+[
+  {
+    "id": 1,
+    "title": "Mastering the Seed Round: A Founder's Guide",
+    "description": "Navigating the complexities of early-stage funding requires more than just a deck.",
+    "details": "As the startup landscape continues to evolve, the distinction between a good idea and a viable business becomes increasingly sharp. Success in today's competitive market isn't just about having a unique product—it's about building a sustainable ecosystem around that product.",
+    "details2": "Founders often get caught up in the technical details, but the most resilient startups are those that prioritize their core mission and community. Understanding market dynamics is crucial, but so is maintaining the agility to pivot when necessary.",
+    "details3": "In the coming years, we expect to see more integration of AI and automated systems in operational roles, allowing teams to focus on high-impact strategic decisions. The future belongs to those who can bridge the gap between technical innovation and human-centric design.",
+    "highlight": "The goal of a startup is to reach profitability before running out of cash. Everything else is secondary.",
+    "author": "Ananya Sharma",
+    "role": "Venture Lead",
+    "readTime": "8 min read",
+    "likes": 0,
+    "tags": ["Funding", "Startup", "Growth"],
+    "image": "https://png.pngtree.com/background/20230328/original/pngtree-the-concept-of-start-up-and-entrepreneurship-vector-picture-image_2179764.jpg",
+    "avatar": "https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&q=80&w=150",
+    "date": "02-01-2026"
+  },
+  {
+    "id": 2,
+    "title": "Mastering the Seed Round: A Founder's",
+    "description": "Navigating the complexities of early-stage funding requires more than just a deck.",
+    "author": "Swastika",
+    "role": "Venture Lead",
+    "readTime": "8 min read",
+    "likes": 0,
+    "tags": ["Funding", "Startup", "Growth"],
+    "image": "https://png.pngtree.com/background/20230328/original/pngtree-the-concept-of-start-up-and-entrepreneurship-vector-picture-image_2179764.jpg",
+    "avatar": "https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&q=80&w=150"
+  },
+  {
+    "id": 3,
+    "title": "Mastering the Seed Round: A Founder's",
+    "description": "Navigating the complexities of early-stage funding requires more than just a deck.",
+    "author": "Ananya Sharma",
+    "role": "Venture Lead",
+    "readTime": "8 min read",
+    "likes": 0,
+    "tags": ["Funding", "Startup", "Growth"],
+    "image": "https://png.pngtree.com/background/20230328/original/pngtree-the-concept-of-start-up-and-entrepreneurship-vector-picture-image_2179764.jpg",
+    "avatar": "/avatar.jpg"
+  }
+]

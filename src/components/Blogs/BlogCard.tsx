@@ -96,7 +96,7 @@ export default function BlogCard({ blog }: BlogCardProps) {
           </h3>
 
           <p className="mb-8 flex-grow text-xs leading-relaxed text-gray-400 sm:text-sm md:text-base lg:text-sm">
-            {blog.description}
+            {blog.description.replace(/<[^>]*>/g, "")}
           </p>
 
           <div className="mt-auto flex items-center justify-between border-t border-white/5 pt-6">

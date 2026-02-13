@@ -1,43 +1,58 @@
+/* eslint-disable @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-floating-promises, @typescript-eslint/prefer-nullish-coalescing */
 "use client";
 
-import { useState, useMemo, useCallback } from "react";
+import { useState, useMemo, useCallback, useEffect } from "react";
 import { Search, ChevronDown } from "lucide-react";
+import { toast } from "react-toastify";
 import BlogCard from "./BlogCard";
+import api from "@/lib/api";
 
-interface Blog {
-  id: number;
+interface ApiBlog {
+  id: string;
   title: string;
-  description: string;
-  author: string;
-  role: string;
-  readTime: string;
-  likes: number;
-  tags: string[];
-  image: string;
-  avatar: string;
-  date?: string;
-  details?: string;
-  details2?: string;
-  details3?: string;
-  highlight?: string;
+  intro?: string;
+  tag?: string;
+  content?: string;
+  writerName?: string;
+  coverImage?: string;
+  topicPic?: string;
+  writerPic?: string;
+  createdAt?: string;
+  likes?: number;
+  _count?: { comments?: number };
 }
 
-interface BlogsClientProps {
-  blogs: Blog[];
-}
-
-export default function BlogsClient({ blogs }: BlogsClientProps) {
+export default function BlogsClient() {
   const [sortOpen, setSortOpen] = useState(false);
   const [sortBy, setSortBy] = useState("Latest");
   const [searchQuery, setSearchQuery] = useState("");
+  const [blogs, setBlogs] = useState<ApiBlog[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchBlogs = async () => {
+      try {
+        const { data } = await api.get("/api/blog/acceptedBlogs");
+        const blogsData = data.data ?? data ?? [];
+        setBlogs(Array.isArray(blogsData) ? blogsData : []);
+      } catch (err: unknown) {
+        const error = err as { response?: { data?: { message?: string } } };
+        toast.error(error.response?.data?.message ?? "Failed to load blogs");
+        setBlogs([]);
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchBlogs();
+  }, []);
 
   const filteredBlogs = useMemo(() => {
     const query = searchQuery.toLowerCase();
     return blogs.filter(
       (blog) =>
         blog.title.toLowerCase().includes(query) ||
-        blog.description.toLowerCase().includes(query) ||
-        blog.tags?.some((tag) => tag.toLowerCase().includes(query)),
+        blog.intro?.toLowerCase().includes(query) ||
+        blog.tag?.toLowerCase().includes(query),
     );
   }, [blogs, searchQuery]);
 
@@ -78,51 +93,53 @@ export default function BlogsClient({ blogs }: BlogsClientProps) {
           {/* TITLE SECTION */}
           <div className="mb-12 translate-y-8 animate-[fadeIn_0.8s_ease-out_0.1s_forwards] opacity-0">
             <h1 className="mb-2 text-4xl font-black tracking-tight text-white md:text-6xl lg:text-8xl">
-              THE STARTUP
+              The Startup
+              <br />
+              Chronicles
             </h1>
-            <h2 className="text-4xl font-black text-blue-500 italic md:text-6xl lg:text-8xl">
-              CHRONICLES
-            </h2>
+            <p className="max-w-xl text-base leading-relaxed text-gray-400 md:text-lg">
+              Stories, insights, and learnings from the entrepreneurial journey.
+              Dive into our curated collection of thought leadership and
+              real-world experiences.
+            </p>
           </div>
 
-          {/* SEARCH + SORT */}
-          <div className="flex animate-[fadeIn_0.8s_ease-out_0.2s_forwards] flex-col gap-4 opacity-0 lg:flex-row lg:gap-6">
+          {/* SEARCH & FILTER */}
+          <div className="flex translate-y-8 animate-[fadeIn_0.8s_ease-out_0.2s_forwards] flex-col gap-4 opacity-0 sm:flex-row sm:items-center sm:justify-between">
             {/* Search */}
-            <div className="relative max-w-xl flex-1">
-              <Search className="absolute top-1/2 left-5 h-5 w-5 -translate-y-1/2 text-blue-400/50" />
+            <div className="group relative w-full sm:w-96">
+              <Search
+                className="absolute top-1/2 left-4 -translate-y-1/2 text-gray-500 transition-colors group-focus-within:text-blue-400"
+                size={18}
+              />
               <input
                 type="text"
-                placeholder="Search by keywords, tags..."
+                placeholder="Search blogs..."
                 value={searchQuery}
                 onChange={handleSearchChange}
-                className="h-14 w-full rounded-xl border border-white/10 bg-white/5 pr-5 pl-14 text-sm text-white transition-all duration-300 outline-none placeholder:text-white/40 focus:border-blue-500/50 focus:bg-white/10 focus:ring-2 focus:ring-blue-500/20"
+                className="w-full rounded-2xl border border-white/10 bg-white/5 py-3.5 pr-4 pl-12 text-sm text-white placeholder-gray-500 transition-all outline-none focus:border-blue-500/40 focus:bg-blue-500/5"
               />
             </div>
 
-            {/* Sort */}
-            <div className="relative w-full lg:w-48">
+            {/* Sort dropdown */}
+            <div className="relative">
               <button
                 onClick={handleToggleSort}
-                className="group flex h-14 w-full items-center justify-between rounded-xl border border-white/10 bg-white/5 px-5 text-sm font-medium tracking-wider text-white transition-all duration-300 hover:border-blue-500/50 hover:bg-white/10 focus:ring-2 focus:ring-blue-500/20"
+                className="flex items-center gap-2 rounded-2xl border border-white/10 bg-white/5 px-6 py-3.5 text-sm font-semibold text-white transition-all hover:border-blue-500/40 hover:bg-blue-500/5"
               >
-                <span className="text-sm">Sort: {sortBy}</span>
+                Sort: {sortBy}
                 <ChevronDown
-                  className={`z-10 h-4 w-4 transition-transform duration-300 ${
-                    sortOpen ? "rotate-180" : ""
-                  }`}
+                  size={16}
+                  className={`transition-transform ${sortOpen ? "rotate-180" : ""}`}
                 />
               </button>
-
-              {/* Dropdown */}
               {sortOpen && (
-                <div className="relative z-50 mt-2 w-full animate-[fadeIn_0.15s_ease-out_forwards] overflow-hidden rounded-xl border border-white/10 bg-white/10 opacity-0 shadow-xl ring-1 ring-white/5 backdrop-blur-md lg:absolute lg:top-full">
-                  {["Latest", "Past", "Most Popular"].map((option, idx) => (
+                <div className="absolute top-14 right-0 z-50 w-40 overflow-hidden rounded-2xl border border-white/10 bg-[#0a0f1e] shadow-2xl">
+                  {["Latest", "Most Liked", "Trending"].map((option) => (
                     <button
                       key={option}
                       onClick={() => handleSortSelect(option)}
-                      className={`w-full px-5 py-3 text-left text-sm text-white transition-colors duration-200 ${
-                        idx !== 0 ? "border-t border-white/5" : ""
-                      } hover:bg-blue-500/20`}
+                      className="block w-full px-6 py-3 text-left text-sm font-medium text-gray-300 transition-colors hover:bg-blue-500/10 hover:text-blue-400"
                     >
                       {option}
                     </button>
@@ -134,33 +151,49 @@ export default function BlogsClient({ blogs }: BlogsClientProps) {
         </div>
       </section>
 
-      {/* BLOG LIST SECTION */}
-      <section className="relative py-10 sm:py-12 md:py-16 lg:py-20">
+      {/* BLOGS GRID */}
+      <section className="py-20">
         <div className="mx-auto w-full max-w-7xl px-4 md:px-8 lg:px-12">
-          {/* Results count */}
-          <p className="mb-10 animate-[fadeIn_0.6s_ease-out_forwards] text-sm font-medium tracking-wide text-white/60 opacity-0">
-            Showing {filteredBlogs.length} article
-            {filteredBlogs.length !== 1 ? "s" : ""}
-          </p>
-
-          {/* BLOG GRID */}
-          {filteredBlogs.length > 0 ? (
+          {loading ? (
+            <div className="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3">
+              {[...Array(6)].map((_, i) => (
+                <div
+                  key={i}
+                  className="h-96 animate-pulse rounded-3xl bg-white/5"
+                />
+              ))}
+            </div>
+          ) : filteredBlogs.length > 0 ? (
             <div className="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3">
               {filteredBlogs.map((blog, index) => (
-                <div
+                <BlogCard
                   key={blog.id}
-                  className="translate-y-8 animate-[fadeIn_0.5s_ease-out_forwards] opacity-0"
-                  style={{ animationDelay: `${index * 0.1}s` }}
-                >
-                  <BlogCard blog={blog} />
-                </div>
+                  blog={{
+                    id: Number(blog.id) || 0,
+                    title: blog.title,
+                    description: blog.intro ?? "",
+                    author: blog.writerName ?? "Anonymous",
+                    role: "Contributor",
+                    readTime: "5 min read",
+                    likes: blog.likes ?? 0,
+                    tags: blog.tag ? [blog.tag] : [],
+                    image:
+                      blog.topicPic ??
+                      blog.coverImage ??
+                      "https://images.unsplash.com/photo-1488190211105-8b0e65b80b4e?auto=format&q=80&w=600",
+                    avatar:
+                      blog.writerPic ??
+                      `https://ui-avatars.com/api/?name=${encodeURIComponent(blog.writerName ?? "A")}&background=3b82f6&color=fff&size=80`,
+                  }}
+                />
               ))}
             </div>
           ) : (
-            <div className="flex animate-[fadeIn_0.6s_ease-out_forwards] flex-col items-center justify-center py-20 opacity-0">
-              <p className="mb-2 text-lg text-white/60">No articles found</p>
-              <p className="text-sm text-white/40">
-                Try adjusting your search terms
+            <div className="py-20 text-center">
+              <p className="text-lg text-gray-500">
+                {searchQuery
+                  ? "No blogs match your search."
+                  : "No blogs available yet."}
               </p>
             </div>
           )}

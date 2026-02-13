@@ -1,13 +1,18 @@
+/* eslint-disable @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-argument */
 "use client";
 
 import React, { useState } from "react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { motion } from "framer-motion";
 import { Eye, EyeOff, Mail, Lock, ArrowRight } from "lucide-react";
+import { toast } from "react-toastify";
 import Navbar from "@/components/Landing/Navbar";
 import Footer from "@/components/Landing/Footer";
 import AuthBackground from "@/components/Auth/AuthBackground";
 import GoogleButton from "@/components/Auth/GoogleButton";
+import api from "@/lib/api";
+import { useAuth } from "@/lib/auth-context";
 
 export default function LoginPage() {
   const [email, setEmail] = useState("");
@@ -15,13 +20,32 @@ export default function LoginPage() {
   const [showPassword, setShowPassword] = useState(false);
   const [rememberMe, setRememberMe] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+  const { login } = useAuth();
+  const router = useRouter();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsLoading(true);
-    // TODO: integrate login logic
-    await new Promise((r) => setTimeout(r, 1500));
-    setIsLoading(false);
+    try {
+      const { data } = await api.post("/api/auth/login", { email, password });
+      const user = data.data?.user;
+      const accessToken = data.data?.accessToken;
+
+      if (user && accessToken) {
+        login(user, accessToken);
+        toast.success("Welcome back! 🎉");
+        router.push("/dashboard");
+      } else {
+        toast.error("Unexpected response from server");
+      }
+    } catch (err: unknown) {
+      const error = err as { response?: { data?: { message?: string } } };
+      toast.error(
+        error.response?.data?.message ?? "Login failed. Please try again.",
+      );
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   return (

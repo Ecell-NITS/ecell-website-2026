@@ -4,11 +4,15 @@ import React, { useState, useEffect, useRef, useCallback } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { Menu, X } from "lucide-react";
+import { useAuth } from "@/context/AuthContext";
+
 
 const Navbar: React.FC = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
   const scrollTimeout = useRef<NodeJS.Timeout | null>(null);
+  const { user } = useAuth();
+
 
   useEffect(() => {
     const handleScroll = () => {
@@ -81,19 +85,28 @@ const Navbar: React.FC = () => {
                 {link.name}
               </Link>
             ))}
-            <Link
-              href="/dashboard"
-              className="relative flex h-10 w-10 cursor-pointer items-center justify-center overflow-hidden rounded-full border border-blue-500/20 bg-blue-500/10 transition-transform hover:scale-110"
-            >
-              <Image
-                src="https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png"
-                alt="Profile"
-                fill
-                sizes="40px"
-                className="object-cover"
-                loading="lazy"
-              />
-            </Link>
+            {user ? (
+              <Link
+                href="/dashboard"
+                className="flex h-10 w-10 cursor-pointer items-center justify-center overflow-hidden rounded-full border border-blue-500/20 bg-blue-500/10 transition-transform hover:scale-110"
+              >
+                <img
+                  src="https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png"
+                  alt="Profile"
+                  className="h-full w-full object-cover"
+                />
+              </Link>
+            ) : (
+              <div className="flex items-center gap-4">
+                <Link
+                  href="/login"
+                  className="text-xs font-bold tracking-widest text-gray-300 hover:text-blue-400"
+                >
+                  LOGIN
+                </Link>
+              </div>
+            )}
+
           </div>
 
           {/* Mobile Menu Button */}
@@ -120,6 +133,27 @@ const Navbar: React.FC = () => {
               {link.name}
             </Link>
           ))}
+          {user ? (
+            <Link
+              href="/dashboard"
+              onClick={() => setIsOpen(false)}
+              className="text-sm font-bold tracking-widest text-gray-300 hover:text-blue-400"
+            >
+              DASHBOARD
+            </Link>
+          ) : (
+            <>
+              <Link
+                href="/login"
+                onClick={() => setIsOpen(false)}
+                className="text-sm font-bold tracking-widest text-gray-300 hover:text-blue-400"
+              >
+                LOGIN
+              </Link>
+              
+            </>
+          )}
+
         </div>
       )}
     </>

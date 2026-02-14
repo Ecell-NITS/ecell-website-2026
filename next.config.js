@@ -10,9 +10,24 @@ import "./src/env.js";
 const config = {
   images: {
     remotePatterns: [
+
       {
         protocol: "https",
-        hostname: "**",
+        hostname: "cdn.pixabay.com",
+      },
+
+
+      {
+        protocol: "http",
+        hostname: "localhost",
+        port: "4000",
+        pathname: "/uploads/**",
+      },
+
+
+      {
+        protocol: "https",
+        hostname: "res.cloudinary.com",
       },
     ],
     formats: ["image/avif", "image/webp"],

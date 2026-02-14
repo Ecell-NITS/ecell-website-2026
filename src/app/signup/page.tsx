@@ -8,8 +8,19 @@ import Navbar from "@/components/Landing/Navbar";
 import Footer from "@/components/Landing/Footer";
 import AuthBackground from "@/components/Auth/AuthBackground";
 import GoogleButton from "@/components/Auth/GoogleButton";
+import { useRouter } from "next/navigation";
+import { useAuth } from "@/context/AuthContext";
+import api from "@/lib/axios";
+import toast from "react-hot-toast";
+import { SignInButton } from "@clerk/nextjs";
+import axios from "axios";
+
 
 export default function SignUpPage() {
+  const router = useRouter();
+  const { login } = useAuth();
+
+
   const [fullName, setFullName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -19,12 +30,72 @@ export default function SignUpPage() {
   const [isLoading, setIsLoading] = useState(false);
 
   const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setIsLoading(true);
-    // TODO: integrate signup logic
-    await new Promise((r) => setTimeout(r, 1500));
+  e.preventDefault();
+  setIsLoading(true);
+
+  if (password !== confirmPassword) {
+    toast.error("Passwords do not match");
     setIsLoading(false);
-  };
+    return;
+  }
+
+  try {
+    const res = await api.post("/auth/register", {
+      name: fullName,
+      email,
+      password,
+    });
+
+    const { accessToken, user } = res.data.data;
+
+    // Save token + user in AuthContext
+    login(user, accessToken);
+
+    toast.success("Account created successfully 🎉");
+
+    router.push("/login");
+
+  }catch (err: unknown) {
+  if (axios.isAxiosError(err)) {
+    const message =
+      (err.response?.data as { message?: string } | undefined)?.message ??
+      "Registration failed";
+
+    toast.error(message);
+  } else if (err instanceof Error) {
+    toast.error(err.message);
+  } else {
+    toast.error("Registration failed");
+  }
+}
+ finally {
+    setIsLoading(false);
+  }
+};
+
+const [emailError, setEmailError] = useState("");
+
+const handleEmailBlur = async () => {
+  if (!email) return;
+
+  try {
+    const res = await api.post<{ exists: boolean }>("/auth/checkEmail", {
+
+      email: email.trim().toLowerCase(),
+    });
+
+    if (res.data.exists) {
+      setEmailError("Email already registered");
+    } else {
+      setEmailError("");
+    }
+  } catch {
+    setEmailError("");
+  }
+};
+
+
+
 
   return (
     <main className="relative min-h-screen overflow-hidden bg-[#020617] text-white">
@@ -96,15 +167,22 @@ export default function SignUpPage() {
                   size={16}
                   className="absolute top-1/2 left-4 -translate-y-1/2 text-gray-600 transition-colors group-focus-within:text-blue-400"
                 />
+
                 <input
                   type="email"
                   placeholder="Email address"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
+                  onBlur={handleEmailBlur}
                   required
                   className="w-full rounded-xl border border-white/10 bg-white/[0.03] py-3.5 pr-4 pl-11 text-sm text-white placeholder-gray-600 transition-all duration-300 outline-none focus:border-blue-500/40 focus:bg-blue-500/[0.03] focus:ring-1 focus:ring-blue-500/20"
                 />
+
+                {emailError && (
+                  <p className="mt-1 text-sm text-red-400">{emailError}</p>
+                )}
               </div>
+
 
               {/* Password */}
               <div className="group relative">

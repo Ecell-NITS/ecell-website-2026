@@ -2,51 +2,131 @@
 "use client";
 
 import { useRouter } from "next/navigation";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { FiUser, FiArrowLeft } from "react-icons/fi";
 import Image from "next/image";
+import api from "@/lib/axios";
+import toast from "react-hot-toast";
+import { useAuth } from "@/context/AuthContext";
+
 
 interface User {
-  id: number;
-  first_name: string;
+  id: string;
+  name: string;
   email: string;
-  image: string;
-  gender: string;
-  post: string;
-  age: number;
-  country: string;
-  facebook_profile: string;
-  twitter_handle: string;
-  instagram_handle: string;
-  linkedin_profile: string;
+  picture: string;
+  facebook: string;
+  instagram: string;
+  linkedin: string;
   github: string;
-  about: string;
+  bio: string;
+  role:string;
 }
 
 interface EditProfileClientProps {
   initialUser: User | null;
 }
 
+
 export function EditProfileClient({ initialUser }: EditProfileClientProps) {
   const router = useRouter();
-  const [first_name, setName] = useState(initialUser?.first_name ?? "");
-  const [post, setPost] = useState(initialUser?.post ?? "");
-  const [about, setAbout] = useState(initialUser?.about ?? "");
+  const [first_name, setName] = useState(initialUser?.name ?? "");
+  const [nameInput, setNameInput] = useState("");
+  const [post, setPost] = useState(initialUser?.role ?? "USER");
+  const [about, setAbout] = useState(initialUser?.bio ?? "");
   const [facebook_profile, setFacebook] = useState(
-    initialUser?.facebook_profile ?? "",
+    initialUser?.facebook ?? "",
   );
   const [instagram_handle, setInsta] = useState(
-    initialUser?.instagram_handle ?? "",
+    initialUser?.instagram ?? "",
   );
   const [linkedin_profile, setLinkedIn] = useState(
-    initialUser?.linkedin_profile ?? "",
+    initialUser?.linkedin ?? "",
   );
   const [github, setGit] = useState(initialUser?.github ?? "");
+  const [picture, setPicture] = useState(initialUser?.picture ?? "");
+  const { refreshUser } = useAuth();
+  const { user } = useAuth();
+  const isSuperAdmin = user?.role === "SUPERADMIN";
+  const [selectedFile, setSelectedFile] = useState<File | null>(null);
+  const [preview, setPreview] = useState<string | null>(null);
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    router.push("/dashboard");
+
+
+
+
+  useEffect(() => {
+  const fetchUser = async () => {
+    try {
+      const res = await api.get("/auth/me");
+      const user = res.data.data.user;
+
+      setName(user.name ?? "");
+      setNameInput(user.name ?? "");
+      setAbout(user.bio ?? "");
+      setFacebook(user.facebook ?? "");
+      setInsta(user.instagram ?? "");
+      setLinkedIn(user.linkedin ?? "");
+      setGit(user.github ?? "");
+      setPicture(user.picture ?? "");
+    } catch {
+      toast.error("Failed to load profile");
+    }
   };
+
+  fetchUser();
+}, []);
+
+
+
+  const handleSubmit = async (e: React.FormEvent) => {
+  e.preventDefault();
+
+  try {
+    const formData = new FormData();
+
+    formData.append("name", nameInput);
+    formData.append("bio", about);
+    formData.append("facebook", facebook_profile);
+    formData.append("instagram", instagram_handle);
+    formData.append("linkedin", linkedin_profile);
+    formData.append("github", github);
+
+    if (isSuperAdmin) {
+      formData.append("role", post);
+    }
+
+    // ✅ append image
+    if (selectedFile) {
+      formData.append("picture", selectedFile);
+    }
+
+    await api.patch("/auth/edit-profile", formData, {
+      headers: {
+        "Content-Type": "multipart/form-data",
+      },
+    });
+
+    await refreshUser();
+    setName(nameInput);
+    toast.success("Profile updated successfully");
+    router.push("/dashboard");
+  } catch {
+    toast.error("Failed to update profile");
+  }
+};
+
+const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const file = e.target.files?.[0];
+  if (!file) return;
+
+  setSelectedFile(file);
+
+  // preview
+  const url = URL.createObjectURL(file);
+  setPreview(url);
+};
+
 
   return (
     <>
@@ -92,25 +172,38 @@ export function EditProfileClient({ initialUser }: EditProfileClientProps) {
             <div className="border-b border-white/10 p-8 md:p-12">
               <div className="mb-12 flex flex-col items-center justify-center">
                 <div className="group relative cursor-pointer">
-                  <div className="size-36 overflow-hidden rounded-full border-4 border-blue-500 bg-[#111722] shadow-[0_0_30px_rgba(59,130,246,0.5)] transition-transform hover:scale-105">
-                    <Image
-                      alt="Profile"
-                      className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-110"
-                      src={
-                        initialUser?.image ??
-                        "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png"
-                      }
-                      width={144}
-                      height={144}
-                      placeholder="empty"
-                    />
-                  </div>
-                  <div className="absolute inset-0 flex items-center justify-center rounded-full bg-black/60 opacity-0 transition-opacity group-hover:opacity-100">
-                    <span className="material-symbols-outlined text-3xl text-blue-500">
-                      photo_camera
-                    </span>
-                  </div>
-                </div>
+  <input
+    type="file"
+    accept="image/*"
+    className="hidden"
+    id="profile-upload"
+    onChange={handleImageChange}
+  />
+
+  <label htmlFor="profile-upload">
+    <div className="size-36 overflow-hidden rounded-full border-4 border-blue-500 bg-[#111722] shadow-[0_0_30px_rgba(59,130,246,0.5)] transition-transform hover:scale-105">
+      <Image
+        alt="Profile"
+        className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-110"
+        src={
+          preview ||
+          picture ||
+          "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png"
+        }
+
+        width={144}
+        height={144}
+      />
+    </div>
+
+    <div className="absolute inset-0 flex items-center justify-center rounded-full bg-black/60 opacity-0 transition-opacity group-hover:opacity-100">
+      <span className="material-symbols-outlined text-3xl text-blue-500">
+        photo_camera
+      </span>
+    </div>
+  </label>
+</div>
+
                 <h3 className="mt-6 text-xl font-bold text-white">
                   {first_name || "User Name"}
                 </h3>
@@ -131,8 +224,9 @@ export function EditProfileClient({ initialUser }: EditProfileClientProps) {
                     className="block w-full rounded-2xl border border-white/10 bg-white/5 px-6 py-4 text-white transition-all placeholder:text-gray-600 focus:border-blue-500 focus:bg-white/10 focus:outline-none"
                     id="fullName"
                     type="text"
-                    value={first_name}
-                    onChange={(e) => setName(e.target.value)}
+                    value={nameInput}
+                    onChange={(e) => setNameInput(e.target.value)}
+
                   />
                 </div>
                 <div className="space-y-3">
@@ -143,12 +237,15 @@ export function EditProfileClient({ initialUser }: EditProfileClientProps) {
                     Position
                   </label>
                   <input
-                    className="block w-full rounded-2xl border border-white/10 bg-white/5 px-6 py-4 text-white transition-all placeholder:text-gray-600 focus:border-blue-500 focus:bg-white/10 focus:outline-none"
+                    className="block w-full rounded-2xl border border-white/10 bg-white/5 px-6 py-4 text-white transition-all placeholder:text-gray-600 focus:border-blue-500 focus:bg-white/10 focus:outline-none disabled:opacity-50 disabled:cursor-not-allowed"
                     id="position"
                     type="text"
                     value={post}
+                    placeholder={isSuperAdmin ? "Enter position" : "No permission"}
                     onChange={(e) => setPost(e.target.value)}
+                    disabled={!isSuperAdmin}
                   />
+
                 </div>
                 <div className="space-y-3 md:col-span-2">
                   <label

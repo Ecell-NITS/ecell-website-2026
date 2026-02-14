@@ -1,8 +1,11 @@
-import "@/styles/globals.css";
+import "@/styles/globals.css"
 
 import { type Metadata } from "next";
 import ClientLayout from "@/components/Preloader/ClientLayout";
 import { Inter } from "next/font/google";
+import { AuthProvider } from "@/context/AuthContext";
+
+// import { ClerkProvider } from "@clerk/nextjs";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -29,7 +32,10 @@ export default function RootLayout({
         />
       </head>
       <body>
-        <ClientLayout>{children}</ClientLayout>
+        {/* <ClerkProvider> */}
+          <AuthProvider><ClientLayout>{children}</ClientLayout></AuthProvider>
+          {/* </ClerkProvider> */}
+        
       </body>
     </html>
   );

@@ -1,10 +1,11 @@
 "use client";
 import React, { useState, useEffect, useMemo, useCallback } from "react";
 import Link from "next/link";
-import { useRouter, useSearchParams } from "next/navigation";
+import {useSearchParams } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
 import Image from "next/image";
 import { Skeleton } from "@/components/ui/skeleton";
+import Router, { useRouter } from "next/router";
 import {
   FaFacebook,
   FaInstagram,
@@ -51,11 +52,16 @@ type Blog = {
   posted_on: string;
 };
 
+
+
 export function DashboardContent() {
+
+const router=useRouter();
+
   const [user, setUser] = useState<User | null>(null);
   const [allUsers, setAllUsers] = useState<User[]>([]);
   const [loadedImages, setLoadedImages] = useState<Set<string>>(new Set());
-  const router = useRouter();
+
   const searchParams = useSearchParams();
   const [activeTab, setActiveTab] = useState(
     searchParams.get("tab") ?? "published",
@@ -74,6 +80,7 @@ export function DashboardContent() {
         setUser(data[0] ?? null);
       });
   }, []);
+  
 
   const handleImageLoad = useCallback((imageUrl: string) => {
     setLoadedImages((prev) => new Set([...prev, imageUrl]));
@@ -144,6 +151,7 @@ export function DashboardContent() {
             <div className="grid grid-cols-1 items-start gap-10 lg:grid-cols-12">
               {/* Avatar & Info Section */}
               <div className="flex flex-col items-center gap-8 md:flex-row md:items-start lg:col-span-12 xl:col-span-7">
+                
                 <div className="group relative shrink-0">
                   <motion.div
                     whileHover={{ scale: 1.05 }}
@@ -199,6 +207,8 @@ export function DashboardContent() {
                     >
                       <FaPlusCircle /> New Blog
                     </button>
+                    
+                    
                   </motion.div>
 
                   {/* Social Icons within Info Section */}

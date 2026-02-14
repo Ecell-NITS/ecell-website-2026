@@ -8,21 +8,56 @@ import Navbar from "@/components/Landing/Navbar";
 import Footer from "@/components/Landing/Footer";
 import AuthBackground from "@/components/Auth/AuthBackground";
 import GoogleButton from "@/components/Auth/GoogleButton";
+import { useRouter } from "next/navigation";
+import { useAuth } from "@/context/AuthContext";
+import api from "@/lib/axios";
+import toast from "react-hot-toast";
+
 
 export default function LoginPage() {
+  const router = useRouter();
+  const { login } = useAuth();
+
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const [rememberMe, setRememberMe] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+ 
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setIsLoading(true);
-    // TODO: integrate login logic
-    await new Promise((r) => setTimeout(r, 1500));
-    setIsLoading(false);
-  };
+
+
+const handleSubmit = async (e: React.FormEvent) => {
+  e.preventDefault();
+  setIsLoading(true);
+
+  try {
+  const res = await api.post("/auth/login", {
+    email:email.trim().toLowerCase(),
+    password,
+  });
+
+  const { accessToken, user } = res.data.data;
+
+  login(user, accessToken);
+
+  toast.success("Login successful");
+  
+
+  router.push("/dashboard");
+
+} catch (err: any) {
+  console.log("LOGIN FRONTEND ERROR:", err);
+  toast.error(
+    err?.response?.data?.message || "Invalid email or password"
+  );
+}
+finally {
+    setIsLoading(false); // ✅ REQUIRED
+  }
+};
+
+
 
   return (
     <main className="relative min-h-screen overflow-hidden bg-[#020617] text-white">

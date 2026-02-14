@@ -20,6 +20,7 @@ import {
   Building2,
 } from "lucide-react";
 
+// --- STAT COUNTER COMPONENT ---
 const StatCounter: React.FC<{
   value: number;
   label: string;
@@ -53,62 +54,56 @@ const StatCounter: React.FC<{
   return (
     <div ref={ref} className="group cursor-default text-center">
       {icon && (
-        <div className="mx-auto mb-1.5 flex h-8 w-8 items-center justify-center rounded-lg bg-blue-500/10 text-blue-400 transition-colors group-hover:bg-blue-500/20 sm:mb-2 sm:h-9 sm:w-9 sm:rounded-xl md:h-10 md:w-10">
-          {icon}
+        <div className="mx-auto mb-2 flex h-8 w-8 items-center justify-center rounded-lg bg-blue-500/10 text-blue-400 transition-colors group-hover:bg-blue-500/20 md:h-10 md:w-10 md:rounded-xl">
+          {React.cloneElement(icon as React.ReactElement, { size: 18 })}
         </div>
       )}
       <motion.div
-        className="mb-0.5 flex items-baseline justify-center gap-0.5 text-xl font-black text-white sm:mb-1 sm:text-2xl md:text-3xl"
+        className="mb-0.5 flex items-baseline justify-center gap-0.5 text-xl font-black text-white md:mb-1 md:text-3xl"
         whileHover={{ scale: 1.05 }}
       >
         <span className="bg-gradient-to-r from-blue-400 to-blue-600 bg-clip-text text-transparent">
           {count}
         </span>
-        <span className="text-sm text-blue-500 sm:text-base md:text-lg">
-          {suffix}
-        </span>
+        <span className="text-sm text-blue-500 md:text-lg">{suffix}</span>
       </motion.div>
-      <p className="text-[8px] font-bold tracking-[0.08em] text-gray-500 uppercase transition-colors group-hover:text-gray-400 sm:text-[9px] sm:tracking-[0.1em] md:text-[10px]">
+      <p className="text-[9px] font-bold tracking-[0.08em] text-gray-500 uppercase transition-colors group-hover:text-gray-400 md:text-[10px] md:tracking-[0.1em]">
         {label}
       </p>
     </div>
   );
 };
 
+// --- MAIN COMPONENT ---
 const About: React.FC = () => {
   const containerRef = useRef<HTMLDivElement>(null);
   const mouseX = useMotionValue(0);
   const mouseY = useMotionValue(0);
 
-  // Smooth springs for mouse interaction
+  // Smooth springs for background glow
   const springX = useSpring(mouseX, { stiffness: 100, damping: 30 });
   const springY = useSpring(mouseY, { stiffness: 100, damping: 30 });
 
   const handleMouseMove = (e: React.MouseEvent) => {
     if (!containerRef.current) return;
     const rect = containerRef.current.getBoundingClientRect();
-    const x = e.clientX - rect.left;
-    const y = e.clientY - rect.top;
-    mouseX.set(x);
-    mouseY.set(y);
+    mouseX.set(e.clientX - rect.left);
+    mouseY.set(e.clientY - rect.top);
   };
 
-  // Image Card Tilt Logic
+  // --- 3D CARD LOGIC ---
   const cardX = useMotionValue(0);
   const cardY = useMotionValue(0);
-  const cardRotateX = useTransform(useSpring(cardY), [0, 600], [5, -5]);
-  const cardRotateY = useTransform(useSpring(cardX), [0, 800], [-5, 5]);
+  const cardRotateX = useTransform(useSpring(cardY), [0, 400], [5, -5]);
+  const cardRotateY = useTransform(useSpring(cardX), [0, 400], [-5, 5]);
 
-  const handleCardMove = (e: React.MouseEvent<HTMLDivElement>) => {
+  // Spotlight Position
+  const [spotlightPos, setSpotlightPos] = useState({ x: 0, y: 0 });
+
+  const handleCardInteract = (e: React.MouseEvent<HTMLDivElement>) => {
     const rect = e.currentTarget.getBoundingClientRect();
     cardX.set(e.clientX - rect.left);
     cardY.set(e.clientY - rect.top);
-  };
-
-  // Spotlight Logic for the main card
-  const [spotlightPos, setSpotlightPos] = useState({ x: 0, y: 0 });
-  const handleSpotlightMove = (e: React.MouseEvent<HTMLDivElement>) => {
-    const rect = e.currentTarget.getBoundingClientRect();
     setSpotlightPos({
       x: e.clientX - rect.left,
       y: e.clientY - rect.top,
@@ -120,233 +115,178 @@ const About: React.FC = () => {
       id="about"
       ref={containerRef}
       onMouseMove={handleMouseMove}
-      className="relative overflow-hidden bg-[#020617] pt-16 sm:pt-20 md:pt-24 lg:pt-32"
+      className="relative overflow-hidden bg-[#020617] py-16 md:py-24 lg:py-32"
     >
       {/* Interactive Background Glow */}
       <motion.div
-        style={{
-          left: springX,
-          top: springY,
-        }}
-        className="pointer-events-none absolute z-0 hidden h-[500px] w-[500px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-blue-600/5 blur-[120px] lg:block"
+        style={{ left: springX, top: springY }}
+        className="pointer-events-none absolute z-0 hidden h-[600px] w-[600px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-blue-600/10 blur-[120px] lg:block"
       />
 
-      <div className="relative z-10 mx-auto w-full max-w-7xl px-4 sm:px-6 md:px-8 lg:px-12">
-        <div className="flex flex-col items-center gap-10 md:gap-16 lg:flex-row lg:justify-between lg:gap-12">
-          {/* TEXT CONTENT */}
+      <div className="relative z-10 mx-auto w-full max-w-7xl px-6">
+        <div className="flex flex-col gap-12 lg:flex-row lg:items-center lg:justify-between lg:gap-16">
+          {/* --- 1. VISUAL DASHBOARD (Top on Mobile, Right on Desktop) --- */}
           <motion.div
-            initial={{ opacity: 0, x: -30 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.8, ease: "easeOut" }}
-            className="w-full text-center lg:w-1/2 lg:text-left"
-          >
-            <div className="glass mb-4 inline-flex items-center gap-1.5 rounded-full border border-blue-500/20 px-3 py-1 text-[9px] font-bold tracking-[0.2em] text-blue-400 uppercase sm:mb-5 sm:gap-2 sm:px-4 sm:py-1.5 sm:text-[10px] sm:tracking-[0.3em] md:mb-6">
-              <Activity size={12} className="sm:h-3.5 sm:w-3.5" />
-              Our Ecosystem
-            </div>
-
-            <h2 className="mb-4 text-3xl leading-none font-black tracking-tighter text-white uppercase sm:mb-6 sm:text-4xl md:mb-8 md:text-5xl lg:text-6xl">
-              Pioneering <br />
-              <span className="relative inline-block">
-                <span className="relative z-10 bg-gradient-to-r from-blue-400 via-blue-200 to-white bg-clip-text text-transparent">
-                  Entrepreneurship
-                </span>
-                <motion.div
-                  initial={{ width: 0 }}
-                  whileInView={{ width: "100%" }}
-                  viewport={{ once: true }}
-                  transition={{ delay: 0.5, duration: 1 }}
-                  className="absolute -bottom-2 left-0 -z-10 h-2 rounded-full bg-blue-600/20"
-                />
-              </span>
-            </h2>
-
-            <p className="mx-auto mb-6 max-w-md text-sm leading-relaxed font-light text-gray-400 sm:mb-8 sm:max-w-lg sm:text-base md:mb-10 md:max-w-xl md:text-lg lg:mx-0 lg:text-xl">
-              E-Cell, NIT Silchar is a non-profit powerhouse. We don&apos;t just
-              teach business; we{" "}
-              <span className="font-medium text-white">architect ambition</span>
-              . By providing pre-incubation, mentorship, and a high-octane
-              community.
-            </p>
-
-            <motion.button
-              whileHover={{ x: 10 }}
-              className="group mx-auto flex items-center justify-center gap-2 text-xs font-bold tracking-widest text-blue-500 uppercase sm:gap-3 sm:text-sm lg:mx-0 lg:justify-start"
-            >
-              Our Initiatives
-              <span className="relative h-[2px] w-6 transition-all duration-300 group-hover:w-10 sm:w-8 sm:group-hover:w-12">
-                <ArrowRight size={16} className="absolute -top-2" />
-              </span>
-            </motion.button>
-          </motion.div>
-
-          {/* INTERACTIVE ANALYTICS DASHBOARD */}
-          <motion.div
-            initial={{ opacity: 0, y: 50 }}
+            initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            transition={{ duration: 1, ease: [0.16, 1, 0.3, 1] }}
-            className="perspective-2000 w-full lg:w-auto lg:flex-shrink-0"
+            transition={{ duration: 0.8 }}
+            className="perspective-1000 order-1 w-full lg:order-2 lg:w-auto lg:flex-shrink-0"
           >
             <motion.div
-              onMouseMove={(e) => {
-                handleCardMove(e);
-                handleSpotlightMove(e);
-              }}
+              onMouseMove={handleCardInteract}
               onMouseLeave={() => {
-                cardX.set(400);
-                cardY.set(300);
+                cardX.set(200); // Reset roughly to center
+                cardY.set(200);
               }}
               style={{
                 rotateX: cardRotateX,
                 rotateY: cardRotateY,
                 transformStyle: "preserve-3d",
               }}
-              className="group relative mx-auto w-full max-w-sm sm:max-w-md lg:max-w-lg"
+              className="group relative mx-auto w-full max-w-md"
             >
-              {/* Main Container */}
-              <div className="glass overflow-hidden rounded-2xl border border-white/5 bg-[#0d1117]/60 shadow-2xl backdrop-blur-xl sm:rounded-[1.5rem] md:rounded-[2rem]">
-                {/* Spotlight Effect */}
+              {/* Card Container */}
+              <div className="relative overflow-hidden rounded-2xl border border-white/10 bg-[#0d1117]/80 shadow-2xl backdrop-blur-xl md:rounded-[2rem]">
+                {/* Spotlight Gradient */}
                 <div
                   className="pointer-events-none absolute -inset-px opacity-0 transition duration-500 group-hover:opacity-100"
                   style={{
-                    background: `radial-gradient(600px circle at ${spotlightPos.x}px ${spotlightPos.y}px, rgba(59, 130, 246, 0.1), transparent 40%)`,
+                    background: `radial-gradient(500px circle at ${spotlightPos.x}px ${spotlightPos.y}px, rgba(59, 130, 246, 0.15), transparent 40%)`,
                   }}
                 />
 
-                {/* Header */}
-                <div className="flex items-center justify-between border-b border-white/5 bg-white/[0.02] px-4 py-3 sm:px-5 sm:py-3.5 md:px-6 md:py-4">
-                  <div className="flex items-center gap-2 sm:gap-3">
-                    <motion.div
-                      animate={{
-                        boxShadow: [
-                          "0 0 10px rgba(59,130,246,0)",
-                          "0 0 20px rgba(59,130,246,0.3)",
-                          "0 0 10px rgba(59,130,246,0)",
-                        ],
-                      }}
-                      transition={{ duration: 2, repeat: Infinity }}
-                      className="flex h-8 w-8 items-center justify-center rounded-lg bg-blue-500/10 sm:h-9 sm:w-9 sm:rounded-xl md:h-10 md:w-10"
-                    >
-                      <Rocket
-                        size={16}
-                        className="text-blue-400 sm:h-[18px] sm:w-[18px] md:h-5 md:w-5"
-                      />
-                    </motion.div>
+                {/* Card Header */}
+                <div className="flex items-center justify-between border-b border-white/5 bg-white/[0.02] px-5 py-4">
+                  <div className="flex items-center gap-3">
+                    <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-blue-500/10 shadow-inner shadow-blue-500/20">
+                      <Rocket size={18} className="text-blue-400" />
+                    </div>
                     <div>
-                      <h3 className="text-xs font-bold text-white sm:text-sm">
-                        Our Analytics
+                      <h3 className="text-sm font-bold text-white">
+                        Impact Analytics
                       </h3>
-                      <p className="text-[8px] text-gray-500 sm:text-[10px]">
-                        Real-time Impact Metrics
+                      <p className="text-[10px] font-medium text-gray-500">
+                        Live Ecosystem Data
                       </p>
                     </div>
                   </div>
-                  <div className="flex items-center gap-1.5 sm:gap-2">
-                    <span className="h-1.5 w-1.5 animate-pulse rounded-full bg-green-500 sm:h-2 sm:w-2"></span>
-                    <span className="text-[8px] font-medium text-green-400 sm:text-[10px]">
-                      LIVE
+                  <div className="flex items-center gap-2 rounded-full border border-green-500/20 bg-green-500/10 px-2 py-1">
+                    <span className="relative flex h-2 w-2">
+                      <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-green-400 opacity-75"></span>
+                      <span className="relative inline-flex h-2 w-2 rounded-full bg-green-500"></span>
+                    </span>
+                    <span className="text-[9px] font-bold tracking-wider text-green-400 uppercase">
+                      Live
                     </span>
                   </div>
                 </div>
 
                 {/* Stats Grid */}
-                <div className="grid grid-cols-2 gap-2.5 p-4 sm:gap-3 sm:p-5 md:gap-4 md:p-6">
-                  {/* Events Card */}
-                  <motion.div
-                    whileHover={{ scale: 1.02 }}
-                    className="rounded-xl border border-white/5 bg-gradient-to-br from-blue-500/5 to-transparent p-3 transition-colors hover:border-blue-500/20 sm:rounded-2xl sm:p-4"
-                  >
+                <div className="grid grid-cols-2 gap-3 p-5 md:gap-4 md:p-6">
+                  {/* Event Stat */}
+                  <div className="rounded-xl border border-white/5 bg-gradient-to-br from-blue-500/5 to-transparent p-4 transition-colors hover:border-blue-500/20">
                     <StatCounter
                       value={25}
                       label="Events Hosted"
                       suffix="+"
-                      icon={<Calendar size={18} />}
+                      icon={<Calendar />}
                     />
-                  </motion.div>
+                  </div>
 
-                  {/* Participants Card */}
-                  <motion.div
-                    whileHover={{ scale: 1.02 }}
-                    className="rounded-xl border border-white/5 bg-gradient-to-br from-purple-500/5 to-transparent p-3 transition-colors hover:border-purple-500/20 sm:rounded-2xl sm:p-4"
-                  >
+                  {/* Participants Stat */}
+                  <div className="rounded-xl border border-white/5 bg-gradient-to-br from-purple-500/5 to-transparent p-4 transition-colors hover:border-purple-500/20">
                     <StatCounter
                       value={5000}
                       label="Participants"
                       suffix="+"
-                      icon={<Users size={18} />}
+                      icon={<Users />}
                     />
-                  </motion.div>
+                  </div>
 
-                  {/* Startups Card */}
-                  <motion.div
-                    whileHover={{ scale: 1.02 }}
-                    className="rounded-xl border border-white/5 bg-gradient-to-br from-cyan-500/5 to-transparent p-3 transition-colors hover:border-cyan-500/20 sm:rounded-2xl sm:p-4"
-                  >
+                  {/* Startups Stat */}
+                  <div className="rounded-xl border border-white/5 bg-gradient-to-br from-cyan-500/5 to-transparent p-4 transition-colors hover:border-cyan-500/20">
                     <StatCounter
                       value={50}
-                      label="Startups Incubated"
+                      label="Startups"
                       suffix="+"
-                      icon={<Rocket size={18} />}
+                      icon={<Rocket />}
                     />
-                  </motion.div>
+                  </div>
 
-                  {/* Sponsors Card */}
-                  <motion.div
-                    whileHover={{ scale: 1.02 }}
-                    className="rounded-xl border border-white/5 bg-gradient-to-br from-amber-500/5 to-transparent p-3 transition-colors hover:border-amber-500/20 sm:rounded-2xl sm:p-4"
-                  >
+                  {/* Sponsors Stat */}
+                  <div className="rounded-xl border border-white/5 bg-gradient-to-br from-amber-500/5 to-transparent p-4 transition-colors hover:border-amber-500/20">
                     <StatCounter
                       value={30}
-                      label="Sponsors"
+                      label="Partners"
                       suffix="+"
-                      icon={<Building2 size={18} />}
+                      icon={<Building2 />}
                     />
-                  </motion.div>
+                  </div>
                 </div>
 
-                {/* Bottom Section - Establishment */}
-                <div className="border-t border-white/5 bg-gradient-to-r from-blue-500/5 via-transparent to-purple-500/5 px-4 py-3 sm:px-5 sm:py-3.5 md:px-6 md:py-4">
-                  <div className="flex items-center justify-center gap-2 sm:gap-3">
-                    <div className="flex h-6 w-6 items-center justify-center rounded-md bg-blue-500/10 sm:h-7 sm:w-7 sm:rounded-lg md:h-8 md:w-8">
-                      <Award
-                        size={12}
-                        className="text-blue-400 sm:h-3.5 sm:w-3.5 md:h-4 md:w-4"
-                      />
-                    </div>
-                    <div className="text-center">
-                      <p className="text-[10px] font-semibold text-white sm:text-xs">
-                        Established 2015
-                      </p>
-                      <p className="text-[8px] text-gray-500 sm:text-[10px]">
-                        NIT Silchar, Assam
-                      </p>
-                    </div>
+                {/* Card Footer */}
+                <div className="border-t border-white/5 bg-white/[0.02] px-5 py-3 text-center">
+                  <div className="inline-flex items-center gap-2 opacity-60 transition-opacity hover:opacity-100">
+                    <Award size={14} className="text-blue-400" />
+                    <p className="text-[10px] text-gray-400">
+                      Est. 2013 • NIT Silchar
+                    </p>
                   </div>
                 </div>
               </div>
-
-              {/* Floating Badge
-              <motion.div
-                style={{ translateZ: "60px" }}
-                initial={{ x: 50, opacity: 0 }}
-                whileInView={{ x: 0, opacity: 1 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.8, delay: 0.6, type: "spring" }}
-                className="absolute -top-4 -right-4 z-20 rounded-2xl border border-white/10 bg-[#0d1117]/90 px-4 py-3 shadow-2xl backdrop-blur-xl"
-              >
-                <div className="flex items-center gap-2">
-                  <div className="h-8 w-8 rounded-lg bg-gradient-to-br from-blue-500 to-blue-600 p-1.5">
-                    <Activity size={20} className="text-white" />
-                  </div>
-                  <div>
-                    <p className="text-xs font-bold text-white">₹2Cr+</p>
-                    <p className="text-[9px] text-gray-500">Funding Raised</p>
-                  </div>
-                </div>
-              </motion.div> */}
             </motion.div>
+          </motion.div>
+
+          {/* --- 2. TEXT CONTENT (Bottom on Mobile, Left on Desktop) --- */}
+          <motion.div
+            initial={{ opacity: 0, x: -30 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.8 }}
+            className="order-2 w-full text-center lg:order-1 lg:w-1/2 lg:text-left"
+          >
+            <div className="mb-4 inline-flex items-center gap-2 rounded-full border border-blue-500/20 bg-blue-500/10 px-3 py-1 text-[10px] font-bold tracking-[0.2em] text-blue-400 uppercase md:mb-6">
+              <Activity size={12} />
+              <span>Our Ecosystem</span>
+            </div>
+
+            <h2 className="mb-4 text-3xl font-black tracking-tighter text-white uppercase sm:text-4xl md:mb-6 md:text-5xl lg:text-6xl">
+              Pioneering <br />
+              <span className="bg-gradient-to-r from-blue-400 to-blue-200 bg-clip-text text-transparent">
+                Entrepreneurship
+              </span>
+            </h2>
+
+            {/* Concise Mobile Text - Fixed 'don't' to 'don&apos;t' */}
+            <p className="mx-auto mb-6 block max-w-md text-sm leading-relaxed font-light text-gray-400 md:hidden">
+              E-Cell NIT Silchar is a non-profit powerhouse. We don&apos;t just
+              teach business; we architect ambition by providing pre-incubation,
+              mentorship, and a high-octane community for students.
+            </p>
+
+            {/* Full Desktop Text */}
+            <p className="mx-auto mb-8 hidden max-w-lg text-lg leading-relaxed font-light text-gray-400 md:block lg:mx-0">
+              E-Cell, NIT Silchar is a non-profit powerhouse. We don&apos;t just
+              teach business; we{" "}
+              <strong className="font-medium text-white">
+                architect ambition
+              </strong>
+              . By providing pre-incubation, mentorship, and a high-octane
+              community, we bridge the gap between technical expertise and
+              commercial viability.
+            </p>
+
+            <motion.button
+              whileHover={{ x: 5 }}
+              className="group mx-auto inline-flex items-center gap-2 text-sm font-bold tracking-widest text-blue-500 uppercase transition-colors hover:text-blue-400 lg:mx-0"
+            >
+              Explore Initiatives
+              <ArrowRight
+                size={16}
+                className="transition-transform duration-300 group-hover:translate-x-1"
+              />
+            </motion.button>
           </motion.div>
         </div>
       </div>

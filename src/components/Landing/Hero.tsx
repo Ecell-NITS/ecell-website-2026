@@ -85,7 +85,7 @@ const Hero: React.FC = () => {
             >
               <Sparkles
                 size={12}
-                className="animate-pulse text-blue-300 sm:h-3.5 sm:w-3.5"
+                className="animate-pulse text-blue-500 sm:h-3.5 sm:w-3.5"
               />
               <span className="sm:hidden">Innovation Starts Here</span>
               <span className="hidden sm:inline">

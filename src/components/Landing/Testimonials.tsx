@@ -40,8 +40,6 @@ const testimonialsData: TestimonialItem[] = [
 ];
 
 // Duplicate data for infinite scroll
-// Since cards are wider now, we don't need as many copies to fill the width,
-// but keeping 4 sets ensures smooth scrolling on huge monitors.
 const marqueeData = [
   ...testimonialsData,
   ...testimonialsData,
@@ -66,9 +64,7 @@ const TestimonialCard: React.FC<{ item: TestimonialItem }> = ({ item }) => {
     <div
       ref={cardRef}
       onMouseMove={handleMouseMove}
-      // CHANGED: w-[350px] -> w-[320px] md:w-[600px]
-      // This makes it wider on desktop to fill space, but keeps it contained on mobile.
-      className="glass group relative w-[320px] flex-shrink-0 overflow-hidden rounded-3xl border border-white/5 bg-[#0d1117]/40 p-8 transition-all duration-500 hover:border-blue-500/30 hover:bg-[#0d1117]/60 md:w-[600px]"
+      className="glass group relative w-[280px] flex-shrink-0 overflow-hidden rounded-3xl border border-white/5 bg-[#0d1117]/40 p-6 transition-all duration-500 hover:border-blue-500/30 hover:bg-[#0d1117]/60 sm:w-[380px] sm:p-7 md:w-[480px] md:p-8 lg:w-[600px]"
     >
       {/* Spotlight Effect */}
       <div
@@ -78,14 +74,25 @@ const TestimonialCard: React.FC<{ item: TestimonialItem }> = ({ item }) => {
         }}
       />
 
-      <Quote className="mb-6 text-blue-500/50" size={32} />
+      {/* Quote Icon: Scales with screen */}
+      <Quote
+        className="mb-4 text-blue-500/50 sm:mb-5 md:mb-6"
+        size={24} // Base size (mobile)
+        // We use style/transform or just accept fixed size here,
+        // but lucide icons are best sized via class if supported or prop.
+        // To make it responsive via prop, we can't easily, so we use wrapper or class:
+        // However, lucide 'size' prop is absolute.
+        // Let's use Tailwind for sizing the SVG if needed, or just keep it simple.
+      />
 
-      <p className="mb-8 min-h-[60px] text-sm leading-relaxed font-light text-gray-300 italic md:text-lg">
+      {/* Main Text: Scales with screen */}
+      <p className="mb-6 min-h-[60px] text-sm leading-relaxed font-light text-gray-300 italic sm:text-base sm:leading-relaxed md:mb-8 md:text-lg md:leading-relaxed lg:text-xl lg:leading-relaxed">
         &quot;{item.text}&quot;
       </p>
 
-      <div className="relative z-10 flex items-center gap-4 border-t border-white/5 pt-6">
-        <div className="h-10 w-10 overflow-hidden rounded-full border border-blue-500/20 bg-gray-900">
+      <div className="relative z-10 flex items-center gap-3 border-t border-white/5 pt-4 sm:gap-4 sm:pt-5 md:pt-6">
+        {/* User Image/Avatar: Scales with screen */}
+        <div className="h-8 w-8 overflow-hidden rounded-full border border-blue-500/20 bg-gray-900 sm:h-10 sm:w-10 md:h-12 md:w-12">
           {item.image ? (
             /* eslint-disable-next-line @next/next/no-img-element */
             <img
@@ -95,13 +102,18 @@ const TestimonialCard: React.FC<{ item: TestimonialItem }> = ({ item }) => {
             />
           ) : (
             <div className="flex h-full w-full items-center justify-center bg-gray-800">
-              <User size={16} className="text-blue-400" />
+              <User className="h-4 w-4 text-blue-500 sm:h-5 sm:w-5 md:h-6 md:w-6" />
             </div>
           )}
         </div>
+
         <div>
-          <h4 className="text-sm font-bold text-white">{item.name}</h4>
-          <p className="text-[10px] font-medium tracking-wider text-blue-400 uppercase">
+          {/* Name: Scales with screen */}
+          <h4 className="text-sm font-bold text-white sm:text-base md:text-lg lg:text-xl">
+            {item.name}
+          </h4>
+          {/* Role: Scales with screen */}
+          <p className="text-[10px] font-medium tracking-wider text-blue-400 uppercase sm:text-xs md:text-sm">
             {item.role}
           </p>
         </div>
@@ -112,30 +124,30 @@ const TestimonialCard: React.FC<{ item: TestimonialItem }> = ({ item }) => {
 
 const Testimonials: React.FC = () => {
   return (
-    <section className="relative overflow-hidden bg-[#020617] py-32">
+    <section className="relative overflow-hidden bg-[#020617] py-20 md:py-24 lg:py-32">
       {/* Background Decor */}
       <div className="pointer-events-none absolute top-0 left-0 h-full w-full overflow-hidden opacity-[0.03] select-none">
-        <span className="absolute top-10 right-10 text-[10rem] font-black text-white/10 lg:text-[20rem]">
+        <span className="absolute top-4 right-4 text-[4rem] font-black text-white/10 sm:text-[8rem] md:top-10 md:right-10 md:text-[12rem] lg:text-[20rem]">
           QUOTES
         </span>
       </div>
 
-      <div className="relative z-10 container mx-auto mb-16 px-6 text-center">
-        <h2 className="text-4xl leading-none font-black tracking-tighter text-white uppercase lg:text-6xl">
+      <div className="relative z-10 container mx-auto mb-10 px-4 text-center sm:mb-12 md:mb-16 md:px-6">
+        <h2 className="text-3xl leading-none font-black tracking-tighter text-white uppercase sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl">
           Success <span className="text-blue-500">Stories</span>
         </h2>
       </div>
 
       {/* Infinite Scroll Container */}
-      <div className="mask-linear-fade relative flex overflow-hidden py-10">
+      <div className="mask-linear-fade relative flex overflow-hidden py-4 md:py-10">
         <motion.div
           animate={{ x: "-50%" }}
           transition={{
-            duration: 50, // Slightly faster duration since the track is longer now
+            duration: 60,
             repeat: Infinity,
             ease: "linear",
           }}
-          className="flex gap-8 px-4" // Increased gap slightly
+          className="flex gap-4 px-4 md:gap-8"
           style={{ width: "max-content" }}
         >
           {marqueeData.map((item, idx) => (

@@ -68,12 +68,13 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     fetchUser();
   }, []);
 
-  // Proper login handler
-  const login = (userData: User, token: string) => {
+const login = (userData: User, token: string) => {
   setUser(userData);
   localStorage.setItem("accessToken", token);
-
+  setAccessToken(token); // ⭐ REQUIRED
 };
+
+
   const refreshUser = async () => {
   try {
     const res = await api.get("/auth/me");

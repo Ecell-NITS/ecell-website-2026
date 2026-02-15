@@ -10,7 +10,7 @@ import toast from "react-hot-toast";
 import { useAuth } from "@/context/AuthContext";
 
 
-interface User {
+export interface User {
   id: string;
   name: string;
   email: string;

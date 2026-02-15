@@ -26,7 +26,7 @@ import {
   FaUserShield,
 } from "react-icons/fa";
 
-interface DashboardUser {
+export interface DashboardUser {
   id: number;
   name: string;
   email: string;
@@ -40,7 +40,7 @@ interface DashboardUser {
 }
 
 // Backend (Prisma)
-type BackendBlog = {
+export type BackendBlog = {
   id: number;
   title: string;
   tag: string;

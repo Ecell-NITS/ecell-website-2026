@@ -2,9 +2,10 @@
 import { promises as fs } from "fs";
 import path from "path";
 import { EditProfileClient } from "./EditProfileClient";
+import type { User as ClientUser } from "./EditProfileClient";
 
 interface User {
-  id: number;
+  id: string;
   first_name: string;
   email: string;
   image: string;
@@ -18,7 +19,23 @@ interface User {
   linkedin_profile: string;
   github: string;
   about: string;
+  role:string;
 }
+function mapUserToClientUser(user: User): ClientUser {
+  return {
+    id: user.id,
+    name: user.first_name,
+    email: user.email,
+    picture: user.image,
+    facebook: user.facebook_profile,
+    instagram: user.instagram_handle,
+    linkedin: user.linkedin_profile,
+    github: user.github,
+    bio: user.about,
+    role: (user as any).role ?? "USER",
+  };
+}
+
 
 async function getUserData(): Promise<User | null> {
   try {
@@ -33,7 +50,9 @@ async function getUserData(): Promise<User | null> {
 }
 
 export async function EditProfileServer() {
-  const user = await getUserData();
+  const rawUser = await getUserData();
+
+  const user = rawUser ? mapUserToClientUser(rawUser) : null;
 
   return <EditProfileClient initialUser={user} />;
 }

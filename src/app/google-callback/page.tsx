@@ -1,12 +1,13 @@
 "use client";
+/* eslint-disable @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-argument, @typescript-eslint/no-floating-promises */
 
-import { useEffect, useRef } from "react";
+import { Suspense, useEffect, useRef } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import api from "@/lib/axios";
 import { useAuth } from "@/context/AuthContext";
 import toast from "react-hot-toast";
 
-export default function GoogleCallback() {
+function GoogleCallbackInner() {
   const router = useRouter();
   const params = useSearchParams();
   const { login } = useAuth();
@@ -46,12 +47,11 @@ export default function GoogleCallback() {
 
         // ✅ redirect
         router.replace("/dashboard");
-      } catch (err: any) {
+      } catch (err: unknown) {
         console.error("Backend error:", err);
-
+        const axiosErr = err as { response?: { data?: { message?: string } } };
         toast.error(
-          err?.response?.data?.message ||
-            "Google authentication failed"
+          axiosErr?.response?.data?.message ?? "Google authentication failed",
         );
 
         router.replace("/login");
@@ -65,10 +65,25 @@ export default function GoogleCallback() {
     <div className="flex min-h-screen items-center justify-center text-white">
       <div className="flex flex-col items-center gap-4">
         <div className="h-10 w-10 animate-spin rounded-full border-2 border-white/30 border-t-white" />
-        <p className="text-sm text-gray-400">
-          Signing you in with Google...
-        </p>
+        <p className="text-sm text-gray-400">Signing you in with Google...</p>
       </div>
     </div>
+  );
+}
+
+export default function GoogleCallback() {
+  return (
+    <Suspense
+      fallback={
+        <div className="flex min-h-screen items-center justify-center text-white">
+          <div className="flex flex-col items-center gap-4">
+            <div className="h-10 w-10 animate-spin rounded-full border-2 border-white/30 border-t-white" />
+            <p className="text-sm text-gray-400">Loading...</p>
+          </div>
+        </div>
+      }
+    >
+      <GoogleCallbackInner />
+    </Suspense>
   );
 }

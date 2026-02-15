@@ -1,6 +1,5 @@
 import type { Metadata } from "next";
 import dynamic from "next/dynamic";
-import blogs from "../../data/blogs.json";
 import Navbar from "../../components/Landing/Navbar";
 import BlogsClient from "../../components/Blogs/BlogsClient";
 
@@ -26,7 +25,7 @@ export default function Page() {
   return (
     <main className="relative min-h-screen bg-[#020617] text-white">
       <Navbar />
-      <BlogsClient blogs={blogs} />
+      <BlogsClient />
       <Footer />
     </main>
   );

@@ -38,9 +38,8 @@ export default function ChangePasswordPage() {
       router.push("/login");
     } catch (err: unknown) {
       if (axios.isAxiosError(err)) {
-        toast.error(
-          err.response?.data?.message || "Failed to update password"
-        );
+        const data = err.response?.data as { message?: string } | undefined;
+        toast.error(data?.message ?? "Failed to update password");
       } else if (err instanceof Error) {
         toast.error(err.message);
       } else {

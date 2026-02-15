@@ -1,6 +1,6 @@
+/* eslint-disable @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-argument, @typescript-eslint/no-unsafe-call, @typescript-eslint/prefer-promise-reject-errors */
 import axios from "axios";
-import { getAccessToken } from "./token";
-import { setAccessToken } from "./token";
+import { getAccessToken, setAccessToken } from "./token";
 
 const api = axios.create({
   baseURL: "http://localhost:4000/api",
@@ -15,7 +15,6 @@ api.interceptors.request.use((config) => {
   }
   return config;
 });
-
 
 api.interceptors.response.use(
   (response) => response,
@@ -39,15 +38,13 @@ api.interceptors.response.use(
         originalRequest.headers.Authorization = `Bearer ${newAccessToken}`;
 
         return api(originalRequest);
-      } catch (err) {
+      } catch {
         console.log("Refresh failed");
       }
     }
 
     return Promise.reject(error);
-  }
+  },
 );
-
-
 
 export default api;

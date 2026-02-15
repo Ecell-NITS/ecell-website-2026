@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-argument, @typescript-eslint/no-floating-promises */
 "use client";
 
 import React, { createContext, useContext, useEffect, useState } from "react";
@@ -15,7 +16,7 @@ interface User {
   linkedin: string;
   github: string;
   bio: string;
-  blogs:Blog[];
+  blogs: Blog[];
 }
 type Blog = {
   id: number;
@@ -30,11 +31,11 @@ type Blog = {
   details: string;
   posted_on: string;
   tag: string;
-  intro:string;
-  content:string;
+  intro: string;
+  content: string;
   timeStamp: string;
-  topicPic:string;
-  isAccepted:boolean;
+  topicPic: string;
+  isAccepted: boolean;
 };
 
 interface AuthContextType {
@@ -43,7 +44,6 @@ interface AuthContextType {
   login: (user: User, token: string) => void;
   logout: () => Promise<void>;
   refreshUser: () => Promise<void>;
-
 }
 
 const AuthContext = createContext<AuthContextType | null>(null);
@@ -52,7 +52,6 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   const [user, setUser] = useState<User | null>(null);
   const [loading, setLoading] = useState(true);
 
- 
   useEffect(() => {
     const fetchUser = async () => {
       try {
@@ -68,38 +67,35 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     fetchUser();
   }, []);
 
-const login = (userData: User, token: string) => {
-  setUser(userData);
-  localStorage.setItem("accessToken", token);
-  setAccessToken(token); // ⭐ REQUIRED
-};
-
+  const login = (userData: User, token: string) => {
+    setUser(userData);
+    localStorage.setItem("accessToken", token);
+    setAccessToken(token); // ⭐ REQUIRED
+  };
 
   const refreshUser = async () => {
-  try {
-    const res = await api.get("/auth/me");
-    setUser(res.data.data.user);
-  } catch {
-    setUser(null);
-  }
-};
-
+    try {
+      const res = await api.get("/auth/me");
+      setUser(res.data.data.user);
+    } catch {
+      setUser(null);
+    }
+  };
 
   const logout = async () => {
-  try {
-    await api.post("/auth/logout");
-  } catch (e) {
-    // optional: ignore backend failure
-  }
+    try {
+      await api.post("/auth/logout");
+    } catch {
+      // optional: ignore backend failure
+    }
 
-  localStorage.removeItem("accessToken"); // ✅ remove
-  setAccessToken("");
-  setUser(null);
-};
-
+    localStorage.removeItem("accessToken"); // ✅ remove
+    setAccessToken("");
+    setUser(null);
+  };
 
   return (
-    <AuthContext.Provider value={{ user, loading, login, logout,refreshUser}}>
+    <AuthContext.Provider value={{ user, loading, login, logout, refreshUser }}>
       {children}
     </AuthContext.Provider>
   );

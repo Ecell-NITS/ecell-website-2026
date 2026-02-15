@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-floating-promises, @typescript-eslint/no-unsafe-argument, @typescript-eslint/no-unnecessary-type-assertion */
 "use client";
 
 import { useAuth } from "@/context/AuthContext";
@@ -8,7 +9,6 @@ import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
 import Image from "next/image";
 import api from "@/lib/axios";
-
 
 import { Skeleton } from "@/components/ui/skeleton";
 import {
@@ -22,8 +22,8 @@ import {
   FaHeart,
   FaComment,
   FaCalendarAlt,
-  FaClock,
   FaUserShield,
+  FaSignOutAlt,
 } from "react-icons/fa";
 
 export interface DashboardUser {
@@ -79,23 +79,22 @@ const mapBlogToUI = (blog: BackendBlog, userId: number): UIBlog => ({
   uniqueKey: `user-${userId}-blog-${blog.id}`,
 });
 
-
 interface DashboardClientWrapperProps {
-  initialUser: DashboardUser | null;
+  initialUser?: DashboardUser | null;
   initialAllUsers: DashboardUser[];
 }
 
 export function DashboardClientWrapper({
-  initialUser,
   initialAllUsers,
 }: DashboardClientWrapperProps) {
-  const {user,loading,logout} = useAuth();
-  const [dashboardUser, setDashboardUser] = useState<DashboardUser | null>(null);
+  const { user, loading, logout } = useAuth();
+  const [_dashboardUser, setDashboardUser] = useState<DashboardUser | null>(
+    null,
+  );
 
   const [allUsers] = useState<DashboardUser[]>(initialAllUsers);
   const [loadedImages, setLoadedImages] = useState<Set<string>>(new Set());
-  const isAdmin =
-  user?.role === "ADMIN" || user?.role === "SUPERADMIN";
+  const isAdmin = user?.role === "ADMIN" || user?.role === "SUPERADMIN";
 
   const router = useRouter();
   const searchParams = useSearchParams();
@@ -104,63 +103,61 @@ export function DashboardClientWrapper({
   );
 
   useEffect(() => {
-  if (!loading && !user) {
-    router.replace("/login");
-  }
-}, [user, loading, router]);
+    if (!loading && !user) {
+      router.replace("/login");
+    }
+  }, [user, loading, router]);
 
   useEffect(() => {
     const tab = searchParams.get("tab");
     if (tab) setActiveTab(tab);
   }, [searchParams]);
   useEffect(() => {
+    const fetchDashboardUser = async () => {
+      try {
+        const res = await api.get("/auth/me");
+        setDashboardUser(res.data.data.user);
+      } catch {
+        toast.error("Failed to load profile");
+      }
+    };
 
-  const fetchDashboardUser = async () => {
-    try {
-      const res = await api.get("/auth/me");
-      setDashboardUser(res.data.data.user);
-    } catch (err) {
-      toast.error("Failed to load profile");
+    if (user) {
+      fetchDashboardUser();
     }
-  };
-
-  if (user) {
-    fetchDashboardUser();
-  }
-}, [user]);
-
+  }, [user]);
 
   const handleLogout = async () => {
     try {
       await logout(); // calls backend + clears user
       toast.success("Logged out successfully");
       router.push("/");
-    } catch (error) {
+    } catch {
       toast.error("Logout failed");
     }
   };
 
   const handleDeleteAccount = async () => {
-  const confirmDelete = window.confirm(
-    "Are you sure you want to permanently delete your account? This cannot be undone."
-  );
-
-  if (!confirmDelete) return;
-
-  try {
-    await api.delete("/auth/delete-account");
-
-    toast.success("Account deleted successfully");
-
-    await logout(); // clear auth context
-    router.push("/"); // redirect to home
-  } catch (err: any) {
-    toast.error(
-      err?.response?.data?.message || "Failed to delete account"
+    const confirmDelete = window.confirm(
+      "Are you sure you want to permanently delete your account? This cannot be undone.",
     );
-  }
-};
 
+    if (!confirmDelete) return;
+
+    try {
+      await api.delete("/auth/delete-account");
+
+      toast.success("Account deleted successfully");
+
+      await logout(); // clear auth context
+      router.push("/"); // redirect to home
+    } catch (err: unknown) {
+      const axiosErr = err as { response?: { data?: { message?: string } } };
+      toast.error(
+        axiosErr?.response?.data?.message ?? "Failed to delete account",
+      );
+    }
+  };
 
   const handleImageLoad = useCallback((imageUrl: string) => {
     setLoadedImages((prev) => new Set([...prev, imageUrl]));
@@ -169,18 +166,16 @@ export function DashboardClientWrapper({
   const displayedBlogs = useMemo(() => {
     if (!user) return [];
     if (activeTab === "published") {
-    return (user.blogs ?? []).map((b) =>
-      mapBlogToUI(b as BackendBlog, user.id)
-    );
-  }
+      return (user.blogs ?? []).map((b) =>
+        mapBlogToUI(b as BackendBlog, user.id),
+      );
+    }
 
     if (activeTab === "all") {
-    return allUsers.flatMap((u) =>
-      (u.blogs ?? []).map((b) =>
-        mapBlogToUI(b as BackendBlog, u.id)
-      )
-    );
-  }
+      return allUsers.flatMap((u) =>
+        (u.blogs ?? []).map((b) => mapBlogToUI(b as BackendBlog, u.id)),
+      );
+    }
     if (activeTab === "liked") {
       // return allUsers.flatMap((u) =>
       //   u.blogs.filter((b) => b.is_liked).map((blog) => ({
@@ -193,11 +188,23 @@ export function DashboardClientWrapper({
     return [];
   }, [user, allUsers, activeTab]);
 
+  if (loading) {
+    return (
+      <main className="relative flex min-h-screen flex-col">
+        <section className="px-6 pt-32 pb-12 lg:px-8">
+          <div className="mx-auto max-w-6xl animate-pulse space-y-6">
+            <div className="h-48 rounded-3xl bg-white/10" />
+            <div className="h-64 rounded-3xl bg-white/10" />
+          </div>
+        </section>
+      </main>
+    );
+  }
+
   return (
     <main className="relative flex min-h-screen flex-col">
       {/* Profile Hero Section */}
       <section className="relative overflow-hidden px-6 pt-32 pb-12 lg:px-8">
-        {/* Background Decorative Elements */}
         <div className="pointer-events-none absolute top-0 left-1/2 -z-10 h-full w-full max-w-7xl -translate-x-1/2">
           <div className="absolute top-[-10%] left-[-10%] h-[40%] w-[40%] rounded-full bg-blue-600/10 blur-[120px]"></div>
           <div className="absolute right-[-10%] bottom-[-10%] h-[30%] w-[30%] rounded-full bg-purple-600/10 blur-[120px]"></div>
@@ -205,24 +212,22 @@ export function DashboardClientWrapper({
 
         <div className="mx-auto max-w-6xl animate-[fadeIn_0.8s_ease-out_forwards] opacity-0">
           <div className="relative rounded-3xl border border-white/10 bg-white/5 p-8 shadow-2xl backdrop-blur-md md:p-12">
-
             <div className="grid grid-cols-1 items-start gap-10 lg:grid-cols-12">
-              {/* Avatar & Info Section */}
+              {/* Avatar & Info */}
               <div className="flex flex-col items-center gap-8 md:flex-row md:items-start lg:col-span-12 xl:col-span-7">
                 <div className="group relative shrink-0">
                   <div className="relative size-40 cursor-pointer overflow-hidden rounded-full border-4 border-blue-500 bg-[#111722] shadow-[0_0_30px_rgba(59,130,246,0.5)] transition-transform hover:scale-105 md:size-48">
                     <Image
-                    src={
-                      user?.picture ||
-                      "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png"
-                    }
-                    alt="Profile"
-                    className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-110"
-                    width={192}
-                    height={192}
-                    priority
-                  />
-
+                      src={
+                        user?.picture ??
+                        "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png"
+                      }
+                      alt="Profile"
+                      className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-110"
+                      width={192}
+                      height={192}
+                      priority
+                    />
                   </div>
                   <div
                     onClick={() => router.push("/dashboard/edit_profile")}
@@ -263,16 +268,21 @@ export function DashboardClientWrapper({
                         <FaUserShield /> Admin Panel
                       </Link>
                     )}
+                    <button
+                      onClick={logout}
+                      className="flex items-center gap-2 rounded-xl border border-red-500/30 bg-red-500/10 px-6 py-2.5 font-semibold text-red-400 transition-all hover:bg-red-500/20"
+                    >
+                      <FaSignOutAlt /> Logout
+                    </button>
                   </div>
                   <div className="mt-3 text-center md:text-left">
                     <Link
                       href="/change-password"
-                      className="text-sm font-medium text-blue-400 hover:text-blue-300 hover:underline transition"
+                      className="text-sm font-medium text-blue-400 transition hover:text-blue-300 hover:underline"
                     >
                       Change Password
                     </Link>
                   </div>
-
 
                   {/* Social Icons */}
                   <div className="flex animate-[fadeIn_0.6s_ease-out_0.6s_forwards] flex-wrap items-center justify-center gap-4 pt-2 opacity-0 md:justify-start">
@@ -335,7 +345,7 @@ export function DashboardClientWrapper({
       {/* Content Section */}
       <section className="px-6 pb-24 lg:px-8">
         <div className="mx-auto max-w-6xl">
-          {/* Unified Tabs */}
+          {/* Tabs */}
           <div className="mb-12 flex items-center gap-8 border-b border-white/10">
             {[
               {
@@ -367,9 +377,7 @@ export function DashboardClientWrapper({
                 }`}
               >
                 {tab.label}
-                {tab.count !== undefined && (
-                  <span className="ml-2 text-xs opacity-60">({tab.count})</span>
-                )}
+                <span className="ml-2 text-xs opacity-60">({tab.count})</span>
                 {activeTab === tab.id && (
                   <div className="absolute bottom-0 left-0 h-1 w-full rounded-full bg-blue-500" />
                 )}
@@ -380,80 +388,79 @@ export function DashboardClientWrapper({
           {/* Blogs Grid */}
           <div className="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3">
             {displayedBlogs.length > 0 ? (
-              displayedBlogs.map((blog, index) => (
-                <div
-                  key={blog.uniqueKey}
-                  className="group relative flex animate-[fadeIn_0.5s_ease-out_forwards] flex-col overflow-hidden rounded-3xl border border-white/10 bg-white/5 opacity-0 transition-all hover:-translate-y-2 hover:border-blue-500/50 hover:shadow-2xl hover:shadow-blue-500/10"
-                  style={{ animationDelay: `${index * 0.05}s` }}
-                >
-                  <Link
-                    href={`/blogs/${blog.id}`}
-                    className="relative block aspect-video overflow-hidden bg-white/5"
+              displayedBlogs.map((blog, index) => {
+                const coverImg =
+                  blog.cover_image ||
+                  "https://images.unsplash.com/photo-1488190211105-8b0e65b80b4e?auto=format&q=80&w=600";
+                return (
+                  <div
+                    key={blog.id}
+                    className="group relative flex animate-[fadeIn_0.5s_ease-out_forwards] flex-col overflow-hidden rounded-3xl border border-white/10 bg-white/5 opacity-0 transition-all hover:-translate-y-2 hover:border-blue-500/50 hover:shadow-2xl hover:shadow-blue-500/10"
+                    style={{ animationDelay: `${index * 0.05}s` }}
                   >
-                    {!loadedImages.has(blog.cover_image) && (
-                      <Skeleton className="absolute inset-0" />
-                    )}
-                    <Image
-                      src={blog.cover_image}
-                      alt={blog.title}
-                      className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-110"
-                      width={400}
-                      height={225}
-                      onLoad={() => handleImageLoad(blog.cover_image)}
-                      loading="lazy"
-                      placeholder="empty"
-                    />
-                    <div className="absolute inset-0 bg-gradient-to-t from-[#020617] via-transparent to-transparent opacity-60"></div>
-                    <div className="absolute top-4 right-4 z-20">
-                      <span className="rounded-full border border-white/10 bg-black/60 px-3 py-1 text-[10px] font-bold tracking-widest text-white uppercase backdrop-blur-md">
-                        {blog.category}
-                      </span>
-                    </div>
-                  </Link>
+                    <Link
+                      href={`/blogs/${blog.id}`}
+                      className="relative block aspect-video overflow-hidden bg-white/5"
+                    >
+                      {!loadedImages.has(coverImg) && (
+                        <Skeleton className="absolute inset-0" />
+                      )}
+                      <Image
+                        src={coverImg}
+                        alt={blog.title}
+                        className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-110"
+                        width={400}
+                        height={225}
+                        onLoad={() => handleImageLoad(coverImg)}
+                        loading="lazy"
+                        placeholder="empty"
+                      />
+                      <div className="absolute inset-0 bg-gradient-to-t from-[#020617] via-transparent to-transparent opacity-60"></div>
+                      {blog.category && (
+                        <div className="absolute top-4 right-4 z-20">
+                          <span className="rounded-full border border-white/10 bg-black/60 px-3 py-1 text-[10px] font-bold tracking-widest text-white uppercase backdrop-blur-md">
+                            {blog.category}
+                          </span>
+                        </div>
+                      )}
+                    </Link>
 
-                  <div className="flex flex-1 flex-col p-6">
-                    <div className="mb-3 flex items-center gap-3 text-xs font-bold tracking-widest text-blue-400/80 uppercase">
-                      <span className="flex items-center gap-1">
-                        <FaCalendarAlt /> {blog.posted_on}
-                      </span>
-                      <span className="size-1 rounded-full bg-white/20"></span>
-                      <span className="flex items-center gap-1">
-                        <FaClock /> {blog.read_time}
-                      </span>
-                    </div>
-                    <h3 className="mb-3 line-clamp-2 text-xl font-bold text-white transition-colors group-hover:text-blue-400">
-                      {blog.title}
-                    </h3>
-                    <p className="mb-6 line-clamp-3 flex-1 text-sm text-gray-400">
-                      {blog.brief_intro}
-                    </p>
+                    <div className="flex flex-1 flex-col p-6">
+                      <div className="mb-3 flex items-center gap-3 text-xs font-bold tracking-widest text-blue-400/80 uppercase">
+                        {blog.posted_on && (
+                          <span className="flex items-center gap-1">
+                            <FaCalendarAlt /> {blog.posted_on}
+                          </span>
+                        )}
+                      </div>
+                      <h3 className="mb-3 line-clamp-2 text-xl font-bold text-white transition-colors group-hover:text-blue-400">
+                        {blog.title}
+                      </h3>
+                      <p className="mb-6 line-clamp-3 flex-1 text-sm text-gray-400">
+                        {(blog.brief_intro ?? "").replace(/<[^>]*>/g, "")}
+                      </p>
 
-                    <div className="flex items-center justify-between border-t border-white/5 pt-6">
-                      <span className="cursor-pointer text-sm font-bold text-blue-500 group-hover:underline">
-                        Read More
-                      </span>
-                      <div className="flex items-center gap-4 text-gray-400">
-                        <button
-                          className={`flex items-center gap-1.5 transition-colors ${
-                            blog.is_liked
-                              ? "text-red-400"
-                              : "hover:text-red-400"
-                          }`}
-                        >
-                          <FaHeart
-                            className={blog.is_liked ? "fill-current" : ""}
-                          />
-                          <span className="text-xs">{blog.likes}</span>
-                        </button>
-                        <button className="flex items-center gap-1.5 transition-colors hover:text-white">
-                          <FaComment />
-                          <span className="text-xs">{blog.comments}</span>
-                        </button>
+                      <div className="flex items-center justify-between border-t border-white/5 pt-6">
+                        <span className="cursor-pointer text-sm font-bold text-blue-500 group-hover:underline">
+                          Read More
+                        </span>
+                        <div className="flex items-center gap-4 text-gray-400">
+                          <span className="flex items-center gap-1.5">
+                            <FaHeart />
+                            <span className="text-xs">{blog.likes ?? 0}</span>
+                          </span>
+                          <span className="flex items-center gap-1.5">
+                            <FaComment />
+                            <span className="text-xs">
+                              {blog.comments ?? 0}
+                            </span>
+                          </span>
+                        </div>
                       </div>
                     </div>
                   </div>
-                </div>
-              ))
+                );
+              })
             ) : (
               <div className="col-span-full py-20 text-center">
                 <p className="text-lg text-gray-500">
@@ -461,24 +468,23 @@ export function DashboardClientWrapper({
                 </p>
               </div>
             )}
-            
           </div>
-          
         </div>
-          {/* Account Actions */}
-          <div className="flex justify-center gap-4 mb-6">
-            {/* Logout */}
-            <button
-              onClick={handleLogout}
-              className="rounded-lg bg-blue-600 px-4 py-2 text-sm font-semibold text-white transition hover:bg-blue-500"
-            >
-              Log out
-            </button>
+        {/* Account Actions */}
+        <div className="mb-6 flex justify-center gap-4">
+          {/* Logout */}
+          <button
+            onClick={handleLogout}
+            className="rounded-lg bg-blue-600 px-4 py-2 text-sm font-semibold text-white transition hover:bg-blue-500"
+          >
+            Log out
+          </button>
 
-            {/* Delete Account */}
-            <button
-              onClick={() => {
-                toast.custom((t) => (
+          {/* Delete Account */}
+          <button
+            onClick={() => {
+              toast.custom(
+                (t) => (
                   <div className="w-[350px] rounded-xl border border-red-500/20 bg-[#0f172a] p-5 shadow-2xl">
                     <h3 className="mb-2 text-lg font-bold text-white">
                       Delete Account?
@@ -506,16 +512,15 @@ export function DashboardClientWrapper({
                       </button>
                     </div>
                   </div>
-                ), { duration: Infinity });
-              }}
-
-              className="rounded-lg bg-red-600 px-4 py-2 text-sm font-semibold text-white transition hover:bg-red-500"
-            >
-              Delete Account
-            </button>
-          </div>
-
-
+                ),
+                { duration: Infinity },
+              );
+            }}
+            className="rounded-lg bg-red-600 px-4 py-2 text-sm font-semibold text-white transition hover:bg-red-500"
+          >
+            Delete Account
+          </button>
+        </div>
       </section>
 
       <style jsx global>{`

@@ -39,9 +39,11 @@ export default function SignUpPage() {
   const [step, setStep] = useState<Step>("details");
   const [isLoading, setIsLoading] = useState(false);
   const [emailError, setEmailError] = useState("");
+  const [emailChecking, setEmailChecking] = useState(false);
 
   const handleEmailBlur = async () => {
     if (!email) return;
+    setEmailChecking(true);
 
     try {
       const res = await api.post<{ exists: boolean }>("/auth/checkEmail", {
@@ -55,6 +57,8 @@ export default function SignUpPage() {
       }
     } catch {
       setEmailError("");
+    } finally {
+      setEmailChecking(false);
     }
   };
 
@@ -204,20 +208,27 @@ export default function SignUpPage() {
                     </div>
 
                     {/* Email */}
-                    <div className="group relative">
-                      <Mail
-                        size={16}
-                        className="absolute top-1/2 left-4 -translate-y-1/2 text-gray-600 transition-colors group-focus-within:text-blue-400"
-                      />
-                      <input
-                        type="email"
-                        placeholder="Email address"
-                        value={email}
-                        onChange={(e) => setEmail(e.target.value)}
-                        onBlur={handleEmailBlur}
-                        required
-                        className="w-full rounded-xl border border-white/10 bg-white/[0.03] py-3.5 pr-4 pl-11 text-sm text-white placeholder-gray-600 transition-all duration-300 outline-none focus:border-blue-500/40 focus:bg-blue-500/[0.03] focus:ring-1 focus:ring-blue-500/20"
-                      />
+                    <div>
+                      <div className="group relative">
+                        <Mail
+                          size={16}
+                          className="absolute top-1/2 left-4 -translate-y-1/2 text-gray-600 transition-colors group-focus-within:text-blue-400"
+                        />
+                        <input
+                          type="email"
+                          placeholder="Email address"
+                          value={email}
+                          onChange={(e) => setEmail(e.target.value)}
+                          onBlur={handleEmailBlur}
+                          required
+                          className="w-full rounded-xl border border-white/10 bg-white/[0.03] py-3.5 pr-10 pl-11 text-sm text-white placeholder-gray-600 transition-all duration-300 outline-none focus:border-blue-500/40 focus:bg-blue-500/[0.03] focus:ring-1 focus:ring-blue-500/20"
+                        />
+                        {emailChecking && (
+                          <div className="absolute top-1/2 right-4 -translate-y-1/2">
+                            <div className="h-4 w-4 animate-spin rounded-full border-2 border-gray-600 border-t-blue-400" />
+                          </div>
+                        )}
+                      </div>
                       {emailError && (
                         <p className="mt-1 text-sm text-red-400">
                           {emailError}

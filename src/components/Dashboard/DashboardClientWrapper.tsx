@@ -243,7 +243,9 @@ export function DashboardClientWrapper({
                       {user?.name ?? "User Name"}
                     </h1>
                     <p className="text-xl font-medium text-blue-400">
-                      {user?.bio ?? "Role"}
+                      {user?.role === "CLIENT"
+                        ? "User"
+                        : (user?.role ?? "Role")}
                     </p>
                   </div>
 
@@ -473,15 +475,15 @@ export function DashboardClientWrapper({
         {/* Account Actions */}
         <div className="mb-6 flex justify-center gap-4">
           {/* Logout */}
-          <button
+          {/* <button
             onClick={handleLogout}
             className="rounded-lg bg-blue-600 px-4 py-2 text-sm font-semibold text-white transition hover:bg-blue-500"
           >
             Log out
-          </button>
+          </button> */}
 
           {/* Delete Account */}
-          <button
+          {/* <button
             onClick={() => {
               toast.custom(
                 (t) => (
@@ -519,7 +521,7 @@ export function DashboardClientWrapper({
             className="rounded-lg bg-red-600 px-4 py-2 text-sm font-semibold text-white transition hover:bg-red-500"
           >
             Delete Account
-          </button>
+          </button> */}
         </div>
       </section>
 

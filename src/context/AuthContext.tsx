@@ -71,6 +71,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     setUser(userData);
     localStorage.setItem("accessToken", token);
     setAccessToken(token); // ⭐ REQUIRED
+    document.cookie = `accessToken=${token}; path=/; max-age=${60 * 60 * 24 * 7}; SameSite=Lax`;
   };
 
   const refreshUser = async () => {
@@ -91,6 +92,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
 
     localStorage.removeItem("accessToken"); // ✅ remove
     setAccessToken("");
+    document.cookie = "accessToken=; path=/; max-age=0";
     setUser(null);
   };
 

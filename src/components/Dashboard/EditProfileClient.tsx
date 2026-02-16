@@ -72,29 +72,20 @@ export function EditProfileClient({ initialUser }: EditProfileClientProps) {
     setIsSaving(true);
 
     try {
-      const formData = new FormData();
-
-      formData.append("name", nameInput);
-      formData.append("bio", bio);
-      formData.append("facebook", facebook);
-      formData.append("instagram", instagram);
-      formData.append("linkedin", linkedin);
-      formData.append("github", github);
+      const payload: Record<string, string> = {
+        name: nameInput,
+        bio,
+        facebook,
+        instagram,
+        linkedin,
+        github,
+      };
 
       if (isSuperAdmin) {
-        formData.append("role", post);
+        payload.role = post;
       }
 
-      // ✅ append image
-      if (selectedFile) {
-        formData.append("picture", selectedFile);
-      }
-
-      await api.patch("/auth/edit-profile", formData, {
-        headers: {
-          "Content-Type": "multipart/form-data",
-        },
-      });
+      await api.patch("/auth/edit-profile", payload);
 
       await refreshUser();
       setName(nameInput);
@@ -176,8 +167,9 @@ export function EditProfileClient({ initialUser }: EditProfileClientProps) {
                         alt="Profile"
                         className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-110"
                         src={
-                          preview ??
-                          picture ??
+                          // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing -- intentional: empty string "" must fall through to default
+                          preview ||
+                          picture ||
                           "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png"
                         }
                         width={144}

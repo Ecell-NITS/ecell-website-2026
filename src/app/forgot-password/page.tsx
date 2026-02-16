@@ -48,9 +48,7 @@ export default function ForgotPasswordPage() {
       router.push("/login");
     } catch (err: unknown) {
       if (axios.isAxiosError<ApiErrorResponse>(err)) {
-        toast.error(
-          err.response?.data?.message ?? "Something went wrong"
-        );
+        toast.error(err.response?.data?.message ?? "Something went wrong");
       } else if (err instanceof Error) {
         toast.error(err.message);
       } else {
@@ -69,10 +67,9 @@ export default function ForgotPasswordPage() {
     const normalizedEmail = email.trim().toLowerCase();
 
     try {
-      const check = await api.post<ForgotPasswordResponse>(
-        "/auth/checkEmail",
-        { email: normalizedEmail }
-      );
+      const check = await api.post<ForgotPasswordResponse>("/auth/checkEmail", {
+        email: normalizedEmail,
+      });
 
       if (!check.data.exists) {
         toast.error("No account found with this email");
@@ -87,9 +84,7 @@ export default function ForgotPasswordPage() {
       setStep("RESET");
     } catch (err: unknown) {
       if (axios.isAxiosError<ApiErrorResponse>(err)) {
-        toast.error(
-          err.response?.data?.message ?? "Something went wrong"
-        );
+        toast.error(err.response?.data?.message ?? "Something went wrong");
       } else if (err instanceof Error) {
         toast.error(err.message);
       } else {
@@ -167,8 +162,12 @@ export default function ForgotPasswordPage() {
                     <input
                       placeholder="Enter OTP"
                       value={otp}
-                      onChange={(e) => setOtp(e.target.value)}
+                      onChange={(e) =>
+                        setOtp(e.target.value.replace(/\D/g, "").slice(0, 6))
+                      }
                       required
+                      maxLength={6}
+                      inputMode="numeric"
                       className="w-full rounded-xl bg-white/[0.03] px-4 py-3 outline-none"
                     />
 

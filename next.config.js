@@ -10,12 +10,10 @@ import "./src/env.js";
 const config = {
   images: {
     remotePatterns: [
-
       {
         protocol: "https",
         hostname: "cdn.pixabay.com",
       },
-
 
       {
         protocol: "http",
@@ -23,7 +21,6 @@ const config = {
         port: "4000",
         pathname: "/uploads/**",
       },
-
 
       {
         protocol: "https",
@@ -33,7 +30,10 @@ const config = {
         protocol: "https",
         hostname: "lh3.googleusercontent.com",
       },
-
+      {
+        protocol: "https",
+        hostname: "images.unsplash.com",
+      },
     ],
     formats: ["image/avif", "image/webp"],
     deviceSizes: [640, 750, 828, 1080, 1200, 1920, 2048, 3840],

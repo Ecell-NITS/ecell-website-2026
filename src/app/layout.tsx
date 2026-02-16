@@ -1,4 +1,4 @@
-import "@/styles/globals.css"
+import "@/styles/globals.css";
 
 import { type Metadata } from "next";
 import ClientLayout from "@/components/Preloader/ClientLayout";
@@ -33,9 +33,10 @@ export default function RootLayout({
       </head>
       <body>
         {/* <ClerkProvider> */}
-          <AuthProvider><ClientLayout>{children}</ClientLayout></AuthProvider>
-          {/* </ClerkProvider> */}
-        
+        <AuthProvider>
+          <ClientLayout>{children}</ClientLayout>
+        </AuthProvider>
+        {/* </ClerkProvider> */}
       </body>
     </html>
   );

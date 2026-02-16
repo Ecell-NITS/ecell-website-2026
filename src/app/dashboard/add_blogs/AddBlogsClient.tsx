@@ -68,6 +68,8 @@ export default function AddBlogsClient() {
   const [tag, setTag] = useState("");
   const [isPublishing, setIsPublishing] = useState(false);
   const [showPreview, setShowPreview] = useState(false);
+  const [topicImage, setTopicImage] = useState<File | null>(null);
+  const [imagePreview, setImagePreview] = useState<string | null>(null);
   const { user, isLoading } = useAuth();
   const router = useRouter();
 
@@ -77,6 +79,21 @@ export default function AddBlogsClient() {
       router.push("/login");
     }
   }, [isLoading, user, router]);
+
+  const stripHtml = (html: string) => html.replace(/<[^>]*>/g, "");
+
+  const isFormComplete =
+    title.trim().length > 0 &&
+    stripHtml(intro).trim().length > 0 &&
+    stripHtml(content).trim().length > 0 &&
+    topicImage !== null;
+
+  const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+    setTopicImage(file);
+    setImagePreview(URL.createObjectURL(file));
+  };
 
   const handlePublish = async () => {
     if (!title.trim()) {
@@ -112,7 +129,6 @@ export default function AddBlogsClient() {
     }
   };
 
-  const stripHtml = (html: string) => html.replace(/<[^>]*>/g, "");
   const readTime = Math.max(
     1,
     Math.ceil(
@@ -169,7 +185,7 @@ export default function AddBlogsClient() {
           </div>
 
           {/* ===== WRITE MODE ===== */}
-          {!showPreview && (
+          <div className={showPreview ? "hidden" : ""}>
             <div className="animate-[fadeIn_0.5s_ease-out_forwards] rounded-3xl border border-white/10 bg-white/5 p-4 opacity-0 shadow-2xl backdrop-blur-md sm:p-6 md:p-10">
               <div className="flex flex-col gap-6 sm:gap-8">
                 {/* Title */}
@@ -238,38 +254,61 @@ export default function AddBlogsClient() {
                   <label className="text-lg font-semibold text-slate-200 sm:text-xl">
                     Topic Picture
                   </label>
-                  <div className="mt-2 flex justify-center rounded-xl border border-dashed border-white/20 px-4 py-8 transition-all hover:border-blue-500/50 hover:bg-white/5 sm:px-6 sm:py-10">
-                    <div className="text-center">
-                      <span className="material-symbols-outlined mx-auto mb-4 text-5xl text-blue-500">
-                        image
-                      </span>
-                      <div className="flex text-sm leading-6 text-slate-400">
-                        <label
-                          htmlFor="file-upload"
-                          className="relative cursor-pointer rounded-md font-semibold text-blue-500 focus-within:ring-2 focus-within:ring-blue-500 focus-within:ring-offset-2 focus-within:ring-offset-gray-900 focus-within:outline-none hover:text-blue-400"
-                        >
-                          <span>Upload a file</span>
-                          <input
-                            id="file-upload"
-                            name="file-upload"
-                            type="file"
-                            className="sr-only"
-                          />
-                        </label>
-                        <p className="pl-1">or drag and drop</p>
-                      </div>
-                      <p className="mt-2 text-xs leading-5 text-slate-500">
-                        PNG, JPG, GIF up to 300KB
-                      </p>
+                  {imagePreview ? (
+                    <div className="relative">
+                      {/* eslint-disable-next-line @next/next/no-img-element */}
+                      <img
+                        src={imagePreview}
+                        alt="Topic preview"
+                        className="max-h-64 w-full rounded-xl border border-white/10 object-cover"
+                      />
+                      <button
+                        type="button"
+                        onClick={() => {
+                          setTopicImage(null);
+                          setImagePreview(null);
+                        }}
+                        className="absolute top-2 right-2 rounded-full bg-black/70 px-3 py-1 text-xs font-semibold text-white transition-colors hover:bg-red-600"
+                      >
+                        Remove
+                      </button>
                     </div>
-                  </div>
+                  ) : (
+                    <div className="mt-2 flex justify-center rounded-xl border border-dashed border-white/20 px-4 py-8 transition-all hover:border-blue-500/50 hover:bg-white/5 sm:px-6 sm:py-10">
+                      <div className="text-center">
+                        <span className="material-symbols-outlined mx-auto mb-4 text-5xl text-blue-500">
+                          image
+                        </span>
+                        <div className="flex text-sm leading-6 text-slate-400">
+                          <label
+                            htmlFor="file-upload"
+                            className="relative cursor-pointer rounded-md font-semibold text-blue-500 focus-within:ring-2 focus-within:ring-blue-500 focus-within:ring-offset-2 focus-within:ring-offset-gray-900 focus-within:outline-none hover:text-blue-400"
+                          >
+                            <span>Upload a file</span>
+                            <input
+                              id="file-upload"
+                              name="file-upload"
+                              type="file"
+                              accept="image/*"
+                              className="sr-only"
+                              onChange={handleImageUpload}
+                            />
+                          </label>
+                          <p className="pl-1">or drag and drop</p>
+                        </div>
+                        <p className="mt-2 text-xs leading-5 text-slate-500">
+                          PNG, JPG, GIF up to 300KB
+                        </p>
+                      </div>
+                    </div>
+                  )}
                 </div>
 
                 {/* Submit */}
                 <div className="flex justify-end pt-4 sm:pt-6">
                   <button
                     onClick={handlePublish}
-                    disabled={isPublishing}
+                    disabled={isPublishing || !isFormComplete}
                     className="w-full rounded-xl bg-gradient-to-r from-blue-600 to-blue-500 px-6 py-3.5 text-base font-bold text-white shadow-lg shadow-blue-500/25 transition-all hover:scale-[1.02] hover:from-blue-500 hover:to-blue-400 active:scale-[0.98] disabled:cursor-not-allowed disabled:opacity-60 sm:w-auto sm:px-8 sm:py-4 sm:text-lg"
                   >
                     {isPublishing ? (
@@ -284,7 +323,7 @@ export default function AddBlogsClient() {
                 </div>
               </div>
             </div>
-          )}
+          </div>
 
           {/* ===== PREVIEW MODE ===== */}
           {showPreview && (
@@ -360,7 +399,7 @@ export default function AddBlogsClient() {
                   <div className="mt-10 flex justify-end border-t border-white/10 pt-6">
                     <button
                       onClick={handlePublish}
-                      disabled={isPublishing}
+                      disabled={isPublishing || !isFormComplete}
                       className="w-full rounded-xl bg-gradient-to-r from-blue-600 to-blue-500 px-6 py-3.5 text-base font-bold text-white shadow-lg shadow-blue-500/25 transition-all hover:scale-[1.02] hover:from-blue-500 hover:to-blue-400 active:scale-[0.98] disabled:cursor-not-allowed disabled:opacity-60 sm:w-auto sm:px-8 sm:py-4 sm:text-lg"
                     >
                       {isPublishing ? (

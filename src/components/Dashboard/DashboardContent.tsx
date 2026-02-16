@@ -1,10 +1,11 @@
 "use client";
 import React, { useState, useEffect, useMemo, useCallback } from "react";
 import Link from "next/link";
-import { useRouter, useSearchParams } from "next/navigation";
+import { useSearchParams } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
 import Image from "next/image";
 import { Skeleton } from "@/components/ui/skeleton";
+import { useRouter } from "next/router";
 import {
   FaFacebook,
   FaInstagram,
@@ -52,10 +53,12 @@ type Blog = {
 };
 
 export function DashboardContent() {
+  const router = useRouter();
+
   const [user, setUser] = useState<User | null>(null);
   const [allUsers, setAllUsers] = useState<User[]>([]);
   const [loadedImages, setLoadedImages] = useState<Set<string>>(new Set());
-  const router = useRouter();
+
   const searchParams = useSearchParams();
   const [activeTab, setActiveTab] = useState(
     searchParams.get("tab") ?? "published",

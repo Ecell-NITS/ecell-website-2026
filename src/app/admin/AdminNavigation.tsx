@@ -2,7 +2,16 @@
 
 import { useState } from "react";
 import Link from "next/link";
-import { BarChart3, Settings, LogOut, Menu, X } from "lucide-react";
+import {
+  BarChart3,
+  Settings,
+  LogOut,
+  Menu,
+  X,
+  Users,
+  FileText,
+} from "lucide-react";
+import { useAuth } from "@/lib/auth-context";
 
 interface AdminNavigationProps {
   mobileMenu: boolean;
@@ -14,9 +23,22 @@ export default function AdminNavigation({
   active,
 }: AdminNavigationProps) {
   const [isOpen, setIsOpen] = useState(false);
+  const { logout } = useAuth();
 
   const navItems = [
     { label: "Dashboard", href: "/admin", icon: BarChart3, id: "dashboard" },
+    {
+      label: "Users",
+      href: "/admin/users",
+      icon: Users,
+      id: "users",
+    },
+    {
+      label: "Blogs",
+      href: "/admin/blogs",
+      icon: FileText,
+      id: "blogs",
+    },
     {
       label: "Webinars",
       href: "/admin/webinars",
@@ -78,7 +100,10 @@ export default function AdminNavigation({
         </nav>
 
         {/* Logout Button */}
-        <button className="4xl:px-6 4xl:py-5 4xl:text-lg flex w-full items-center gap-3 rounded-lg px-4 py-3 text-sm text-white/60 transition-all duration-200 hover:bg-white/5 hover:text-white 2xl:px-5 2xl:py-4 2xl:text-base">
+        <button
+          onClick={logout}
+          className="4xl:px-6 4xl:py-5 4xl:text-lg flex w-full items-center gap-3 rounded-lg px-4 py-3 text-sm text-white/60 transition-all duration-200 hover:bg-white/5 hover:text-white 2xl:px-5 2xl:py-4 2xl:text-base"
+        >
           <LogOut
             size={18}
             className="4xl:w-6 4xl:h-6 flex-shrink-0 2xl:h-5 2xl:w-5"
@@ -136,7 +161,10 @@ export default function AdminNavigation({
             <div className="my-2 border-t border-white/10" />
 
             {/* Logout Button */}
-            <button className="flex w-full items-center gap-3 rounded-lg px-4 py-3 text-sm text-white/60 transition-all duration-200 hover:bg-white/5 hover:text-white sm:py-4 sm:text-base 2xl:text-lg">
+            <button
+              onClick={logout}
+              className="flex w-full items-center gap-3 rounded-lg px-4 py-3 text-sm text-white/60 transition-all duration-200 hover:bg-white/5 hover:text-white sm:py-4 sm:text-base 2xl:text-lg"
+            >
               <LogOut size={20} className="2xl:h-5 2xl:w-5" />
               <span>Logout</span>
             </button>

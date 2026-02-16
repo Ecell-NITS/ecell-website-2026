@@ -1,26 +1,26 @@
+/* eslint-disable @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-floating-promises, @typescript-eslint/no-unsafe-argument */
 // src/components/Dashboard/EditProfileClient.tsx
 "use client";
 
 import { useRouter } from "next/navigation";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { FiUser, FiArrowLeft } from "react-icons/fi";
 import Image from "next/image";
+import api from "@/lib/axios";
+import toast from "react-hot-toast";
+import { useAuth } from "@/context/AuthContext";
 
-interface User {
-  id: number;
-  first_name: string;
+export interface User {
+  id: string;
+  name: string;
   email: string;
-  image: string;
-  gender: string;
-  post: string;
-  age: number;
-  country: string;
-  facebook_profile: string;
-  twitter_handle: string;
-  instagram_handle: string;
-  linkedin_profile: string;
+  picture: string;
+  facebook: string;
+  instagram: string;
+  linkedin: string;
   github: string;
-  about: string;
+  bio: string;
+  role: string;
 }
 
 interface EditProfileClientProps {
@@ -29,23 +29,84 @@ interface EditProfileClientProps {
 
 export function EditProfileClient({ initialUser }: EditProfileClientProps) {
   const router = useRouter();
-  const [first_name, setName] = useState(initialUser?.first_name ?? "");
-  const [post, setPost] = useState(initialUser?.post ?? "");
-  const [about, setAbout] = useState(initialUser?.about ?? "");
-  const [facebook_profile, setFacebook] = useState(
-    initialUser?.facebook_profile ?? "",
-  );
-  const [instagram_handle, setInsta] = useState(
-    initialUser?.instagram_handle ?? "",
-  );
-  const [linkedin_profile, setLinkedIn] = useState(
-    initialUser?.linkedin_profile ?? "",
-  );
-  const [github, setGit] = useState(initialUser?.github ?? "");
+  const [first_name, setName] = useState(initialUser?.name ?? "");
+  const [nameInput, setNameInput] = useState("");
+  const [post, setPost] = useState(initialUser?.role ?? "USER");
+  const [bio, setBio] = useState(initialUser?.bio ?? "");
+  const [facebook, setFacebook] = useState(initialUser?.facebook ?? "");
+  const [instagram, setInstagram] = useState(initialUser?.instagram ?? "");
+  const [linkedin, setLinkedin] = useState(initialUser?.linkedin ?? "");
+  const [github, setGithub] = useState(initialUser?.github ?? "");
+  const [picture, setPicture] = useState(initialUser?.picture ?? "");
+  const { refreshUser } = useAuth();
+  const { user } = useAuth();
+  const isSuperAdmin = user?.role === "SUPERADMIN";
+  const [selectedFile, setSelectedFile] = useState<File | null>(null);
+  const [preview, setPreview] = useState<string | null>(null);
+  const [isSaving, setIsSaving] = useState(false);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  useEffect(() => {
+    const fetchUser = async () => {
+      try {
+        const res = await api.get("/auth/me");
+        const user = res.data.data.user;
+
+        setName(user.name ?? "");
+        setNameInput(user.name ?? "");
+        setBio(user.bio ?? "");
+        setFacebook(user.facebook ?? "");
+        setInstagram(user.instagram ?? "");
+        setLinkedin(user.linkedin ?? "");
+        setGithub(user.github ?? "");
+        setPicture(user.picture ?? "");
+      } catch {
+        toast.error("Failed to load profile");
+      }
+    };
+
+    fetchUser();
+  }, []);
+
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    router.push("/dashboard");
+    setIsSaving(true);
+
+    try {
+      const payload: Record<string, string> = {
+        name: nameInput,
+        bio,
+        facebook,
+        instagram,
+        linkedin,
+        github,
+      };
+
+      if (isSuperAdmin) {
+        payload.role = post;
+      }
+
+      await api.patch("/auth/edit-profile", payload);
+
+      await refreshUser();
+      setName(nameInput);
+      toast.success("Profile updated successfully");
+      router.push("/dashboard");
+    } catch {
+      toast.error("Failed to update profile");
+    } finally {
+      setIsSaving(false);
+    }
+  };
+
+  const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    setSelectedFile(file);
+
+    // preview
+    const url = URL.createObjectURL(file);
+    setPreview(url);
   };
 
   return (
@@ -92,30 +153,43 @@ export function EditProfileClient({ initialUser }: EditProfileClientProps) {
             <div className="border-b border-white/10 p-8 md:p-12">
               <div className="mb-12 flex flex-col items-center justify-center">
                 <div className="group relative cursor-pointer">
-                  <div className="size-36 overflow-hidden rounded-full border-4 border-blue-500 bg-[#111722] shadow-[0_0_30px_rgba(59,130,246,0.5)] transition-transform hover:scale-105">
-                    <Image
-                      alt="Profile"
-                      className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-110"
-                      src={
-                        initialUser?.image ??
-                        "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png"
-                      }
-                      width={144}
-                      height={144}
-                      placeholder="empty"
-                    />
-                  </div>
-                  <div className="absolute inset-0 flex items-center justify-center rounded-full bg-black/60 opacity-0 transition-opacity group-hover:opacity-100">
-                    <span className="material-symbols-outlined text-3xl text-blue-500">
-                      photo_camera
-                    </span>
-                  </div>
+                  <input
+                    type="file"
+                    accept="image/*"
+                    className="hidden"
+                    id="profile-upload"
+                    onChange={handleImageChange}
+                  />
+
+                  <label htmlFor="profile-upload">
+                    <div className="size-36 overflow-hidden rounded-full border-4 border-blue-500 bg-[#111722] shadow-[0_0_30px_rgba(59,130,246,0.5)] transition-transform hover:scale-105">
+                      <Image
+                        alt="Profile"
+                        className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-110"
+                        src={
+                          // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing -- intentional: empty string "" must fall through to default
+                          preview ||
+                          picture ||
+                          "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png"
+                        }
+                        width={144}
+                        height={144}
+                      />
+                    </div>
+
+                    <div className="absolute inset-0 flex items-center justify-center rounded-full bg-black/60 opacity-0 transition-opacity group-hover:opacity-100">
+                      <span className="material-symbols-outlined text-3xl text-blue-500">
+                        photo_camera
+                      </span>
+                    </div>
+                  </label>
                 </div>
+
                 <h3 className="mt-6 text-xl font-bold text-white">
                   {first_name || "User Name"}
                 </h3>
                 <p className="mt-1 text-sm font-medium tracking-widest text-blue-400 uppercase">
-                  {post || "Position"}
+                  {user?.email ?? ""}
                 </p>
               </div>
 
@@ -131,23 +205,28 @@ export function EditProfileClient({ initialUser }: EditProfileClientProps) {
                     className="block w-full rounded-2xl border border-white/10 bg-white/5 px-6 py-4 text-white transition-all placeholder:text-gray-600 focus:border-blue-500 focus:bg-white/10 focus:outline-none"
                     id="fullName"
                     type="text"
-                    value={first_name}
-                    onChange={(e) => setName(e.target.value)}
+                    value={nameInput}
+                    onChange={(e) => setNameInput(e.target.value)}
                   />
                 </div>
-                <div className="space-y-3">
+                <div className="space-y-3 md:col-span-1">
+                  {/* Email is read-only */}
                   <label
                     className="text-xs font-bold tracking-widest text-gray-500 uppercase"
-                    htmlFor="position"
+                    htmlFor="email"
                   >
-                    Position
+                    Email
                   </label>
                   <input
-                    className="block w-full rounded-2xl border border-white/10 bg-white/5 px-6 py-4 text-white transition-all placeholder:text-gray-600 focus:border-blue-500 focus:bg-white/10 focus:outline-none"
+                    className="block w-full rounded-2xl border border-white/10 bg-white/5 px-6 py-4 text-white transition-all placeholder:text-gray-600 focus:border-blue-500 focus:bg-white/10 focus:outline-none disabled:cursor-not-allowed disabled:opacity-50"
                     id="position"
                     type="text"
                     value={post}
+                    placeholder={
+                      isSuperAdmin ? "Enter position" : "No permission"
+                    }
                     onChange={(e) => setPost(e.target.value)}
+                    disabled={!isSuperAdmin}
                   />
                 </div>
                 <div className="space-y-3 md:col-span-2">
@@ -160,9 +239,9 @@ export function EditProfileClient({ initialUser }: EditProfileClientProps) {
                   <textarea
                     className="block w-full rounded-2xl border border-white/10 bg-white/5 px-6 py-4 leading-relaxed text-white transition-all placeholder:text-gray-600 focus:border-blue-500 focus:bg-white/10 focus:outline-none"
                     id="about"
-                    value={about}
+                    value={bio}
                     rows={5}
-                    onChange={(e) => setAbout(e.target.value)}
+                    onChange={(e) => setBio(e.target.value)}
                   />
                 </div>
               </div>
@@ -178,26 +257,26 @@ export function EditProfileClient({ initialUser }: EditProfileClientProps) {
                   {
                     id: "facebook",
                     label: "Facebook",
-                    value: facebook_profile,
+                    value: facebook,
                     setter: setFacebook,
                   },
                   {
                     id: "instagram",
                     label: "Instagram",
-                    value: instagram_handle,
-                    setter: setInsta,
+                    value: instagram,
+                    setter: setInstagram,
                   },
                   {
                     id: "github",
                     label: "GitHub",
                     value: github,
-                    setter: setGit,
+                    setter: setGithub,
                   },
                   {
                     id: "linkedin",
                     label: "LinkedIn",
-                    value: linkedin_profile,
-                    setter: setLinkedIn,
+                    value: linkedin,
+                    setter: setLinkedin,
                   },
                 ].map((social) => (
                   <div key={social.id} className="space-y-3">
@@ -227,13 +306,20 @@ export function EditProfileClient({ initialUser }: EditProfileClientProps) {
                   Cancel
                 </button>
                 <button
-                  className="flex items-center justify-center gap-2 rounded-2xl bg-blue-600 px-10 py-3.5 font-bold text-white shadow-xl shadow-blue-500/20 transition-all hover:scale-[1.02] hover:bg-blue-700 active:scale-[0.98]"
+                  className="flex items-center justify-center gap-2 rounded-2xl bg-blue-600 px-10 py-3.5 font-bold text-white shadow-xl shadow-blue-500/20 transition-all hover:scale-[1.02] hover:bg-blue-700 active:scale-[0.98] disabled:cursor-not-allowed disabled:opacity-60"
                   type="submit"
+                  disabled={isSaving}
                 >
-                  <span className="material-symbols-outlined text-[18px]">
-                    save
-                  </span>
-                  Save Changes
+                  {isSaving ? (
+                    <div className="h-5 w-5 animate-spin rounded-full border-2 border-white/30 border-t-white" />
+                  ) : (
+                    <>
+                      <span className="material-symbols-outlined text-[18px]">
+                        save
+                      </span>
+                      Save Changes
+                    </>
+                  )}
                 </button>
               </div>
             </div>

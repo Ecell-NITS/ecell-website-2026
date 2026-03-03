@@ -35,11 +35,15 @@ const Partners: React.FC = () => {
   const marqueeItems = [...partners, ...partners, ...partners, ...partners];
 
   return (
-    <section className="relative overflow-hidden border-y border-white/5 bg-[#020617] py-8 sm:py-12 md:py-16 lg:py-20 xl:py-24">
+    <section className="relative overflow-hidden bg-[#020617] py-8 sm:py-12 md:py-16 lg:py-20 xl:py-24">
       {/* Background Glow */}
       <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(59,130,246,0.05)_0%,transparent_70%)]" />
 
-      <div className="relative z-10 container mx-auto mb-8 px-6 text-center sm:mb-10 md:mb-12 lg:mb-14 xl:mb-16">
+      {/* Edge fades for seamless section blending */}
+      <div className="pointer-events-none absolute inset-x-0 top-0 z-1 h-24 bg-linear-to-b from-[#020617] to-transparent" />
+      <div className="pointer-events-none absolute inset-x-0 bottom-0 z-1 h-24 bg-linear-to-t from-[#020617] to-transparent" />
+
+      <div className="relative z-10 mx-auto mb-8 px-6 text-center sm:mb-10 sm:px-8 md:mb-12 lg:mb-14 lg:px-12 xl:mb-16 xl:px-16">
         <p className="mt-4 text-xs font-bold tracking-[0.4em] text-gray-500 uppercase">
           Trusted Partners & Collaborators
         </p>

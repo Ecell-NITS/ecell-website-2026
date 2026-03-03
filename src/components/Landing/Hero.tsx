@@ -3,23 +3,32 @@
 // @ts-nocheck
 "use client";
 
-import React, { useState, useEffect } from "react";
-import { motion, useScroll, useTransform, useMotionValue } from "framer-motion";
+import React, { useState, useEffect, useCallback } from "react";
+import {
+  motion,
+  useScroll,
+  useTransform,
+  useMotionValue,
+  AnimatePresence,
+} from "framer-motion";
 import { Sparkles } from "lucide-react";
+import Link from "next/link";
 
 // Images for the Marquee
 const marqueeImages1 = [
-  "https://images.unsplash.com/photo-1559136555-9303baea8ebd?auto=format&fit=crop&q=80&w=600",
-  "https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?auto=format&fit=crop&q=80&w=600",
-  "https://images.unsplash.com/photo-1552664730-d307ca884978?auto=format&fit=crop&q=80&w=600",
-  "https://images.unsplash.com/photo-1522071820081-009f0129c71c?auto=format&fit=crop&q=80&w=600",
+  "/Hero/3image.webp",
+  "/Hero/1image.webp",
+  "/Hero/2image.webp",
+  "/Hero/4image.webp",
+  "/Hero/10image.webp",
 ];
 
 const marqueeImages2 = [
-  "https://images.unsplash.com/photo-1553877616-15280ed54817?auto=format&fit=crop&q=80&w=600",
-  "https://images.unsplash.com/photo-1531482615713-2afd69097998?auto=format&fit=crop&q=80&w=600",
-  "https://images.unsplash.com/photo-1600880292203-757bb62b4baf?auto=format&fit=crop&q=80&w=600",
-  "https://images.unsplash.com/photo-1522202176988-66273c2fd55f?auto=format&fit=crop&q=80&w=600",
+  "/Hero/5image.webp",
+  "/Hero/6image.webp",
+  "/Hero/7image.webp",
+  "/Hero/8image.webp",
+  "/Hero/11image.webp",
 ];
 
 const Hero: React.FC = () => {
@@ -72,16 +81,16 @@ const Hero: React.FC = () => {
       {/* FOREGROUND CONTENT */}
       <motion.div
         style={{ opacity: heroOpacity, scale: heroScale }}
-        className="relative z-20 h-full w-full px-6 sm:mx-8 md:mx-12 lg:mx-16 xl:mx-20"
+        className="relative z-20 mx-auto flex h-full w-full flex-col items-center justify-center px-6 sm:px-8 lg:px-12 xl:px-16"
       >
-        <div className="grid h-full grid-cols-1 items-center gap-8 lg:min-h-screen lg:grid-cols-2">
+        <div className="flex w-full flex-col items-center gap-[4dvh] sm:gap-12 md:gap-10 lg:grid lg:grid-cols-2 lg:items-center lg:gap-8">
           {/* --- LEFT COLUMN: TEXT CONTENT --- */}
-          <div className="flex flex-col items-center gap-2 text-center lg:-mt-20 lg:items-start lg:gap-0 lg:py-0 lg:text-left">
+          <div className="flex flex-col items-center gap-1 text-center lg:items-start lg:gap-0 lg:text-left">
             <motion.div
               initial={{ opacity: 0, y: -20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 1, ease: "easeOut" }}
-              className="mb-3 inline-flex items-center gap-1.5 rounded-full border border-blue-400/30 bg-blue-500/10 px-3 py-1.5 text-[11px] font-semibold tracking-wider text-blue-400 uppercase backdrop-blur-sm sm:mb-5 sm:gap-2 sm:px-4 sm:py-2 sm:text-xs md:mb-6 md:px-5 md:text-sm lg:mb-8"
+              className="mb-[1.2dvh] inline-flex items-center gap-1.5 rounded-full border border-blue-400/30 bg-blue-500/10 px-3 py-[0.7dvh] text-[1.7dvh] font-semibold tracking-wider text-blue-400 uppercase backdrop-blur-sm sm:mb-4 sm:gap-2 sm:px-4 sm:py-1.5 sm:text-xs md:mb-6 md:px-5 md:text-sm lg:mb-8 lg:py-2"
             >
               <Sparkles
                 size={12}
@@ -98,7 +107,7 @@ const Hero: React.FC = () => {
                 initial={{ opacity: 0, scale: 0.9, rotateX: 20 }}
                 animate={{ opacity: 1, scale: 1, rotateX: 0 }}
                 transition={{ duration: 1.5, ease: [0.16, 1, 0.3, 1] }}
-                className="text-7xl leading-[0.9] font-black text-white drop-shadow-[0_0_60px_rgba(37,99,235,0.25)] selection:bg-blue-500/30 sm:text-8xl md:text-8xl lg:text-8xl xl:text-9xl"
+                className="text-[10dvh] leading-[0.85] font-black text-white drop-shadow-[0_0_60px_rgba(37,99,235,0.25)] selection:bg-blue-500/30 sm:text-7xl md:text-8xl lg:text-8xl xl:text-9xl"
               >
                 E-CELL
               </motion.h1>
@@ -115,9 +124,10 @@ const Hero: React.FC = () => {
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ duration: 1, delay: 0.8 }}
-              className="mt-4 mb-3 text-base font-medium tracking-[0.12em] text-gray-400 uppercase sm:mt-5 sm:mb-4 sm:text-lg sm:tracking-[0.15em] md:mt-6 md:mb-5 md:text-xl lg:mt-8 lg:mb-6 lg:text-xl xl:text-2xl"
+              className="mt-[1.2dvh] mb-[1.2dvh] text-[2.6dvh] font-medium tracking-[0.12em] text-gray-400 uppercase sm:mt-4 sm:mb-3 sm:text-base sm:tracking-[0.15em] md:mt-6 md:mb-5 md:text-xl lg:mt-8 lg:mb-6 lg:text-xl xl:text-2xl"
             >
-              Entrepreneurship Cell{" "}
+              Entrepreneurship Cell
+              <br />
               <span className="font-bold tracking-normal text-blue-400">
                 NIT SILCHAR
               </span>
@@ -127,7 +137,7 @@ const Hero: React.FC = () => {
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ duration: 1, delay: 1.2 }}
-              className="min-h-14 max-w-sm px-2 text-lg leading-relaxed text-gray-400/70 sm:min-h-16 sm:max-w-md sm:px-0 sm:text-xl md:min-h-18 md:max-w-lg md:text-xl lg:max-w-lg lg:text-xl"
+              className="h-[7dvh] max-w-xs text-[2.2dvh] leading-relaxed text-gray-400/70 sm:h-16 sm:max-w-md sm:text-lg md:h-18 md:max-w-lg md:text-xl lg:max-w-lg lg:text-xl"
             >
               <TypingAnimation />
             </motion.div>
@@ -136,17 +146,27 @@ const Hero: React.FC = () => {
               initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8, delay: 1.5 }}
-              className="mt-6 flex w-full flex-col items-center justify-center gap-3 sm:mt-8 sm:flex-row sm:gap-4 md:mt-10 lg:justify-start"
+              className="mt-[2.2dvh] flex w-full flex-row items-center justify-center gap-2 sm:mt-8 sm:gap-4 md:mt-10 lg:justify-start"
             >
-              <button className="group relative w-full overflow-hidden rounded-xl bg-gradient-to-r from-blue-600 to-blue-500 px-6 py-3 shadow-lg shadow-blue-500/25 transition-all duration-300 hover:scale-[1.02] hover:shadow-xl hover:shadow-blue-500/30 active:scale-[0.98] sm:w-auto sm:rounded-2xl sm:px-8 sm:py-3.5 md:px-10 md:py-4">
+              <button
+                onClick={() =>
+                  document
+                    .getElementById("events")
+                    ?.scrollIntoView({ behavior: "smooth" })
+                }
+                className="group relative w-full overflow-hidden rounded-xl bg-gradient-to-r from-blue-600 to-blue-500 px-4 py-[1.6dvh] shadow-lg shadow-blue-500/25 transition-all duration-300 hover:scale-[1.02] hover:shadow-xl hover:shadow-blue-500/30 active:scale-[0.98] sm:w-auto sm:rounded-2xl sm:px-8 sm:py-3.5 md:px-10 md:py-4"
+              >
                 <div className="absolute inset-0 bg-gradient-to-r from-blue-500 to-blue-700 opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
-                <span className="relative z-10 flex items-center justify-center gap-2 text-sm font-bold tracking-wide text-white sm:text-base">
+                <span className="relative z-10 flex items-center justify-center gap-2 text-[2.2dvh] font-bold tracking-wide whitespace-nowrap text-white sm:text-base">
                   Ongoing Events
                 </span>
               </button>
 
-              <button className="group relative w-full overflow-hidden rounded-xl border border-white/20 bg-white/5 px-6 py-3 backdrop-blur-sm transition-all duration-300 hover:scale-[1.02] hover:border-white/30 hover:bg-white/10 active:scale-[0.98] sm:w-auto sm:rounded-2xl sm:px-8 sm:py-3.5 md:px-10 md:py-4">
-                <span className="relative z-10 flex items-center justify-center gap-2 text-sm font-semibold text-white sm:text-base">
+              <Link
+                href="/about"
+                className="group relative w-full overflow-hidden rounded-xl border border-white/20 bg-white/5 px-4 py-[1.6dvh] backdrop-blur-sm transition-all duration-300 hover:scale-[1.02] hover:border-white/30 hover:bg-white/10 active:scale-[0.98] sm:w-auto sm:rounded-2xl sm:px-8 sm:py-3.5 md:px-10 md:py-4"
+              >
+                <span className="relative z-10 flex items-center justify-center gap-2 text-[2.2dvh] font-semibold whitespace-nowrap text-white sm:text-base">
                   About Us
                   <svg
                     className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-1"
@@ -162,7 +182,7 @@ const Hero: React.FC = () => {
                     />
                   </svg>
                 </span>
-              </button>
+              </Link>
             </motion.div>
           </div>
 
@@ -229,39 +249,159 @@ const Hero: React.FC = () => {
               </motion.div>
             </div>
           </div>
-        </div>
 
-        {/* --- MOBILE IMAGE GRID (Visible only on Mobile) ---
-        <div className="mt-8 w-full px-0 pb-12 lg:hidden">
-          <div className="grid grid-cols-2 gap-4">
-            <div className="space-y-4 pt-8">
-              <img
-                src="https://images.unsplash.com/photo-1552664730-d307ca884978?auto=format&fit=crop&q=80&w=400"
-                className="aspect-[3/4] w-full rounded-xl border border-white/10 object-cover"
-                alt="Event"
-              />
-              <img
-                src="https://images.unsplash.com/photo-1519389950473-47ba0277781c?auto=format&fit=crop&q=80&w=400"
-                className="aspect-video w-full rounded-xl border border-white/10 object-cover"
-                alt="Team"
-              />
-            </div>
-            <div className="space-y-4">
-              <img
-                src="https://images.unsplash.com/photo-1523240795612-9a054b0db644?auto=format&fit=crop&q=80&w=400"
-                className="aspect-square w-full rounded-xl border border-white/10 object-cover"
-                alt="Work"
-              />
-              <img
-                src="https://images.unsplash.com/photo-1523580494863-6f3031224c94?auto=format&fit=crop&q=80&w=400"
-                className="aspect-[3/4] w-full rounded-xl border border-white/10 object-cover"
-                alt="Seminar"
-              />
-            </div>
+          {/* --- MOBILE SKEWED CAROUSEL (Visible only below lg) --- */}
+          <div className="w-full shrink-0 lg:hidden">
+            <MobileCarousel images={[...marqueeImages1, ...marqueeImages2]} />
           </div>
-        </div> */}
+        </div>
+      </motion.div>
+
+      {/* Scroll Down Indicator */}
+      <motion.div
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ delay: 2.5, duration: 1 }}
+        className="absolute bottom-6 left-1/2 z-30 -translate-x-1/2 sm:bottom-8"
+      >
+        <button
+          onClick={() =>
+            window.scrollTo({ top: window.innerHeight, behavior: "smooth" })
+          }
+          className="group flex flex-col items-center gap-2"
+          aria-label="Scroll down"
+        >
+          <span className="text-[10px] font-medium tracking-[0.3em] text-white/40 uppercase transition-colors group-hover:text-white/70 sm:text-xs">
+            Scroll
+          </span>
+          <div className="relative h-8 w-5 rounded-full border border-white/20 transition-colors group-hover:border-white/40 sm:h-10 sm:w-6">
+            <motion.div
+              animate={{ y: [0, 8, 0] }}
+              transition={{
+                duration: 1.5,
+                repeat: Infinity,
+                ease: "easeInOut",
+              }}
+              className="absolute top-1.5 left-1/2 h-1.5 w-1.5 -translate-x-1/2 rounded-full bg-blue-400 sm:h-2 sm:w-2"
+            />
+          </div>
+        </button>
       </motion.div>
     </section>
+  );
+};
+
+// Mobile Skewed Carousel Component
+const MobileCarousel: React.FC<{ images: string[] }> = ({ images }) => {
+  const [activeIndex, setActiveIndex] = useState(0);
+  const total = images.length;
+
+  const next = useCallback(
+    () => setActiveIndex((prev) => (prev + 1) % total),
+    [total],
+  );
+
+  // Auto-advance every 5s
+  useEffect(() => {
+    const timer = setInterval(next, 5000);
+    return () => clearInterval(timer);
+  }, [next]);
+
+  const getIndex = (offset: number) =>
+    (((activeIndex + offset) % total) + total) % total;
+
+  const cardVariants = {
+    center: {
+      x: "0%",
+      rotateY: 0,
+      scale: 1,
+      zIndex: 3,
+      opacity: 1,
+      filter: "brightness(1)",
+    },
+    left: {
+      x: "-72%",
+      rotateY: 35,
+      scale: 0.78,
+      zIndex: 2,
+      opacity: 0.7,
+      filter: "brightness(0.5)",
+    },
+    right: {
+      x: "72%",
+      rotateY: -35,
+      scale: 0.78,
+      zIndex: 2,
+      opacity: 0.7,
+      filter: "brightness(0.5)",
+    },
+    farLeft: {
+      x: "-120%",
+      rotateY: 45,
+      scale: 0.6,
+      zIndex: 1,
+      opacity: 0,
+      filter: "brightness(0.3)",
+    },
+    farRight: {
+      x: "120%",
+      rotateY: -45,
+      scale: 0.6,
+      zIndex: 1,
+      opacity: 0,
+      filter: "brightness(0.3)",
+    },
+  };
+
+  const getPosition = (imgIndex: number) => {
+    const diff = (((imgIndex - activeIndex) % total) + total) % total;
+    if (diff === 0) return "center";
+    if (diff === 1) return "right";
+    if (diff === total - 1) return "left";
+    if (diff === 2) return "farRight";
+    return "farLeft";
+  };
+
+  return (
+    <div
+      className="relative mx-auto w-full max-w-md"
+      style={{ perspective: "1000px" }}
+    >
+      {/* Container with fixed aspect ratio */}
+      <div className="relative mx-auto aspect-3/4 w-[48%] sm:w-[45%]">
+        <AnimatePresence initial={false}>
+          {/* Render 5 visible cards: far-left, left, center, right, far-right */}
+          {[-2, -1, 0, 1, 2].map((offset) => {
+            const imgIndex = getIndex(offset);
+            const position = getPosition(imgIndex);
+            return (
+              <motion.div
+                key={`${imgIndex}-${offset}`}
+                className="absolute inset-0 overflow-hidden rounded-xl border border-white/10 shadow-lg shadow-blue-500/10 sm:rounded-2xl"
+                variants={cardVariants}
+                animate={position}
+                transition={{
+                  type: "spring",
+                  stiffness: 300,
+                  damping: 20,
+                  mass: 0.8,
+                }}
+                style={{
+                  transformStyle: "preserve-3d",
+                }}
+              >
+                <img
+                  src={images[imgIndex]}
+                  alt={`Event ${imgIndex + 1}`}
+                  className="h-full w-full object-cover"
+                  draggable={false}
+                />
+              </motion.div>
+            );
+          })}
+        </AnimatePresence>
+      </div>
+    </div>
   );
 };
 

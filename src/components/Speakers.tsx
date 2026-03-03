@@ -98,7 +98,7 @@ const SpeakerCard: React.FC<{ speaker: Speaker }> = ({ speaker }) => {
       <div className="absolute inset-0 z-10 flex flex-col p-6 transition-all duration-500">
         {/* Top: Avatar (Fades out on hover) */}
         <div className="flex flex-1 items-center justify-center transition-all duration-500 group-hover:-translate-y-4 group-hover:opacity-0">
-          <div className="relative h-32 w-32 rounded-full border-4 border-blue-500/20 p-1 shadow-2xl">
+          <div className="relative h-50 w-50 rounded-full border-4 border-blue-500/20 p-1 shadow-2xl">
             <div className="h-full w-full overflow-hidden rounded-full bg-gray-800">
               <img
                 src={speaker.avatar}
@@ -195,6 +195,10 @@ const Speakers: React.FC = () => {
 
   return (
     <section className="relative w-full overflow-hidden bg-[#020617] py-12 md:py-16 lg:py-20 xl:py-24">
+      {/* Section Edge Fades */}
+      <div className="pointer-events-none absolute inset-x-0 top-0 z-[1] h-24 bg-gradient-to-b from-[#020617] to-transparent" />
+      <div className="pointer-events-none absolute inset-x-0 bottom-0 z-[1] h-24 bg-gradient-to-t from-[#020617] to-transparent" />
+
       {/* --- BACKGROUND LAYERS --- */}
       <div
         className="pointer-events-none absolute inset-0 z-0 opacity-30"
@@ -207,7 +211,7 @@ const Speakers: React.FC = () => {
       <div className="pointer-events-none absolute bottom-0 left-0 h-[600px] w-[600px] rounded-full bg-purple-600/10 blur-[120px]" />
 
       {/* --- HEADER --- */}
-      <div className="relative z-10 container mx-auto mb-16 px-6">
+      <div className="relative z-10 mx-auto mb-16 px-6 sm:px-8 lg:px-12 xl:px-16">
         <div className="flex flex-col items-center justify-between gap-8 md:flex-row">
           <div className="max-w-2xl text-center md:text-left">
             <h2 className="mb-3 text-sm font-bold tracking-[0.2em] text-blue-400 uppercase">
@@ -249,9 +253,9 @@ const Speakers: React.FC = () => {
         onMouseEnter={() => setIsHovering(true)}
         onMouseLeave={() => setIsHovering(false)}
       >
-        {/* Gradient Masks (Fade edges) */}
-        <div className="pointer-events-none absolute inset-y-0 left-0 z-20 w-12 bg-gradient-to-r from-[#020617] to-transparent lg:w-32" />
-        <div className="pointer-events-none absolute inset-y-0 right-0 z-20 w-12 bg-gradient-to-l from-[#020617] to-transparent lg:w-32" />
+        {/* Gradient Masks (Fade edges — hidden on mobile) */}
+        <div className="pointer-events-none absolute inset-y-0 left-0 z-20 hidden bg-linear-to-r from-[#020617] to-transparent lg:block lg:w-32" />
+        <div className="pointer-events-none absolute inset-y-0 right-0 z-20 hidden bg-linear-to-l from-[#020617] to-transparent lg:block lg:w-32" />
 
         {/* Draggable Track */}
         <motion.div

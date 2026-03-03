@@ -175,7 +175,11 @@ const Events: React.FC = () => {
       id="events"
       className="relative overflow-hidden bg-[#020617] py-12 md:py-16 lg:py-20 xl:py-24"
     >
-      <div className="relative z-10 container mx-auto px-6">
+      {/* Section Edge Fades */}
+      <div className="pointer-events-none absolute inset-x-0 top-0 z-[1] h-24 bg-gradient-to-b from-[#020617] to-transparent" />
+      <div className="pointer-events-none absolute inset-x-0 bottom-0 z-[1] h-24 bg-gradient-to-t from-[#020617] to-transparent" />
+
+      <div className="relative z-10 mx-auto px-6 sm:px-8 lg:px-12 xl:px-16">
         {/* Header */}
         <div className="mb-12 flex flex-col justify-between gap-6 md:flex-row md:items-end lg:mb-20">
           <motion.div

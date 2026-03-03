@@ -6,13 +6,11 @@ import Image from "next/image";
 import { Menu, X } from "lucide-react";
 import { useAuth } from "@/context/AuthContext";
 
-
 const Navbar: React.FC = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
   const scrollTimeout = useRef<NodeJS.Timeout | null>(null);
   const { user } = useAuth();
-
 
   useEffect(() => {
     const handleScroll = () => {
@@ -59,7 +57,7 @@ const Navbar: React.FC = () => {
             : "bg-transparent py-6"
         }`}
       >
-        <div className="mx-[6vw] flex items-center justify-between lg:mx-[2vw]">
+        <div className="mx-auto flex w-full items-center justify-between px-6 sm:px-8 lg:px-12 xl:px-16">
           <Link href="/" className="flex items-center gap-3">
             <div className="relative h-10 w-10">
               <Image
@@ -106,7 +104,6 @@ const Navbar: React.FC = () => {
                 </Link>
               </div>
             )}
-
           </div>
 
           {/* Mobile Menu Button */}
@@ -122,7 +119,7 @@ const Navbar: React.FC = () => {
 
       {/* Mobile Menu - outside nav to avoid parent backdrop-filter stacking context */}
       {isOpen && (
-        <div className="glass animate-in fade-in slide-in-from-top-4 fixed top-[72px] left-0 z-[149] flex w-full flex-col gap-6 border-b border-white/10 px-6 py-8 duration-300 lg:hidden">
+        <div className="glass animate-in fade-in slide-in-from-top-4 fixed top-[72px] left-0 z-[149] flex w-full flex-col gap-6 border-b border-white/10 px-6 py-8 duration-300 sm:px-8 lg:hidden">
           {navLinks.map((link) => (
             <Link
               key={link.name}
@@ -150,10 +147,8 @@ const Navbar: React.FC = () => {
               >
                 LOGIN
               </Link>
-              
             </>
           )}
-
         </div>
       )}
     </>

@@ -100,16 +100,6 @@ const About: React.FC = () => {
   // Spotlight Position
   const [spotlightPos, setSpotlightPos] = useState({ x: 0, y: 0 });
 
-  const handleCardInteract = (e: React.MouseEvent<HTMLDivElement>) => {
-    const rect = e.currentTarget.getBoundingClientRect();
-    cardX.set(e.clientX - rect.left);
-    cardY.set(e.clientY - rect.top);
-    setSpotlightPos({
-      x: e.clientX - rect.left,
-      y: e.clientY - rect.top,
-    });
-  };
-
   return (
     <section
       id="about"
@@ -117,13 +107,17 @@ const About: React.FC = () => {
       onMouseMove={handleMouseMove}
       className="relative overflow-hidden bg-[#020617] py-12 md:py-16 lg:py-20 xl:py-24"
     >
+      {/* Section Edge Fades */}
+      <div className="pointer-events-none absolute inset-x-0 top-0 z-[1] h-24 bg-gradient-to-b from-[#020617] to-transparent" />
+      <div className="pointer-events-none absolute inset-x-0 bottom-0 z-[1] h-24 bg-gradient-to-t from-[#020617] to-transparent" />
+
       {/* Interactive Background Glow */}
       <motion.div
         style={{ left: springX, top: springY }}
-        className="pointer-events-none absolute z-0 hidden h-[600px] w-[600px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-blue-600/10 blur-[120px] lg:block"
+        className="pointer-events-none absolute z-0 hidden h-[600px] w-[600px] rounded-full bg-blue-600/10 blur-[120px] lg:block"
       />
 
-      <div className="relative z-10 mx-auto w-full max-w-7xl px-6">
+      <div className="relative z-10 mx-auto w-full px-6 sm:px-8 lg:px-12 xl:px-16">
         <div className="flex flex-col gap-12 lg:flex-row lg:items-center lg:justify-between lg:gap-16">
           {/* --- 1. VISUAL DASHBOARD (Top on Mobile, Right on Desktop) --- */}
           <motion.div
@@ -131,21 +125,9 @@ const About: React.FC = () => {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.8 }}
-            className="perspective-1000 order-1 w-full lg:order-2 lg:w-auto lg:flex-shrink-0"
+            className="order-1 w-full lg:order-2 lg:w-auto lg:flex-shrink-0"
           >
-            <motion.div
-              onMouseMove={handleCardInteract}
-              onMouseLeave={() => {
-                cardX.set(200); // Reset roughly to center
-                cardY.set(200);
-              }}
-              style={{
-                rotateX: cardRotateX,
-                rotateY: cardRotateY,
-                transformStyle: "preserve-3d",
-              }}
-              className="group relative mx-auto w-full max-w-md"
-            >
+            <motion.div className="group relative mx-auto w-full max-w-md">
               {/* Card Container */}
               <div className="relative overflow-hidden rounded-2xl border border-white/10 bg-[#0d1117]/80 shadow-2xl backdrop-blur-xl md:rounded-[2rem]">
                 {/* Spotlight Gradient */}

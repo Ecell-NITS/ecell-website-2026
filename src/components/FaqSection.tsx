@@ -108,6 +108,10 @@ export default function FaqSection() {
 
   return (
     <section className="relative w-full overflow-hidden bg-[#020617] py-20 md:py-32">
+      {/* Section Edge Fades */}
+      <div className="pointer-events-none absolute inset-x-0 top-0 z-[1] h-24 bg-gradient-to-b from-[#020617] to-transparent" />
+      <div className="pointer-events-none absolute inset-x-0 bottom-0 z-[1] h-24 bg-gradient-to-t from-[#020617] to-transparent" />
+
       {/* --- BACKGROUND LAYERS --- */}
       <div
         className="pointer-events-none absolute inset-0 z-0 opacity-20"
@@ -128,7 +132,7 @@ export default function FaqSection() {
         </span>
       </div>
 
-      <div className="relative z-10 mx-auto max-w-7xl px-6">
+      <div className="relative z-10 mx-auto px-6 sm:px-8 lg:px-12 xl:px-16">
         <div className="grid grid-cols-1 gap-16 lg:grid-cols-12 lg:gap-8">
           {/* --- LEFT COLUMN: HEADER (Sticky on Desktop) --- */}
           <div className="lg:col-span-4">

@@ -91,6 +91,10 @@ const Timeline: React.FC = () => {
       ref={containerRef}
       className="relative min-h-screen overflow-hidden bg-[#020617] py-12 md:py-16 lg:py-20 xl:py-24"
     >
+      {/* Section Edge Fades */}
+      <div className="pointer-events-none absolute inset-x-0 top-0 z-[1] h-24 bg-gradient-to-b from-[#020617] to-transparent" />
+      <div className="pointer-events-none absolute inset-x-0 bottom-0 z-[1] h-24 bg-gradient-to-t from-[#020617] to-transparent" />
+
       {/* --- BACKGROUND LAYERS --- */}
 
       {/* Grid Pattern */}
@@ -113,7 +117,7 @@ const Timeline: React.FC = () => {
         </span>
       </div>
 
-      <div className="relative z-10 container mx-auto px-4 md:px-6">
+      <div className="relative z-10 mx-auto px-6 sm:px-8 lg:px-12 xl:px-16">
         {/* --- HEADER --- */}
         <div className="mb-20 text-center md:mb-32">
           <motion.div
@@ -151,15 +155,15 @@ const Timeline: React.FC = () => {
         {/* --- TIMELINE CONTAINER --- */}
         <div className="relative mx-auto max-w-6xl">
           {/* Vertical Guide Line (Gray) */}
-          <div className="absolute top-0 bottom-0 left-8 w-[2px] -translate-x-1/2 bg-white/5 md:left-1/2" />
+          <div className="absolute top-0 bottom-0 left-4 w-[2px] -translate-x-1/2 bg-white/5 md:left-1/2" />
 
           {/* Animated Progress Line (Blue) */}
           <motion.div
             style={{ scaleY, originY: 0 }}
-            className="absolute top-0 bottom-0 left-8 z-10 w-[2px] -translate-x-1/2 bg-gradient-to-b from-blue-500 via-purple-500 to-blue-500 shadow-[0_0_15px_rgba(59,130,246,0.6)] md:left-1/2"
+            className="absolute top-0 bottom-0 left-4 z-10 w-[2px] -translate-x-1/2 bg-gradient-to-b from-blue-500 via-purple-500 to-blue-500 shadow-[0_0_15px_rgba(59,130,246,0.6)] md:left-1/2"
           />
 
-          <div className="relative z-20 flex flex-col gap-12 md:gap-24">
+          <div className="relative z-20 flex flex-col gap-8 sm:gap-12 md:gap-24">
             {timelineData.map((item, i) => {
               const isEven = i % 2 === 0;
 
@@ -174,13 +178,13 @@ const Timeline: React.FC = () => {
                   <div className="hidden flex-1 md:block" />
 
                   {/* Center Dot */}
-                  <div className="absolute top-1/2 left-8 z-30 flex h-8 w-8 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full border-[3px] border-[#020617] bg-blue-500 shadow-[0_0_15px_rgba(59,130,246,0.5)] md:left-1/2 md:h-10 md:w-10">
-                    <div className="h-2 w-2 animate-pulse rounded-full bg-white" />
+                  <div className="absolute top-1/2 left-4 z-30 flex h-6 w-6 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full border-2 border-[#020617] bg-blue-500 shadow-[0_0_15px_rgba(59,130,246,0.5)] sm:h-8 sm:w-8 sm:border-[3px] md:left-1/2 md:h-10 md:w-10">
+                    <div className="h-1.5 w-1.5 animate-pulse rounded-full bg-white sm:h-2 sm:w-2" />
                   </div>
 
                   {/* Card Content Wrapper */}
                   <div
-                    className={`flex-1 pl-20 md:pl-0 ${isEven ? "md:pr-20" : "md:pl-20"}`}
+                    className={`flex-1 pl-8 sm:pl-14 md:pl-0 ${isEven ? "md:pr-20" : "md:pl-20"}`}
                   >
                     <motion.div
                       initial={{ opacity: 0, x: isEven ? -50 : 50 }}
@@ -195,22 +199,29 @@ const Timeline: React.FC = () => {
                       />
 
                       {/* Main Content */}
-                      <div className="flex-1 p-6 sm:p-8">
-                        <div className="mb-4 flex items-center gap-4">
-                          <div className="flex h-10 w-10 items-center justify-center rounded-xl border border-blue-500/20 bg-blue-500/10 text-blue-400 transition-colors duration-300 group-hover:bg-blue-600 group-hover:text-white sm:h-12 sm:w-12">
-                            <item.icon size={20} className="sm:h-6 sm:w-6" />
+                      <div className="flex-1 p-3 sm:p-5 md:p-8">
+                        <div className="mb-2 flex items-center gap-2 sm:mb-4 sm:gap-4">
+                          <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg border border-blue-500/20 bg-blue-500/10 text-blue-400 transition-colors duration-300 group-hover:bg-blue-600 group-hover:text-white sm:h-10 sm:w-10 sm:rounded-xl md:h-12 md:w-12">
+                            <item.icon
+                              size={16}
+                              className="sm:h-5 sm:w-5 md:h-6 md:w-6"
+                            />
                           </div>
-                          <h3 className="text-lg font-bold text-white transition-colors group-hover:text-blue-200 sm:text-xl md:text-2xl">
+                          <h3 className="min-w-0 text-sm font-bold text-white transition-colors group-hover:text-blue-200 sm:text-lg md:text-xl lg:text-2xl">
                             {item.title}
                           </h3>
+                          {/* Mobile Date Badge */}
+                          <span className="ml-auto shrink-0 text-[10px] font-bold tracking-wider text-blue-400 uppercase sm:hidden">
+                            {item.month} {item.date}
+                          </span>
                         </div>
-                        <p className="text-sm leading-relaxed font-light text-gray-400 sm:text-base">
+                        <p className="text-xs leading-relaxed font-light text-gray-400 sm:text-sm md:text-base">
                           {item.desc}
                         </p>
                       </div>
 
-                      {/* Date Tab */}
-                      <div className="relative z-20 flex w-20 min-w-[5rem] flex-col items-center justify-center border-l border-white/5 bg-white/[0.02] p-2 transition-colors group-hover:bg-blue-600/20 sm:w-24 sm:min-w-[6rem]">
+                      {/* Date Tab (hidden on mobile) */}
+                      <div className="relative z-20 hidden border-l border-white/5 bg-white/[0.02] p-2 transition-colors group-hover:bg-blue-600/20 sm:flex sm:w-20 sm:min-w-[5rem] sm:flex-col sm:items-center sm:justify-center md:w-24 md:min-w-[6rem]">
                         <span className="text-[10px] font-bold tracking-widest text-gray-500 uppercase group-hover:text-blue-300 sm:text-xs">
                           {item.month}
                         </span>

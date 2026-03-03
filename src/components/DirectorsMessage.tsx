@@ -26,6 +26,10 @@ const DirectorsMessage: React.FC = () => {
 
   return (
     <section className="relative flex w-full flex-col items-center justify-center overflow-hidden bg-[#020617] py-12 md:py-16 lg:py-20 xl:py-24">
+      {/* Section Edge Fades */}
+      <div className="pointer-events-none absolute inset-x-0 top-0 z-[1] h-24 bg-gradient-to-b from-[#020617] to-transparent" />
+      <div className="pointer-events-none absolute inset-x-0 bottom-0 z-[1] h-24 bg-gradient-to-t from-[#020617] to-transparent" />
+
       {/* --- BACKGROUND ELEMENTS --- */}
       <div className="pointer-events-none absolute inset-0 z-0 opacity-20">
         <div
@@ -45,7 +49,7 @@ const DirectorsMessage: React.FC = () => {
         whileInView={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.8, ease: "easeOut" }}
         viewport={{ once: true }}
-        className="relative z-20 mx-auto h-full w-full max-w-7xl px-6"
+        className="relative z-20 mx-auto h-full w-full px-6 sm:px-8 lg:px-12 xl:px-16"
       >
         <h2 className="mb-12 border-l-4 border-blue-500 pl-6 text-3xl font-black tracking-tight text-white md:text-5xl">
           Director&apos;s Message

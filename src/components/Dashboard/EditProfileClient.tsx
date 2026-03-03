@@ -31,6 +31,7 @@ export function EditProfileClient({ initialUser }: EditProfileClientProps) {
   const router = useRouter();
   const [first_name, setName] = useState(initialUser?.name ?? "");
   const [nameInput, setNameInput] = useState("");
+  const [email, setEmail] = useState(initialUser?.email ?? "");
   const [post, setPost] = useState(initialUser?.role ?? "USER");
   const [bio, setBio] = useState(initialUser?.bio ?? "");
   const [facebook, setFacebook] = useState(initialUser?.facebook ?? "");
@@ -40,8 +41,8 @@ export function EditProfileClient({ initialUser }: EditProfileClientProps) {
   const [picture, setPicture] = useState(initialUser?.picture ?? "");
   const { refreshUser } = useAuth();
   const { user } = useAuth();
-  const isSuperAdmin = user?.role === "SUPERADMIN";
-  const [selectedFile, setSelectedFile] = useState<File | null>(null);
+  const isAdmin = user?.role === "ADMIN" || user?.role === "SUPERADMIN";
+  const [, setSelectedFile] = useState<File | null>(null);
   const [preview, setPreview] = useState<string | null>(null);
   const [isSaving, setIsSaving] = useState(false);
 
@@ -53,6 +54,7 @@ export function EditProfileClient({ initialUser }: EditProfileClientProps) {
 
         setName(user.name ?? "");
         setNameInput(user.name ?? "");
+        setEmail(user.email ?? "");
         setBio(user.bio ?? "");
         setFacebook(user.facebook ?? "");
         setInstagram(user.instagram ?? "");
@@ -81,7 +83,7 @@ export function EditProfileClient({ initialUser }: EditProfileClientProps) {
         github,
       };
 
-      if (isSuperAdmin) {
+      if (isAdmin) {
         payload.role = post;
       }
 
@@ -219,14 +221,27 @@ export function EditProfileClient({ initialUser }: EditProfileClientProps) {
                   </label>
                   <input
                     className="block w-full rounded-2xl border border-white/10 bg-white/5 px-6 py-4 text-white transition-all placeholder:text-gray-600 focus:border-blue-500 focus:bg-white/10 focus:outline-none disabled:cursor-not-allowed disabled:opacity-50"
+                    id="email"
+                    type="email"
+                    value={email}
+                    disabled
+                  />
+                </div>
+                <div className="space-y-3 md:col-span-1">
+                  <label
+                    className="text-xs font-bold tracking-widest text-gray-500 uppercase"
+                    htmlFor="position"
+                  >
+                    Position
+                  </label>
+                  <input
+                    className="block w-full rounded-2xl border border-white/10 bg-white/5 px-6 py-4 text-white transition-all placeholder:text-gray-600 focus:border-blue-500 focus:bg-white/10 focus:outline-none disabled:cursor-not-allowed disabled:opacity-50"
                     id="position"
                     type="text"
                     value={post}
-                    placeholder={
-                      isSuperAdmin ? "Enter position" : "No permission"
-                    }
+                    placeholder={isAdmin ? "Enter position" : "No permission"}
                     onChange={(e) => setPost(e.target.value)}
-                    disabled={!isSuperAdmin}
+                    disabled={!isAdmin}
                   />
                 </div>
                 <div className="space-y-3 md:col-span-2">

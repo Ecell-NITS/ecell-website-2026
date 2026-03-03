@@ -32,6 +32,9 @@ interface ApiBlog {
   isAccepted?: boolean;
   timeStamp?: string;
   createdAt?: string;
+  likes?: string[];
+  authorId?: string;
+  status?: string;
 }
 
 type FilterType = "all" | "pending" | "accepted";

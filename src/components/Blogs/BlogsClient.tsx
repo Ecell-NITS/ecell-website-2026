@@ -6,6 +6,7 @@ import { Search, ChevronDown } from "lucide-react";
 import { toast } from "react-toastify";
 import BlogCard from "./BlogCard";
 import api from "@/lib/api";
+import { useAuth } from "@/context/AuthContext";
 
 interface ApiBlog {
   id: string;
@@ -18,7 +19,9 @@ interface ApiBlog {
   topicPic?: string;
   writerPic?: string;
   createdAt?: string;
-  likes?: number;
+  likes?: string[];
+  authorId?: string;
+  status?: string;
   _count?: { comments?: number };
 }
 
@@ -28,6 +31,7 @@ export default function BlogsClient() {
   const [searchQuery, setSearchQuery] = useState("");
   const [blogs, setBlogs] = useState<ApiBlog[]>([]);
   const [loading, setLoading] = useState(true);
+  const { user } = useAuth();
 
   useEffect(() => {
     const fetchBlogs = async () => {
@@ -48,13 +52,40 @@ export default function BlogsClient() {
 
   const filteredBlogs = useMemo(() => {
     const query = searchQuery.toLowerCase();
-    return blogs.filter(
+    const filtered = blogs.filter(
       (blog) =>
         blog.title.toLowerCase().includes(query) ||
         blog.intro?.toLowerCase().includes(query) ||
         blog.tag?.toLowerCase().includes(query),
     );
-  }, [blogs, searchQuery]);
+
+    const sorted = [...filtered];
+    switch (sortBy) {
+      case "Most Liked":
+        sorted.sort((a, b) => (b.likes?.length ?? 0) - (a.likes?.length ?? 0));
+        break;
+      case "Trending":
+        // Trending: combination of recency + likes
+        sorted.sort((a, b) => {
+          const aTime = a.createdAt ? new Date(a.createdAt).getTime() : 0;
+          const bTime = b.createdAt ? new Date(b.createdAt).getTime() : 0;
+          const aScore = (a.likes?.length ?? 0) * 2 + aTime / 1e12;
+          const bScore = (b.likes?.length ?? 0) * 2 + bTime / 1e12;
+          return bScore - aScore;
+        });
+        break;
+      case "Latest":
+      default:
+        sorted.sort((a, b) => {
+          const aTime = a.createdAt ? new Date(a.createdAt).getTime() : 0;
+          const bTime = b.createdAt ? new Date(b.createdAt).getTime() : 0;
+          return bTime - aTime;
+        });
+        break;
+    }
+
+    return sorted;
+  }, [blogs, searchQuery, sortBy]);
 
   const handleSortSelect = useCallback((option: string) => {
     setSortBy(option);
@@ -75,7 +106,7 @@ export default function BlogsClient() {
   return (
     <>
       {/* HERO SECTION */}
-      <section className="relative overflow-hidden border-b border-white/5 pt-32 pb-16 md:py-40">
+      <section className="relative z-20 border-b border-white/5 pt-32 pb-16 md:py-40">
         {/* Background gradient */}
         <div className="absolute z-10 h-screen">
           <div className="absolute top-0 left-1/2 h-96 w-96 -translate-x-1/2 rounded-full bg-blue-500/5 blur-3xl" />
@@ -86,7 +117,7 @@ export default function BlogsClient() {
           {/* Insight pill */}
           <div className="mb-8 inline-flex animate-[fadeIn_0.6s_ease-out_forwards] rounded-full bg-blue-500/5 px-4 py-2 opacity-0 ring-1 ring-blue-500/30 backdrop-blur-sm">
             <span className="text-[10px] font-semibold tracking-widest text-blue-400 uppercase">
-              ✨ INSIGHTS FROM THE ECOSYSTEM
+              INSIGHTS FROM THE ECOSYSTEM
             </span>
           </div>
 
@@ -168,14 +199,19 @@ export default function BlogsClient() {
               {filteredBlogs.map((blog, _index) => (
                 <BlogCard
                   key={blog.id}
+                  isLoggedIn={!!user}
+                  initialLiked={
+                    !!(user && blog.likes?.includes(String(user.id)))
+                  }
                   blog={{
-                    id: Number(blog.id) || 0,
+                    id: blog.id,
                     title: blog.title,
                     description: blog.intro ?? "",
+                    fullContent: blog.content ?? blog.intro ?? "",
                     author: blog.writerName ?? "Anonymous",
                     role: "Contributor",
                     readTime: "5 min read",
-                    likes: blog.likes ?? 0,
+                    likes: blog.likes?.length ?? 0,
                     tags: blog.tag ? [blog.tag] : [],
                     image:
                       blog.topicPic ??

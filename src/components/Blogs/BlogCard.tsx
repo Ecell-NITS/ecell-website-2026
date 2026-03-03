@@ -3,11 +3,15 @@
 import { useState, useMemo, useCallback } from "react";
 import Link from "next/link";
 import Image from "next/image";
+import toast from "react-hot-toast";
+import api from "@/lib/api";
+import { blogSlug } from "@/lib/utils";
 
 interface Blog {
-  id: number;
+  id: string;
   title: string;
   description: string;
+  fullContent: string;
   author: string;
   role: string;
   readTime: string;
@@ -19,25 +23,39 @@ interface Blog {
 
 interface BlogCardProps {
   blog: Blog;
+  isLoggedIn?: boolean;
+  initialLiked?: boolean;
 }
 
-export default function BlogCard({ blog }: BlogCardProps) {
-  const [liked, setLiked] = useState(false);
+export default function BlogCard({
+  blog,
+  isLoggedIn = false,
+  initialLiked = false,
+}: BlogCardProps) {
+  const [liked, setLiked] = useState(initialLiked);
   const [likesCount, setLikesCount] = useState(blog.likes ?? 0);
 
   const readTime = useMemo(() => {
-    const words = blog.description.split(" ").length;
-    return Math.ceil(words / 200);
-  }, [blog.description]);
+    const text = (blog.fullContent || blog.description).replace(/<[^>]*>/g, "");
+    const words = text.trim().split(/\s+/).length;
+    return Math.max(1, Math.ceil(words / 200));
+  }, [blog.fullContent, blog.description]);
 
-  const handleLike = useCallback(() => {
-    if (!liked) {
-      setLikesCount((c) => c + 1);
-    } else {
-      setLikesCount((c) => c - 1);
+  const handleLike = useCallback(async () => {
+    if (!isLoggedIn) {
+      toast("Please log in to like a blog", { icon: "🔒" });
+      return;
     }
-    setLiked((prev) => !prev);
-  }, [liked]);
+    try {
+      const { data } = await api.post<{ liked: boolean; likesCount: number }>(
+        `/api/blog/toggleLike/${blog.id}`,
+      );
+      setLiked(data.liked);
+      setLikesCount(data.likesCount);
+    } catch {
+      toast.error("Failed to update like");
+    }
+  }, [blog.id, isLoggedIn]);
 
   return (
     <div className="group relative h-full">
@@ -74,7 +92,7 @@ export default function BlogCard({ blog }: BlogCardProps) {
             <div className="relative h-10 w-10 shrink-0 overflow-hidden rounded-full border border-white/10 p-0.5">
               <Image
                 src={
-                  blog.image ||
+                  blog.avatar ||
                   "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png"
                 }
                 alt={`${blog.author} avatar`}
@@ -98,7 +116,7 @@ export default function BlogCard({ blog }: BlogCardProps) {
             {blog.title}
           </h3>
 
-          <p className="mb-8 flex-grow text-xs leading-relaxed text-gray-400 sm:text-sm md:text-base lg:text-sm">
+          <p className="mb-8 line-clamp-6 flex-grow text-xs leading-relaxed text-gray-400 sm:text-sm md:text-base lg:text-sm">
             {blog.description.replace(/<[^>]*>/g, "")}
           </p>
 
@@ -158,7 +176,7 @@ export default function BlogCard({ blog }: BlogCardProps) {
             </div>
 
             <Link
-              href={`/blog/${blog.id}`}
+              href={blogSlug(blog.title)}
               className="flex items-center gap-2 text-[8px] font-black tracking-[0.2em] text-blue-500 uppercase transition-colors group-hover:text-white sm:text-[9px] md:text-[10px] lg:text-xs"
             >
               Read More →

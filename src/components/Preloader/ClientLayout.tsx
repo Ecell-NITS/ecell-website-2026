@@ -1,20 +1,39 @@
 "use client";
 
-import dynamic from "next/dynamic";
-
-const Preloader = dynamic(() => import("@/components/Preloader/Preloader"), {
-  ssr: false,
-});
+import { useState, useEffect } from "react";
+import { Toaster } from "react-hot-toast";
+import Preloader from "@/components/Preloader/Preloader";
 
 export default function ClientLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
+  const [showContent, setShowContent] = useState(false);
+
+  // Called by the Preloader when the animation is fully done
+  const handlePreloaderDone = () => {
+    setShowContent(true);
+  };
+
   return (
     <>
-      <Preloader />
-      {children}
+      <Preloader onDone={handlePreloaderDone} />
+      {/* Hide content until preloader finishes to prevent the flash */}
+      <div style={{ visibility: showContent ? "visible" : "hidden" }}>
+        {children}
+        <Toaster
+          position="top-center"
+          toastOptions={{
+            duration: 3000,
+            style: {
+              background: "#111827",
+              color: "#fff",
+              border: "1px solid rgba(255,255,255,0.1)",
+            },
+          }}
+        />
+      </div>
     </>
   );
 }

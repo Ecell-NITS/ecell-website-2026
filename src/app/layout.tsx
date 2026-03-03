@@ -3,6 +3,9 @@ import "@/styles/globals.css";
 import { type Metadata } from "next";
 import ClientLayout from "@/components/Preloader/ClientLayout";
 import { Inter } from "next/font/google";
+import { AuthProvider } from "@/context/AuthContext";
+
+// import { ClerkProvider } from "@clerk/nextjs";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -23,13 +26,21 @@ export default function RootLayout({
   return (
     <html lang="en" className={inter.variable}>
       <head>
+        {/* Inline critical CSS: match preloader bg to prevent flash */}
+        <style
+          dangerouslySetInnerHTML={{ __html: `body{background:#020617}` }}
+        />
         <link
           href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap"
           rel="stylesheet"
         />
       </head>
       <body>
-        <ClientLayout>{children}</ClientLayout>
+        {/* <ClerkProvider> */}
+        <AuthProvider>
+          <ClientLayout>{children}</ClientLayout>
+        </AuthProvider>
+        {/* </ClerkProvider> */}
       </body>
     </html>
   );

@@ -5,8 +5,11 @@ import ScrollToTopButton from "../About/ScrollToTopButton";
 
 const Footer: React.FC = () => {
   return (
-    <footer className="relative overflow-hidden border-t border-white/5 bg-black pt-16 pb-12 lg:pt-24">
-      <div className="container mx-auto px-6">
+    <footer className="relative overflow-hidden border-t border-white/5 bg-[#020617] pt-16 pb-12 lg:pt-24">
+      {/* Section Edge Fade */}
+      <div className="pointer-events-none absolute inset-x-0 top-0 z-[1] h-24 bg-gradient-to-b from-[#020617] to-transparent" />
+
+      <div className="mx-auto px-6 sm:px-8 lg:px-12 xl:px-16">
         {/* Changed Grid Logic: grid-cols-2 for mobile (2 layers), grid-cols-4 for desktop */}
         <div className="mb-20 grid grid-cols-2 gap-8 lg:grid-cols-4 lg:gap-16">
           <div className="col-span-2 lg:col-span-1">

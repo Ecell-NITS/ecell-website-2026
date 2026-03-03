@@ -359,6 +359,7 @@ function WebinarModal({
                 Uploading...
               </span>
             ) : form.poster ? (
+              // eslint-disable-next-line @next/next/no-img-element
               <img
                 src={form.poster || "/placeholder.svg"}
                 alt="Poster"

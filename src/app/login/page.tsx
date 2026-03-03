@@ -1,15 +1,23 @@
+/* eslint-disable @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-argument */
 "use client";
 
 import React, { useState } from "react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { motion } from "framer-motion";
 import { Eye, EyeOff, Mail, Lock, ArrowRight } from "lucide-react";
+import toast from "react-hot-toast";
 import Navbar from "@/components/Landing/Navbar";
 import Footer from "@/components/Landing/Footer";
 import AuthBackground from "@/components/Auth/AuthBackground";
 import GoogleButton from "@/components/Auth/GoogleButton";
+import { useAuth } from "@/context/AuthContext";
+import api from "@/lib/axios";
 
 export default function LoginPage() {
+  const router = useRouter();
+  const { login } = useAuth();
+
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
@@ -19,9 +27,29 @@ export default function LoginPage() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsLoading(true);
-    // TODO: integrate login logic
-    await new Promise((r) => setTimeout(r, 1500));
-    setIsLoading(false);
+
+    try {
+      const res = await api.post("/auth/login", {
+        email: email.trim().toLowerCase(),
+        password,
+      });
+
+      const { accessToken, user } = res.data.data;
+
+      login(user, accessToken);
+
+      toast.success("Login successful");
+
+      router.push("/dashboard");
+    } catch (err: unknown) {
+      console.log("LOGIN FRONTEND ERROR:", err);
+      const axiosErr = err as { response?: { data?: { message?: string } } };
+      toast.error(
+        axiosErr?.response?.data?.message ?? "Invalid email or password",
+      );
+    } finally {
+      setIsLoading(false); // ✅ REQUIRED
+    }
   };
 
   return (

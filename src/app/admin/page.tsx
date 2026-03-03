@@ -1,18 +1,33 @@
 "use client";
 
+import { useEffect } from "react";
 import { useRouter } from "next/navigation";
+import { toast } from "react-toastify";
 import {
   BarChart3,
   MessageSquare,
   Calendar,
   Settings,
   Home,
+  FileText,
 } from "lucide-react";
+import { useAuth } from "@/lib/auth-context";
 import AdminNavigation from "./AdminNavigation";
 
 /* ================= PAGE ================= */
 export default function AdminDashboardPage() {
   const router = useRouter();
+  const { user, isLoading } = useAuth();
+
+  useEffect(() => {
+    if (
+      !isLoading &&
+      (!user || (user.role !== "ADMIN" && user.role !== "SUPERADMIN"))
+    ) {
+      toast.error("Access denied. Admin privileges required.");
+      router.push("/dashboard");
+    }
+  }, [isLoading, user, router]);
 
   return (
     <div className="flex min-h-screen bg-linear-to-br from-[#0b1220] to-[#060b16] text-white">
@@ -31,7 +46,14 @@ export default function AdminDashboardPage() {
         </div>
 
         {/* Quick Links */}
-        <div className="mb-10 grid w-full max-w-2xl grid-cols-2 gap-4 sm:grid-cols-4">
+        <div className="mb-10 grid w-full max-w-3xl grid-cols-2 gap-4 sm:grid-cols-5">
+          <button
+            onClick={() => router.push("/admin/blogs")}
+            className="flex flex-col items-center gap-3 rounded-xl border border-white/10 bg-white/5 p-6 text-center transition-all hover:border-cyan-500/50 hover:bg-cyan-500/10"
+          >
+            <FileText size={28} className="text-cyan-400" />
+            <span className="font-medium">Blogs</span>
+          </button>
           <button
             onClick={() => router.push("/admin/webinars")}
             className="flex flex-col items-center gap-3 rounded-xl border border-white/10 bg-white/5 p-6 text-center transition-all hover:border-blue-500/50 hover:bg-blue-500/10"

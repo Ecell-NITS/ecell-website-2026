@@ -1,20 +1,21 @@
 /* eslint-disable @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-argument */
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
-import { useAuth } from "@/lib/auth-context";
-import { toast } from "react-toastify";
+import { useAuth } from "@/context/AuthContext";
+import toast from "react-hot-toast";
 import { Suspense } from "react";
 
 function GoogleCallbackInner() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const { login } = useAuth();
-  const [processed, setProcessed] = useState(false);
+  const processed = useRef(false);
 
   useEffect(() => {
-    if (processed) return;
+    if (processed.current) return;
+    processed.current = true;
 
     const token = searchParams.get("token");
     const userStr = searchParams.get("user");
@@ -23,8 +24,7 @@ function GoogleCallbackInner() {
       try {
         const user = JSON.parse(decodeURIComponent(userStr));
         login(user, token);
-        toast.success("Signed in with Google! 🎉");
-        setProcessed(true);
+        toast.success("Signed in with Google!");
         router.replace("/dashboard");
       } catch {
         toast.error("Failed to process Google login");
@@ -34,7 +34,7 @@ function GoogleCallbackInner() {
       toast.error("Login failed. Please try again.");
       router.replace("/login");
     }
-  }, [searchParams, login, router, processed]);
+  }, [searchParams, login, router]);
 
   return (
     <div className="flex min-h-screen items-center justify-center bg-[#020617]">

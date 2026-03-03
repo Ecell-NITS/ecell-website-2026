@@ -10,11 +10,11 @@ const Footer = dynamic(() => import("../../components/Landing/Footer"), {
 });
 
 export const metadata: Metadata = {
-  title: "Blogs — E-Cell NIT Silchar",
+  title: "Blogs",
   description:
     "Read insights, stories, and guides from the entrepreneurial ecosystem at NIT Silchar. The Startup Chronicles by E-Cell.",
   openGraph: {
-    title: "Blogs — E-Cell NIT Silchar",
+    title: "Blogs | E-Cell NIT Silchar",
     description:
       "Read insights, stories, and guides from the entrepreneurial ecosystem at NIT Silchar.",
     type: "website",

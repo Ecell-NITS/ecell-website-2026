@@ -12,7 +12,7 @@ const History = dynamic(() => import("../../components/Landing/History"));
 const Footer = dynamic(() => import("../../components/Landing/Footer"));
 
 export const metadata: Metadata = {
-  title: "About Us | E-Cell NIT Silchar",
+  title: "About Us",
   description:
     "Learn about Entrepreneurship Cell, NIT Silchar — our mission to foster innovation, our motto, faculty pillars, achievements, and our journey since 2012.",
   openGraph: {

@@ -5,19 +5,76 @@ import ClientLayout from "@/components/Preloader/ClientLayout";
 import { Inter } from "next/font/google";
 import { AuthProvider } from "@/context/AuthContext";
 
-// import { ClerkProvider } from "@clerk/nextjs";
-
 const inter = Inter({
   subsets: ["latin"],
   display: "swap",
   variable: "--font-inter",
 });
 
+const SITE_URL = "https://ecellnits.org";
+
 export const metadata: Metadata = {
-  title: "E-Cell NIT Silchar",
+  metadataBase: new URL(SITE_URL),
+  title: {
+    default: "E-Cell NIT Silchar",
+    template: "%s | E-Cell NIT Silchar",
+  },
   description:
-    "Entrepreneurship Cell, NIT Silchar — Fostering Innovation & Leadership",
-  icons: [{ rel: "icon", url: "/favicon.ico" }],
+    "E-Cell NIT Silchar is a non-profit student-run organization promoting and nurturing the entrepreneurial spirit among students of NIT Silchar.",
+  keywords: [
+    "E-Cell",
+    "NIT Silchar",
+    "Entrepreneurship",
+    "Startup",
+    "Innovation",
+    "Entrepreneurship Cell",
+    "NITS",
+    "E-Cell NITS",
+  ],
+  authors: [{ name: "E-Cell NIT Silchar", url: SITE_URL }],
+  creator: "E-Cell NIT Silchar",
+  applicationName: "E-Cell NIT Silchar",
+  icons: [
+    { rel: "icon", url: "/favicon.ico" },
+    { rel: "apple-touch-icon", url: "/ecelllogo.png" },
+  ],
+  openGraph: {
+    type: "website",
+    locale: "en_IN",
+    url: SITE_URL,
+    siteName: "E-Cell NIT Silchar",
+    title: "E-Cell NIT Silchar — Fostering Innovation & Leadership",
+    description:
+      "E-Cell NIT Silchar is a non-profit student-run organization promoting and nurturing the entrepreneurial spirit among students of NIT Silchar.",
+    images: [
+      {
+        url: "/ecelllogo.png",
+        width: 512,
+        height: 512,
+        alt: "E-Cell NIT Silchar Logo",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "E-Cell NIT Silchar",
+    description: "Fostering Innovation & Leadership at NIT Silchar.",
+    images: ["/ecelllogo.png"],
+  },
+  alternates: {
+    canonical: SITE_URL,
+  },
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      "max-video-preview": -1,
+      "max-image-preview": "large",
+      "max-snippet": -1,
+    },
+  },
 };
 
 export default function RootLayout({
@@ -36,11 +93,35 @@ export default function RootLayout({
         />
       </head>
       <body>
-        {/* <ClerkProvider> */}
+        {/* Organization structured data for search engines */}
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              "@context": "https://schema.org",
+              "@type": "Organization",
+              name: "E-Cell, NIT Silchar",
+              alternateName: "Entrepreneurship Cell NIT Silchar",
+              url: "https://ecellnits.org",
+              logo: "https://ecellnits.org/ecelllogo.png",
+              sameAs: [
+                "https://www.facebook.com/ecell.nits",
+                "https://www.instagram.com/ecell.nitsilchar",
+                "https://www.linkedin.com/company/ecell-nit-silchar",
+              ],
+              contactPoint: {
+                "@type": "ContactPoint",
+                contactType: "General Inquiries",
+                email: "ecell@nits.ac.in",
+              },
+              description:
+                "E-Cell, NIT Silchar is a non-profit student-run organization promoting and nurturing the entrepreneurial spirit among students.",
+            }),
+          }}
+        />
         <AuthProvider>
           <ClientLayout>{children}</ClientLayout>
         </AuthProvider>
-        {/* </ClerkProvider> */}
       </body>
     </html>
   );

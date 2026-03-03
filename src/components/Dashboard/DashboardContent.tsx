@@ -25,6 +25,7 @@ interface User {
   first_name: string;
   email: string;
   image: string;
+  bio: string;
   gender: string;
   post: string;
   age: number;
@@ -263,7 +264,7 @@ export function DashboardContent() {
                     About
                   </h3>
                   <p className="custom-scrollbar max-h-[150px] overflow-y-auto pr-4 leading-relaxed text-gray-400">
-                    {user?.about ??
+                    {user?.bio ??
                       "No information provided yet. Click 'Edit Profile' to share something about yourself."}
                   </p>
                 </motion.div>

@@ -46,9 +46,23 @@ const ContactForm: React.FC = () => {
   };
 
   return (
-    <section className="bg-gray-950/40 py-32">
-      <div className="container mx-auto px-6">
+    <section
+      id="contactus"
+      className="relative overflow-hidden bg-[#020617] py-32"
+    >
+      {/* Background Grid */}
+      <div
+        className="pointer-events-none absolute inset-0 opacity-[0.03]"
+        style={{
+          backgroundImage:
+            "linear-gradient(#fff 1px, transparent 1px), linear-gradient(90deg, #fff 1px, transparent 1px)",
+          backgroundSize: "60px 60px",
+        }}
+      />
+
+      <div className="relative z-10 container mx-auto px-6">
         <div className="flex flex-col gap-20 lg:flex-row">
+          {/* Info Side */}
           <motion.div
             initial={{ opacity: 0, x: -30 }}
             whileInView={{ opacity: 1, x: 0 }}
@@ -58,46 +72,39 @@ const ContactForm: React.FC = () => {
             <h2 className="mb-6 text-4xl leading-none font-black tracking-tighter text-white uppercase lg:text-6xl">
               Contact <span className="text-blue-500">Us</span>
             </h2>
-            <p className="mb-12 text-lg text-gray-400">
+            <p className="mb-12 max-w-md text-lg font-light text-gray-400">
               Have a query? Thinking of collaborating? Feel free to drop a
               message and our team will get back to you within 24 hours.
             </p>
 
-            <div className="space-y-8">
-              <div className="flex items-center gap-6">
-                <div className="glass flex h-14 w-14 items-center justify-center rounded-2xl text-blue-500">
-                  <MapPin size={24} />
-                </div>
-                <div>
-                  <h4 className="font-bold text-white">Location</h4>
-                  <p className="text-sm text-gray-500">
-                    Startup Centre, NIT Silchar, Assam
-                  </p>
-                </div>
-              </div>
-
-              <div className="flex items-center gap-6">
-                <div className="glass flex h-14 w-14 items-center justify-center rounded-2xl text-blue-500">
-                  <Mail size={24} />
-                </div>
-                <div>
-                  <h4 className="font-bold text-white">Email</h4>
-                  <p className="text-sm text-gray-500">ecell@nits.ac.in</p>
-                </div>
-              </div>
-
-              <div className="flex items-center gap-6">
-                <div className="glass flex h-14 w-14 items-center justify-center rounded-2xl text-blue-500">
-                  <Phone size={24} />
-                </div>
-                <div>
-                  <h4 className="font-bold text-white">Phone</h4>
-                  <p className="text-sm text-gray-500">+91 6388689290</p>
-                </div>
-              </div>
+            <div className="space-y-6">
+              {[
+                {
+                  icon: MapPin,
+                  title: "Location",
+                  text: "Startup Centre, NIT Silchar, Assam",
+                },
+                { icon: Mail, title: "Email", text: "ecell@nits.ac.in" },
+                { icon: Phone, title: "Phone", text: "+91 6388689290" },
+              ].map((item, i) => (
+                <motion.div
+                  key={i}
+                  whileHover={{ x: 5 }}
+                  className="glass flex items-center gap-6 rounded-2xl border border-white/5 bg-[#0d1117]/40 p-5 transition-all hover:border-blue-500/20 hover:bg-[#0d1117]/60"
+                >
+                  <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-blue-500/10 text-blue-500">
+                    <item.icon size={20} />
+                  </div>
+                  <div>
+                    <h4 className="font-bold text-white">{item.title}</h4>
+                    <p className="text-sm text-gray-500">{item.text}</p>
+                  </div>
+                </motion.div>
+              ))}
             </div>
           </motion.div>
 
+          {/* Form Side */}
           <motion.div
             initial={{ opacity: 0, x: 30 }}
             whileInView={{ opacity: 1, x: 0 }}

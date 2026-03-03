@@ -1,5 +1,3 @@
-/* eslint-disable @typescript-eslint/ban-ts-comment */
-// @ts-nocheck
 "use client";
 
 import React from "react";
@@ -33,63 +31,76 @@ const Partners: React.FC = () => {
     },
   ];
 
-  // Double the list for seamless infinite scroll
-  const marqueeItems = [...partners, ...partners];
+  // Quadruple the list for seamless infinite scroll on wide screens
+  const marqueeItems = [...partners, ...partners, ...partners, ...partners];
 
   return (
-    <section className="overflow-hidden border-y border-white/5 bg-gray-950/20 py-24">
-      <div className="container mx-auto mb-16 px-6 text-center">
-        <h2 className="text-4xl leading-none font-black tracking-tighter text-white uppercase lg:text-6xl">
-          Trusted <span className="text-blue-500">Partners</span>
-        </h2>
+    <section className="relative overflow-hidden border-y border-white/5 bg-[#020617] py-8 sm:py-12 md:py-16 lg:py-20 xl:py-24">
+      {/* Background Glow */}
+      <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(59,130,246,0.05)_0%,transparent_70%)]" />
+
+      <div className="relative z-10 container mx-auto mb-8 px-6 text-center sm:mb-10 md:mb-12 lg:mb-14 xl:mb-16">
         <p className="mt-4 text-xs font-bold tracking-[0.4em] text-gray-500 uppercase">
-          & Collaborators
+          Trusted Partners & Collaborators
         </p>
       </div>
 
-      <div className="relative flex overflow-hidden">
+      <div className="mask-linear-fade relative flex overflow-hidden">
         <motion.div
-          animate={{ x: [0, -100 * partners.length] }}
+          animate={{ x: "-50%" }}
           transition={{
-            duration: 20,
+            duration: 40,
             repeat: Infinity,
             ease: "linear",
           }}
-          className="flex items-center gap-10 px-4 whitespace-nowrap md:gap-20 md:px-10"
+          className="flex min-w-max items-center gap-20 px-4"
         >
           {marqueeItems.map((partner, i) => (
             <div
               key={i}
-              className="flex h-12 w-32 cursor-pointer items-center justify-center opacity-40 grayscale transition-all duration-500 hover:opacity-100 hover:grayscale-0 md:h-16 md:w-56"
+              className="group flex cursor-pointer items-center gap-4 transition-all duration-500 hover:opacity-100 lg:opacity-40"
             >
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img
-                src={partner.url}
-                alt={partner.name}
-                className="h-full w-auto object-contain brightness-0 invert"
-              />
+              <div className="h-12 w-12 overflow-hidden rounded-full border border-white/10 bg-white/5 p-2 md:h-16 md:w-16">
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img
+                  src={partner.url}
+                  alt={partner.name}
+                  className="h-full w-full object-contain"
+                />
+              </div>
+              <span className="md:text-md text-xs font-bold tracking-widest text-white/50 uppercase transition-colors group-hover:text-white sm:text-sm lg:text-lg xl:text-xl">
+                {partner.name}
+              </span>
             </div>
           ))}
         </motion.div>
       </div>
 
-      <div className="container mx-auto mt-24 px-6">
+      {/* <div className="relative z-10 container mx-auto mt-24 px-6">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          className="glass group relative mx-auto max-w-4xl rounded-[3rem] border border-white/10 p-10"
+          className="glass group relative mx-auto max-w-4xl overflow-hidden rounded-[3rem] border border-white/10 p-10"
         >
-          <div className="absolute inset-0 rounded-[3rem] bg-blue-500/5 blur-xl transition-colors group-hover:bg-blue-500/10" />
-          <p className="relative text-center text-lg leading-relaxed text-gray-400 italic">
-            &quot;We are incredibly fortunate to have{" "}
-            <span className="font-semibold text-blue-400">ED Times</span> as our
-            sponsor. Their platform&apos;s unique take on youth culture and news
-            is unparalleled. We extend our heartfelt gratitude for their
-            unwavering support in making our vision a reality.&quot;
-          </p>
+          <div className="absolute inset-0 rounded-[3rem] bg-gradient-to-r from-blue-500/0 via-blue-500/5 to-blue-500/0 opacity-0 transition-opacity duration-700 group-hover:opacity-100" />
+
+          <div className="relative z-10">
+            <div className="mb-6 flex justify-center">
+              <div className="h-1 w-20 rounded-full bg-blue-500 opacity-30" />
+            </div>
+            <p className="relative text-center text-lg leading-relaxed font-light text-gray-400 italic">
+              &quot;We are incredibly fortunate to have{" "}
+              <span className="font-semibold text-white not-italic">
+                ED Times
+              </span>{" "}
+              as our sponsor. Their platform&apos;s unique take on youth culture
+              and news is unparalleled. We extend our heartfelt gratitude for
+              their unwavering support in making our vision a reality.&quot;
+            </p>
+          </div>
         </motion.div>
-      </div>
+      </div> */}
     </section>
   );
 };

@@ -4,36 +4,120 @@ import { motion } from "framer-motion";
 
 const sponsors = [
   {
-    name: "TechFlow",
-    logo: "https://placehold.co/200x80/0a0f1a/00d4ff?text=TechFlow",
+    name: "Stock Edge",
+    logo: "https://res.cloudinary.com/df0uaz36o/image/upload/v1770903126/stck_edge_yidnjf.png",
   },
   {
-    name: "InnovateLabs",
-    logo: "https://placehold.co/200x80/0a0f1a/00d4ff?text=InnovateLabs",
+    name: "quickobook",
+    logo: "https://res.cloudinary.com/df0uaz36o/image/upload/v1770903165/quicko_y3mdsr.png",
   },
   {
-    name: "FutureVentures",
-    logo: "https://placehold.co/200x80/0a0f1a/00d4ff?text=FutureVentures",
+    name: "The product Folks",
+    logo: "https://res.cloudinary.com/df0uaz36o/image/upload/v1770903184/the_product_folk_ftmcg7.png",
   },
   {
-    name: "SparkCapital",
-    logo: "https://placehold.co/200x80/0a0f1a/00d4ff?text=SparkCapital",
+    name: "Geeks for Geeks",
+    logo: "https://res.cloudinary.com/df0uaz36o/image/upload/v1770903204/geeksforgeeks_psxxiy.png",
   },
   {
-    name: "NebulaSystems",
-    logo: "https://placehold.co/200x80/0a0f1a/00d4ff?text=NebulaSystems",
+    name: "idp",
+    logo: "https://res.cloudinary.com/df0uaz36o/image/upload/v1770903334/idp_ujvidp.png",
   },
   {
-    name: "QuantumLeap",
-    logo: "https://placehold.co/200x80/0a0f1a/00d4ff?text=QuantumLeap",
+    name: "HDFC",
+    logo: "https://res.cloudinary.com/df0uaz36o/image/upload/v1770903358/hdfc_uiealn.png",
   },
   {
-    name: "AetherDynamics",
-    logo: "https://placehold.co/200x80/0a0f1a/00d4ff?text=AetherDynamics",
+    name: "ED Times",
+    logo: "https://res.cloudinary.com/df0uaz36o/image/upload/v1770903420/ed_times_hxkqt9.jpg",
   },
   {
-    name: "StellarSoft",
-    logo: "https://placehold.co/200x80/0a0f1a/00d4ff?text=StellarSoft",
+    name: "Pyzaql",
+    logo: "https://res.cloudinary.com/df0uaz36o/image/upload/v1770903436/pyzaql_nls3om.png",
+  },
+  {
+    name: "cubelelo",
+    logo: "https://res.cloudinary.com/df0uaz36o/image/upload/v1770903451/cubelelo_gmfsu0.png",
+  },
+  {
+    name: "black marble",
+    logo: "https://res.cloudinary.com/df0uaz36o/image/upload/v1770903494/black_marble_cgp9zk.png",
+  },
+  {
+    name: "TruScholar",
+    logo: "https://res.cloudinary.com/df0uaz36o/image/upload/v1770903508/truscholar_ntepdv.png",
+  },
+  {
+    name: "Kwikpic",
+    logo: "https://res.cloudinary.com/df0uaz36o/image/upload/v1770903524/kwikpick_vkuuxp.jpg",
+  },
+  {
+    name: "",
+    logo: "https://res.cloudinary.com/df0uaz36o/image/upload/v1770903541/s.s_start_qeqsna.jpg",
+  },
+  {
+    name: "Stock Grow",
+    logo: "https://res.cloudinary.com/df0uaz36o/image/upload/v1770903577/stock_gro_fi5cka.jpg",
+  },
+  {
+    name: "Engineer Hub",
+    logo: "https://res.cloudinary.com/df0uaz36o/image/upload/v1770903605/engineer_hub_qf0ao2.png",
+  },
+  {
+    name: "anterprerna",
+    logo: "https://res.cloudinary.com/df0uaz36o/image/upload/v1770903627/anterprerna_ndrjda.jpg",
+  },
+  {
+    name: "Ivy Camp",
+    logo: "https://res.cloudinary.com/df0uaz36o/image/upload/v1770903646/Ivy_Camp_e9oqyk.jpg",
+  },
+  {
+    name: "Janta Group",
+    logo: "https://res.cloudinary.com/df0uaz36o/image/upload/v1770903661/janta_group_hoksvj.jpg",
+  },
+  {
+    name: "Learning while Travelling",
+    logo: "https://res.cloudinary.com/df0uaz36o/image/upload/v1770903680/Learning_while_travelling_tvceic.png",
+  },
+  {
+    name: "Krayonzz",
+    logo: "https://res.cloudinary.com/df0uaz36o/image/upload/v1770903726/krayonzz_dntqxt.png",
+  },
+  {
+    name: "",
+    logo: "https://res.cloudinary.com/df0uaz36o/image/upload/v1770903741/asap_mhwpys.jpg",
+  },
+  {
+    name: "",
+    logo: "https://res.cloudinary.com/df0uaz36o/image/upload/v1770903755/Yhills_gf0xyb.jpg",
+  },
+  {
+    name: "yen",
+    logo: "https://res.cloudinary.com/df0uaz36o/image/upload/v1770903776/yen_sfbsub.jpg",
+  },
+  {
+    name: "",
+    logo: "https://res.cloudinary.com/df0uaz36o/image/upload/v1770903789/Intrnt_l6rvhn.png",
+  },
+  {
+    name: "",
+    logo: "https://res.cloudinary.com/df0uaz36o/image/upload/v1770903802/crop_sow0ew.jpg",
+  },
+  {
+    name: "Unstop",
+    logo: "https://res.cloudinary.com/df0uaz36o/image/upload/v1770903816/unstop_jejjrz.png",
+  },
+  {
+    name: "",
+    logo: "https://res.cloudinary.com/df0uaz36o/image/upload/v1770903829/Energy_nu1rba.png",
+  },
+  {
+    name: "Ease my Trip",
+    logo: "https://res.cloudinary.com/df0uaz36o/image/upload/v1770903842/Easy_My_trip_ta8cm1.jpg",
+  },
+  {
+    name: "Product Space",
+    logo: "https://res.cloudinary.com/df0uaz36o/image/upload/v1770903856/Product_space_yfrgxj.jpg",
   },
 ];
 

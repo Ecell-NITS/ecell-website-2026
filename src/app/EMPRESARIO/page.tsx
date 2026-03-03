@@ -6,6 +6,7 @@ import AboutSection from "~/components/EMPRESARIO/AboutSection";
 import EventsSection from "~/components/EMPRESARIO/EventsSection";
 import GallerySection from "~/components/EMPRESARIO/GallerySection";
 import ExperiencesSection from "~/components/EMPRESARIO/ExperiencesSection";
+import SponsorsSection from "~/components/EMPRESARIO/SponsorsSection";
 import ConclusionSection from "~/components/EMPRESARIO/ConclusionSection";
 import Footer from "~/components/EMPRESARIO/Footer";
 
@@ -18,6 +19,7 @@ export default function EMPRESARIOPage() {
       <EventsSection />
       <GallerySection />
       <ExperiencesSection />
+      <SponsorsSection />
       <ConclusionSection />
       <Footer />
     </main>

@@ -3,7 +3,7 @@
 
 import { useState, useEffect, useMemo } from "react";
 import { useRouter } from "next/navigation";
-import { toast } from "react-toastify";
+import toast from "react-hot-toast";
 import {
   FileText,
   Search,
@@ -48,6 +48,10 @@ export default function AdminBlogsPage() {
   const [filter, setFilter] = useState<FilterType>("all");
   const [updatingId, setUpdatingId] = useState<string | null>(null);
   const [expandedId, setExpandedId] = useState<string | null>(null);
+  const [deleteConfirm, setDeleteConfirm] = useState<{
+    open: boolean;
+    blog: ApiBlog | null;
+  }>({ open: false, blog: null });
 
   // Redirect if not admin/superadmin
   useEffect(() => {
@@ -120,7 +124,6 @@ export default function AdminBlogsPage() {
   };
 
   const handleDelete = async (blog: ApiBlog) => {
-    if (!confirm("Are you sure you want to delete this blog?")) return;
     setUpdatingId(blog.id);
     try {
       await api.delete(`/api/blog/deleteBlog/${blog.id}`, {
@@ -130,12 +133,13 @@ export default function AdminBlogsPage() {
         },
       });
       setBlogs((prev) => prev.filter((b) => b.id !== blog.id));
-      toast.success("Blog deleted 🗑️");
+      toast.success("Blog deleted successfully");
     } catch (err: unknown) {
       const error = err as { response?: { data?: { message?: string } } };
       toast.error(error.response?.data?.message ?? "Failed to delete blog");
     } finally {
       setUpdatingId(null);
+      setDeleteConfirm({ open: false, blog: null });
     }
   };
 
@@ -347,7 +351,7 @@ export default function AdminBlogsPage() {
                     {/* Delete (for accepted) */}
                     {blog.isAccepted && (
                       <button
-                        onClick={() => handleDelete(blog)}
+                        onClick={() => setDeleteConfirm({ open: true, blog })}
                         disabled={updatingId === blog.id}
                         className="flex items-center gap-1.5 rounded-lg bg-red-600/20 px-3 py-1.5 text-xs font-semibold text-red-400 transition-all hover:bg-red-600/30 disabled:cursor-not-allowed disabled:opacity-50"
                       >
@@ -383,6 +387,52 @@ export default function AdminBlogsPage() {
           </div>
         )}
       </main>
+
+      {/* ================= DELETE CONFIRM DIALOG ================= */}
+      {deleteConfirm.open && deleteConfirm.blog && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 p-4 backdrop-blur-md">
+          <div className="w-full max-w-md rounded-xl border border-white/10 bg-[#121a2f] p-6 text-center shadow-xl">
+            <div className="mb-4 flex justify-center">
+              <div className="flex h-12 w-12 items-center justify-center rounded-full bg-red-500/20 text-red-400">
+                <Trash2 size={22} />
+              </div>
+            </div>
+
+            <h3 className="mb-2 text-lg font-semibold">Delete Blog?</h3>
+            <p className="mb-1 text-sm text-white/60">
+              Are you sure you want to delete this blog?
+            </p>
+            <p className="mb-6 truncate text-sm font-medium text-white/80">
+              &ldquo;{deleteConfirm.blog.title}&rdquo;
+            </p>
+
+            <div className="flex justify-center gap-3">
+              <button
+                onClick={() => setDeleteConfirm({ open: false, blog: null })}
+                className="rounded-lg px-4 py-2 text-sm text-white/70 hover:text-white"
+              >
+                Cancel
+              </button>
+              <button
+                onClick={() => {
+                  if (deleteConfirm.blog) {
+                    void handleDelete(deleteConfirm.blog);
+                  }
+                }}
+                disabled={updatingId === deleteConfirm.blog.id}
+                className="flex items-center gap-2 rounded-lg bg-red-600 px-5 py-2 text-sm font-semibold hover:bg-red-500 disabled:cursor-not-allowed disabled:opacity-50"
+              >
+                {updatingId === deleteConfirm.blog.id ? (
+                  <div className="h-4 w-4 animate-spin rounded-full border-2 border-white/30 border-t-white" />
+                ) : (
+                  <Trash2 size={14} />
+                )}
+                Delete
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

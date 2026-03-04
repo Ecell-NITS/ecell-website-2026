@@ -3,7 +3,7 @@
 
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
-import { toast } from "react-toastify";
+import toast from "react-hot-toast";
 import { Shield, ShieldOff, Users, Search } from "lucide-react";
 import { useAuth } from "@/lib/auth-context";
 import api from "@/lib/api";

@@ -1,7 +1,9 @@
 "use client";
 
-import { useState } from "react";
-import { Trash2, X, Reply, Clock, Eye } from "lucide-react";
+import { useState, useEffect, useCallback } from "react";
+import { Trash2, X, Reply, Clock, Eye, Loader2 } from "lucide-react";
+import toast from "react-hot-toast";
+import api from "@/lib/api";
 
 import AdminNavigation from "../AdminNavigation";
 
@@ -10,63 +12,61 @@ import AdminNavigation from "../AdminNavigation";
 type MessageStatus = "read" | "unread";
 
 interface Message {
-  id: number;
+  id: string;
+  name: string;
+  email: string;
+  message: string;
+  read: boolean;
+  createdAt: string;
+}
+
+interface DisplayMessage {
+  id: string;
   name: string;
   email: string;
   subject: string;
   body: string;
   time: string;
   status: MessageStatus;
-  urgent?: boolean;
 }
 
-/* ================= MOCK DATA ================= */
+/* ================= HELPERS ================= */
 
-const initialMessages: Message[] = [
-  {
-    id: 1,
-    name: "Alice Johnson",
-    email: "alice.j@example.com",
-    subject: "Issue with my recent order #12345",
-    body: "I received my package today but unfortunately one of the items was damaged during shipping. I've attached photos.",
-    time: "2h ago",
-    status: "unread",
-  },
-  {
-    id: 2,
-    name: "Michael Chen",
-    email: "m.chen@techcorp.io",
-    subject: "Enterprise Plan Inquiry",
-    body: "We are looking to upgrade our current subscription to Enterprise for 50+ seats.",
-    time: "4h ago",
-    status: "unread",
-  },
-  {
-    id: 3,
-    name: "Sarah Wilson",
-    email: "sarah.w@example.com",
-    subject: "Login Failure - Critical",
-    body: "I cannot access my account. Error code 503 constantly. Please help.",
-    time: "5h ago",
-    status: "unread",
-    urgent: true,
-  },
-  {
-    id: 4,
-    name: "David Kim",
-    email: "d.kim88@gmail.com",
-    subject: "Re: Support Ticket #9921",
-    body: "Thanks for the quick resolution. Everything works now.",
-    time: "Yesterday",
-    status: "read",
-  },
-];
+function formatRelativeTime(dateStr: string): string {
+  const date = new Date(dateStr);
+  const now = new Date();
+  const diffMs = now.getTime() - date.getTime();
+  const diffMin = Math.floor(diffMs / 60000);
+  const diffHrs = Math.floor(diffMs / 3600000);
+  const diffDays = Math.floor(diffMs / 86400000);
+
+  if (diffMin < 1) return "Just now";
+  if (diffMin < 60) return `${diffMin}m ago`;
+  if (diffHrs < 24) return `${diffHrs}h ago`;
+  if (diffDays === 1) return "Yesterday";
+  return date.toLocaleDateString();
+}
+
+function toDisplayMessage(m: Message): DisplayMessage {
+  return {
+    id: m.id,
+    name: m.name,
+    email: m.email,
+    subject: m.message.length > 60 ? m.message.slice(0, 60) + "…" : m.message,
+    body: m.message,
+    time: formatRelativeTime(m.createdAt),
+    status: m.read ? "read" : "unread",
+  };
+}
 
 /* ================= PAGE ================= */
 
 export default function AdminMessagesPage() {
-  const [messages, setMessages] = useState(initialMessages);
-  const [activeMessage, setActiveMessage] = useState<Message | null>(null);
+  const [messages, setMessages] = useState<DisplayMessage[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [activeMessage, setActiveMessage] = useState<DisplayMessage | null>(
+    null,
+  );
   const [compose, setCompose] = useState({
     open: false,
     to: "",
@@ -75,24 +75,67 @@ export default function AdminMessagesPage() {
   });
   const [deleteConfirm, setDeleteConfirm] = useState<{
     open: boolean;
-    messageId: number | null;
+    messageId: string | null;
   }>({
     open: false,
     messageId: null,
   });
 
+  const fetchMessages = useCallback(async () => {
+    try {
+      const { data } = await api.get<Message[]>("/api/query");
+      setMessages(data.map(toDisplayMessage));
+    } catch (err: unknown) {
+      const error = err as {
+        response?: { data?: { error?: string } };
+      };
+      toast.error(error.response?.data?.error ?? "Failed to load messages");
+    } finally {
+      setLoading(false);
+    }
+  }, []);
+
+  useEffect(() => {
+    void fetchMessages();
+  }, [fetchMessages]);
+
   const unread = messages.filter((m) => m.status === "unread");
   const read = messages.filter((m) => m.status === "read");
 
-  const markStatus = (id: number, status: MessageStatus) => {
-    setMessages((prev) =>
-      prev.map((m) => (m.id === id ? { ...m, status } : m)),
-    );
+  const markStatus = async (id: string, status: MessageStatus) => {
+    try {
+      const endpoint =
+        status === "read" ? `/api/query/${id}/read` : `/api/query/${id}/unread`;
+      await api.patch(endpoint);
+      setMessages((prev) =>
+        prev.map((m) => (m.id === id ? { ...m, status } : m)),
+      );
+      if (activeMessage?.id === id) {
+        setActiveMessage((prev) => (prev ? { ...prev, status } : null));
+      }
+      toast.success(`Marked as ${status}`);
+    } catch (err: unknown) {
+      const error = err as {
+        response?: { data?: { error?: string } };
+      };
+      toast.error(
+        error.response?.data?.error ?? "Failed to update message status",
+      );
+    }
   };
 
-  const deleteMessage = (id: number) => {
-    setMessages((prev) => prev.filter((m) => m.id !== id));
-    setActiveMessage(null);
+  const deleteMessage = async (id: string) => {
+    try {
+      await api.delete(`/api/query/${id}`);
+      setMessages((prev) => prev.filter((m) => m.id !== id));
+      setActiveMessage(null);
+      toast.success("Message deleted");
+    } catch (err: unknown) {
+      const error = err as {
+        response?: { data?: { error?: string } };
+      };
+      toast.error(error.response?.data?.error ?? "Failed to delete message");
+    }
   };
 
   return (
@@ -107,63 +150,75 @@ export default function AdminMessagesPage() {
           </h1>
         </div>
 
-        {/* Content Grid */}
-        <div className="grid grid-cols-1 gap-4 sm:gap-6 lg:grid-cols-2">
-          <Section title="Unread Messages" badge={`${unread.length} New`}>
-            {unread.length > 0 ? (
-              unread.map((m) => (
-                <MessageCard
-                  key={m.id}
-                  message={m}
-                  onOpen={() => setActiveMessage(m)}
-                  onReply={() =>
-                    setCompose({
-                      open: true,
-                      to: m.email,
-                      subject: `Re: ${m.subject}`,
-                      body: "",
-                    })
-                  }
-                  onMark={() => markStatus(m.id, "read")}
-                  onDelete={() =>
-                    setDeleteConfirm({
-                      open: true,
-                      messageId: m.id,
-                    })
-                  }
-                />
-              ))
-            ) : (
-              <p className="text-sm text-white/50">No unread messages</p>
-            )}
-          </Section>
+        {loading ? (
+          <div className="flex items-center justify-center py-20">
+            <Loader2 className="h-8 w-8 animate-spin text-blue-500" />
+          </div>
+        ) : (
+          /* Content Grid */
+          <div className="grid grid-cols-1 gap-4 sm:gap-6 lg:grid-cols-2">
+            <Section title="Unread Messages" badge={`${unread.length} New`}>
+              {unread.length > 0 ? (
+                unread.map((m) => (
+                  <MessageCard
+                    key={m.id}
+                    message={m}
+                    onOpen={() => setActiveMessage(m)}
+                    onReply={() =>
+                      setCompose({
+                        open: true,
+                        to: m.email,
+                        subject: `Re: ${m.subject}`,
+                        body: "",
+                      })
+                    }
+                    onMark={() => void markStatus(m.id, "read")}
+                    onDelete={() =>
+                      setDeleteConfirm({
+                        open: true,
+                        messageId: m.id,
+                      })
+                    }
+                  />
+                ))
+              ) : (
+                <p className="text-sm text-white/50">No unread messages</p>
+              )}
+            </Section>
 
-          <Section title="Read Messages">
-            {read.length > 0 ? (
-              read.map((m) => (
-                <MessageCard
-                  key={m.id}
-                  message={m}
-                  isRead
-                  onOpen={() => setActiveMessage(m)}
-                  onReply={() =>
-                    setCompose({
-                      open: true,
-                      to: m.email,
-                      subject: `Re: ${m.subject}`,
-                      body: "",
-                    })
-                  }
-                  onMark={() => markStatus(m.id, "unread")}
-                  onDelete={() => deleteMessage(m.id)}
-                />
-              ))
-            ) : (
-              <p className="text-sm text-white/50">No read messages</p>
-            )}
-          </Section>
-        </div>
+            <Section title="Read Messages">
+              {read.length > 0 ? (
+                read.map((m) => (
+                  <MessageCard
+                    key={m.id}
+                    message={m}
+                    isRead
+                    onOpen={() => setActiveMessage(m)}
+                    onReply={() =>
+                      setCompose({
+                        open: true,
+                        to: m.email,
+                        subject: `Re: ${m.subject}`,
+                        body: "",
+                      })
+                    }
+                    onMark={() => void markStatus(m.id, "unread")}
+                    onDelete={() =>
+                      setDeleteConfirm({
+                        open: true,
+                        messageId: m.id,
+                      })
+                    }
+                  />
+                ))
+              ) : (
+                <p className="text-sm text-white/50">No read messages</p>
+              )}
+            </Section>
+          </div>
+        )}
       </main>
+
       {/* ================= DELETE CONFIRM POPUP ================= */}
       {deleteConfirm.open && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 p-4 backdrop-blur-md">
@@ -193,7 +248,7 @@ export default function AdminMessagesPage() {
               <button
                 onClick={() => {
                   if (deleteConfirm.messageId !== null) {
-                    deleteMessage(deleteConfirm.messageId);
+                    void deleteMessage(deleteConfirm.messageId);
                   }
                   setDeleteConfirm({ open: false, messageId: null });
                 }}
@@ -222,9 +277,9 @@ export default function AdminMessagesPage() {
                 {activeMessage.name[0]}
               </div>
               <div>
-                <p className="text-sm font-semibold">{activeMessage.subject}</p>
+                <p className="text-sm font-semibold">{activeMessage.name}</p>
                 <p className="text-xs text-white/50">
-                  {activeMessage.name} • {activeMessage.email}
+                  {activeMessage.email} • {activeMessage.time}
                 </p>
               </div>
             </div>
@@ -239,7 +294,7 @@ export default function AdminMessagesPage() {
                   setCompose({
                     open: true,
                     to: activeMessage.email,
-                    subject: `Re: ${activeMessage.subject}`,
+                    subject: `Re: Message from ${activeMessage.name}`,
                     body: "",
                   })
                 }
@@ -250,7 +305,7 @@ export default function AdminMessagesPage() {
 
               <button
                 onClick={() =>
-                  markStatus(
+                  void markStatus(
                     activeMessage.id,
                     activeMessage.status === "unread" ? "read" : "unread",
                   )
@@ -327,7 +382,7 @@ interface SectionProps {
 }
 
 interface MessageCardProps {
-  message: Message;
+  message: DisplayMessage;
   isRead?: boolean;
   onOpen: () => void;
   onReply: () => void;
@@ -372,12 +427,6 @@ function MessageCard({
             <p className="truncate text-xs text-white/50">{message.email}</p>
           </div>
         </div>
-
-        {message.urgent && (
-          <span className="flex-shrink-0 rounded-full bg-red-500/20 px-2 py-0.5 text-[10px] text-red-400">
-            URGENT
-          </span>
-        )}
       </div>
 
       <p className="mb-1 line-clamp-1 text-xs font-semibold sm:text-sm">

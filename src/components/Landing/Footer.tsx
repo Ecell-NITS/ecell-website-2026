@@ -1,9 +1,42 @@
-import React from "react";
+"use client";
+
+import React, { useState } from "react";
 import { Facebook, Instagram, Linkedin, Twitter } from "lucide-react";
 import Image from "next/image";
+import toast from "react-hot-toast";
+import api from "@/lib/api";
 import ScrollToTopButton from "../About/ScrollToTopButton";
 
 const Footer: React.FC = () => {
+  const [email, setEmail] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
+
+  const handleNewsletterSubscribe = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!email.trim()) {
+      toast.error("Please enter your email address");
+      return;
+    }
+
+    setIsLoading(true);
+    try {
+      await api.post("/api/newsletter/subscribe", { email });
+      toast.success("Subscribed successfully! 🎉");
+      setEmail("");
+    } catch (err: unknown) {
+      const error = err as {
+        response?: { status?: number; data?: { error?: string } };
+      };
+      if (error.response?.status === 409) {
+        toast("You're already subscribed!", { icon: "ℹ️" });
+      } else {
+        toast.error(error.response?.data?.error ?? "Failed to subscribe");
+      }
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
   return (
     <footer className="relative overflow-hidden border-t border-white/5 bg-[#020617] pt-16 pb-12 lg:pt-24">
       {/* Section Edge Fade */}
@@ -97,16 +130,26 @@ const Footer: React.FC = () => {
             <p className="mb-6 text-sm leading-relaxed text-gray-500">
               Keep yourself updated. Subscribe to our monthly newsletter.
             </p>
-            <div className="group relative">
+            <form
+              onSubmit={handleNewsletterSubscribe}
+              className="group relative"
+            >
               <input
                 type="email"
                 placeholder="Email address"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                required
                 className="w-full rounded-2xl border border-white/10 bg-white/5 px-6 py-4 text-sm text-white transition-all focus:border-blue-500 focus:outline-none"
               />
-              <button className="absolute top-2 right-2 bottom-2 rounded-xl bg-blue-600 px-4 text-white transition-colors hover:bg-blue-700">
-                Join
+              <button
+                type="submit"
+                disabled={isLoading}
+                className="absolute top-2 right-2 bottom-2 rounded-xl bg-blue-600 px-4 text-white transition-colors hover:bg-blue-700 disabled:opacity-60"
+              >
+                {isLoading ? "..." : "Join"}
               </button>
-            </div>
+            </form>
           </div>
         </div>
 

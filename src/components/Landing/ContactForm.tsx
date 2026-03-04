@@ -1,18 +1,32 @@
-/* eslint-disable @typescript-eslint/ban-ts-comment */
-// @ts-nocheck
 "use client";
 
 import React, { useState } from "react";
 import { motion } from "framer-motion";
 import { Send, MapPin, Mail, Phone } from "lucide-react";
-import { toast } from "react-toastify";
+import toast from "react-hot-toast";
 import api from "@/lib/api";
+
+const EMAIL_REGEX = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i;
 
 const ContactForm: React.FC = () => {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [message, setMessage] = useState("");
   const [isLoading, setIsLoading] = useState(false);
+  const [emailError, setEmailError] = useState("");
+
+  const validateEmail = (value: string) => {
+    if (!value.trim()) {
+      setEmailError("Email is required");
+      return false;
+    }
+    if (!EMAIL_REGEX.test(value)) {
+      setEmailError("Please enter a valid email address");
+      return false;
+    }
+    setEmailError("");
+    return true;
+  };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -22,15 +36,19 @@ const ContactForm: React.FC = () => {
       return;
     }
 
+    if (!validateEmail(email)) {
+      toast.error("Please enter a valid email address");
+      return;
+    }
+
     setIsLoading(true);
     try {
       await api.post("/api/query/send", { name, email, message });
-      toast.success(
-        "Message sent successfully! We'll get back to you soon. 📩",
-      );
+      toast.success("Message sent successfully! We'll get back to you soon.");
       setName("");
       setEmail("");
       setMessage("");
+      setEmailError("");
     } catch (err: unknown) {
       const error = err as {
         response?: { data?: { message?: string; error?: string } };
@@ -140,10 +158,21 @@ const ContactForm: React.FC = () => {
                   type="email"
                   placeholder="john@example.com"
                   value={email}
-                  onChange={(e) => setEmail(e.target.value)}
+                  onChange={(e) => {
+                    setEmail(e.target.value);
+                    if (emailError) validateEmail(e.target.value);
+                  }}
+                  onBlur={(e) => validateEmail(e.target.value)}
                   required
-                  className="w-full rounded-2xl border border-white/10 bg-black/40 px-6 py-4 text-white transition-colors focus:border-blue-500 focus:outline-none"
+                  className={`w-full rounded-2xl border bg-black/40 px-6 py-4 text-white transition-colors focus:outline-none ${
+                    emailError
+                      ? "border-red-500 focus:border-red-500"
+                      : "border-white/10 focus:border-blue-500"
+                  }`}
                 />
+                {emailError && (
+                  <p className="mt-1 ml-1 text-sm text-red-400">{emailError}</p>
+                )}
               </div>
               <div>
                 <label className="mb-2 ml-1 block text-sm font-bold text-gray-400">
@@ -180,3 +209,4 @@ const ContactForm: React.FC = () => {
 };
 
 export default ContactForm;
+// Force HMR update

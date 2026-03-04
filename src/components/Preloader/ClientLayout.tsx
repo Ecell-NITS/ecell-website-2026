@@ -22,18 +22,20 @@ export default function ClientLayout({
       {/* Hide content until preloader finishes to prevent the flash */}
       <div style={{ visibility: showContent ? "visible" : "hidden" }}>
         {children}
-        <Toaster
-          position="top-center"
-          toastOptions={{
-            duration: 3000,
-            style: {
-              background: "#111827",
-              color: "#fff",
-              border: "1px solid rgba(255,255,255,0.1)",
-            },
-          }}
-        />
       </div>
+      {/* Toaster must be outside the visibility wrapper so toasts always render */}
+      <Toaster
+        position="top-center"
+        containerStyle={{ zIndex: 99999 }}
+        toastOptions={{
+          duration: 3000,
+          style: {
+            background: "#111827",
+            color: "#fff",
+            border: "1px solid rgba(255,255,255,0.1)",
+          },
+        }}
+      />
     </>
   );
 }

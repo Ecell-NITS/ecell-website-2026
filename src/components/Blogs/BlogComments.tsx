@@ -4,7 +4,7 @@
 import { useState, useCallback, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
-import { toast } from "react-toastify";
+import toast from "react-hot-toast";
 import { useAuth } from "@/lib/auth-context";
 import api from "@/lib/api";
 

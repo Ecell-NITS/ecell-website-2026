@@ -3,7 +3,7 @@
 
 import { useState, useMemo, useCallback, useEffect } from "react";
 import { Search, ChevronDown } from "lucide-react";
-import { toast } from "react-toastify";
+import toast from "react-hot-toast";
 import BlogCard from "./BlogCard";
 import api from "@/lib/api";
 import { useAuth } from "@/context/AuthContext";

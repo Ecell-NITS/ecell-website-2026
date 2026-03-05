@@ -16,7 +16,7 @@ export const alumniData: AlumniMember[] = [
     name: "Mayank Yadav",
     rank: "Senior Director (Products) Turing",
     fb: "#",
-    linkdln: "#",
+    linkdln: "https://www.linkedin.com/in/mayankyadav/",
     git: "#",
     image:
       "https://res.cloudinary.com/dnvhl9pru/image/upload/v1676298110/E-Cell%20Alumni/mayankYadavSir_nrtzop.png",
@@ -30,7 +30,7 @@ export const alumniData: AlumniMember[] = [
     name: "Vikalp Sahni",
     rank: "CEO and Founder Eka.Care",
     fb: "#",
-    linkdln: "#",
+    linkdln: "https://www.linkedin.com/in/vikalpsahni/?originalSubdomain=in",
     git: "#",
     image:
       "https://res.cloudinary.com/dnvhl9pru/image/upload/v1676298111/E-Cell%20Alumni/vikalpSahniSir_dgiwug.png",
@@ -43,8 +43,8 @@ export const alumniData: AlumniMember[] = [
     id: 3,
     name: "Roshan Farhan",
     rank: "Founder/CEO of Gobillion",
-    fb: "#",
-    linkdln: "#",
+    fb: "https://www.facebook.com/roshan.farhan?locale=ms_MY",
+    linkdln: "https://www.linkedin.com/in/roshanfarhan/?originalSubdomain=in",
     git: "#",
     image:
       "https://res.cloudinary.com/dnvhl9pru/image/upload/v1676298110/E-Cell%20Alumni/RoshanFarhanSir_csgy7g.jpg",
@@ -57,8 +57,9 @@ export const alumniData: AlumniMember[] = [
     id: 4,
     name: "Kulpradip Bharali",
     rank: "Co-Founder/CTO of Gobillion",
-    fb: "#",
-    linkdln: "#",
+    fb: "https://www.facebook.com/koolpradip.bharali?locale=ms_MY",
+    linkdln:
+      "https://www.linkedin.com/in/kulapradipbharali/?originalSubdomain=in",
     git: "#",
     image:
       "https://res.cloudinary.com/dnvhl9pru/image/upload/v1676298109/E-Cell%20Alumni/kulpradeepBharaliSir_md6fiv.jpg",
@@ -71,8 +72,9 @@ export const alumniData: AlumniMember[] = [
     id: 5,
     name: "Pankaj Kushwaha",
     rank: "Co-founder and CEO Doorhopper",
-    fb: "#",
-    linkdln: "#",
+    fb: "https://www.facebook.com/pankajkushwaha.sci2home/",
+    linkdln:
+      "https://www.linkedin.com/in/pankajdoorhopper/?originalSubdomain=in",
     git: "#",
     image:
       "https://res.cloudinary.com/dnvhl9pru/image/upload/v1676298110/E-Cell%20Alumni/pankajKushwahaSir1_faftvy.png",
@@ -94,5 +96,33 @@ export const alumniData: AlumniMember[] = [
       "https://res.cloudinary.com/dnvhl9pru/image/upload/v1676307863/E-Cell%20Alumni/Modal%20Cards/princeJoshiSir_aax7h4.jpg",
     content:
       "Prince Joshi is an Alumnus of NIT Silchar and an MBA grad from the Xavier Institute of Management.",
+  },
+  {
+    id: 7,
+    name: "Priyam Dutta",
+    rank: "Director and Head of Operations, Mandali Games Private Limited",
+    fb: "#",
+    linkdln: "https://www.linkedin.com/in/priyam",
+    git: "#",
+    image:
+      "https://res.cloudinary.com/dgbovmxah/image/upload/v1772720284/1757933643949_ndus1q.png",
+    image2:
+      "https://res.cloudinary.com/dgbovmxah/image/upload/v1772720284/1757933643949_ndus1q.png",
+    content:
+      "Priyam Dutta is the Director and Head of Operations at Mandali Games Private Limited, established in 2019. The startup provides content creation outsourcing services for video games, primarily creating 3D art for PC/Console titles. After 19 years of working in operations, Priyam transitioned to entrepreneurship. Under his leadership, Mandali Games has grown to 50+ members, created local employment opportunities, and contributed to major AAA titles like Halo Infinite, Microsoft Flight Simulator, and Crossfire.",
+  },
+  {
+    id: 8,
+    name: "Aditya Singh",
+    rank: "CEO and Founder, Ziostech Solutions Pvt. Ltd.",
+    fb: "#",
+    linkdln: "https://www.linkedin.com/in/aditya-singh-9966311a0/",
+    git: "#",
+    image:
+      "https://res.cloudinary.com/dgbovmxah/image/upload/v1772720282/1727878994804_y6blyc.jpg",
+    image2:
+      "https://res.cloudinary.com/dgbovmxah/image/upload/v1772720282/1727878994804_y6blyc.jpg",
+    content:
+      "Aditya Singh is the CEO and Founder of Ziostech Solutions Pvt. Ltd. His journey began as a Software Development Engineer Intern at Nference Labs, followed by an IT Consultant role at Sunrise Diagnostic Services. Motivated to build meaningful solutions independently, he founded Ziostech Solutions from scratch. His entrepreneurial journey has equipped him with a unique blend of technical depth, business insight, and leadership experience, guiding him as he scales new initiatives.",
   },
 ];

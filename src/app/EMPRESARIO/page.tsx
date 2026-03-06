@@ -1,5 +1,3 @@
-"use client";
-
 import "~/styles/empresario.css";
 import Navbar from "~/components/EMPRESARIO/Navbar";
 import HeroSection from "~/components/EMPRESARIO/HeroSection";

@@ -1,7 +1,5 @@
-"use client";
-
 import "~/styles/eic.css";
-import { motion } from "framer-motion";
+import EICPageWrapper from "~/components/EIC/EICPageWrapper";
 import Navbar from "~/components/EIC/Navbar";
 import HeroSection from "~/components/EIC/HeroSection";
 import EventsSection from "~/components/EIC/EventsSection";
@@ -16,12 +14,7 @@ import SpotifyPlayer from "~/components/EIC/SpotifyPlayer";
 
 export default function EICPage() {
   return (
-    <motion.div
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
-      transition={{ duration: 0.5 }}
-      className="eic-page min-h-screen overflow-x-hidden"
-    >
+    <EICPageWrapper>
       {/* Noise Overlay for texture */}
       <div className="eic-noise-overlay" />
 
@@ -41,6 +34,7 @@ export default function EICPage() {
       </main>
 
       <Footer />
-    </motion.div>
+      <SpotifyPlayer />
+    </EICPageWrapper>
   );
 }

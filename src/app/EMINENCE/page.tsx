@@ -1,5 +1,3 @@
-"use client";
-
 import "~/styles/eminence.css";
 import Navbar from "~/components/EMINENCE/Navbar";
 import HeroSection from "~/components/EMINENCE/HeroSection";

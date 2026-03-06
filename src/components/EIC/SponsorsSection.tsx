@@ -1,6 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
+import { Sparkles } from "lucide-react";
 
 const sponsors = [
   {
@@ -157,7 +158,7 @@ const SponsorsSection = () => {
         <div className="eic-marquee-track flex w-max gap-6">
           {duplicatedSponsors.map((sponsor, index) => (
             <motion.div
-              key={`${sponsor.id}-${index}`}
+              key={`${sponsor.name}-${index}`}
               whileHover={{ scale: 1.08, y: -10 }}
               transition={{ type: "spring", stiffness: 400, damping: 25 }}
               className="group relative flex-shrink-0"

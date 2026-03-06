@@ -90,13 +90,9 @@ const Hero: React.FC = () => {
               initial={{ opacity: 0, y: -20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 1, ease: "easeOut" }}
-              className="mb-[1.2dvh] inline-flex items-center gap-1.5 rounded-full border border-blue-400/30 bg-blue-500/10 px-3 py-[0.7dvh] text-[1.7dvh] font-semibold tracking-wider text-blue-400 uppercase backdrop-blur-sm sm:mb-4 sm:gap-2 sm:px-4 sm:py-1.5 sm:text-xs md:mb-6 md:px-5 md:text-sm lg:mb-8 lg:py-2"
+              className="mb-[1.2dvh] hidden items-center gap-1.5 rounded-full border border-blue-400/30 bg-blue-500/10 px-3 py-[0.7dvh] text-[1.7dvh] font-semibold tracking-wider text-blue-400 uppercase backdrop-blur-sm sm:mb-4 sm:gap-2 sm:px-4 sm:py-1.5 sm:text-xs md:mb-6 md:inline-flex md:px-5 md:text-sm lg:mb-8 lg:py-2"
             >
-              <Sparkles
-                size={12}
-                className="animate-pulse text-blue-500 sm:h-3.5 sm:w-3.5"
-              />
-              <span className="sm:hidden">Innovation Starts Here</span>
+              {/* <span className="sm:hidden">Innovation Starts Here</span> */}
               <span className="hidden sm:inline">
                 The Future of Innovation Starts Here
               </span>
@@ -294,18 +290,29 @@ const Hero: React.FC = () => {
 // Mobile Skewed Carousel Component
 const MobileCarousel: React.FC<{ images: string[] }> = ({ images }) => {
   const [activeIndex, setActiveIndex] = useState(0);
+  const [touchStartX, setTouchStartX] = useState(0);
   const total = images.length;
 
   const next = useCallback(
     () => setActiveIndex((prev) => (prev + 1) % total),
     [total],
   );
+  const prev = useCallback(
+    () => setActiveIndex((prev) => (prev - 1 + total) % total),
+    [total],
+  );
 
-  // Auto-advance every 5s
-  useEffect(() => {
-    const timer = setInterval(next, 5000);
-    return () => clearInterval(timer);
-  }, [next]);
+  // Touch swipe handlers for manual scrolling
+  const handleTouchStart = (e: React.TouchEvent) => {
+    setTouchStartX(e.touches[0].clientX);
+  };
+  const handleTouchEnd = (e: React.TouchEvent) => {
+    const diff = touchStartX - e.changedTouches[0].clientX;
+    if (Math.abs(diff) > 50) {
+      if (diff > 0) next();
+      else prev();
+    }
+  };
 
   const getIndex = (offset: number) =>
     (((activeIndex + offset) % total) + total) % total;
@@ -366,6 +373,8 @@ const MobileCarousel: React.FC<{ images: string[] }> = ({ images }) => {
     <div
       className="relative mx-auto w-full max-w-md"
       style={{ perspective: "1000px" }}
+      onTouchStart={handleTouchStart}
+      onTouchEnd={handleTouchEnd}
     >
       {/* Container with fixed aspect ratio */}
       <div className="relative mx-auto aspect-3/4 w-[48%] sm:w-[45%]">

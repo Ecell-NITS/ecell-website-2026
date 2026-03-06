@@ -18,6 +18,21 @@ export const metadata: Metadata = {
     description:
       "Read insights, stories, and guides from the entrepreneurial ecosystem at NIT Silchar.",
     type: "website",
+    images: [
+      {
+        url: "/og/landing.png",
+        width: 1200,
+        height: 630,
+        alt: "E-Cell NIT Silchar",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Blogs | E-Cell NIT Silchar",
+    description:
+      "Read insights, stories, and guides from the entrepreneurial ecosystem at NIT Silchar.",
+    images: ["/og/landing.png"],
   },
 };
 

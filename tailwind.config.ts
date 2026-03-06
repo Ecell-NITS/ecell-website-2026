@@ -13,8 +13,16 @@ const config: Config = {
         "4k": "2560px",
       },
       fontFamily: {
-        // This makes Poppins the default font for everything
-        sans: ["var(--font-poppins)", "sans-serif"],
+        sans: [
+          "var(--font-geist-sans)",
+          "var(--font-poppins)",
+          "ui-sans-serif",
+          "system-ui",
+          "sans-serif",
+        ],
+        mono: ["var(--font-geist-mono)", "monospace"],
+        poppins: ["var(--font-poppins)", "sans-serif"],
+        jakarta: ["var(--font-jakarta)", "sans-serif"],
       },
       colors: {
         background: "var(--background)",

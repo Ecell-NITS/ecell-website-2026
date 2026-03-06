@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { Toaster } from "react-hot-toast";
 import Preloader from "@/components/Preloader/Preloader";
 

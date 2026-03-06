@@ -7,6 +7,7 @@ import { useEffect, useState } from "react";
 import { FiUser, FiArrowLeft } from "react-icons/fi";
 import Image from "next/image";
 import api from "@/lib/axios";
+import apiBase from "@/lib/api";
 import toast from "react-hot-toast";
 import { useAuth } from "@/context/AuthContext";
 
@@ -32,7 +33,7 @@ export function EditProfileClient({ initialUser }: EditProfileClientProps) {
   const [first_name, setName] = useState(initialUser?.name ?? "");
   const [nameInput, setNameInput] = useState("");
   const [email, setEmail] = useState(initialUser?.email ?? "");
-  const [post, setPost] = useState(initialUser?.role ?? "USER");
+  // Removed unused: post, setPost
   const [bio, setBio] = useState(initialUser?.bio ?? "");
   const [facebook, setFacebook] = useState(initialUser?.facebook ?? "");
   const [instagram, setInstagram] = useState(initialUser?.instagram ?? "");
@@ -41,10 +42,11 @@ export function EditProfileClient({ initialUser }: EditProfileClientProps) {
   const [picture, setPicture] = useState(initialUser?.picture ?? "");
   const { refreshUser } = useAuth();
   const { user } = useAuth();
-  const isAdmin = user?.role === "ADMIN" || user?.role === "SUPERADMIN";
-  const [, setSelectedFile] = useState<File | null>(null);
+  // Removed unused: isAdmin
+  const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const [preview, setPreview] = useState<string | null>(null);
   const [isSaving, setIsSaving] = useState(false);
+  const [uploadingImage, setUploadingImage] = useState(false);
 
   useEffect(() => {
     const fetchUser = async () => {
@@ -74,6 +76,20 @@ export function EditProfileClient({ initialUser }: EditProfileClientProps) {
     setIsSaving(true);
 
     try {
+      let pictureUrl = picture;
+      if (selectedFile) {
+        setUploadingImage(true);
+        const formData = new FormData();
+        formData.append("image", selectedFile);
+        const uploadRes = await apiBase.post<{
+          data?: { url?: string };
+          url?: string;
+        }>("/api/upload/image", formData, {
+          headers: { "Content-Type": "multipart/form-data" },
+        });
+        pictureUrl = uploadRes.data?.data?.url ?? uploadRes.data?.url ?? "";
+        setUploadingImage(false);
+      }
       const payload: Record<string, string> = {
         name: nameInput,
         bio,
@@ -82,27 +98,29 @@ export function EditProfileClient({ initialUser }: EditProfileClientProps) {
         linkedin,
         github,
       };
-
-      if (isAdmin) {
-        payload.role = post;
-      }
-
+      if (pictureUrl) payload.picture = pictureUrl;
       await api.patch("/auth/edit-profile", payload);
 
       await refreshUser();
       setName(nameInput);
       toast.success("Profile updated successfully");
       router.push("/dashboard");
-    } catch {
-      toast.error("Failed to update profile");
+    } catch (err: unknown) {
+      const error = err as { response?: { data?: { message?: string } } };
+      toast.error(error.response?.data?.message ?? "Failed to update profile");
     } finally {
       setIsSaving(false);
+      setUploadingImage(false);
     }
   };
 
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (!file) return;
+    if (file.size > 5 * 1024 * 1024) {
+      toast.error("Image must be less than 5MB");
+      return;
+    }
 
     setSelectedFile(file);
 
@@ -122,7 +140,7 @@ export function EditProfileClient({ initialUser }: EditProfileClientProps) {
         <div className="mx-auto max-w-4xl animate-[fadeIn_0.5s_ease-out_forwards] opacity-0">
           <div className="flex items-center justify-end rounded-3xl backdrop-blur-md md:justify-between md:border md:border-white/10 md:bg-white/5 md:p-8">
             <div className="flex items-center gap-4">
-              <div className="flex hidden size-12 items-center justify-center rounded-2xl bg-blue-600 shadow-lg shadow-blue-500/20 md:flex">
+              <div className="hidden size-12 items-center justify-center rounded-2xl bg-blue-600 shadow-lg shadow-blue-500/20 md:flex">
                 <FiUser className="size-6 text-white" />
               </div>
               <div>
@@ -227,7 +245,7 @@ export function EditProfileClient({ initialUser }: EditProfileClientProps) {
                     disabled
                   />
                 </div>
-                <div className="space-y-3 md:col-span-1">
+                {/* <div className="space-y-3 md:col-span-1">
                   <label
                     className="text-xs font-bold tracking-widest text-gray-500 uppercase"
                     htmlFor="position"
@@ -243,7 +261,7 @@ export function EditProfileClient({ initialUser }: EditProfileClientProps) {
                     onChange={(e) => setPost(e.target.value)}
                     disabled={!isAdmin}
                   />
-                </div>
+                </div> */}
                 <div className="space-y-3 md:col-span-2">
                   <label
                     className="text-xs font-bold tracking-widest text-gray-500 uppercase"
@@ -326,7 +344,10 @@ export function EditProfileClient({ initialUser }: EditProfileClientProps) {
                   disabled={isSaving}
                 >
                   {isSaving ? (
-                    <div className="h-5 w-5 animate-spin rounded-full border-2 border-white/30 border-t-white" />
+                    <div className="flex items-center gap-2">
+                      <div className="h-5 w-5 animate-spin rounded-full border-2 border-white/30 border-t-white" />
+                      {uploadingImage ? "Uploading image..." : "Saving..."}
+                    </div>
                   ) : (
                     <>
                       <span className="material-symbols-outlined text-[18px]">

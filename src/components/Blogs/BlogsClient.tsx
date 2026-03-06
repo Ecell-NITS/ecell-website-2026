@@ -3,7 +3,7 @@
 
 import { useState, useMemo, useCallback, useEffect } from "react";
 import { Search, ChevronDown } from "lucide-react";
-import { toast } from "react-toastify";
+import toast from "react-hot-toast";
 import BlogCard from "./BlogCard";
 import api from "@/lib/api";
 import { useAuth } from "@/context/AuthContext";
@@ -212,7 +212,9 @@ export default function BlogsClient() {
                     role: "Contributor",
                     readTime: "5 min read",
                     likes: blog.likes?.length ?? 0,
-                    tags: blog.tag ? [blog.tag] : [],
+                    tags: blog.tag
+                      ? blog.tag.split(",").map((t) => t.trim())
+                      : [],
                     image:
                       blog.topicPic ??
                       blog.coverImage ??

@@ -333,6 +333,9 @@ export function DashboardClientWrapper({}: DashboardClientWrapperProps) {
                       ? publishedBlogs
                       : provisionalBlogs
                   }
+                  variant={
+                    activeTab === "provisional" ? "provisional" : "published"
+                  }
                   loadedImages={loadedImages}
                   onImageLoad={handleImageLoad}
                   emptyMessage={
@@ -378,11 +381,13 @@ function BlogGrid({
   loadedImages,
   onImageLoad,
   emptyMessage,
+  variant = "published",
 }: {
   blogs: MyBlog[];
   loadedImages: Set<string>;
   onImageLoad: (url: string) => void;
   emptyMessage: string;
+  variant?: "published" | "provisional";
 }) {
   if (blogs.length === 0) {
     return (
@@ -399,6 +404,10 @@ function BlogGrid({
           blog.topicPic ??
           "https://images.unsplash.com/photo-1488190211105-8b0e65b80b4e?auto=format&q=80&w=600";
         const tags = blog.tag ? blog.tag.split(",").map((t) => t.trim()) : [];
+        const blogLink =
+          variant === "provisional"
+            ? `/blog/draft/${blog.id}`
+            : blogSlug(blog.title ?? "");
 
         return (
           <div
@@ -407,7 +416,7 @@ function BlogGrid({
             style={{ animationDelay: `${index * 0.05}s` }}
           >
             <Link
-              href={blogSlug(blog.title ?? "")}
+              href={blogLink}
               className="relative block aspect-video overflow-hidden bg-white/5"
             >
               {!loadedImages.has(coverImg) && (
@@ -424,23 +433,39 @@ function BlogGrid({
                 placeholder="empty"
               />
               <div className="absolute inset-0 bg-gradient-to-t from-[#020617] via-transparent to-transparent opacity-60" />
-              {tags[0] && (
-                <div className="absolute top-4 right-4 z-20">
-                  <span className="rounded-full border border-white/10 bg-black/60 px-3 py-1 text-[10px] font-bold tracking-widest text-white uppercase backdrop-blur-md">
-                    {tags[0]}
-                  </span>
+              {tags.length > 0 && (
+                <div className="absolute top-4 right-4 z-20 flex flex-wrap justify-end gap-1.5">
+                  {tags.map((t, i) => (
+                    <span
+                      key={i}
+                      className="rounded-full border border-white/10 bg-black/60 px-3 py-1 text-[10px] font-bold tracking-widest text-white uppercase backdrop-blur-md"
+                    >
+                      {t}
+                    </span>
+                  ))}
                 </div>
               )}
             </Link>
 
             <div className="flex flex-1 flex-col p-6">
-              {blog.timeStamp && (
-                <div className="mb-3 flex items-center gap-3 text-xs font-bold tracking-widest text-blue-400/80 uppercase">
-                  <span className="flex items-center gap-1">
-                    <FaCalendarAlt /> {blog.timeStamp}
+              {/* Status badge + date row */}
+              <div className="mb-3 flex flex-wrap items-center gap-2">
+                {variant === "provisional" && (
+                  <span className="rounded-full border border-yellow-500/30 bg-yellow-500/10 px-3 py-1 text-[10px] font-bold tracking-widest text-yellow-400 uppercase">
+                    Pending Review
                   </span>
-                </div>
-              )}
+                )}
+                {blog.timeStamp && (
+                  <span className="flex items-center gap-1 text-xs font-bold tracking-widest text-blue-400/80 uppercase">
+                    <FaCalendarAlt />
+                    {new Date(blog.timeStamp).toLocaleDateString("en-IN", {
+                      day: "2-digit",
+                      month: "short",
+                      year: "numeric",
+                    })}
+                  </span>
+                )}
+              </div>
               <h3 className="mb-3 line-clamp-2 text-xl font-bold text-white transition-colors group-hover:text-blue-400">
                 {blog.title}
               </h3>
@@ -450,12 +475,20 @@ function BlogGrid({
 
               <div className="flex items-center justify-between border-t border-white/5 pt-6">
                 <Link
-                  href={blogSlug(blog.title ?? "")}
+                  href={blogLink}
                   className="text-sm font-bold text-blue-500 group-hover:underline"
                 >
-                  Read More
+                  {variant === "provisional" ? "Preview" : "Read More"}
                 </Link>
-                <div className="flex items-center gap-4 text-gray-400">
+                <div className="flex items-center gap-3 text-gray-400">
+                  {variant === "provisional" && (
+                    <Link
+                      href={`/dashboard/edit_blog/${blog.id}`}
+                      className="flex items-center gap-1.5 rounded-lg border border-white/10 bg-white/5 px-3 py-1.5 text-xs font-semibold text-white transition-all hover:bg-white/10"
+                    >
+                      <FaEdit className="text-[10px]" /> Edit
+                    </Link>
+                  )}
                   <span className="flex items-center gap-1.5">
                     <FaHeart />
                     <span className="text-xs">{blog.likes?.length ?? 0}</span>

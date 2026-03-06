@@ -3,10 +3,10 @@
 
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
-import { toast } from "react-toastify";
-import { Shield, ShieldOff, Users, Search } from "lucide-react";
-import { useAuth } from "@/lib/auth-context";
-import api from "@/lib/api";
+import toast from "react-hot-toast";
+import { Shield, ShieldOff, Users, Search, AlertTriangle } from "lucide-react";
+import { useAuth } from "@/context/AuthContext";
+import api from "@/lib/axios";
 import AdminNavigation from "../AdminNavigation";
 
 interface ApiUser {
@@ -18,12 +18,16 @@ interface ApiUser {
 }
 
 export default function AdminUsersPage() {
-  const { user: authUser, isLoading } = useAuth();
+  const { user: authUser, loading: isLoading } = useAuth();
   const router = useRouter();
   const [users, setUsers] = useState<ApiUser[]>([]);
   const [loading, setLoading] = useState(true);
   const [searchQuery, setSearchQuery] = useState("");
   const [updatingId, setUpdatingId] = useState<string | null>(null);
+  const [roleDialog, setRoleDialog] = useState<{
+    user: ApiUser;
+    targetRole: "ADMIN" | "CLIENT";
+  } | null>(null);
 
   // Redirect if not admin/superadmin
   useEffect(() => {
@@ -42,7 +46,7 @@ export default function AdminUsersPage() {
     if (!authUser) return;
     const fetchUsers = async () => {
       try {
-        const { data } = await api.get("/api/admin/users");
+        const { data } = await api.get("/admin/users");
         setUsers(data.data ?? []);
       } catch (err: unknown) {
         const error = err as { response?: { data?: { message?: string } } };
@@ -57,7 +61,7 @@ export default function AdminUsersPage() {
   const handleMakeAdmin = async (userId: string) => {
     setUpdatingId(userId);
     try {
-      await api.put(`/api/admin/make-admin/${userId}`);
+      await api.put(`/admin/make-admin/${userId}`);
       setUsers((prev) =>
         prev.map((u) => (u.id === userId ? { ...u, role: "ADMIN" } : u)),
       );
@@ -73,7 +77,7 @@ export default function AdminUsersPage() {
   const handleMakeClient = async (userId: string) => {
     setUpdatingId(userId);
     try {
-      await api.put(`/api/admin/make-client/${userId}`);
+      await api.put(`/admin/make-client/${userId}`);
       setUsers((prev) =>
         prev.map((u) => (u.id === userId ? { ...u, role: "USER" } : u)),
       );
@@ -204,7 +208,7 @@ export default function AdminUsersPage() {
                         <span className="text-xs text-gray-500 italic">
                           Protected
                         </span>
-                      ) : u.id === authUser?.id ? (
+                      ) : u.id === String(authUser?.id) ? (
                         <span className="text-xs text-gray-500 italic">
                           You
                         </span>
@@ -212,7 +216,12 @@ export default function AdminUsersPage() {
                         <>
                           {u.role !== "ADMIN" && (
                             <button
-                              onClick={() => handleMakeAdmin(u.id)}
+                              onClick={() =>
+                                setRoleDialog({
+                                  user: u,
+                                  targetRole: "ADMIN",
+                                })
+                              }
                               disabled={updatingId === u.id}
                               className="flex items-center gap-1.5 rounded-lg bg-blue-600/20 px-3 py-1.5 text-xs font-semibold text-blue-400 transition-all hover:bg-blue-600/30 disabled:cursor-not-allowed disabled:opacity-50"
                             >
@@ -226,7 +235,12 @@ export default function AdminUsersPage() {
                           )}
                           {u.role !== "USER" && (
                             <button
-                              onClick={() => handleMakeClient(u.id)}
+                              onClick={() =>
+                                setRoleDialog({
+                                  user: u,
+                                  targetRole: "CLIENT",
+                                })
+                              }
                               disabled={updatingId === u.id}
                               className="flex items-center gap-1.5 rounded-lg bg-gray-600/20 px-3 py-1.5 text-xs font-semibold text-gray-400 transition-all hover:bg-gray-600/30 disabled:cursor-not-allowed disabled:opacity-50"
                             >
@@ -248,6 +262,84 @@ export default function AdminUsersPage() {
                   <p className="text-gray-500">No users found.</p>
                 </div>
               )}
+            </div>
+          </div>
+        )}
+
+        {/* ── Role Change Confirmation Dialog ── */}
+        {roleDialog && (
+          <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm">
+            <div className="mx-4 w-full max-w-md rounded-2xl border border-white/10 bg-[#0f1729] p-6 shadow-2xl">
+              <div className="mb-4 flex items-center gap-3">
+                <div
+                  className={`flex h-10 w-10 items-center justify-center rounded-full ${
+                    roleDialog.targetRole === "ADMIN"
+                      ? "bg-blue-500/20"
+                      : "bg-yellow-500/20"
+                  }`}
+                >
+                  {roleDialog.targetRole === "ADMIN" ? (
+                    <Shield size={20} className="text-blue-400" />
+                  ) : (
+                    <AlertTriangle size={20} className="text-yellow-400" />
+                  )}
+                </div>
+                <div>
+                  <h3 className="text-base font-bold text-white">
+                    {roleDialog.targetRole === "ADMIN"
+                      ? "Promote to Admin"
+                      : "Demote to Client"}
+                  </h3>
+                  <p className="text-xs text-gray-400">
+                    This will change the user&apos;s permissions
+                  </p>
+                </div>
+              </div>
+
+              <p className="mb-4 text-sm text-gray-300">
+                Are you sure you want to{" "}
+                {roleDialog.targetRole === "ADMIN" ? "promote" : "demote"}{" "}
+                <span className="font-semibold text-white">
+                  {roleDialog.user.name ?? roleDialog.user.email}
+                </span>{" "}
+                from{" "}
+                <span className="font-semibold text-white">
+                  {roleDialog.user.role}
+                </span>{" "}
+                to{" "}
+                <span className="font-semibold text-white">
+                  {roleDialog.targetRole}
+                </span>
+                ?
+              </p>
+
+              <div className="flex justify-end gap-3">
+                <button
+                  onClick={() => setRoleDialog(null)}
+                  className="rounded-lg border border-white/10 bg-white/5 px-4 py-2 text-sm font-semibold text-white transition-all hover:bg-white/10"
+                >
+                  Cancel
+                </button>
+                <button
+                  onClick={() => {
+                    if (roleDialog.targetRole === "ADMIN") {
+                      handleMakeAdmin(roleDialog.user.id);
+                    } else {
+                      handleMakeClient(roleDialog.user.id);
+                    }
+                    setRoleDialog(null);
+                  }}
+                  className={`rounded-lg px-4 py-2 text-sm font-semibold transition-all ${
+                    roleDialog.targetRole === "ADMIN"
+                      ? "bg-blue-600 text-white hover:bg-blue-700"
+                      : "bg-yellow-600 text-white hover:bg-yellow-700"
+                  }`}
+                >
+                  {roleDialog.targetRole === "ADMIN"
+                    ? "Yes, Promote"
+                    : "Yes, Demote"}
+                </button>
+              </div>
             </div>
           </div>
         )}

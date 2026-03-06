@@ -1,22 +1,43 @@
+/* eslint-disable @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-member-access */
 "use client";
 
-import { useState, Suspense, useEffect } from "react";
+import { useState, Suspense, useEffect, useCallback } from "react";
 import { useRouter } from "next/navigation";
 import toast from "react-hot-toast";
 import Navbar from "@/components/Landing/Navbar";
 import { useAuth } from "@/context/AuthContext";
-import api from "@/lib/api";
+import api from "@/lib/axios";
+import apiBase from "@/lib/api";
 import dynamic from "next/dynamic";
-import { Eye, Edit3 } from "lucide-react";
+import { Eye, Edit3, Loader2 } from "lucide-react";
 
-// Lazy load TipTap editors to reduce initial bundle size
+interface BlogData {
+  id: string;
+  title?: string;
+  tag?: string;
+  intro?: string;
+  content?: string;
+  writerName?: string;
+  writerPic?: string;
+  topicPic?: string;
+  timeStamp?: string;
+  isAccepted?: boolean;
+  authorId?: string;
+  status?: string;
+}
+
+// Lazy load TipTap editors
 const TipTapEditors = dynamic(
   () =>
     import("@/components/Dashboard/TipTapEditor").then((mod) => ({
       default: ({
+        initialIntro,
+        initialContent,
         onIntroChange,
         onContentChange,
       }: {
+        initialIntro: string;
+        initialContent: string;
         onIntroChange: (html: string) => void;
         onContentChange: (html: string) => void;
       }) => (
@@ -28,14 +49,20 @@ const TipTapEditors = dynamic(
                 A short summary (40-50 words) to hook your readers
               </span>
             </label>
-            <mod.TipTapIntroEditor content="" onUpdate={onIntroChange} />
+            <mod.TipTapIntroEditor
+              content={initialIntro}
+              onUpdate={onIntroChange}
+            />
           </div>
 
           <div className="flex flex-col gap-3">
             <label className="text-xl font-semibold text-slate-200">
               Main Content
             </label>
-            <mod.TipTapContentEditor content="" onUpdate={onContentChange} />
+            <mod.TipTapContentEditor
+              content={initialContent}
+              onUpdate={onContentChange}
+            />
           </div>
         </>
       ),
@@ -61,33 +88,78 @@ const TipTapEditors = dynamic(
   },
 );
 
-export default function AddBlogsClient() {
+export default function EditBlogClient({ blogId }: { blogId: string }) {
+  const [blog, setBlog] = useState<BlogData | null>(null);
+  const [fetchLoading, setFetchLoading] = useState(true);
+
   const [intro, setIntro] = useState("");
   const [content, setContent] = useState("");
   const [title, setTitle] = useState("");
   const [tag, setTag] = useState("");
-  const [isPublishing, setIsPublishing] = useState(false);
+  const [isSaving, setIsSaving] = useState(false);
   const [uploadingImage, setUploadingImage] = useState(false);
   const [showPreview, setShowPreview] = useState(false);
   const [topicImage, setTopicImage] = useState<File | null>(null);
   const [imagePreview, setImagePreview] = useState<string | null>(null);
-  const { user, loading } = useAuth();
+  const [existingTopicPic, setExistingTopicPic] = useState<string | null>(null);
+
+  const { user, loading: authLoading } = useAuth();
   const router = useRouter();
 
   // Redirect if not logged in
   useEffect(() => {
-    if (!loading && !user) {
+    if (!authLoading && !user) {
       router.push("/login");
     }
-  }, [loading, user, router]);
+  }, [authLoading, user, router]);
 
-  const stripHtml = (html: string) => html.replace(/<[^>]*>/g, "");
+  // Fetch blog data
+  useEffect(() => {
+    if (authLoading || !user) return;
+
+    const fetchBlog = async () => {
+      try {
+        const { data } = await api.get(`/blog/draft/${blogId}`);
+        const blogData: BlogData = data.data ?? data;
+
+        // Only the author or admin can edit
+        const isOwner = blogData.authorId === String(user.id);
+        const isAdmin = user.role === "ADMIN" || user.role === "SUPERADMIN";
+        if (!isOwner && !isAdmin) {
+          toast.error("You can only edit your own blogs");
+          router.push("/dashboard");
+          return;
+        }
+
+        setBlog(blogData);
+        setTitle(blogData.title ?? "");
+        setTag(blogData.tag ?? "");
+        setIntro(blogData.intro ?? "");
+        setContent(blogData.content ?? "");
+        if (blogData.topicPic) {
+          setExistingTopicPic(blogData.topicPic);
+          setImagePreview(blogData.topicPic);
+        }
+      } catch {
+        toast.error("Failed to load blog");
+        router.push("/dashboard");
+      } finally {
+        setFetchLoading(false);
+      }
+    };
+    void fetchBlog();
+  }, [blogId, user, authLoading, router]);
+
+  const stripHtml = useCallback(
+    (html: string) => html.replace(/<[^>]*>/g, ""),
+    [],
+  );
 
   const isFormComplete =
     title.trim().length > 0 &&
     stripHtml(intro).trim().length > 0 &&
     stripHtml(content).trim().length > 0 &&
-    topicImage !== null;
+    (topicImage !== null || existingTopicPic !== null);
 
   const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
@@ -98,62 +170,54 @@ export default function AddBlogsClient() {
     }
     setTopicImage(file);
     setImagePreview(URL.createObjectURL(file));
+    setExistingTopicPic(null);
   };
 
-  const handlePublish = async () => {
+  const handleSave = async () => {
     if (!title.trim()) {
       toast.error("Please enter a blog title");
       return;
     }
-    if (!intro.trim()) {
+    if (!stripHtml(intro).trim()) {
       toast.error("Please write a brief introduction");
       return;
     }
-    if (!content.trim()) {
+    if (!stripHtml(content).trim()) {
       toast.error("Please write the main content");
       return;
     }
-    if (!topicImage) {
-      toast.error("Please upload a topic image");
-      return;
-    }
 
-    setIsPublishing(true);
+    setIsSaving(true);
     try {
-      // 1. Upload image to Cloudinary
-      setUploadingImage(true);
-      const formData = new FormData();
-      formData.append("image", topicImage as Blob);
-      const uploadRes = await api.post<{
-        data?: { url?: string };
-        url?: string;
-      }>("/api/upload/image", formData, {
-        headers: { "Content-Type": "multipart/form-data" },
-      });
-      const topicPicUrl: string =
-        uploadRes.data?.data?.url ?? uploadRes.data?.url ?? "";
-      setUploadingImage(false);
+      let topicPicUrl = existingTopicPic ?? "";
 
-      // 2. Create blog
-      await api.post("/api/blog/createBlog", {
+      // Upload new image if changed
+      if (topicImage) {
+        setUploadingImage(true);
+        const formData = new FormData();
+        formData.append("image", topicImage);
+        const uploadRes = await apiBase.post("/api/upload/image", formData, {
+          headers: { "Content-Type": "multipart/form-data" },
+        });
+        topicPicUrl = uploadRes.data.data?.url ?? uploadRes.data.url ?? "";
+        setUploadingImage(false);
+      }
+
+      await api.put(`/blog/editBlog/${blogId}`, {
         title: title.trim(),
         intro: intro.trim(),
         content: content.trim(),
-        tag: tag.trim() ?? undefined,
-        writerName: user?.name ?? user?.email?.split("@")[0] ?? undefined,
-        writerEmail: user?.email,
-        writerPic: user?.picture ?? undefined,
-        topicPic: topicPicUrl,
+        tag: tag.trim() || undefined,
+        topicPic: topicPicUrl || undefined,
       });
-      toast.success(
-        "Blog submitted for review! It will be visible once approved. 🎉",
-      );
-      router.push("/dashboard");
+
+      toast.success("Blog updated successfully!");
+      router.push("/dashboard?tab=provisional");
     } catch (err: unknown) {
       const error = err as { response?: { data?: { message?: string } } };
-      toast.error(error.response?.data?.message ?? "Failed to create blog");
+      toast.error(error.response?.data?.message ?? "Failed to update blog");
     } finally {
-      setIsPublishing(false);
+      setIsSaving(false);
       setUploadingImage(false);
     }
   };
@@ -165,12 +229,24 @@ export default function AddBlogsClient() {
     ),
   );
 
+  if (authLoading || fetchLoading) {
+    return (
+      <div className="min-h-screen bg-[#020617] font-sans text-white">
+        <Navbar />
+        <main className="flex items-center justify-center px-4 pt-32 pb-20">
+          <Loader2 className="h-8 w-8 animate-spin text-blue-500" />
+        </main>
+      </div>
+    );
+  }
+
+  if (!blog) return null;
+
   return (
     <div className="min-h-screen bg-[#020617] font-sans text-white selection:bg-blue-500/30 selection:text-white">
       <Navbar />
 
       <main className="relative overflow-hidden px-4 pt-32 pb-20 sm:px-6 lg:px-8">
-        {/* Background */}
         <div className="pointer-events-none absolute top-0 left-1/2 -z-10 h-full w-full max-w-7xl -translate-x-1/2">
           <div className="absolute top-[-10%] left-[-10%] h-[40%] w-[40%] rounded-full bg-blue-600/10 blur-[120px]"></div>
           <div className="absolute right-[-10%] bottom-[-10%] h-[30%] w-[30%] rounded-full bg-purple-600/10 blur-[120px]"></div>
@@ -180,15 +256,14 @@ export default function AddBlogsClient() {
           {/* Header + Toggle */}
           <div className="mb-10 flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
             <div className="text-center sm:text-left">
-              <h1 className="mb-2 bg-gradient-to-r from-blue-400 to-purple-400 bg-clip-text text-3xl font-bold text-transparent sm:mb-4 md:text-5xl">
-                Create New Blog
+              <h1 className="mb-2 bg-linear-to-r from-blue-400 to-purple-400 bg-clip-text text-3xl font-bold text-transparent sm:mb-4 md:text-5xl">
+                Edit Blog
               </h1>
               <p className="text-base text-slate-400 sm:text-lg">
-                Share your thoughts and insights with the community.
+                Update your blog before it gets reviewed.
               </p>
             </div>
 
-            {/* Write / Preview Toggle */}
             <div className="flex gap-2 self-center sm:self-auto">
               <button
                 onClick={() => setShowPreview(false)}
@@ -198,7 +273,7 @@ export default function AddBlogsClient() {
                     : "border border-white/10 bg-white/5 text-white/60 hover:bg-white/10 hover:text-white"
                 }`}
               >
-                <Edit3 size={16} /> Write
+                <Edit3 size={16} /> Edit
               </button>
               <button
                 onClick={() => setShowPreview(true)}
@@ -213,7 +288,7 @@ export default function AddBlogsClient() {
             </div>
           </div>
 
-          {/* ===== WRITE MODE ===== */}
+          {/* ===== EDIT MODE ===== */}
           <div className={showPreview ? "hidden" : ""}>
             <div className="animate-[fadeIn_0.5s_ease-out_forwards] rounded-3xl border border-white/10 bg-white/5 p-4 opacity-0 shadow-2xl backdrop-blur-md sm:p-6 md:p-10">
               <div className="flex flex-col gap-6 sm:gap-8">
@@ -243,18 +318,20 @@ export default function AddBlogsClient() {
                         <label className="text-lg font-semibold text-slate-200 sm:text-xl">
                           Brief Introduction
                         </label>
-                        <div className="min-h-[160px] animate-pulse rounded-xl border border-white/10 bg-black/20"></div>
+                        <div className="min-h-40 animate-pulse rounded-xl border border-white/10 bg-black/20"></div>
                       </div>
                       <div className="flex flex-col gap-3">
                         <label className="text-lg font-semibold text-slate-200 sm:text-xl">
                           Main Content
                         </label>
-                        <div className="min-h-[340px] animate-pulse rounded-xl border border-white/10 bg-black/20"></div>
+                        <div className="min-h-85 animate-pulse rounded-xl border border-white/10 bg-black/20"></div>
                       </div>
                     </>
                   }
                 >
                   <TipTapEditors
+                    initialIntro={blog.intro ?? ""}
+                    initialContent={blog.content ?? ""}
                     onIntroChange={setIntro}
                     onContentChange={setContent}
                   />
@@ -296,6 +373,7 @@ export default function AddBlogsClient() {
                         onClick={() => {
                           setTopicImage(null);
                           setImagePreview(null);
+                          setExistingTopicPic(null);
                         }}
                         className="absolute top-2 right-2 rounded-full bg-black/70 px-3 py-1 text-xs font-semibold text-white transition-colors hover:bg-red-600"
                       >
@@ -310,12 +388,12 @@ export default function AddBlogsClient() {
                         </span>
                         <div className="flex text-sm leading-6 text-slate-400">
                           <label
-                            htmlFor="file-upload"
+                            htmlFor="file-upload-edit"
                             className="relative cursor-pointer rounded-md font-semibold text-blue-500 focus-within:ring-2 focus-within:ring-blue-500 focus-within:ring-offset-2 focus-within:ring-offset-gray-900 focus-within:outline-none hover:text-blue-400"
                           >
                             <span>Upload a file</span>
                             <input
-                              id="file-upload"
+                              id="file-upload-edit"
                               name="file-upload"
                               type="file"
                               accept="image/*"
@@ -333,22 +411,20 @@ export default function AddBlogsClient() {
                   )}
                 </div>
 
-                {/* Submit */}
+                {/* Save */}
                 <div className="flex justify-end pt-4 sm:pt-6">
                   <button
-                    onClick={handlePublish}
-                    disabled={isPublishing || !isFormComplete}
-                    className="w-full rounded-xl bg-gradient-to-r from-blue-600 to-blue-500 px-6 py-3.5 text-base font-bold text-white shadow-lg shadow-blue-500/25 transition-all hover:scale-[1.02] hover:from-blue-500 hover:to-blue-400 active:scale-[0.98] disabled:cursor-not-allowed disabled:opacity-60 sm:w-auto sm:px-8 sm:py-4 sm:text-lg"
+                    onClick={handleSave}
+                    disabled={isSaving || !isFormComplete}
+                    className="w-full rounded-xl bg-linear-to-r from-blue-600 to-blue-500 px-6 py-3.5 text-base font-bold text-white shadow-lg shadow-blue-500/25 transition-all hover:scale-[1.02] hover:from-blue-500 hover:to-blue-400 active:scale-[0.98] disabled:cursor-not-allowed disabled:opacity-60 sm:w-auto sm:px-8 sm:py-4 sm:text-lg"
                   >
-                    {isPublishing ? (
+                    {isSaving ? (
                       <div className="flex items-center justify-center gap-2">
                         <div className="h-5 w-5 animate-spin rounded-full border-2 border-white/30 border-t-white" />
-                        {uploadingImage
-                          ? "Uploading image..."
-                          : "Submitting..."}
+                        {uploadingImage ? "Uploading image..." : "Saving..."}
                       </div>
                     ) : (
-                      "Submit for Review"
+                      "Save Changes"
                     )}
                   </button>
                 </div>
@@ -363,12 +439,11 @@ export default function AddBlogsClient() {
                 <div className="rounded-3xl border border-white/10 bg-white/5 p-12 text-center backdrop-blur-md">
                   <Eye size={48} className="mx-auto mb-4 text-gray-600" />
                   <p className="text-lg text-gray-500">
-                    Start writing to see a preview here
+                    Start editing to see a preview here
                   </p>
                 </div>
               ) : (
                 <div className="rounded-3xl border border-white/10 bg-white/5 p-4 shadow-2xl backdrop-blur-md sm:p-8 md:p-12">
-                  {/* Preview badge */}
                   <div className="mb-6 inline-flex items-center gap-2 rounded-lg bg-blue-500/10 px-4 py-2">
                     <Eye size={16} className="text-blue-400" />
                     <span className="text-xs font-bold tracking-widest text-blue-400 uppercase">
@@ -390,7 +465,6 @@ export default function AddBlogsClient() {
                     </div>
                   )}
 
-                  {/* Title */}
                   <h1 className="mb-6 text-2xl leading-tight font-black tracking-tight text-white sm:text-3xl md:text-4xl lg:text-5xl">
                     {title || "Untitled Blog"}
                   </h1>
@@ -410,6 +484,18 @@ export default function AddBlogsClient() {
                     <span>{readTime} min read</span>
                   </div>
 
+                  {/* Topic Image */}
+                  {imagePreview && (
+                    <div className="mb-8 overflow-hidden rounded-2xl border border-white/10">
+                      {/* eslint-disable-next-line @next/next/no-img-element */}
+                      <img
+                        src={imagePreview}
+                        alt="Topic"
+                        className="w-full object-cover"
+                      />
+                    </div>
+                  )}
+
                   {/* Intro */}
                   {intro && (
                     <div className="mb-8 border-l-4 border-blue-500 pl-4 sm:pl-6">
@@ -428,22 +514,20 @@ export default function AddBlogsClient() {
                     />
                   )}
 
-                  {/* Publish from Preview */}
+                  {/* Save from Preview */}
                   <div className="mt-10 flex justify-end border-t border-white/10 pt-6">
                     <button
-                      onClick={handlePublish}
-                      disabled={isPublishing || !isFormComplete}
-                      className="w-full rounded-xl bg-gradient-to-r from-blue-600 to-blue-500 px-6 py-3.5 text-base font-bold text-white shadow-lg shadow-blue-500/25 transition-all hover:scale-[1.02] hover:from-blue-500 hover:to-blue-400 active:scale-[0.98] disabled:cursor-not-allowed disabled:opacity-60 sm:w-auto sm:px-8 sm:py-4 sm:text-lg"
+                      onClick={handleSave}
+                      disabled={isSaving || !isFormComplete}
+                      className="w-full rounded-xl bg-linear-to-r from-blue-600 to-blue-500 px-6 py-3.5 text-base font-bold text-white shadow-lg shadow-blue-500/25 transition-all hover:scale-[1.02] hover:from-blue-500 hover:to-blue-400 active:scale-[0.98] disabled:cursor-not-allowed disabled:opacity-60 sm:w-auto sm:px-8 sm:py-4 sm:text-lg"
                     >
-                      {isPublishing ? (
+                      {isSaving ? (
                         <div className="flex items-center justify-center gap-2">
                           <div className="h-5 w-5 animate-spin rounded-full border-2 border-white/30 border-t-white" />
-                          {uploadingImage
-                            ? "Uploading image..."
-                            : "Submitting..."}
+                          {uploadingImage ? "Uploading image..." : "Saving..."}
                         </div>
                       ) : (
-                        "Submit for Review"
+                        "Save Changes"
                       )}
                     </button>
                   </div>

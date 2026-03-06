@@ -4,8 +4,8 @@
 import { useState, useCallback, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
-import { toast } from "react-toastify";
-import { useAuth } from "@/lib/auth-context";
+import toast from "react-hot-toast";
+import { useAuth } from "@/context/AuthContext";
 import api from "@/lib/api";
 
 interface ApiComment {
@@ -26,7 +26,8 @@ export default function BlogComments({ blogId }: BlogCommentsProps) {
   const [comments, setComments] = useState<ApiComment[]>([]);
   const [loading, setLoading] = useState(true);
   const [submitting, setSubmitting] = useState(false);
-  const { user, isAuthenticated } = useAuth();
+  const { user } = useAuth();
+  const isAuthenticated = !!user;
   const router = useRouter();
 
   // Fetch comments
@@ -61,9 +62,8 @@ export default function BlogComments({ blogId }: BlogCommentsProps) {
         const { data } = await api.post(`/api/comment/apicomment/${blogId}`, {
           text: comment,
           commentAuthor: user?.name ?? "Anonymous",
-          commentPic:
-            user?.picture ?? user?.userimg ?? "https://i.pravatar.cc/150",
-          userId: user?.id ?? "",
+          commentPic: user?.picture ?? "https://i.pravatar.cc/150",
+          userId: String(user?.id ?? ""),
         });
         const newComment = data.data ?? data;
         setComments((prev) => [newComment, ...prev]);
@@ -76,7 +76,15 @@ export default function BlogComments({ blogId }: BlogCommentsProps) {
         setSubmitting(false);
       }
     },
-    [comment, isAuthenticated, blogId, router],
+    [
+      comment,
+      isAuthenticated,
+      blogId,
+      router,
+      user?.id,
+      user?.name,
+      user?.picture,
+    ],
   );
 
   const formatTime = (dateString: string) => {

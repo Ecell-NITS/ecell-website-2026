@@ -159,7 +159,7 @@ export default function EditProfile() {
                       onChange={(e) => setName(e.target.value)}
                     />
                   </div>
-                  <div className="space-y-3">
+                  {/* <div className="space-y-3">
                     <label
                       className="text-xs font-bold tracking-widest text-gray-500 uppercase"
                       htmlFor="position"
@@ -173,7 +173,7 @@ export default function EditProfile() {
                       value={post}
                       onChange={(e) => setPost(e.target.value)}
                     />
-                  </div>
+                  </div> */}
                   <div className="space-y-3 md:col-span-2">
                     <label
                       className="text-xs font-bold tracking-widest text-gray-500 uppercase"

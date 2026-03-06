@@ -79,9 +79,6 @@ importers:
       react-icons:
         specifier: ^5.5.0
         version: 5.5.0(react@19.2.3)
-      react-toastify:
-        specifier: ^11.0.5
-        version: 11.0.5(react-dom@19.2.3(react@19.2.3))(react@19.2.3)
       sharp:
         specifier: ^0.34.5
         version: 0.34.5
@@ -6242,15 +6239,6 @@ packages:
       "@types/react":
         optional: true
 
-  react-toastify@11.0.5:
-    resolution:
-      {
-        integrity: sha512-EpqHBGvnSTtHYhCPLxML05NLY2ZX0JURbAdNYa6BUkk+amz4wbKBQvoKQAB0ardvSarUBuY4Q4s1sluAzZwkmA==,
-      }
-    peerDependencies:
-      react: ^18 || ^19
-      react-dom: ^18 || ^19
-
   react@19.2.3:
     resolution:
       {
@@ -11316,12 +11304,6 @@ snapshots:
       tslib: 2.8.1
     optionalDependencies:
       "@types/react": 19.2.7
-
-  react-toastify@11.0.5(react-dom@19.2.3(react@19.2.3))(react@19.2.3):
-    dependencies:
-      clsx: 2.1.1
-      react: 19.2.3
-      react-dom: 19.2.3(react@19.2.3)
 
   react@19.2.3: {}
 

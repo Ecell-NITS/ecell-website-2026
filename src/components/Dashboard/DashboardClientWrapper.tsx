@@ -415,15 +415,6 @@ function BlogGrid({
             className="group relative flex animate-[fadeIn_0.5s_ease-out_forwards] flex-col overflow-hidden rounded-3xl border border-white/10 bg-white/5 opacity-0 transition-all hover:-translate-y-2 hover:border-blue-500/50 hover:shadow-2xl hover:shadow-blue-500/10"
             style={{ animationDelay: `${index * 0.05}s` }}
           >
-            {/* Status badge for provisional */}
-            {variant === "provisional" && (
-              <div className="absolute top-4 left-4 z-20">
-                <span className="rounded-full border border-yellow-500/30 bg-yellow-500/10 px-3 py-1 text-[10px] font-bold tracking-widest text-yellow-400 uppercase backdrop-blur-md">
-                  Pending Review
-                </span>
-              </div>
-            )}
-
             <Link
               href={blogLink}
               className="relative block aspect-video overflow-hidden bg-white/5"
@@ -457,13 +448,24 @@ function BlogGrid({
             </Link>
 
             <div className="flex flex-1 flex-col p-6">
-              {blog.timeStamp && (
-                <div className="mb-3 flex items-center gap-3 text-xs font-bold tracking-widest text-blue-400/80 uppercase">
-                  <span className="flex items-center gap-1">
-                    <FaCalendarAlt /> {blog.timeStamp}
+              {/* Status badge + date row */}
+              <div className="mb-3 flex flex-wrap items-center gap-2">
+                {variant === "provisional" && (
+                  <span className="rounded-full border border-yellow-500/30 bg-yellow-500/10 px-3 py-1 text-[10px] font-bold tracking-widest text-yellow-400 uppercase">
+                    Pending Review
                   </span>
-                </div>
-              )}
+                )}
+                {blog.timeStamp && (
+                  <span className="flex items-center gap-1 text-xs font-bold tracking-widest text-blue-400/80 uppercase">
+                    <FaCalendarAlt />
+                    {new Date(blog.timeStamp).toLocaleDateString("en-IN", {
+                      day: "2-digit",
+                      month: "short",
+                      year: "numeric",
+                    })}
+                  </span>
+                )}
+              </div>
               <h3 className="mb-3 line-clamp-2 text-xl font-bold text-white transition-colors group-hover:text-blue-400">
                 {blog.title}
               </h3>

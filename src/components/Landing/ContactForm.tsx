@@ -5,7 +5,7 @@
 import React, { useState } from "react";
 import { motion } from "framer-motion";
 import { Send, MapPin, Mail, Phone } from "lucide-react";
-import { toast } from "react-toastify";
+import toast from "react-hot-toast";
 import api from "@/lib/api";
 
 const ContactForm: React.FC = () => {

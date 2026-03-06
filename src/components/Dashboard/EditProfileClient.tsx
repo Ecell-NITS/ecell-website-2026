@@ -7,6 +7,7 @@ import { useEffect, useState } from "react";
 import { FiUser, FiArrowLeft } from "react-icons/fi";
 import Image from "next/image";
 import api from "@/lib/axios";
+import apiBase from "@/lib/api";
 import toast from "react-hot-toast";
 import { useAuth } from "@/context/AuthContext";
 
@@ -45,49 +46,7 @@ export function EditProfileClient({ initialUser }: EditProfileClientProps) {
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const [preview, setPreview] = useState<string | null>(null);
   const [isSaving, setIsSaving] = useState(false);
-
-  // Cloudinary upload utility
-  async function uploadToCloudinary(file: File): Promise<string> {
-    // Convert to webp if possible
-    let uploadFile = file;
-    if (file.type !== "image/webp") {
-      try {
-        const bitmap = await createImageBitmap(file);
-        const canvas = document.createElement("canvas");
-        canvas.width = bitmap.width;
-        canvas.height = bitmap.height;
-        const ctx = canvas.getContext("2d");
-        ctx?.drawImage(bitmap, 0, 0);
-        const blob = await new Promise<Blob | null>((resolve) =>
-          canvas.toBlob((b) => resolve(b), "image/webp", 0.92),
-        );
-        if (blob) {
-          uploadFile = new File(
-            [blob],
-            file.name.replace(/\.[^.]+$/, ".webp"),
-            { type: "image/webp" },
-          );
-        }
-      } catch {
-        // fallback: use original file
-        uploadFile = file;
-      }
-    }
-    const formData = new FormData();
-    formData.append("file", uploadFile);
-    formData.append("upload_preset", "ecell_profile"); // must match your Cloudinary preset
-    formData.append("folder", "profile");
-    const res = await fetch(
-      "https://api.cloudinary.com/v1_1/ecellnits/image/upload",
-      {
-        method: "POST",
-        body: formData,
-      },
-    );
-    const data = (await res.json()) as { secure_url?: string };
-    if (!data?.secure_url) throw new Error("Cloudinary upload failed");
-    return data.secure_url ?? "";
-  }
+  const [uploadingImage, setUploadingImage] = useState(false);
 
   useEffect(() => {
     const fetchUser = async () => {
@@ -119,7 +78,17 @@ export function EditProfileClient({ initialUser }: EditProfileClientProps) {
     try {
       let pictureUrl = picture;
       if (selectedFile) {
-        pictureUrl = await uploadToCloudinary(selectedFile);
+        setUploadingImage(true);
+        const formData = new FormData();
+        formData.append("image", selectedFile);
+        const uploadRes = await apiBase.post<{
+          data?: { url?: string };
+          url?: string;
+        }>("/api/upload/image", formData, {
+          headers: { "Content-Type": "multipart/form-data" },
+        });
+        pictureUrl = uploadRes.data?.data?.url ?? uploadRes.data?.url ?? "";
+        setUploadingImage(false);
       }
       const payload: Record<string, string> = {
         name: nameInput,
@@ -136,16 +105,22 @@ export function EditProfileClient({ initialUser }: EditProfileClientProps) {
       setName(nameInput);
       toast.success("Profile updated successfully");
       router.push("/dashboard");
-    } catch {
-      toast.error("Failed to update profile");
+    } catch (err: unknown) {
+      const error = err as { response?: { data?: { message?: string } } };
+      toast.error(error.response?.data?.message ?? "Failed to update profile");
     } finally {
       setIsSaving(false);
+      setUploadingImage(false);
     }
   };
 
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (!file) return;
+    if (file.size > 5 * 1024 * 1024) {
+      toast.error("Image must be less than 5MB");
+      return;
+    }
 
     setSelectedFile(file);
 
@@ -369,7 +344,10 @@ export function EditProfileClient({ initialUser }: EditProfileClientProps) {
                   disabled={isSaving}
                 >
                   {isSaving ? (
-                    <div className="h-5 w-5 animate-spin rounded-full border-2 border-white/30 border-t-white" />
+                    <div className="flex items-center gap-2">
+                      <div className="h-5 w-5 animate-spin rounded-full border-2 border-white/30 border-t-white" />
+                      {uploadingImage ? "Uploading image..." : "Saving..."}
+                    </div>
                   ) : (
                     <>
                       <span className="material-symbols-outlined text-[18px]">

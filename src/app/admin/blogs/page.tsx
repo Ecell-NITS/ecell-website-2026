@@ -323,14 +323,16 @@ export default function AdminBlogsPage() {
                       Preview
                     </Link>
 
-                    {/* Edit */}
-                    <Link
-                      href={`/dashboard/edit_blog/${blog.id}`}
-                      className="flex items-center gap-1.5 rounded-lg bg-white/10 px-3 py-1.5 text-xs font-semibold text-white transition-all hover:bg-white/20"
-                    >
-                      <Pencil size={14} />
-                      Edit
-                    </Link>
+                    {/* Edit (only for pending) */}
+                    {!blog.isAccepted && (
+                      <Link
+                        href={`/dashboard/edit_blog/${blog.id}`}
+                        className="flex items-center gap-1.5 rounded-lg bg-white/10 px-3 py-1.5 text-xs font-semibold text-white transition-all hover:bg-white/20"
+                      >
+                        <Pencil size={14} />
+                        Edit
+                      </Link>
+                    )}
 
                     {/* Approve (only for pending) */}
                     {!blog.isAccepted && (

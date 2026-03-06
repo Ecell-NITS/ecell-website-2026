@@ -3,7 +3,7 @@
 
 import { useState, Suspense, useEffect, useCallback } from "react";
 import { useRouter } from "next/navigation";
-import { toast } from "react-toastify";
+import toast from "react-hot-toast";
 import Navbar from "@/components/Landing/Navbar";
 import { useAuth } from "@/context/AuthContext";
 import api from "@/lib/axios";

@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { motion } from "framer-motion";
 import Image from "next/image";
 import type { EventData } from "src/content/events";
@@ -99,15 +100,30 @@ export default function EventPage() {
                     </p>
 
                     <div className="flex justify-start">
-                      <button className="group 3xl:px-14 3xl:py-6 relative cursor-pointer overflow-hidden rounded-full border border-blue-500/40 px-10 py-4">
-                        <div className="absolute inset-0 origin-bottom scale-y-0 bg-blue-600 transition-transform duration-500 group-hover:scale-y-100 group-focus:scale-y-100" />
-                        <span className="font-jakarta relative z-10 inline-flex items-center gap-2 text-[2.5vw] font-bold tracking-widest uppercase md:text-[1vw] lg:text-[0.8vw]">
-                          Explore Modules
-                          <span className="transition-transform duration-300 group-hover:translate-x-1 group-active:translate-x-1">
-                            →
+                      {event.href ? (
+                        <Link
+                          href={event.href}
+                          className="group 3xl:px-14 3xl:py-6 relative cursor-pointer overflow-hidden rounded-full border border-blue-500/40 px-10 py-4"
+                        >
+                          <div className="absolute inset-0 origin-bottom scale-y-0 bg-blue-600 transition-transform duration-500 group-hover:scale-y-100 group-focus:scale-y-100" />
+                          <span className="font-jakarta relative z-10 inline-flex items-center gap-2 text-[2.5vw] font-bold tracking-widest uppercase md:text-[1vw] lg:text-[0.8vw]">
+                            Explore Modules
+                            <span className="transition-transform duration-300 group-hover:translate-x-1 group-active:translate-x-1">
+                              →
+                            </span>
                           </span>
-                        </span>
-                      </button>
+                        </Link>
+                      ) : (
+                        <button className="group 3xl:px-14 3xl:py-6 relative cursor-pointer overflow-hidden rounded-full border border-blue-500/40 px-10 py-4">
+                          <div className="absolute inset-0 origin-bottom scale-y-0 bg-blue-600 transition-transform duration-500 group-hover:scale-y-100 group-focus:scale-y-100" />
+                          <span className="font-jakarta relative z-10 inline-flex items-center gap-2 text-[2.5vw] font-bold tracking-widest uppercase md:text-[1vw] lg:text-[0.8vw]">
+                            Explore Modules
+                            <span className="transition-transform duration-300 group-hover:translate-x-1 group-active:translate-x-1">
+                              →
+                            </span>
+                          </span>
+                        </button>
+                      )}
                     </div>
                   </motion.div>
                 </div>

@@ -7,6 +7,7 @@ export type EventData = {
   image: string;
   icon: LucideIcon;
   reverse?: boolean;
+  href?: string;
 };
 
 export const events: EventData[] = [
@@ -17,6 +18,7 @@ export const events: EventData[] = [
     image: "/images/events/orientation.jpeg",
     icon: Compass,
     reverse: false,
+    href: "/ENGENIUS",
   },
   {
     title: "Empresario",
@@ -25,6 +27,7 @@ export const events: EventData[] = [
     image: "/images/events/empresario.jpeg",
     icon: Globe,
     reverse: true,
+    href: "/EMPRESARIO",
   },
   {
     title: "EIC",
@@ -33,6 +36,7 @@ export const events: EventData[] = [
     image: "/images/events/eic.jpeg",
     icon: Sparkles,
     reverse: false,
+    href: "/EIC",
   },
   {
     title: "Eminence",
@@ -41,6 +45,7 @@ export const events: EventData[] = [
     image: "/images/events/eminence.jpeg",
     icon: Rocket,
     reverse: true,
+    href: "/EMINENCE",
   },
   {
     title: "Srijan",

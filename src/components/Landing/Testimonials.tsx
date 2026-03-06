@@ -2,7 +2,7 @@
 // @ts-nocheck
 "use client";
 
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Quote, User } from "lucide-react";
 // --- Data Logic (Derived from the logic request) ---
@@ -32,19 +32,34 @@ const testimonialsData = [
 ];
 
 const Testimonials: React.FC = () => {
-  // --- State Logic (From the second snippet) ---
   const [currentIndex, setCurrentIndex] = useState(0);
+  const [touchStartX, setTouchStartX] = useState(0);
 
-  // --- Auto-Rotation Logic (From the second snippet) ---
-  useEffect(() => {
-    const timer = setInterval(() => {
-      setCurrentIndex((prev) => (prev + 1) % testimonialsData.length);
-    }, 8000); // Rotates every 8 seconds
-    return () => clearInterval(timer);
-  }, []);
+  const nextSlide = () =>
+    setCurrentIndex((prev) => (prev + 1) % testimonialsData.length);
+  const prevSlide = () =>
+    setCurrentIndex(
+      (prev) => (prev - 1 + testimonialsData.length) % testimonialsData.length,
+    );
+
+  // Touch swipe handlers for manual navigation
+  const handleTouchStart = (e: React.TouchEvent) => {
+    setTouchStartX(e.touches[0].clientX);
+  };
+  const handleTouchEnd = (e: React.TouchEvent) => {
+    const diff = touchStartX - e.changedTouches[0].clientX;
+    if (Math.abs(diff) > 50) {
+      if (diff > 0) nextSlide();
+      else prevSlide();
+    }
+  };
 
   return (
-    <section className="relative overflow-hidden py-40">
+    <section className="relative overflow-hidden bg-[#020617] py-40">
+      {/* Section Edge Fades */}
+      <div className="pointer-events-none absolute inset-x-0 top-0 z-[1] h-24 bg-gradient-to-b from-[#020617] to-transparent" />
+      <div className="pointer-events-none absolute inset-x-0 bottom-0 z-[1] h-24 bg-gradient-to-t from-[#020617] to-transparent" />
+
       {/* Background Decor */}
       <div className="pointer-events-none absolute top-0 left-0 h-full w-full overflow-hidden opacity-[0.03] select-none">
         <span className="absolute top-0 left-10 text-[20rem] font-black">
@@ -52,15 +67,19 @@ const Testimonials: React.FC = () => {
         </span>
       </div>
 
-      <div className="relative z-10 container mx-auto px-6">
+      <div className="relative z-10 mx-auto px-6 sm:px-8 lg:px-12 xl:px-16">
         <div className="mb-16 text-center">
           <h2 className="text-4xl leading-none font-black tracking-tighter text-white uppercase lg:text-6xl">
-            Success <span className="text-blue-500">Stories</span>
+            Our <span className="text-blue-500">Testimonials</span>
           </h2>
         </div>
         <div className="mx-auto max-w-5xl">
           {/* Main Card */}
-          <div className="glass flex min-h-[400px] items-center rounded-[3rem] border border-white/10 p-8 md:min-h-[500px] md:p-12 lg:p-20">
+          <div
+            className="glass flex min-h-[400px] items-center rounded-[3rem] border border-white/10 p-8 md:min-h-[500px] md:p-12 lg:p-20"
+            onTouchStart={handleTouchStart}
+            onTouchEnd={handleTouchEnd}
+          >
             {/* AnimatePresence handles the smooth fading switch between data */}
             <AnimatePresence mode="wait">
               <motion.div

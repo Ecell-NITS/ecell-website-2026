@@ -3,13 +3,7 @@
 "use client";
 
 import React, { useState, useEffect, useRef } from "react";
-import {
-  motion,
-  useMotionValue,
-  useSpring,
-  useTransform,
-  useInView,
-} from "framer-motion";
+import { motion, useMotionValue, useSpring, useInView } from "framer-motion";
 import {
   ArrowRight,
   Activity,
@@ -91,14 +85,8 @@ const About: React.FC = () => {
     mouseY.set(e.clientY - rect.top);
   };
 
-  // --- 3D CARD LOGIC ---
-  const cardX = useMotionValue(0);
-  const cardY = useMotionValue(0);
-  const cardRotateX = useTransform(useSpring(cardY), [0, 400], [5, -5]);
-  const cardRotateY = useTransform(useSpring(cardX), [0, 400], [-5, 5]);
-
   // Spotlight Position
-  const [spotlightPos, setSpotlightPos] = useState({ x: 0, y: 0 });
+  const [spotlightPos] = useState({ x: 0, y: 0 });
 
   return (
     <section

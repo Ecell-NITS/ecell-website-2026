@@ -2,32 +2,31 @@
 
 import { useEffect } from "react";
 import { useRouter } from "next/navigation";
-import { toast } from "react-toastify";
+import toast from "react-hot-toast";
 import {
   BarChart3,
   MessageSquare,
   Calendar,
-  Settings,
   Home,
   FileText,
 } from "lucide-react";
-import { useAuth } from "@/lib/auth-context";
+import { useAuth } from "@/context/AuthContext";
 import AdminNavigation from "./AdminNavigation";
 
 /* ================= PAGE ================= */
 export default function AdminDashboardPage() {
   const router = useRouter();
-  const { user, isLoading } = useAuth();
+  const { user, loading } = useAuth();
 
   useEffect(() => {
     if (
-      !isLoading &&
+      !loading &&
       (!user || (user.role !== "ADMIN" && user.role !== "SUPERADMIN"))
     ) {
       toast.error("Access denied. Admin privileges required.");
       router.push("/dashboard");
     }
-  }, [isLoading, user, router]);
+  }, [loading, user, router]);
 
   return (
     <div className="flex min-h-screen bg-linear-to-br from-[#0b1220] to-[#060b16] text-white">
@@ -74,13 +73,6 @@ export default function AdminDashboardPage() {
           >
             <BarChart3 size={28} className="text-orange-400" />
             <span className="font-medium">Modules</span>
-          </button>
-          <button
-            onClick={() => router.push("/admin/settings")}
-            className="flex flex-col items-center gap-3 rounded-xl border border-white/10 bg-white/5 p-6 text-center transition-all hover:border-purple-500/50 hover:bg-purple-500/10"
-          >
-            <Settings size={28} className="text-purple-400" />
-            <span className="font-medium">Settings</span>
           </button>
         </div>
 

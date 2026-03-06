@@ -32,7 +32,7 @@ export function EditProfileClient({ initialUser }: EditProfileClientProps) {
   const [first_name, setName] = useState(initialUser?.name ?? "");
   const [nameInput, setNameInput] = useState("");
   const [email, setEmail] = useState(initialUser?.email ?? "");
-  const [post, setPost] = useState(initialUser?.role ?? "USER");
+  // Removed unused: post, setPost
   const [bio, setBio] = useState(initialUser?.bio ?? "");
   const [facebook, setFacebook] = useState(initialUser?.facebook ?? "");
   const [instagram, setInstagram] = useState(initialUser?.instagram ?? "");
@@ -41,10 +41,53 @@ export function EditProfileClient({ initialUser }: EditProfileClientProps) {
   const [picture, setPicture] = useState(initialUser?.picture ?? "");
   const { refreshUser } = useAuth();
   const { user } = useAuth();
-  const isAdmin = user?.role === "ADMIN" || user?.role === "SUPERADMIN";
-  const [, setSelectedFile] = useState<File | null>(null);
+  // Removed unused: isAdmin
+  const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const [preview, setPreview] = useState<string | null>(null);
   const [isSaving, setIsSaving] = useState(false);
+
+  // Cloudinary upload utility
+  async function uploadToCloudinary(file: File): Promise<string> {
+    // Convert to webp if possible
+    let uploadFile = file;
+    if (file.type !== "image/webp") {
+      try {
+        const bitmap = await createImageBitmap(file);
+        const canvas = document.createElement("canvas");
+        canvas.width = bitmap.width;
+        canvas.height = bitmap.height;
+        const ctx = canvas.getContext("2d");
+        ctx?.drawImage(bitmap, 0, 0);
+        const blob = await new Promise<Blob | null>((resolve) =>
+          canvas.toBlob((b) => resolve(b), "image/webp", 0.92),
+        );
+        if (blob) {
+          uploadFile = new File(
+            [blob],
+            file.name.replace(/\.[^.]+$/, ".webp"),
+            { type: "image/webp" },
+          );
+        }
+      } catch {
+        // fallback: use original file
+        uploadFile = file;
+      }
+    }
+    const formData = new FormData();
+    formData.append("file", uploadFile);
+    formData.append("upload_preset", "ecell_profile"); // must match your Cloudinary preset
+    formData.append("folder", "profile");
+    const res = await fetch(
+      "https://api.cloudinary.com/v1_1/ecellnits/image/upload",
+      {
+        method: "POST",
+        body: formData,
+      },
+    );
+    const data = (await res.json()) as { secure_url?: string };
+    if (!data?.secure_url) throw new Error("Cloudinary upload failed");
+    return data.secure_url ?? "";
+  }
 
   useEffect(() => {
     const fetchUser = async () => {
@@ -74,6 +117,10 @@ export function EditProfileClient({ initialUser }: EditProfileClientProps) {
     setIsSaving(true);
 
     try {
+      let pictureUrl = picture;
+      if (selectedFile) {
+        pictureUrl = await uploadToCloudinary(selectedFile);
+      }
       const payload: Record<string, string> = {
         name: nameInput,
         bio,
@@ -82,11 +129,7 @@ export function EditProfileClient({ initialUser }: EditProfileClientProps) {
         linkedin,
         github,
       };
-
-      if (isAdmin) {
-        payload.role = post;
-      }
-
+      if (pictureUrl) payload.picture = pictureUrl;
       await api.patch("/auth/edit-profile", payload);
 
       await refreshUser();
@@ -122,7 +165,7 @@ export function EditProfileClient({ initialUser }: EditProfileClientProps) {
         <div className="mx-auto max-w-4xl animate-[fadeIn_0.5s_ease-out_forwards] opacity-0">
           <div className="flex items-center justify-end rounded-3xl backdrop-blur-md md:justify-between md:border md:border-white/10 md:bg-white/5 md:p-8">
             <div className="flex items-center gap-4">
-              <div className="flex hidden size-12 items-center justify-center rounded-2xl bg-blue-600 shadow-lg shadow-blue-500/20 md:flex">
+              <div className="hidden size-12 items-center justify-center rounded-2xl bg-blue-600 shadow-lg shadow-blue-500/20 md:flex">
                 <FiUser className="size-6 text-white" />
               </div>
               <div>
@@ -227,7 +270,7 @@ export function EditProfileClient({ initialUser }: EditProfileClientProps) {
                     disabled
                   />
                 </div>
-                <div className="space-y-3 md:col-span-1">
+                {/* <div className="space-y-3 md:col-span-1">
                   <label
                     className="text-xs font-bold tracking-widest text-gray-500 uppercase"
                     htmlFor="position"
@@ -243,7 +286,7 @@ export function EditProfileClient({ initialUser }: EditProfileClientProps) {
                     onChange={(e) => setPost(e.target.value)}
                     disabled={!isAdmin}
                   />
-                </div>
+                </div> */}
                 <div className="space-y-3 md:col-span-2">
                   <label
                     className="text-xs font-bold tracking-widest text-gray-500 uppercase"

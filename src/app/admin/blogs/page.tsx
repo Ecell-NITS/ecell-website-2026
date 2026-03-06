@@ -3,7 +3,8 @@
 
 import { useState, useEffect, useMemo } from "react";
 import { useRouter } from "next/navigation";
-import { toast } from "react-toastify";
+import Link from "next/link";
+import toast from "react-hot-toast";
 import {
   FileText,
   Search,
@@ -14,9 +15,12 @@ import {
   Clock,
   User,
   ChevronDown,
+  Pencil,
+  ExternalLink,
+  AlertTriangle,
 } from "lucide-react";
-import { useAuth } from "@/lib/auth-context";
-import api from "@/lib/api";
+import { useAuth } from "@/context/AuthContext";
+import api from "@/lib/axios";
 import AdminNavigation from "../AdminNavigation";
 
 interface ApiBlog {
@@ -40,7 +44,7 @@ interface ApiBlog {
 type FilterType = "all" | "pending" | "accepted";
 
 export default function AdminBlogsPage() {
-  const { user: authUser, isLoading } = useAuth();
+  const { user: authUser, loading: isLoading } = useAuth();
   const router = useRouter();
   const [blogs, setBlogs] = useState<ApiBlog[]>([]);
   const [loading, setLoading] = useState(true);
@@ -48,6 +52,10 @@ export default function AdminBlogsPage() {
   const [filter, setFilter] = useState<FilterType>("all");
   const [updatingId, setUpdatingId] = useState<string | null>(null);
   const [expandedId, setExpandedId] = useState<string | null>(null);
+  const [dialog, setDialog] = useState<{
+    type: "approve" | "reject" | "delete";
+    blog: ApiBlog;
+  } | null>(null);
 
   // Redirect if not admin/superadmin
   useEffect(() => {
@@ -63,12 +71,11 @@ export default function AdminBlogsPage() {
 
   // Fetch all blogs
   useEffect(() => {
-    if (!authUser) return;
     const fetchBlogs = async () => {
       try {
-        const { data } = await api.get("/api/blog/getblogs");
-        const blogsData = data.data ?? data ?? [];
-        setBlogs(Array.isArray(blogsData) ? blogsData : []);
+        const { data } = await api.get("/blog/getblogs");
+        const blogsData = Array.isArray(data) ? data : (data.data ?? []);
+        setBlogs(blogsData as ApiBlog[]);
       } catch (err: unknown) {
         const error = err as { response?: { data?: { message?: string } } };
         toast.error(error.response?.data?.message ?? "Failed to load blogs");
@@ -77,21 +84,21 @@ export default function AdminBlogsPage() {
       }
     };
     fetchBlogs();
-  }, [authUser]);
+  }, []);
 
   const handleApprove = async (blog: ApiBlog) => {
+    setDialog(null);
     setUpdatingId(blog.id);
     try {
-      await api.post(`/api/blog/publishBlog/${blog.id}`, {
-        email: blog.writerEmail,
-        writerName: blog.writerName ?? "Anonymous",
-        subject: blog.subject ?? blog.intro ?? "",
-        text: blog.text ?? blog.content ?? "",
-      });
+      await api.post(`/blog/publishBlog/${blog.id}`);
       setBlogs((prev) =>
-        prev.map((b) => (b.id === blog.id ? { ...b, isAccepted: true } : b)),
+        prev.map((b) =>
+          b.id === blog.id
+            ? { ...b, isAccepted: true, status: "published" }
+            : b,
+        ),
       );
-      toast.success("Blog approved! ✅");
+      toast.success("Blog approved!");
     } catch (err: unknown) {
       const error = err as { response?: { data?: { message?: string } } };
       toast.error(error.response?.data?.message ?? "Failed to approve blog");
@@ -101,14 +108,10 @@ export default function AdminBlogsPage() {
   };
 
   const handleReject = async (blog: ApiBlog) => {
+    setDialog(null);
     setUpdatingId(blog.id);
     try {
-      await api.delete(`/api/blog/deleteBlog/${blog.id}`, {
-        data: {
-          email: blog.writerEmail,
-          writerName: blog.writerName ?? "",
-        },
-      });
+      await api.delete(`/blog/deleteBlog/${blog.id}`);
       setBlogs((prev) => prev.filter((b) => b.id !== blog.id));
       toast.success("Blog rejected and deleted");
     } catch (err: unknown) {
@@ -120,17 +123,12 @@ export default function AdminBlogsPage() {
   };
 
   const handleDelete = async (blog: ApiBlog) => {
-    if (!confirm("Are you sure you want to delete this blog?")) return;
+    setDialog(null);
     setUpdatingId(blog.id);
     try {
-      await api.delete(`/api/blog/deleteBlog/${blog.id}`, {
-        data: {
-          email: blog.writerEmail,
-          writerName: blog.writerName ?? "",
-        },
-      });
+      await api.delete(`/blog/deleteBlog/${blog.id}`);
       setBlogs((prev) => prev.filter((b) => b.id !== blog.id));
-      toast.success("Blog deleted 🗑️");
+      toast.success("Blog deleted");
     } catch (err: unknown) {
       const error = err as { response?: { data?: { message?: string } } };
       toast.error(error.response?.data?.message ?? "Failed to delete blog");
@@ -154,10 +152,10 @@ export default function AdminBlogsPage() {
       const query = searchQuery.toLowerCase();
       result = result.filter(
         (b) =>
-          b.title?.toLowerCase().includes(query) ??
-          b.writerName?.toLowerCase().includes(query) ??
-          b.writerEmail?.toLowerCase().includes(query) ??
-          b.tag?.toLowerCase().includes(query),
+          (b.title?.toLowerCase().includes(query) ?? false) ||
+          (b.writerName?.toLowerCase().includes(query) ?? false) ||
+          (b.writerEmail?.toLowerCase().includes(query) ?? false) ||
+          (b.tag?.toLowerCase().includes(query) ?? false),
       );
     }
 
@@ -297,8 +295,8 @@ export default function AdminBlogsPage() {
                   </div>
 
                   {/* Actions */}
-                  <div className="flex items-center gap-2">
-                    {/* Expand/Preview */}
+                  <div className="flex flex-wrap items-center gap-2">
+                    {/* Expand/Preview Inline */}
                     <button
                       onClick={() =>
                         setExpandedId(expandedId === blog.id ? null : blog.id)
@@ -312,10 +310,32 @@ export default function AdminBlogsPage() {
                       />
                     </button>
 
+                    {/* Full Preview (open blog page) */}
+                    <Link
+                      href={
+                        blog.isAccepted
+                          ? `/blog/draft/${blog.id}`
+                          : `/blog/draft/${blog.id}`
+                      }
+                      className="flex items-center gap-1.5 rounded-lg bg-blue-600/20 px-3 py-1.5 text-xs font-semibold text-blue-400 transition-all hover:bg-blue-600/30"
+                    >
+                      <ExternalLink size={14} />
+                      Preview
+                    </Link>
+
+                    {/* Edit */}
+                    <Link
+                      href={`/dashboard/edit_blog/${blog.id}`}
+                      className="flex items-center gap-1.5 rounded-lg bg-white/10 px-3 py-1.5 text-xs font-semibold text-white transition-all hover:bg-white/20"
+                    >
+                      <Pencil size={14} />
+                      Edit
+                    </Link>
+
                     {/* Approve (only for pending) */}
                     {!blog.isAccepted && (
                       <button
-                        onClick={() => handleApprove(blog)}
+                        onClick={() => setDialog({ type: "approve", blog })}
                         disabled={updatingId === blog.id}
                         className="flex items-center gap-1.5 rounded-lg bg-green-600/20 px-3 py-1.5 text-xs font-semibold text-green-400 transition-all hover:bg-green-600/30 disabled:cursor-not-allowed disabled:opacity-50"
                       >
@@ -331,7 +351,7 @@ export default function AdminBlogsPage() {
                     {/* Reject (only for pending) */}
                     {!blog.isAccepted && (
                       <button
-                        onClick={() => handleReject(blog)}
+                        onClick={() => setDialog({ type: "reject", blog })}
                         disabled={updatingId === blog.id}
                         className="flex items-center gap-1.5 rounded-lg bg-red-600/20 px-3 py-1.5 text-xs font-semibold text-red-400 transition-all hover:bg-red-600/30 disabled:cursor-not-allowed disabled:opacity-50"
                       >
@@ -347,7 +367,7 @@ export default function AdminBlogsPage() {
                     {/* Delete (for accepted) */}
                     {blog.isAccepted && (
                       <button
-                        onClick={() => handleDelete(blog)}
+                        onClick={() => setDialog({ type: "delete", blog })}
                         disabled={updatingId === blog.id}
                         className="flex items-center gap-1.5 rounded-lg bg-red-600/20 px-3 py-1.5 text-xs font-semibold text-red-400 transition-all hover:bg-red-600/30 disabled:cursor-not-allowed disabled:opacity-50"
                       >
@@ -380,6 +400,98 @@ export default function AdminBlogsPage() {
                 )}
               </div>
             ))}
+          </div>
+        )}
+
+        {/* ── Confirmation Dialog ── */}
+        {dialog && (
+          <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm">
+            <div className="mx-4 w-full max-w-md rounded-2xl border border-white/10 bg-[#0f1729] p-6 shadow-2xl">
+              <div className="mb-4 flex items-center gap-3">
+                <div
+                  className={`flex h-10 w-10 items-center justify-center rounded-full ${
+                    dialog.type === "approve"
+                      ? "bg-green-500/20"
+                      : "bg-red-500/20"
+                  }`}
+                >
+                  {dialog.type === "approve" ? (
+                    <CheckCircle size={20} className="text-green-400" />
+                  ) : (
+                    <AlertTriangle size={20} className="text-red-400" />
+                  )}
+                </div>
+                <div>
+                  <h3 className="text-base font-bold text-white">
+                    {dialog.type === "approve"
+                      ? "Approve Blog"
+                      : dialog.type === "reject"
+                        ? "Reject Blog"
+                        : "Delete Blog"}
+                  </h3>
+                  <p className="text-xs text-gray-400">
+                    This action cannot be undone
+                  </p>
+                </div>
+              </div>
+
+              <p className="mb-2 text-sm text-gray-300">
+                {dialog.type === "approve" ? (
+                  <>
+                    Are you sure you want to approve{" "}
+                    <span className="font-semibold text-white">
+                      &quot;{dialog.blog.title}&quot;
+                    </span>
+                    ? It will be visible to all users.
+                  </>
+                ) : (
+                  <>
+                    Are you sure you want to{" "}
+                    {dialog.type === "reject" ? "reject" : "delete"}{" "}
+                    <span className="font-semibold text-white">
+                      &quot;{dialog.blog.title}&quot;
+                    </span>
+                    ? This will permanently remove the blog.
+                  </>
+                )}
+              </p>
+              {dialog.blog.writerName && (
+                <p className="mb-4 text-xs text-gray-500">
+                  by {dialog.blog.writerName}
+                  {dialog.blog.writerEmail
+                    ? ` (${dialog.blog.writerEmail})`
+                    : ""}
+                </p>
+              )}
+
+              <div className="flex justify-end gap-3">
+                <button
+                  onClick={() => setDialog(null)}
+                  className="rounded-lg border border-white/10 bg-white/5 px-4 py-2 text-sm font-semibold text-white transition-all hover:bg-white/10"
+                >
+                  Cancel
+                </button>
+                <button
+                  onClick={() => {
+                    if (dialog.type === "approve") handleApprove(dialog.blog);
+                    else if (dialog.type === "reject")
+                      handleReject(dialog.blog);
+                    else handleDelete(dialog.blog);
+                  }}
+                  className={`rounded-lg px-4 py-2 text-sm font-semibold transition-all ${
+                    dialog.type === "approve"
+                      ? "bg-green-600 text-white hover:bg-green-700"
+                      : "bg-red-600 text-white hover:bg-red-700"
+                  }`}
+                >
+                  {dialog.type === "approve"
+                    ? "Yes, Approve"
+                    : dialog.type === "reject"
+                      ? "Yes, Reject"
+                      : "Yes, Delete"}
+                </button>
+              </div>
+            </div>
           </div>
         )}
       </main>

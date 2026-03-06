@@ -2,16 +2,8 @@
 
 import { useState } from "react";
 import Link from "next/link";
-import {
-  BarChart3,
-  Settings,
-  LogOut,
-  Menu,
-  X,
-  Users,
-  FileText,
-} from "lucide-react";
-import { useAuth } from "@/lib/auth-context";
+import { BarChart3, LogOut, Menu, X, Users, FileText } from "lucide-react";
+import { useAuth } from "@/context/AuthContext";
 
 interface AdminNavigationProps {
   mobileMenu: boolean;
@@ -56,12 +48,6 @@ export default function AdminNavigation({
       href: "/admin/modules",
       icon: BarChart3,
       id: "modules",
-    },
-    {
-      label: "Settings",
-      href: "/admin/settings",
-      icon: Settings,
-      id: "settings",
     },
   ];
 

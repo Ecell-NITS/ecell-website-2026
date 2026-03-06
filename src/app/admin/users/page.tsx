@@ -3,10 +3,10 @@
 
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
-import { toast } from "react-toastify";
+import toast from "react-hot-toast";
 import { Shield, ShieldOff, Users, Search } from "lucide-react";
-import { useAuth } from "@/lib/auth-context";
-import api from "@/lib/api";
+import { useAuth } from "@/context/AuthContext";
+import api from "@/lib/axios";
 import AdminNavigation from "../AdminNavigation";
 
 interface ApiUser {
@@ -18,7 +18,7 @@ interface ApiUser {
 }
 
 export default function AdminUsersPage() {
-  const { user: authUser, isLoading } = useAuth();
+  const { user: authUser, loading: isLoading } = useAuth();
   const router = useRouter();
   const [users, setUsers] = useState<ApiUser[]>([]);
   const [loading, setLoading] = useState(true);
@@ -42,7 +42,7 @@ export default function AdminUsersPage() {
     if (!authUser) return;
     const fetchUsers = async () => {
       try {
-        const { data } = await api.get("/api/admin/users");
+        const { data } = await api.get("/admin/users");
         setUsers(data.data ?? []);
       } catch (err: unknown) {
         const error = err as { response?: { data?: { message?: string } } };
@@ -57,7 +57,7 @@ export default function AdminUsersPage() {
   const handleMakeAdmin = async (userId: string) => {
     setUpdatingId(userId);
     try {
-      await api.put(`/api/admin/make-admin/${userId}`);
+      await api.put(`/admin/make-admin/${userId}`);
       setUsers((prev) =>
         prev.map((u) => (u.id === userId ? { ...u, role: "ADMIN" } : u)),
       );
@@ -73,7 +73,7 @@ export default function AdminUsersPage() {
   const handleMakeClient = async (userId: string) => {
     setUpdatingId(userId);
     try {
-      await api.put(`/api/admin/make-client/${userId}`);
+      await api.put(`/admin/make-client/${userId}`);
       setUsers((prev) =>
         prev.map((u) => (u.id === userId ? { ...u, role: "USER" } : u)),
       );
@@ -204,7 +204,7 @@ export default function AdminUsersPage() {
                         <span className="text-xs text-gray-500 italic">
                           Protected
                         </span>
-                      ) : u.id === authUser?.id ? (
+                      ) : u.id === String(authUser?.id) ? (
                         <span className="text-xs text-gray-500 italic">
                           You
                         </span>

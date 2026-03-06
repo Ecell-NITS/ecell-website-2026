@@ -23,7 +23,6 @@ export default function TeamCard({
   priority = false,
 }: TeamCardProps) {
   return (
-    // Added 'cursor-default' to match reference behavior
     <div className="glowing-border group relative h-full cursor-default">
       {/* Inner Card Background */}
       <div className="flex h-full flex-col overflow-hidden rounded-[2.5rem] border border-white/5 bg-[#0c1324] p-5 shadow-2xl transition-all duration-500 md:p-6">
@@ -54,9 +53,9 @@ export default function TeamCard({
             </p>
           </div>
 
-          {/* Social Icons */}
+          {/* Social Icons - Now with strict checking for "#" placeholders */}
           <div className="mt-2 flex justify-center gap-6 opacity-50 transition-all duration-300 group-hover:opacity-100">
-            {socials?.facebook && (
+            {socials?.facebook && socials.facebook !== "#" && (
               <a href={socials.facebook} target="_blank" rel="noreferrer">
                 <Facebook
                   size={18}
@@ -64,7 +63,7 @@ export default function TeamCard({
                 />
               </a>
             )}
-            {socials?.linkedin && (
+            {socials?.linkedin && socials.linkedin !== "#" && (
               <a href={socials.linkedin} target="_blank" rel="noreferrer">
                 <Linkedin
                   size={18}
@@ -72,7 +71,7 @@ export default function TeamCard({
                 />
               </a>
             )}
-            {socials?.github && (
+            {socials?.github && socials.github !== "#" && (
               <a href={socials.github} target="_blank" rel="noreferrer">
                 <Github
                   size={18}
@@ -80,7 +79,7 @@ export default function TeamCard({
                 />
               </a>
             )}
-            {socials?.instagram && (
+            {socials?.instagram && socials.instagram !== "#" && (
               <a href={socials.instagram} target="_blank" rel="noreferrer">
                 <Instagram
                   size={18}

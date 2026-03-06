@@ -1,5 +1,6 @@
 "use client";
 
+import "~/styles/eic.css";
 import { motion } from "framer-motion";
 import Navbar from "~/components/EIC/Navbar";
 import HeroSection from "~/components/EIC/HeroSection";

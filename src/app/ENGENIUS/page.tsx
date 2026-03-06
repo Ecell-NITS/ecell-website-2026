@@ -1,5 +1,6 @@
 "use client";
 
+import "~/styles/engenius.css";
 import ParticleBackground from "~/components/ENGENIUS/ParticleBackground";
 import Navbar from "~/components/ENGENIUS/Navbar";
 import HeroSection from "~/components/ENGENIUS/HeroSection";

@@ -1,5 +1,3 @@
-"use client";
-
 import React from "react";
 
 export default function Background() {
@@ -44,56 +42,32 @@ export default function Background() {
         }}
       />
 
-      <style jsx>{`
+      <style
+        dangerouslySetInnerHTML={{
+          __html: `
         @keyframes aurora-1 {
-          0% {
-            transform: translate(0, 0) scale(1);
-          }
-          33% {
-            transform: translate(10%, 10%) scale(1.1);
-          }
-          66% {
-            transform: translate(-5%, 5%) scale(0.9);
-          }
-          100% {
-            transform: translate(0, 0) scale(1);
-          }
+          0% { transform: translate(0, 0) scale(1); }
+          33% { transform: translate(10%, 10%) scale(1.1); }
+          66% { transform: translate(-5%, 5%) scale(0.9); }
+          100% { transform: translate(0, 0) scale(1); }
         }
         @keyframes aurora-2 {
-          0% {
-            transform: translate(0, 0) scale(1);
-          }
-          33% {
-            transform: translate(-10%, -5%) scale(1.1);
-          }
-          66% {
-            transform: translate(5%, -10%) scale(0.95);
-          }
-          100% {
-            transform: translate(0, 0) scale(1);
-          }
+          0% { transform: translate(0, 0) scale(1); }
+          33% { transform: translate(-10%, -5%) scale(1.1); }
+          66% { transform: translate(5%, -10%) scale(0.95); }
+          100% { transform: translate(0, 0) scale(1); }
         }
         @keyframes aurora-3 {
-          0% {
-            transform: translate(0, 0) rotate(0deg);
-          }
-          50% {
-            transform: translate(5%, -5%) rotate(5deg);
-          }
-          100% {
-            transform: translate(0, 0) rotate(0deg);
-          }
+          0% { transform: translate(0, 0) rotate(0deg); }
+          50% { transform: translate(5%, -5%) rotate(5deg); }
+          100% { transform: translate(0, 0) rotate(0deg); }
         }
-        .animate-aurora-1 {
-          animation: aurora-1 20s infinite ease-in-out;
-        }
-        .animate-aurora-2 {
-          animation: aurora-2 25s infinite ease-in-out reverse;
-        }
-        .animate-aurora-3 {
-          animation: aurora-3 30s infinite ease-in-out;
-        }
-      `}</style>
+        .animate-aurora-1 { animation: aurora-1 20s infinite ease-in-out; }
+        .animate-aurora-2 { animation: aurora-2 25s infinite ease-in-out reverse; }
+        .animate-aurora-3 { animation: aurora-3 30s infinite ease-in-out; }
+      `,
+        }}
+      />
     </div>
   );
 }

@@ -1,49 +1,79 @@
 /* eslint-disable @typescript-eslint/ban-ts-comment */
+/* eslint-disable @next/next/no-img-element */
 // @ts-nocheck
 "use client";
-/* eslint-disable @typescript-eslint/no-unsafe-assignment */
 
-import React, { useState, useEffect } from "react";
-import { motion, useScroll, useTransform } from "framer-motion";
+import React, { useState, useEffect, useCallback } from "react";
+import {
+  motion,
+  useScroll,
+  useTransform,
+  useMotionValue,
+  AnimatePresence,
+} from "framer-motion";
 import { Sparkles } from "lucide-react";
+import Link from "next/link";
+
+// Images for the Marquee
+const marqueeImages1 = [
+  "/Hero/3image.webp",
+  "/Hero/1image.webp",
+  "/Hero/2image.webp",
+  "/Hero/4image.webp",
+  "/Hero/10image.webp",
+];
+
+const marqueeImages2 = [
+  "/Hero/5image.webp",
+  "/Hero/6image.webp",
+  "/Hero/7image.webp",
+  "/Hero/8image.webp",
+  "/Hero/11image.webp",
+];
 
 const Hero: React.FC = () => {
   const { scrollY } = useScroll();
   const heroOpacity = useTransform(scrollY, [0, 800], [1, 0]);
   const heroScale = useTransform(scrollY, [0, 800], [1, 0.9]);
 
-  // Mouse tracking for subtle parallax
-  const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
+  // Mouse tracking for subtle parallax using MotionValues for performance
+  const mouseX = useMotionValue(0);
+  const mouseY = useMotionValue(0);
+
+  // Transform values for the grid
+  const gridX = useTransform(mouseX, (value) => value);
+  const gridY = useTransform(mouseY, (value) => value);
+
   useEffect(() => {
     const handleMove = (e: MouseEvent) => {
-      setMousePos({
-        x: (e.clientX - window.innerWidth / 2) * 0.05,
-        y: (e.clientY - window.innerHeight / 2) * 0.05,
-      });
+      const x = (e.clientX - window.innerWidth / 2) * 0.05;
+      const y = (e.clientY - window.innerHeight / 2) * 0.05;
+      mouseX.set(x);
+      mouseY.set(y);
     };
     window.addEventListener("mousemove", handleMove);
     return () => window.removeEventListener("mousemove", handleMove);
-  }, []);
+  }, [mouseX, mouseY]);
 
   return (
-    <section className="relative flex min-h-[100dvh] items-center justify-center overflow-hidden lg:pt-32 xl:pt-0">
-      {/* 4. GRID LAYER: Structural Grid */}
-      <div
+    <section className="relative flex h-dvh min-h-dvh items-center justify-center overflow-hidden">
+      {/* GRID LAYER: Structural Grid */}
+      <motion.div
         style={{
-          transform: `translate(${mousePos.x}px, ${mousePos.y}px)`,
+          x: gridX,
+          y: gridY,
           backgroundImage: `radial-gradient(circle, #3b82f6 0.5px, transparent 0.5px)`,
           backgroundSize: "60px 60px",
-          transition: "transform 0.1s ease-out",
         }}
         className="pointer-events-none absolute inset-0 z-0 opacity-20 will-change-transform"
       />
 
-      {/* 5. MID LAYER: Interactive Stardust (CSS implementation) */}
+      {/* MID LAYER: Interactive Stardust */}
       <div className="pointer-events-none absolute inset-[-5%] z-0">
         <StardustField count={20} />
       </div>
 
-      {/* 6. FRONT LAYER: Floating Motes (CSS implementation) */}
+      {/* FRONT LAYER: Floating Motes */}
       <div className="pointer-events-none absolute inset-[-15%] z-10">
         <StarField count={15} size={3} opacity={0.6} blur={1} />
       </div>
@@ -51,87 +81,331 @@ const Hero: React.FC = () => {
       {/* FOREGROUND CONTENT */}
       <motion.div
         style={{ opacity: heroOpacity, scale: heroScale }}
-        className="relative z-20 container mx-auto px-6 py-4 text-center lg:py-0"
+        className="relative z-20 mx-auto flex h-full w-full flex-col items-center justify-center px-6 sm:px-8 lg:px-12 xl:px-16"
       >
-        <motion.div
-          initial={{ opacity: 0, y: -20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 1, ease: "easeOut" }}
-          className="glass mt-[10vh] mb-8 inline-flex items-center gap-2 rounded-full border border-blue-400/20 px-4 py-2 text-[8px] font-bold tracking-[0.2em] text-blue-400 uppercase shadow-2xl shadow-blue-500/10 sm:text-[10px] sm:tracking-[0.3em] md:px-6 md:py-2.5 md:text-xs lg:mt-0"
-        >
-          <Sparkles size={14} className="animate-pulse text-blue-300" />
-          The Future of Innovation Starts Here
-        </motion.div>
-
-        <motion.div
-          style={{
-            transform: `translate(${mousePos.x * 0.5}px, ${mousePos.y * 0.5}px)`,
-          }}
-          className="perspective-2000 relative transition-transform duration-100 ease-out will-change-transform"
-        >
-          <motion.h1
-            initial={{ opacity: 0, scale: 0.9, rotateX: 20 }}
-            animate={{ opacity: 1, scale: 1, rotateX: 0 }}
-            transition={{ duration: 1.5, ease: [0.16, 1, 0.3, 1] }}
-            className="mb-2 text-[clamp(3rem,18vw,12rem)] leading-none font-black tracking-tighter text-white drop-shadow-[0_0_80px_rgba(37,99,235,0.2)] selection:bg-blue-500/30 sm:text-[clamp(5rem,20vw,14rem)] md:text-[clamp(6rem,21vw,16rem)]"
-          >
-            E-CELL
-          </motion.h1>
-
-          <motion.div
-            initial={{ scaleX: 0 }}
-            animate={{ scaleX: 1 }}
-            transition={{ duration: 2.5, delay: 0.5, ease: "circOut" }}
-            className="absolute -bottom-6 left-1/2 mx-auto h-[2px] w-full max-w-4xl -translate-x-1/2 bg-gradient-to-r from-transparent via-blue-500 to-transparent opacity-60"
-          />
-        </motion.div>
-
-        <motion.h2
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: 1, delay: 0.8 }}
-          className="mt-8 mb-8 text-sm font-light tracking-[0.3em] text-gray-400/80 uppercase sm:mt-12 sm:mb-12 sm:text-xl sm:tracking-[0.5em] md:mt-16 md:text-2xl lg:text-4xl"
-        >
-          Entrepreneurship Cell{" "}
-          <span className="font-extrabold tracking-tight text-blue-500">
-            NIT SILCHAR
-          </span>
-        </motion.h2>
-
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: 1, delay: 1.2 }}
-          className="mx-auto min-h-[4rem] max-w-4xl px-4 text-base leading-relaxed font-light text-gray-300/60 sm:min-h-[5rem] sm:text-xl md:text-2xl"
-        >
-          <TypingAnimation />
-        </motion.div>
-
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, delay: 1.5 }}
-          className="mt-16 flex flex-col items-center justify-center gap-6 sm:flex-row"
-        >
-          <button className="group relative overflow-hidden rounded-2xl bg-blue-600 px-8 py-3 shadow-[0_25px_60px_rgba(37,99,235,0.4)] transition-all hover:scale-105 active:scale-95 sm:px-14 sm:py-6">
-            <div className="absolute inset-0 bg-gradient-to-r from-blue-400 to-blue-800 opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
-            <span className="relative z-10 flex items-center gap-2 text-sm font-black tracking-wide text-white sm:gap-3 sm:text-lg">
-              Our Initiatives{" "}
-              <span className="transition-transform duration-300 group-hover:translate-x-2">
-                →
+        <div className="flex w-full flex-col items-center gap-[4dvh] sm:gap-12 md:gap-10 lg:grid lg:grid-cols-2 lg:items-center lg:gap-8">
+          {/* --- LEFT COLUMN: TEXT CONTENT --- */}
+          <div className="flex flex-col items-center gap-1 text-center lg:items-start lg:gap-0 lg:text-left">
+            <motion.div
+              initial={{ opacity: 0, y: -20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 1, ease: "easeOut" }}
+              className="mb-[1.2dvh] inline-flex items-center gap-1.5 rounded-full border border-blue-400/30 bg-blue-500/10 px-3 py-[0.7dvh] text-[1.7dvh] font-semibold tracking-wider text-blue-400 uppercase backdrop-blur-sm sm:mb-4 sm:gap-2 sm:px-4 sm:py-1.5 sm:text-xs md:mb-6 md:px-5 md:text-sm lg:mb-8 lg:py-2"
+            >
+              <Sparkles
+                size={12}
+                className="animate-pulse text-blue-500 sm:h-3.5 sm:w-3.5"
+              />
+              <span className="sm:hidden">Innovation Starts Here</span>
+              <span className="hidden sm:inline">
+                The Future of Innovation Starts Here
               </span>
-            </span>
-          </button>
+            </motion.div>
 
-          <button className="group glass rounded-2xl border border-white/10 px-8 py-3 text-sm font-bold text-white transition-all hover:scale-105 hover:border-white/20 hover:bg-white/5 active:scale-95 sm:px-14 sm:py-6 sm:text-lg">
-            Join Us
-          </button>
-        </motion.div>
+            <motion.div className="relative">
+              <motion.h1
+                initial={{ opacity: 0, scale: 0.9, rotateX: 20 }}
+                animate={{ opacity: 1, scale: 1, rotateX: 0 }}
+                transition={{ duration: 1.5, ease: [0.16, 1, 0.3, 1] }}
+                className="text-[10dvh] leading-[0.85] font-black text-white drop-shadow-[0_0_60px_rgba(37,99,235,0.25)] selection:bg-blue-500/30 sm:text-7xl md:text-8xl lg:text-8xl xl:text-9xl"
+              >
+                E-CELL
+              </motion.h1>
+
+              <motion.div
+                initial={{ scaleX: 0 }}
+                animate={{ scaleX: 1 }}
+                transition={{ duration: 2.5, delay: 0.5, ease: "circOut" }}
+                className="mt-2 h-0.5 w-full origin-left bg-gradient-to-r from-blue-500 via-blue-400 to-transparent sm:mt-3 lg:mt-4 lg:h-[3px]"
+              />
+            </motion.div>
+
+            <motion.h2
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ duration: 1, delay: 0.8 }}
+              className="mt-[1.2dvh] mb-[1.2dvh] text-[2.6dvh] font-medium tracking-[0.12em] text-gray-400 uppercase sm:mt-4 sm:mb-3 sm:text-base sm:tracking-[0.15em] md:mt-6 md:mb-5 md:text-xl lg:mt-8 lg:mb-6 lg:text-xl xl:text-2xl"
+            >
+              Entrepreneurship Cell
+              <br />
+              <span className="font-bold tracking-normal text-blue-400">
+                NIT SILCHAR
+              </span>
+            </motion.h2>
+
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ duration: 1, delay: 1.2 }}
+              className="h-[7dvh] max-w-xs text-[2.2dvh] leading-relaxed text-gray-400/70 sm:h-16 sm:max-w-md sm:text-lg md:h-18 md:max-w-lg md:text-xl lg:max-w-lg lg:text-xl"
+            >
+              <TypingAnimation />
+            </motion.div>
+
+            <motion.div
+              initial={{ opacity: 0, y: 30 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8, delay: 1.5 }}
+              className="mt-[2.2dvh] flex w-full flex-row items-center justify-center gap-2 sm:mt-8 sm:gap-4 md:mt-10 lg:justify-start"
+            >
+              <button
+                onClick={() =>
+                  document
+                    .getElementById("events")
+                    ?.scrollIntoView({ behavior: "smooth" })
+                }
+                className="group relative w-full overflow-hidden rounded-xl bg-gradient-to-r from-blue-600 to-blue-500 px-4 py-[1.6dvh] shadow-lg shadow-blue-500/25 transition-all duration-300 hover:scale-[1.02] hover:shadow-xl hover:shadow-blue-500/30 active:scale-[0.98] sm:w-auto sm:rounded-2xl sm:px-8 sm:py-3.5 md:px-10 md:py-4"
+              >
+                <div className="absolute inset-0 bg-gradient-to-r from-blue-500 to-blue-700 opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
+                <span className="relative z-10 flex items-center justify-center gap-2 text-[2.2dvh] font-bold tracking-wide whitespace-nowrap text-white sm:text-base">
+                  Ongoing Events
+                </span>
+              </button>
+
+              <Link
+                href="/about"
+                className="group relative w-full overflow-hidden rounded-xl border border-white/20 bg-white/5 px-4 py-[1.6dvh] backdrop-blur-sm transition-all duration-300 hover:scale-[1.02] hover:border-white/30 hover:bg-white/10 active:scale-[0.98] sm:w-auto sm:rounded-2xl sm:px-8 sm:py-3.5 md:px-10 md:py-4"
+              >
+                <span className="relative z-10 flex items-center justify-center gap-2 text-[2.2dvh] font-semibold whitespace-nowrap text-white sm:text-base">
+                  About Us
+                  <svg
+                    className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-1"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M17 8l4 4m0 0l-4 4m4-4H3"
+                    />
+                  </svg>
+                </span>
+              </Link>
+            </motion.div>
+          </div>
+
+          {/* --- RIGHT COLUMN: DESKTOP MARQUEE (Hidden on Mobile) --- */}
+          <div className="relative hidden h-[100dvh] gap-6 overflow-hidden lg:flex">
+            {/* Gradient Masks */}
+            <div className="pointer-events-none absolute inset-x-0 top-0 z-10 h-40 bg-gradient-to-b from-[#020617] to-transparent" />
+            <div className="pointer-events-none absolute inset-x-0 bottom-0 z-10 h-40 bg-gradient-to-t from-[#020617] to-transparent" />
+
+            {/* Column 1 - Scroll Up */}
+            <div className="relative flex-1">
+              <motion.div
+                animate={{ y: [0, -1000] }}
+                transition={{
+                  repeat: Infinity,
+                  duration: 30,
+                  ease: "linear",
+                }}
+                className="flex flex-col gap-6 pt-6"
+              >
+                {[...marqueeImages1, ...marqueeImages1, ...marqueeImages1].map(
+                  (src, i) => (
+                    <div
+                      key={i}
+                      className="h-80 flex-shrink-0 overflow-hidden rounded-2xl border border-white/10 shadow-lg shadow-blue-500/5"
+                    >
+                      <img
+                        src={src}
+                        alt="Gallery"
+                        className="h-full w-full object-cover"
+                      />
+                    </div>
+                  ),
+                )}
+              </motion.div>
+            </div>
+
+            {/* Column 2 - Scroll Down (Reverse) */}
+            <div className="relative flex-1 pt-12">
+              <motion.div
+                initial={{ y: -1000 }}
+                animate={{ y: 0 }}
+                transition={{
+                  repeat: Infinity,
+                  duration: 35,
+                  ease: "linear",
+                }}
+                className="flex flex-col gap-6"
+              >
+                {[...marqueeImages2, ...marqueeImages2, ...marqueeImages2].map(
+                  (src, i) => (
+                    <div
+                      key={i}
+                      className="h-80 flex-shrink-0 overflow-hidden rounded-2xl border border-white/10 shadow-lg shadow-blue-500/5"
+                    >
+                      <img
+                        src={src}
+                        alt="Gallery"
+                        className="h-full w-full object-cover"
+                      />
+                    </div>
+                  ),
+                )}
+              </motion.div>
+            </div>
+          </div>
+
+          {/* --- MOBILE SKEWED CAROUSEL (Visible only below lg) --- */}
+          <div className="w-full shrink-0 lg:hidden">
+            <MobileCarousel images={[...marqueeImages1, ...marqueeImages2]} />
+          </div>
+        </div>
+      </motion.div>
+
+      {/* Scroll Down Indicator */}
+      <motion.div
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ delay: 2.5, duration: 1 }}
+        className="absolute bottom-6 left-1/2 z-30 -translate-x-1/2 sm:bottom-8"
+      >
+        <button
+          onClick={() =>
+            window.scrollTo({ top: window.innerHeight, behavior: "smooth" })
+          }
+          className="group flex flex-col items-center gap-2"
+          aria-label="Scroll down"
+        >
+          <span className="text-[10px] font-medium tracking-[0.3em] text-white/40 uppercase transition-colors group-hover:text-white/70 sm:text-xs">
+            Scroll
+          </span>
+          <div className="relative h-8 w-5 rounded-full border border-white/20 transition-colors group-hover:border-white/40 sm:h-10 sm:w-6">
+            <motion.div
+              animate={{ y: [0, 8, 0] }}
+              transition={{
+                duration: 1.5,
+                repeat: Infinity,
+                ease: "easeInOut",
+              }}
+              className="absolute top-1.5 left-1/2 h-1.5 w-1.5 -translate-x-1/2 rounded-full bg-blue-400 sm:h-2 sm:w-2"
+            />
+          </div>
+        </button>
       </motion.div>
     </section>
   );
 };
 
+// Mobile Skewed Carousel Component
+const MobileCarousel: React.FC<{ images: string[] }> = ({ images }) => {
+  const [activeIndex, setActiveIndex] = useState(0);
+  const total = images.length;
+
+  const next = useCallback(
+    () => setActiveIndex((prev) => (prev + 1) % total),
+    [total],
+  );
+
+  // Auto-advance every 5s
+  useEffect(() => {
+    const timer = setInterval(next, 5000);
+    return () => clearInterval(timer);
+  }, [next]);
+
+  const getIndex = (offset: number) =>
+    (((activeIndex + offset) % total) + total) % total;
+
+  const cardVariants = {
+    center: {
+      x: "0%",
+      rotateY: 0,
+      scale: 1,
+      zIndex: 3,
+      opacity: 1,
+      filter: "brightness(1)",
+    },
+    left: {
+      x: "-72%",
+      rotateY: 35,
+      scale: 0.78,
+      zIndex: 2,
+      opacity: 0.7,
+      filter: "brightness(0.5)",
+    },
+    right: {
+      x: "72%",
+      rotateY: -35,
+      scale: 0.78,
+      zIndex: 2,
+      opacity: 0.7,
+      filter: "brightness(0.5)",
+    },
+    farLeft: {
+      x: "-120%",
+      rotateY: 45,
+      scale: 0.6,
+      zIndex: 1,
+      opacity: 0,
+      filter: "brightness(0.3)",
+    },
+    farRight: {
+      x: "120%",
+      rotateY: -45,
+      scale: 0.6,
+      zIndex: 1,
+      opacity: 0,
+      filter: "brightness(0.3)",
+    },
+  };
+
+  const getPosition = (imgIndex: number) => {
+    const diff = (((imgIndex - activeIndex) % total) + total) % total;
+    if (diff === 0) return "center";
+    if (diff === 1) return "right";
+    if (diff === total - 1) return "left";
+    if (diff === 2) return "farRight";
+    return "farLeft";
+  };
+
+  return (
+    <div
+      className="relative mx-auto w-full max-w-md"
+      style={{ perspective: "1000px" }}
+    >
+      {/* Container with fixed aspect ratio */}
+      <div className="relative mx-auto aspect-3/4 w-[48%] sm:w-[45%]">
+        <AnimatePresence initial={false}>
+          {/* Render 5 visible cards: far-left, left, center, right, far-right */}
+          {[-2, -1, 0, 1, 2].map((offset) => {
+            const imgIndex = getIndex(offset);
+            const position = getPosition(imgIndex);
+            return (
+              <motion.div
+                key={`${imgIndex}-${offset}`}
+                className="absolute inset-0 overflow-hidden rounded-xl border border-white/10 shadow-lg shadow-blue-500/10 sm:rounded-2xl"
+                variants={cardVariants}
+                animate={position}
+                transition={{
+                  type: "spring",
+                  stiffness: 300,
+                  damping: 20,
+                  mass: 0.8,
+                }}
+                style={{
+                  transformStyle: "preserve-3d",
+                }}
+              >
+                <img
+                  src={images[imgIndex]}
+                  alt={`Event ${imgIndex + 1}`}
+                  className="h-full w-full object-cover"
+                  draggable={false}
+                />
+              </motion.div>
+            );
+          })}
+        </AnimatePresence>
+      </div>
+    </div>
+  );
+};
+
+// Star Field Component
 interface StarFieldProps {
   count: number;
   size: number;
@@ -145,10 +419,9 @@ const StarField: React.FC<StarFieldProps> = ({
   opacity,
   blur = 0,
 }) => {
-  // Static stars to avoid hydration mismatch
   const stars = React.useMemo(
     () =>
-      [...Array(count)].map((_, i) => ({
+      Array.from({ length: count }, (_, i) => ({
         top: `${(i * 17) % 100}%`,
         left: `${(i * 23) % 100}%`,
         delay: i * 0.5,
@@ -187,10 +460,11 @@ const StarField: React.FC<StarFieldProps> = ({
   );
 };
 
+// Stardust Field Component
 const StardustField: React.FC<{ count: number }> = ({ count }) => {
   const particles = React.useMemo(
     () =>
-      [...Array(count)].map((_, i) => ({
+      Array.from({ length: count }, (_, i) => ({
         left: `${(i * 13) % 100}%`,
         top: `${(i * 29) % 100}%`,
         size: (i % 2) + 1,
@@ -232,6 +506,7 @@ const StardustField: React.FC<{ count: number }> = ({ count }) => {
   );
 };
 
+// Typing Animation Component
 const TypingAnimation: React.FC = () => {
   const [text, setText] = useState("");
   const [sentenceIndex, setSentenceIndex] = useState(0);
@@ -272,12 +547,12 @@ const TypingAnimation: React.FC = () => {
   }, [charIndex, isDeleting, sentenceIndex]);
 
   return (
-    <span className="font-medium tracking-wide text-gray-400/80 italic">
+    <span className="font-normal tracking-normal text-gray-400">
       {text}
       <motion.span
         animate={{ opacity: [1, 0, 1] }}
-        transition={{ repeat: Infinity, duration: 0.9 }}
-        className="ml-1 inline-block h-[1.1em] w-[3px] bg-blue-500 align-middle"
+        transition={{ repeat: Infinity, duration: 0.8 }}
+        className="ml-0.5 inline-block h-[1em] w-[2px] bg-blue-400 align-middle"
       />
     </span>
   );

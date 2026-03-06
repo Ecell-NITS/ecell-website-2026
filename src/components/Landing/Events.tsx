@@ -2,7 +2,7 @@
 // @ts-nocheck
 "use client";
 
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Trophy, Rocket, Lightbulb, Store } from "lucide-react";
 
@@ -158,17 +158,26 @@ const EventCard = ({
 
 const Events: React.FC = () => {
   const [currentEvent, setCurrentEvent] = useState(0);
-
-  useEffect(() => {
-    if (!events.length) return;
-    const timer = setInterval(() => {
-      setCurrentEvent((prev) => (prev + 1) % events.length);
-    }, 5000); // Rotate every 5 seconds
-    return () => clearInterval(timer);
-  }, []);
+  const [touchStartX, setTouchStartX] = useState(0);
 
   // Use nullish coalescing to prevent potential issues
   const safeCurrentEvent = events[currentEvent] ?? events[0];
+
+  const nextEvent = () => setCurrentEvent((prev) => (prev + 1) % events.length);
+  const prevEvent = () =>
+    setCurrentEvent((prev) => (prev - 1 + events.length) % events.length);
+
+  // Touch swipe handlers for manual mobile navigation
+  const handleTouchStart = (e: React.TouchEvent) => {
+    setTouchStartX(e.touches[0].clientX);
+  };
+  const handleTouchEnd = (e: React.TouchEvent) => {
+    const diff = touchStartX - e.changedTouches[0].clientX;
+    if (Math.abs(diff) > 50) {
+      if (diff > 0) nextEvent();
+      else prevEvent();
+    }
+  };
 
   return (
     <section
@@ -220,7 +229,11 @@ const Events: React.FC = () => {
         </div>
 
         {/* --- MOBILE VIEW (Carousel) --- */}
-        <div className="relative lg:hidden">
+        <div
+          className="relative lg:hidden"
+          onTouchStart={handleTouchStart}
+          onTouchEnd={handleTouchEnd}
+        >
           <div className="min-h-[280px]">
             <AnimatePresence mode="wait">
               {safeCurrentEvent && (

@@ -20,6 +20,21 @@ export const metadata: Metadata = {
     description:
       "Entrepreneurship Cell, NIT Silchar — Fostering Innovation, Building Entrepreneurs.",
     type: "website",
+    images: [
+      {
+        url: "/og/landing.png",
+        width: 1200,
+        height: 630,
+        alt: "E-Cell NIT Silchar",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "About Us | E-Cell NIT Silchar",
+    description:
+      "Entrepreneurship Cell, NIT Silchar — Fostering Innovation, Building Entrepreneurs.",
+    images: ["/og/landing.png"],
   },
 };
 

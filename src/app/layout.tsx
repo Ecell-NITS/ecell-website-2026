@@ -30,13 +30,17 @@ export const metadata: Metadata = {
     "Entrepreneurship Cell",
     "NITS",
     "E-Cell NITS",
+    "EIC",
+    "EMINENCE",
+    "EMPRESARIO",
+    "ENGENIUS",
   ],
   authors: [{ name: "E-Cell NIT Silchar", url: SITE_URL }],
   creator: "E-Cell NIT Silchar",
   applicationName: "E-Cell NIT Silchar",
   icons: [
-    { rel: "icon", url: "/favicon.ico" },
-    { rel: "apple-touch-icon", url: "/ecelllogo.png" },
+    { rel: "icon", url: "/favicon.png" },
+    { rel: "apple-touch-icon", url: "/favicon.png" },
   ],
   openGraph: {
     type: "website",
@@ -48,9 +52,9 @@ export const metadata: Metadata = {
       "E-Cell NIT Silchar is a non-profit student-run organization promoting and nurturing the entrepreneurial spirit among students of NIT Silchar.",
     images: [
       {
-        url: "/ecelllogo.png",
-        width: 512,
-        height: 512,
+        url: "/og/landing.png",
+        width: 1200,
+        height: 630,
         alt: "E-Cell NIT Silchar Logo",
       },
     ],
@@ -59,7 +63,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "E-Cell NIT Silchar",
     description: "Fostering Innovation & Leadership at NIT Silchar.",
-    images: ["/ecelllogo.png"],
+    images: ["/og/landing.png"],
   },
   alternates: {
     canonical: SITE_URL,

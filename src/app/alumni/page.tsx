@@ -15,6 +15,22 @@ export const metadata: Metadata = {
     title: "Alumni | E-Cell NIT Silchar",
     description:
       "Meet the distinguished alumni of E-Cell NIT Silchar who have gone on to lead and build successful ventures across the globe.",
+    type: "website",
+    images: [
+      {
+        url: "/og/landing.png",
+        width: 1200,
+        height: 630,
+        alt: "E-Cell NIT Silchar",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Alumni | E-Cell NIT Silchar",
+    description:
+      "Meet the distinguished alumni of E-Cell NIT Silchar who have gone on to lead and build successful ventures across the globe.",
+    images: ["/og/landing.png"],
   },
 };
 

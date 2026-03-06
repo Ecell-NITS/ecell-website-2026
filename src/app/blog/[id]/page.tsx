@@ -42,7 +42,7 @@ export async function generateMetadata({
   const blog = await fetchBlog(slug);
 
   if (!blog) {
-    return { title: "Blog Not Found" };
+    return { title: "Blog | E-Cell NIT Silchar" };
   }
 
   const description =

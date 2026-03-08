@@ -106,7 +106,7 @@ export default function MottoSection() {
                   />
                 </div>
 
-                <h3 className="relative z-10 mb-5 text-3xl font-black text-white transition-colors duration-300 group-hover:text-blue-400">
+                <h3 className="text-md relative z-10 mb-5 font-black text-white transition-colors duration-300 group-hover:text-blue-400 sm:text-lg md:text-lg xl:text-xl 2xl:text-xl">
                   {item.title}
                 </h3>
 

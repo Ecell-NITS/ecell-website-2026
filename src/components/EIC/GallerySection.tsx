@@ -4,11 +4,13 @@ import { motion } from "framer-motion";
 import Image from "next/image";
 
 const galleryImages = [
-  "https://res.cloudinary.com/dtt4ftdrw/image/upload/v1770137527/emain_sweptn.png",
-  "https://res.cloudinary.com/dtt4ftdrw/image/upload/v1770137561/emi_bz3gpl.png",
-  "https://res.cloudinary.com/dtt4ftdrw/image/upload/v1770137571/r1_ktxtlr.png",
-  "https://res.cloudinary.com/dtt4ftdrw/image/upload/v1770137577/r2_vqgl8b.png",
-  "https://res.cloudinary.com/dtt4ftdrw/image/upload/v1770137585/r3_zc0atn.png",
+  "https://res.cloudinary.com/dsaaxuphe/image/upload/v1773078313/a1_zdp0si.webp",
+  "https://res.cloudinary.com/dsaaxuphe/image/upload/v1773078310/a7_jnqfxe.webp",
+  "https://res.cloudinary.com/dsaaxuphe/image/upload/v1773078310/a3_yvhglc.webp",
+  "https://res.cloudinary.com/dsaaxuphe/image/upload/v1773078309/a2_jaoiq2.webp",
+  "https://res.cloudinary.com/dsaaxuphe/image/upload/v1773078309/a5_l5p6ep.webp",
+  "https://res.cloudinary.com/dsaaxuphe/image/upload/v1773078308/a4_tmyctl.webp",
+
 ];
 
 const Marquee = ({

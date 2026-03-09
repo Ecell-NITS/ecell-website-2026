@@ -4,11 +4,22 @@ import { motion } from "framer-motion";
 import Image from "next/image";
 
 const galleryImages = [
-  "https://res.cloudinary.com/dtt4ftdrw/image/upload/v1770137527/emain_sweptn.png",
-  "https://res.cloudinary.com/dtt4ftdrw/image/upload/v1770137561/emi_bz3gpl.png",
-  "https://res.cloudinary.com/dtt4ftdrw/image/upload/v1770137571/r1_ktxtlr.png",
-  "https://res.cloudinary.com/dtt4ftdrw/image/upload/v1770137577/r2_vqgl8b.png",
-  "https://res.cloudinary.com/dtt4ftdrw/image/upload/v1770137585/r3_zc0atn.png",
+  "https://res.cloudinary.com/dsaaxuphe/image/upload/v1773078809/s3_qebais.webp",
+  "https://res.cloudinary.com/dsaaxuphe/image/upload/v1773078807/s2_1_qnrihv.webp",
+  "https://res.cloudinary.com/dsaaxuphe/image/upload/v1773078804/s6_cmgjwd.webp",
+  "https://res.cloudinary.com/dsaaxuphe/image/upload/v1773078804/s7_ttgyda.webp",
+  "https://res.cloudinary.com/dsaaxuphe/image/upload/v1773078803/s8_etzzi8.webp",
+
+  "https://res.cloudinary.com/dsaaxuphe/image/upload/v1773079248/s16_nou7k3.webp",
+  "https://res.cloudinary.com/dsaaxuphe/image/upload/v1773079245/s18_dlusn7.webp",
+  "https://res.cloudinary.com/dsaaxuphe/image/upload/v1773079244/s19_x8rkmv.webp",
+  "https://res.cloudinary.com/dsaaxuphe/image/upload/v1773079243/s20_hkmxpg.webp",
+  "https://res.cloudinary.com/dsaaxuphe/image/upload/v1773079243/s21_uvtevo.webp",
+
+
+
+
+
 ];
 
 const Marquee = ({

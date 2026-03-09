@@ -4,47 +4,54 @@
 
 import React, { useState, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Trophy, Rocket, Lightbulb, Store } from "lucide-react";
+import {
+  Trophy,
+  Rocket,
+  Lightbulb,
+  Store,
+  Shovel,
+  BriefcaseBusiness,
+} from "lucide-react";
 
 // --- CUSTOMIZED EVENTS DATA FOR E-CELL NIT SILCHAR ---
 const events = [
   {
     id: 1,
-    title: "Srijan\nE-Summit",
-    subtitle: "The Flagship Entrepreneurship Summit",
-    category: "Flagship",
-    desc: "North East India's premier entrepreneurship summit featuring keynote sessions, panel discussions, and competitions like 'Pitch Please' to ignite the startup spirit.",
-    img: "https://images.unsplash.com/photo-1544531696-2813a7415856?auto=format&fit=crop&q=80&w=800",
-    icon: Rocket,
+    title: "BUSINESS HACKATHON",
+    subtitle: "The Entrepreneurship Module of Tecnoesis 2026",
+    category: "Hackathon",
+    desc: "Enter the digital dimension where creativity is your code and strategy is your weapon. In this realm of visionaries, strategists, and innovators, ideas transcend boundaries and solutions reshape realities. Two rounds await: online submission and onsite hackathon.",
+    img: "https://res.cloudinary.com/dtt4ftdrw/image/upload/f_webp/v1766421071/bussiness_gjaocu.png",
+    icon: BriefcaseBusiness,
     tagGradient: "from-blue-400 to-indigo-500",
   },
   {
     id: 2,
-    title: "Empressario\nModule",
-    subtitle: "Annual Entrepreneurship Module",
-    category: "Competition",
-    desc: "A test of managerial finesse and business acumen. Features high-stakes events like 'Business Hackathon' and 'IPL Auction' during Tecnoesis.",
-    img: "https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?auto=format&fit=crop&q=80&w=800",
-    icon: Trophy,
+    title: "TREASURE HUNT",
+    subtitle: "The Entrepreneurship Module of Tecnoesis 2026",
+    category: "Fun Event",
+    desc: "Get ready for the ultimate campus adventure! Navigate through clues and riddles in this high-stakes treasure hunt where every step tests your wit and every discovery brings you closer to victory. Three thrilling rounds await the brave.",
+    img: "https://res.cloudinary.com/dtt4ftdrw/image/upload/f_webp/v1766924809/hunt_h4yu67.jpg",
+    icon: Shovel,
     tagGradient: "from-purple-400 to-pink-500",
   },
   {
     id: 3,
-    title: "EnGenius\n2025",
-    subtitle: "Exclusive Freshers' Event",
-    category: "Freshers",
-    desc: "The ultimate welcome for the new batch! Events like 'Pitchboxing' and 'Bech Ke Dikhao' introduce freshers to the world of innovation and sales.",
-    img: "https://images.unsplash.com/photo-1523240795612-9a054b0db644?auto=format&fit=crop&q=80&w=800",
+    title: "BID-WISE",
+    subtitle: "The Entrepreneurship Module of Tecnoesis 2026",
+    category: "Competition",
+    desc: "Welcome to The Silent Grid: a high-stakes auction where words fall silent and only your moves speak. Manage a 100-point purse and limited bidding tokens across 6 rounds of exploration, discussion, and secret bidding at 10 stalls. Use the Special Token wisely—some rounds may eliminate it. Top 10 teams advance.",
+    img: "https://res.cloudinary.com/dtt4ftdrw/image/upload/f_webp/v1767002111/bid_dqm9bf.jpg",
     icon: Lightbulb,
     tagGradient: "from-amber-400 to-orange-500",
   },
   {
     id: 4,
-    title: "Startup\nExpo",
-    subtitle: "Innovation Showcase",
-    category: "Exhibition",
-    desc: "A platform for emerging startups to showcase their products to investors and industry leaders, facilitating networking and funding opportunities.",
-    img: "https://images.unsplash.com/photo-1559136555-9303baea8ebd?auto=format&fit=crop&q=80&w=800",
+    title: "Adovation",
+    subtitle: "The Entrepreneurship Module of Tecnoesis 2026",
+    category: "Online Event",
+    desc: "A Tecnoesis 'Empressario' Module Event by Ecell. Teams will create engaging promotional videos for assigned shops, showcasing their marketing creativity and video production skills.",
+    img: "https://res.cloudinary.com/dtt4ftdrw/image/upload/f_webp/v1766736053/Adovation_nxhzzv.png",
     icon: Store,
     tagGradient: "from-emerald-400 to-teal-500",
   },
@@ -127,7 +134,7 @@ const EventCard = ({
         </div>
 
         {/* Text Information */}
-        <div className={`flex flex-col ${isMobile ? "mt-2" : "mt-auto"}`}>
+        <div className={`flex flex-1 flex-col ${isMobile ? "mt-2" : "mt-0"}`}>
           <h3
             className={`leading-none font-black tracking-tight whitespace-pre-line text-white transition-colors group-hover:text-blue-100 ${isMobile ? "mb-2 text-2xl" : "mb-3 text-3xl"}`}
           >
@@ -146,7 +153,7 @@ const EventCard = ({
             </p>
           </div>
 
-          <div className="mt-6 flex items-center gap-2 text-xs font-bold text-blue-500 transition-all group-hover:gap-3 group-hover:text-blue-400">
+          <div className="mt-auto flex items-center gap-2 pt-6 text-xs font-bold text-blue-500 transition-all group-hover:gap-3 group-hover:text-blue-400">
             <span>Explore Details</span>
             <span>→</span>
           </div>

@@ -58,13 +58,13 @@ const DirectorsMessage: React.FC = () => {
         {/* --- MAIN GRID LAYOUT --- */}
         <div className="flex flex-col gap-12 lg:grid lg:grid-cols-12 lg:gap-16">
           {/* --- 1. DIRECTOR CARD (Order: 1st on Mobile, 2nd on Desktop) --- */}
-          <div className="order-1 flex w-full justify-center lg:order-2 lg:col-span-5 lg:col-start-8 lg:justify-end">
+          <div className="order-1 flex w-full justify-center lg:order-2 lg:col-span-5 lg:col-start-10 lg:justify-end">
             <motion.div
               style={{ y }}
-              className="w-full max-w-md rounded-2xl border border-white/10 bg-white/5 p-4 shadow-2xl backdrop-blur-sm"
+              className="w-full max-w-sm rounded-2xl border border-white/10 bg-white/5 p-4 shadow-2xl backdrop-blur-sm"
             >
               {/* Image Container */}
-              <div className="relative aspect-[4/5] w-full overflow-hidden rounded-xl border border-white/5 bg-gray-900">
+              <div className="relative aspect-square w-full overflow-hidden rounded-xl border border-white/5 bg-gray-900">
                 <img
                   src="director.png"
                   alt="Prof. Dilip Kumar Baidya"
@@ -86,18 +86,18 @@ const DirectorsMessage: React.FC = () => {
           </div>
 
           {/* --- 2. TEXT CONTENT (Order: 2nd on Mobile, 1st on Desktop) --- */}
-          <div className="order-2 flex flex-col justify-center lg:order-1 lg:col-span-7 lg:col-start-1 lg:row-start-1">
+          <div className="order-2 flex flex-col lg:order-1 lg:col-span-9 lg:col-start-1 lg:row-start-1">
             {/* A. TEXT FOR MOBILE (< 768px) - Short & Concise */}
             <div className="block md:hidden">
               <p className="text-justify text-[15px] leading-relaxed font-light text-gray-400">
                 It is with immense pride that I serve as the Director of NIT
                 Silchar. Nestled in the vibrant landscape of Assam, our
                 Institute has been a cornerstone of academic excellence for
-                nearly five decades. We are deeply committed to nurturing
-                21st-century skills through rigorous academics and innovation,
-                preparing our students to thrive in Industry 4.0. Together, let
-                us leverage our rich heritage to elevate NIT Silchar to new
-                heights on the national and global stage.
+                nearly five decades. At NIT Silchar, we are committed to
+                nurturing not only skilled engineers but visionary leaders who
+                can transform ideas into impactful venture. I strongly encourage
+                our students to explore entrepreneurial opportunities and
+                contribute towards building sustainable solutions for society.
               </p>
             </div>
 
@@ -116,30 +116,11 @@ const DirectorsMessage: React.FC = () => {
               </p>
 
               <p className="text-justify text-lg leading-relaxed font-light text-gray-400">
-                At NIT Silchar, we are committed to nurturing 21st-century
-                skills through a dynamic blend of rigorous academics,
-                cutting-edge research, and industry-aligned training. Our
-                curriculum, enriched with internships and experiential learning,
-                prepares students to thrive in the era of Industry 4.0,
-                empowering them to contribute meaningfully to society and the
-                global workforce.
-              </p>
-
-              <p className="text-justify text-lg leading-relaxed font-light text-gray-400">
-                Our research ecosystem is dedicated to addressing regional and
-                global priorities, including Artificial Intelligence, renewable
-                energy, and climate-resilient technologies. By embedding
-                entrepreneurship within our academic framework, we aim to
-                catalyze innovation, enabling students to translate ideas into
-                impactful solutions.
-              </p>
-
-              <p className="text-justify text-lg leading-relaxed font-light text-gray-400">
-                As NIT Silchar stands at a transformative juncture, I call upon
-                our students, faculty, alumni, and stakeholders to unite in this
-                journey, leveraging the rich heritage and resilient spirit of
-                North East India to elevate NIT Silchar to new heights on the
-                national and international stage.
+                At NIT Silchar, we are committed to nurturing not only skilled
+                engineers but visionary leaders who can transform ideas into
+                impactful venture. I strongly encourage our students to explore
+                entrepreneurial opportunities and contribute towards building
+                sustainable solutions for society.
               </p>
             </div>
           </div>

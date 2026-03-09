@@ -16,11 +16,19 @@ const galleryImages = [
  "https://res.cloudinary.com/dsaaxuphe/image/upload/v1773079845/convertio.in_p7_gjrea6.webp",
  "https://res.cloudinary.com/dsaaxuphe/image/upload/v1773079844/convertio.in_p11_bsrm2d.webp",
 
- "https://res.cloudinary.com/dsaaxuphe/image/upload/v1773080243/convertio.in_c13_t6cwen.webp",
- "https://res.cloudinary.com/dsaaxuphe/image/upload/v1773080245/convertio.in_c12_rolkmx.webp",
- "https://res.cloudinary.com/dsaaxuphe/image/upload/v1773080239/convertio.in_c14_j8etxz.webp",
  "https://res.cloudinary.com/dsaaxuphe/image/upload/v1773080238/convertio.in_c15_zrwdzy.webp",
+ "https://res.cloudinary.com/dsaaxuphe/image/upload/v1773080245/convertio.in_c12_rolkmx.webp",
+ "https://res.cloudinary.com/dsaaxuphe/image/upload/v1773083536/c10_hg93yj.webp",
+ "https://res.cloudinary.com/dsaaxuphe/image/upload/v1773083536/c9_vn43mj.webp",
+ "https://res.cloudinary.com/dsaaxuphe/image/upload/v1773083535/c11_wu26zx.webp",
+
+ "https://res.cloudinary.com/dsaaxuphe/image/upload/v1773080243/convertio.in_c13_t6cwen.webp",
+ "https://res.cloudinary.com/dsaaxuphe/image/upload/v1773080239/convertio.in_c14_j8etxz.webp",
  "https://res.cloudinary.com/dsaaxuphe/image/upload/v1773080238/convertio.in_c16_vsimqa.webp",
+ "https://res.cloudinary.com/dsaaxuphe/image/upload/v1773083428/c7_u2yohc.webp",
+ "https://res.cloudinary.com/dsaaxuphe/image/upload/v1773083427/c8_em5wqu.webp",
+
+
 ];
 
 const Marquee = ({

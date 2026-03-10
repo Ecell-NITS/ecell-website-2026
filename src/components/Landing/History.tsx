@@ -45,39 +45,7 @@ const timelineData: TimelineEvent[] = [
     milestone: "Growth Phase",
   },
   {
-    year: 2020,
-    title: "Digital Transformation",
-    description:
-      "Adapted to digital landscape with online events and virtual mentorships",
-    icon: "💻",
-    milestone: "Going Digital",
-  },
-  {
-    year: 2022,
-    title: "National Recognition",
-    description:
-      "Achieved national level recognition in startup ecosystem development",
-    icon: "⭐",
-    milestone: "National Stage",
-  },
-  {
-    year: 2023,
-    title: "Global Partnerships",
-    description:
-      "Established partnerships with 20+ international organizations and investors",
-    icon: "🤝",
-    milestone: "Going Global",
-  },
-  {
-    year: 2024,
-    title: "30 Crores Milestone",
-    description:
-      "E-Cell startups collectively raised over 30 crores in funding",
-    icon: "💰",
-    milestone: "Success Story",
-  },
-  {
-    year: 2025,
+    year: 2026,
     title: "Future Vision",
     description:
       "Continuing to build the next generation of innovations and entrepreneurs",

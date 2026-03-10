@@ -21,68 +21,58 @@ const achievementsData: Achievement[] = [
     id: 1,
     title: "NEC organized by E-Cell IIT Bombay",
     image:
-      "https://instagram.fgau4-1.fna.fbcdn.net/v/t51.82787-15/625386221_18327507529217970_5781265715188957704_n.jpg?stp=dst-jpg_e35_tt6&_nc_cat=105&ig_cache_key=MzgyNTkyMTE0MTg0OTA3MzI0MA%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6InhwaWRzLjEwODB4MTA4MC5zZHIuQzMifQ%3D%3D&_nc_ohc=sJFNRxP7674Q7kNvwHb7CvH&_nc_oc=Adn2Y3qm-XpuQVgeVM1s6uyUOK-jQ5xMWf1g9kP7wofSlccr8GDeRtyMBaLzq6ekdjA&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=instagram.fgau4-1.fna&_nc_gid=aKVbWZ3-0MKAecq3bjbWMA&oh=00_Aftahcver-_3-1a0vAfg4A3wwiHlW-lSUMsbr4HwVd6bjA&oe=698E719A",
+      "https://res.cloudinary.com/ecell/image/upload/f_webp/v1773169056/fc527954-530d-487d-bef5-a797f70f2687_jvf1h4.jpg",
     description: "Recognized for fostering 50+ successful startups",
     details:
-      "E-Cell NIT Silchar has been recognized as one of the best startup ecosystems in the Northeast region, having successfully incubated and mentored over 50 startups. Our comprehensive support system includes mentorship from industry experts, funding opportunities, and access to a network of investors.",
-    year: "2026",
+      "The E-Cell team had the privilege to attend NEC organized by E-Cell IIT Bombay.The event provided immense exposure to entrepreneurial ecosystems, startup culture, and leadership insights. Interacting with students, founders, and organizers from across the country broadened our understanding of how impactful E-Cells operate.This experience will significantly influence the way we plan, execute, and expand our future initiatives back on campus. A step forward in our journey of building a stronger entrepreneurial community!",
+    year: "2025",
     icon: "🚀",
   },
   {
     id: 2,
     title: "SIH 2025 Internal Hackathon @ NIT Silchar",
     image:
-      "https://scontent.fgau4-1.fna.fbcdn.net/v/t39.30808-6/549730864_1381445740651551_3029566534367371637_n.jpg?_nc_cat=111&ccb=1-7&_nc_sid=833d8c&_nc_ohc=Vmd73bviBakQ7kNvwFSruwM&_nc_oc=AdnNmYJXa5Mq1MuQiVV1WLYrH1XZiC22M-xJVqwAzWtSMJAvi2fiT4sRCTQJDj9uN1A&_nc_zt=23&_nc_ht=scontent.fgau4-1.fna&_nc_gid=y2INeFLMG3MMmlQs6ykUPg&oh=00_AftFDxqapmTXFEUEPX2t9VG4X7bDM8ElSpr9zc4xF-ozZw&oe=698E5ABD",
+      "https://res.cloudinary.com/ecell/image/upload/f_webp/v1773169410/WhatsApp_Image_2026-03-10_at_11.51.26_PM_x2mquf.jpg",
     description: "Awarded Best Student Organization for promoting innovation",
     details:
-      "This prestigious award acknowledges our continuous efforts in promoting innovation and entrepreneurship among the student community. Through workshops, hackathons, and mentorship programs, we've created an environment where ideas flourish and innovation thrives.",
+      "The SIH 2025 Internal Hackathon @ NIT Silchar was a resounding success, bringing together bright minds to ideate and innovate. Our team organized and executed the event seamlessly, providing a platform for students to showcase their problem-solving skills and creativity. The event witnessed enthusiastic participation from across the campus, with innovative solutions presented for various challenges. This hackathon reinforced our commitment to fostering a culture of innovation and entrepreneurship at NIT Silchar.",
     year: "2025",
     icon: "💡",
   },
   {
     id: 3,
-    title: "Global Partnership Network",
+    title: "Inauguration of the DST NIDHI iTBI at NIT Silchar",
     image:
-      "https://res.cloudinary.com/ecell/image/upload/v1756636999/network_c7k2dj.jpg",
+      "https://res.cloudinary.com/ecell/image/upload/f_webp/v1773169511/WhatsApp_Image_2026-03-10_at_11.56.20_PM_vtqofq.jpg",
     description:
-      "Established partnerships with 20+ international organizations",
+      "A milestone event for the entrepreneurial community at NIT Silchar",
     details:
-      "We have successfully established strategic partnerships with over 20 global organizations including renowned incubators, venture capital firms, and tech companies. These partnerships provide our startups with international exposure, funding opportunities, and mentorship from industry leaders.",
-    year: "2023",
+      "The inauguration of the DST NIDHI iTBI at NIT Silchar represents a major step towards strengthening the startup ecosystem on campus. The initiative will support aspiring entrepreneurs by offering resources, mentorship, and opportunities to convert innovative ideas into successful startups.",
+    year: "2025",
     icon: "🌍",
   },
   {
     id: 4,
-    title: "Community Impact Award",
+    title: "SIH 2024 Internal Hackathon @ NIT Silchar",
     image:
-      "https://res.cloudinary.com/ecell/image/upload/v1756636999/community_b9l4fg.jpg",
-    description: "Making positive impact on 1000+ lives",
+      "https://res.cloudinary.com/ecell/image/upload/f_webp/v1773169726/563897b1-97bf-442d-8a32-f2b63c716f7d_krq7h1.jpg",
+    description: "Awarded Best Student Organization for promoting innovation",
     details:
-      "Through our various initiatives, workshops, and events, we have directly impacted over 1000 students and entrepreneurs. Our mentorship programs, skill development workshops, and networking events have helped countless individuals start their entrepreneurial journey with confidence.",
+      "The SIH 2024 Internal Hackathon @ NIT Silchar was a resounding success, bringing together bright minds to ideate and innovate. Our team organized and executed the event seamlessly, providing a platform for students to showcase their problem-solving skills and creativity. The event witnessed enthusiastic participation from across the campus, with innovative solutions presented for various challenges. This hackathon reinforced our commitment to fostering a culture of innovation and entrepreneurship at NIT Silchar.",
     year: "2024",
     icon: "🎯",
   },
   {
     id: 5,
-    title: "Research & Development Hub",
+    title: "Incandescence 2024: Website Development by ECELL Technical Team",
     image:
-      "https://res.cloudinary.com/ecell/image/upload/v1756636999/research_d2m3kl.jpg",
-    description: "Leading R&D initiatives for tech-enabled solutions",
+      "https://res.cloudinary.com/ecell/image/upload/f_webp/v1773169823/623791156_18065741165259519_1790089148149832160_n_w6lwvb.jpg",
+    description:
+      "Showcased technical expertise and commitment to supporting the institute's flagship events",
     details:
-      "E-Cell has become a hub for research and development, focusing on creating tech-enabled solutions for real-world problems. Our R&D projects have contributed to sustainable development goals and created innovative solutions in sectors like healthcare, agriculture, and education.",
+      "The ECELL Technical Team successfully developed the official website for Incandescence 2024, the annual cultural festival of NIT Silchar. The website served as a comprehensive platform for event information, registration, and engagement, reaching thousands of students and participants. This project showcased our team's technical expertise and commitment to supporting the institute's flagship events.",
     year: "2024",
     icon: "🔬",
-  },
-  {
-    id: 6,
-    title: "Funding Success",
-    image:
-      "https://res.cloudinary.com/ecell/image/upload/v1756636999/funding_e4n5op.jpg",
-    description: "Successfully facilitated 30+ crores in startup funding",
-    details:
-      "Our startups have collectively raised over 30 crores in funding from various sources including angel investors, venture capital firms, and government grants. This demonstrates the quality and viability of the startups we incubate and the trust the investment community places in our ecosystem.",
-    year: "2024",
-    icon: "💰",
   },
 ];
 
@@ -236,7 +226,7 @@ const Achievements: React.FC = () => {
                 >
                   <button
                     onClick={() => setSelectedAchievement(null)}
-                    className="absolute top-4 right-4 z-50 float-right mr-4 rounded-full bg-black p-2 transition-all hover:bg-red-500/20 hover:text-red-500"
+                    className="absolute top-4 right-4 z-50 float-right mr-4 rounded-full bg-black p-2 text-white transition-all hover:bg-red-500/20 hover:text-red-500"
                   >
                     <X size={24} />
                   </button>

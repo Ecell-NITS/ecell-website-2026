@@ -4,12 +4,29 @@ import { motion } from "framer-motion";
 import Image from "next/image";
 
 const galleryImages = [
-  "/ENGENIUS/shark-tank.png",
-  "/ENGENIUS/ceo-roleplay.png",
-  "/ENGENIUS/pitch-boxing.png",
-  "/ENGENIUS/bech-ke-dikhao.png",
-  "/ENGENIUS/what-if.png",
-  "/ENGENIUS/engenius-hero.png",
+  "https://res.cloudinary.com/dsaaxuphe/image/upload/v1773079514/c1_xs0ktw.webp",
+  "https://res.cloudinary.com/dsaaxuphe/image/upload/v1773079512/c2_iiogz2.webp",
+  "https://res.cloudinary.com/dsaaxuphe/image/upload/v1773079509/c3_u2fhza.webp",
+  "https://res.cloudinary.com/dsaaxuphe/image/upload/v1773079508/c4_fdbjme.webp",
+  "https://res.cloudinary.com/dsaaxuphe/image/upload/v1773079506/c5_kqzuwe.webp",
+
+  "https://res.cloudinary.com/dsaaxuphe/image/upload/v1773079851/convertio.in_p2_pvvssy.webp",
+  "https://res.cloudinary.com/dsaaxuphe/image/upload/v1773079848/convertio.in_p3_g3jsmd.webp",
+  "https://res.cloudinary.com/dsaaxuphe/image/upload/v1773079846/convertio.in_p6_agev9i.webp",
+  "https://res.cloudinary.com/dsaaxuphe/image/upload/v1773079845/convertio.in_p7_gjrea6.webp",
+  "https://res.cloudinary.com/dsaaxuphe/image/upload/v1773079844/convertio.in_p11_bsrm2d.webp",
+
+  "https://res.cloudinary.com/dsaaxuphe/image/upload/v1773080238/convertio.in_c15_zrwdzy.webp",
+  "https://res.cloudinary.com/dsaaxuphe/image/upload/v1773080245/convertio.in_c12_rolkmx.webp",
+  "https://res.cloudinary.com/dsaaxuphe/image/upload/v1773083536/c10_hg93yj.webp",
+  "https://res.cloudinary.com/dsaaxuphe/image/upload/v1773083536/c9_vn43mj.webp",
+  "https://res.cloudinary.com/dsaaxuphe/image/upload/v1773083535/c11_wu26zx.webp",
+
+  "https://res.cloudinary.com/dsaaxuphe/image/upload/v1773080243/convertio.in_c13_t6cwen.webp",
+  "https://res.cloudinary.com/dsaaxuphe/image/upload/v1773080239/convertio.in_c14_j8etxz.webp",
+  "https://res.cloudinary.com/dsaaxuphe/image/upload/v1773080238/convertio.in_c16_vsimqa.webp",
+  "https://res.cloudinary.com/dsaaxuphe/image/upload/v1773083428/c7_u2yohc.webp",
+  "https://res.cloudinary.com/dsaaxuphe/image/upload/v1773083427/c8_em5wqu.webp",
 ];
 
 const Marquee = ({
@@ -71,8 +88,8 @@ const GallerySection = () => {
       </div>
 
       <div className="space-y-8">
-        <Marquee direction="left" speed={50} />
-        <Marquee direction="right" speed={60} />
+        <Marquee direction="left" speed={100} />
+        <Marquee direction="right" speed={100} />
       </div>
 
       {/* Gradient Masks */}

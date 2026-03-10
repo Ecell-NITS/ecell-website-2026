@@ -44,7 +44,7 @@ export default function AlumniModal({ activeId, onClose }: AlumniModalProps) {
         className="relative max-h-[90vh] w-full max-w-4xl scale-95 animate-[zoom_0.3s_ease-out_forwards] overflow-y-auto rounded-3xl border border-white/10 bg-[#0c1324] opacity-0 shadow-2xl"
       >
         <button
-          className="absolute top-4 right-4 z-50 rounded-full bg-white/5 p-2 transition-colors hover:bg-red-500/20 hover:text-red-500"
+          className="absolute top-4 right-4 z-50 rounded-full bg-black p-2 transition-colors hover:bg-red-500/20 hover:text-red-500"
           onClick={onClose}
           aria-label="Close modal"
         >

@@ -3,6 +3,7 @@
 import React, { useRef, useState, useEffect } from "react";
 import { motion, useScroll, useTransform } from "framer-motion";
 import { Camera } from "lucide-react";
+import { galleryImages } from "@/data/gallery";
 
 // ── StarField: twinkling white motes ────────────────────────
 const StarField: React.FC<{
@@ -186,7 +187,7 @@ export default function GalleryHero() {
           >
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img
-              src={`https://picsum.photos/seed/hero${i}/300/400`}
+              src={galleryImages[i % galleryImages.length]?.src ?? ""}
               alt=""
               className="h-full w-full object-cover"
               loading="lazy"

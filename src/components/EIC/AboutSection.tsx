@@ -87,15 +87,11 @@ const AboutSection = () => {
                     delay: i * 0.5,
                   }}
                 >
-                  <div className="absolute inset-0 bg-gradient-to-br from-[hsl(141_73%_42%/0.2)] to-transparent" />
-                  <div className="absolute right-4 bottom-4 left-4">
-                    <div className="mb-2 h-2 rounded-full bg-[hsl(0_0%_15%)]">
-                      <div className="h-full w-2/3 rounded-full bg-[hsl(141_73%_42%)]" />
-                    </div>
-                    <p className="text-xs text-[hsl(0_0%_70%)]">
-                      Now playing: EIC 2025
-                    </p>
-                  </div>
+                  <img
+                    src="https://res.cloudinary.com/ecell/image/upload/f_webp/v1773172416/472479350_18283963327217970_8109521993855505084_n_oxb3he.jpg"
+                    alt="EIC 2025"
+                    className="h-full w-full object-cover"
+                  />
                 </motion.div>
               ))}
             </div>

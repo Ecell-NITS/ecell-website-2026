@@ -4,14 +4,122 @@ import { motion } from "framer-motion";
 import { Sparkles } from "lucide-react";
 
 const sponsors = [
-  { id: 1, name: "Sponsor 1" },
-  { id: 2, name: "Sponsor 2" },
-  { id: 3, name: "Sponsor 3" },
-  { id: 4, name: "Sponsor 4" },
-  { id: 5, name: "Sponsor 5" },
-  { id: 6, name: "Sponsor 6" },
-  { id: 7, name: "Sponsor 7" },
-  { id: 8, name: "Sponsor 8" },
+  {
+    name: "Stock Edge",
+    logo: "https://res.cloudinary.com/df0uaz36o/image/upload/v1770903126/stck_edge_yidnjf.png",
+  },
+  {
+    name: "quickobook",
+    logo: "https://res.cloudinary.com/df0uaz36o/image/upload/v1770903165/quicko_y3mdsr.png",
+  },
+  {
+    name: "The product Folks",
+    logo: "https://res.cloudinary.com/df0uaz36o/image/upload/v1770903184/the_product_folk_ftmcg7.png",
+  },
+  {
+    name: "Geeks for Geeks",
+    logo: "https://res.cloudinary.com/df0uaz36o/image/upload/v1770903204/geeksforgeeks_psxxiy.png",
+  },
+  {
+    name: "idp",
+    logo: "https://res.cloudinary.com/df0uaz36o/image/upload/v1770903334/idp_ujvidp.png",
+  },
+  {
+    name: "HDFC",
+    logo: "https://res.cloudinary.com/df0uaz36o/image/upload/v1770903358/hdfc_uiealn.png",
+  },
+  {
+    name: "ED Times",
+    logo: "https://res.cloudinary.com/df0uaz36o/image/upload/v1770903420/ed_times_hxkqt9.jpg",
+  },
+  {
+    name: "Pyzaql",
+    logo: "https://res.cloudinary.com/df0uaz36o/image/upload/v1770903436/pyzaql_nls3om.png",
+  },
+  {
+    name: "cubelelo",
+    logo: "https://res.cloudinary.com/df0uaz36o/image/upload/v1770903451/cubelelo_gmfsu0.png",
+  },
+  {
+    name: "black marble",
+    logo: "https://res.cloudinary.com/df0uaz36o/image/upload/v1770903494/black_marble_cgp9zk.png",
+  },
+  {
+    name: "TruScholar",
+    logo: "https://res.cloudinary.com/df0uaz36o/image/upload/v1770903508/truscholar_ntepdv.png",
+  },
+  {
+    name: "Kwikpic",
+    logo: "https://res.cloudinary.com/df0uaz36o/image/upload/v1770903524/kwikpick_vkuuxp.jpg",
+  },
+  {
+    name: "",
+    logo: "https://res.cloudinary.com/df0uaz36o/image/upload/v1770903541/s.s_start_qeqsna.jpg",
+  },
+  {
+    name: "Stock Grow",
+    logo: "https://res.cloudinary.com/df0uaz36o/image/upload/v1770903577/stock_gro_fi5cka.jpg",
+  },
+  {
+    name: "Engineer Hub",
+    logo: "https://res.cloudinary.com/df0uaz36o/image/upload/v1770903605/engineer_hub_qf0ao2.png",
+  },
+  {
+    name: "anterprerna",
+    logo: "https://res.cloudinary.com/df0uaz36o/image/upload/v1770903627/anterprerna_ndrjda.jpg",
+  },
+  {
+    name: "Ivy Camp",
+    logo: "https://res.cloudinary.com/df0uaz36o/image/upload/v1770903646/Ivy_Camp_e9oqyk.jpg",
+  },
+  {
+    name: "Janta Group",
+    logo: "https://res.cloudinary.com/df0uaz36o/image/upload/v1770903661/janta_group_hoksvj.jpg",
+  },
+  {
+    name: "Learning while Travelling",
+    logo: "https://res.cloudinary.com/df0uaz36o/image/upload/v1770903680/Learning_while_travelling_tvceic.png",
+  },
+  {
+    name: "Krayonzz",
+    logo: "https://res.cloudinary.com/df0uaz36o/image/upload/v1770903726/krayonzz_dntqxt.png",
+  },
+  {
+    name: "",
+    logo: "https://res.cloudinary.com/df0uaz36o/image/upload/v1770903741/asap_mhwpys.jpg",
+  },
+  {
+    name: "",
+    logo: "https://res.cloudinary.com/df0uaz36o/image/upload/v1770903755/Yhills_gf0xyb.jpg",
+  },
+  {
+    name: "yen",
+    logo: "https://res.cloudinary.com/df0uaz36o/image/upload/v1770903776/yen_sfbsub.jpg",
+  },
+  {
+    name: "",
+    logo: "https://res.cloudinary.com/df0uaz36o/image/upload/v1770903789/Intrnt_l6rvhn.png",
+  },
+  {
+    name: "",
+    logo: "https://res.cloudinary.com/df0uaz36o/image/upload/v1770903802/crop_sow0ew.jpg",
+  },
+  {
+    name: "Unstop",
+    logo: "https://res.cloudinary.com/df0uaz36o/image/upload/v1770903816/unstop_jejjrz.png",
+  },
+  {
+    name: "",
+    logo: "https://res.cloudinary.com/df0uaz36o/image/upload/v1770903829/Energy_nu1rba.png",
+  },
+  {
+    name: "Ease my Trip",
+    logo: "https://res.cloudinary.com/df0uaz36o/image/upload/v1770903842/Easy_My_trip_ta8cm1.jpg",
+  },
+  {
+    name: "Product Space",
+    logo: "https://res.cloudinary.com/df0uaz36o/image/upload/v1770903856/Product_space_yfrgxj.jpg",
+  },
 ];
 
 const SponsorsSection = () => {
@@ -50,7 +158,7 @@ const SponsorsSection = () => {
         <div className="eic-marquee-track flex w-max gap-6">
           {duplicatedSponsors.map((sponsor, index) => (
             <motion.div
-              key={`${sponsor.id}-${index}`}
+              key={`${sponsor.name}-${index}`}
               whileHover={{ scale: 1.08, y: -10 }}
               transition={{ type: "spring", stiffness: 400, damping: 25 }}
               className="group relative flex-shrink-0"
@@ -85,6 +193,10 @@ const SponsorsSection = () => {
           ))}
         </div>
       </div>
+
+      {/* Gradient Masks */}
+      <div className="pointer-events-none absolute inset-y-0 left-0 z-10 w-32 bg-gradient-to-r from-[hsl(220_30%_3%)] to-transparent" />
+      <div className="pointer-events-none absolute inset-y-0 right-0 z-10 w-32 bg-gradient-to-l from-[hsl(220_30%_3%)] to-transparent" />
     </section>
   );
 };

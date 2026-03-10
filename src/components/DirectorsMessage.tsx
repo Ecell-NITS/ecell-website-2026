@@ -66,7 +66,7 @@ const DirectorsMessage: React.FC = () => {
               {/* Image Container */}
               <div className="relative aspect-square w-full overflow-hidden rounded-xl border border-white/5 bg-gray-900">
                 <img
-                  src="director.png"
+                  src="https://res.cloudinary.com/dipid77bz/image/upload/f_webp/v1773118283/Screenshot_2026-03-10_at_10.20.48_AM_sybcxy.png"
                   alt="Prof. Dilip Kumar Baidya"
                   className="h-full w-full object-cover object-top opacity-90 transition-transform duration-700 hover:scale-105 hover:opacity-100"
                 />

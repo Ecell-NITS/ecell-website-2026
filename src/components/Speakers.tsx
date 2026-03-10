@@ -20,57 +20,66 @@ type Speaker = {
 const speakersData: Speaker[] = [
   {
     id: 1,
-    name: "Bhavish Aggarwal",
-    role: "Co-founder, OLA",
+    name: "Sabyasachi Mukherjee",
+    role: "Business Leader ",
     avatar:
-      "https://images.unsplash.com/photo-1556157382-97eda2d62296?auto=format&fit=crop&q=80&w=400",
+      "https://res.cloudinary.com/dipid77bz/image/upload/f_webp/v1773120356/sabyasachi-mukherjee_jctz1s.png",
     fullImage:
-      "https://images.unsplash.com/photo-1556157382-97eda2d62296?auto=format&fit=crop&q=80&w=800",
+      "https://res.cloudinary.com/dipid77bz/image/upload/f_webp/v1773120356/sabyasachi-mukherjee_jctz1s.png",
   },
   {
     id: 2,
-    name: "Ritesh Agarwal",
-    role: "Founder, OYO Rooms",
+    name: "Vivek Poddar ",
+    role: "Industry Expert & Entrepreneur",
     avatar:
-      "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&q=80&w=400",
+      "https://res.cloudinary.com/dipid77bz/image/upload/f_webp/v1773120354/vivek-podder_jjv9p6.jpg",
     fullImage:
-      "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&q=80&w=800",
+      "https://res.cloudinary.com/dipid77bz/image/upload/f_webp/v1773120354/vivek-podder_jjv9p6.jpg",
   },
   {
     id: 3,
-    name: "Byju Raveendran",
-    role: "Co-founder, Byju's",
+    name: "Utkarsh Bhatt",
+    role: " Co-Founder, Roghaari",
     avatar:
-      "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?auto=format&fit=crop&q=80&w=400",
+      "https://res.cloudinary.com/dipid77bz/image/upload/f_webp/v1773120357/utkarsh_bhatt_t2nfz6.jpg",
     fullImage:
-      "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?auto=format&fit=crop&q=80&w=800",
+      "https://res.cloudinary.com/dipid77bz/image/upload/f_webp/v1773120357/utkarsh_bhatt_t2nfz6.jpg",
   },
   {
     id: 4,
-    name: "Vani Kola",
-    role: "MD, Kalaari Capital",
+    name: "Pushkar Raj Thakur",
+    role: "CEO & Founder at coursedes learning solution pvt ltd.",
     avatar:
-      "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&q=80&w=400",
+      "https://res.cloudinary.com/dipid77bz/image/upload/f_webp/v1773120352/pushkar-raj_wbyigi.jpg",
     fullImage:
-      "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&q=80&w=800",
+      "https://res.cloudinary.com/dipid77bz/image/upload/f_webp/v1773120352/pushkar-raj_wbyigi.jpg",
   },
   {
     id: 5,
-    name: "Kunal Shah",
-    role: "Founder, Cred",
+    name: "Shantanu Jain",
+    role: "Co-Founder at Readon.in",
     avatar:
-      "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&q=80&w=400",
+      "https://res.cloudinary.com/dipid77bz/image/upload/f_webp/v1773120347/shantanu_jain_ib5t6g.jpg",
     fullImage:
-      "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&q=80&w=800",
+      "https://res.cloudinary.com/dipid77bz/image/upload/f_webp/v1773120347/shantanu_jain_ib5t6g.jpg",
   },
   {
     id: 6,
-    name: "Falguni Nayar",
-    role: "CEO, Nykaa",
+    name: "Sankar Bora",
+    role: "Founder & COO at DEALSHARE.IN",
     avatar:
-      "https://images.unsplash.com/photo-1580489944761-15a19d654956?auto=format&fit=crop&q=80&w=400",
+      "https://res.cloudinary.com/dipid77bz/image/upload/f_webp/v1773120346/sankar_bora_dxfjgk.jpg",
     fullImage:
-      "https://images.unsplash.com/photo-1580489944761-15a19d654956?auto=format&fit=crop&q=80&w=800",
+      "https://res.cloudinary.com/dipid77bz/image/upload/f_webp/v1773120346/sankar_bora_dxfjgk.jpg",
+  },
+  {
+    id: 7,
+    name: "Global Rashid",
+    role: "Internet marketer on youtube",
+    avatar:
+      "https://res.cloudinary.com/dipid77bz/image/upload/f_webp/v1773120347/global_rashid_axbqma.jpg",
+    fullImage:
+      "https://res.cloudinary.com/dipid77bz/image/upload/f_webp/v1773120347/global_rashid_axbqma.jpg",
   },
 ];
 

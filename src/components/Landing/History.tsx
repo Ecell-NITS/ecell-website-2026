@@ -16,7 +16,7 @@ const timelineData: TimelineEvent[] = [
     year: 2012,
     title: "Establishment",
     description:
-      "E-Cell was founded with a vision to nurture entrepreneurial minds",
+      "E-Cell NIT Silchar was founded with a clear mission: to foster an entrepreneurial mindset and create a structured support system for student innovators.",
     icon: "🌱",
     milestone: "Journey Begins",
   },
@@ -24,7 +24,7 @@ const timelineData: TimelineEvent[] = [
     year: 2014,
     title: "First Startup Incubation",
     description:
-      "Incubated our first batch of startup ideas with dedicated mentorship",
+      "This phase marked the formal strengthening of the incubation ecosystem within E-Cell. Rather than being limited to awareness programs, E-Cell began facilitating structured mentorship, startup validation guidance, and incubation support for promising student-led ventures.",
     icon: "🚀",
     milestone: "First Launch",
   },
@@ -32,7 +32,7 @@ const timelineData: TimelineEvent[] = [
     year: 2016,
     title: "Campus Recognition",
     description:
-      "Gained official recognition as a top student organization on campus",
+      "Through consistent initiatives, impactful events, and growing student participation, E-Cell established itself as one of the leading student-driven organisations on campus.",
     icon: "🏆",
     milestone: "Campus Leaders",
   },
@@ -40,44 +40,12 @@ const timelineData: TimelineEvent[] = [
     year: 2018,
     title: "Regional Expansion",
     description:
-      "Expanded network beyond campus with regional partnership programs",
+      "With a stable foundation on campus, E-Cell expanded its outreach beyond institutional boundaries. Collaborations, larger events, and regional engagement initiatives enabled the organisation to connect with a broader entrepreneurial network",
     icon: "🌐",
     milestone: "Growth Phase",
   },
   {
-    year: 2020,
-    title: "Digital Transformation",
-    description:
-      "Adapted to digital landscape with online events and virtual mentorships",
-    icon: "💻",
-    milestone: "Going Digital",
-  },
-  {
-    year: 2022,
-    title: "National Recognition",
-    description:
-      "Achieved national level recognition in startup ecosystem development",
-    icon: "⭐",
-    milestone: "National Stage",
-  },
-  {
-    year: 2023,
-    title: "Global Partnerships",
-    description:
-      "Established partnerships with 20+ international organizations and investors",
-    icon: "🤝",
-    milestone: "Going Global",
-  },
-  {
-    year: 2024,
-    title: "30 Crores Milestone",
-    description:
-      "E-Cell startups collectively raised over 30 crores in funding",
-    icon: "💰",
-    milestone: "Success Story",
-  },
-  {
-    year: 2025,
+    year: 2026,
     title: "Future Vision",
     description:
       "Continuing to build the next generation of innovations and entrepreneurs",

@@ -21,28 +21,28 @@ const faqs = [
     a: "E-Cell NIT Silchar is a non-profit student organization dedicated to promoting the spirit of entrepreneurship. We help students turn their ideas into reality by providing mentorship, incubation support, and resources through our Start-Up Centre.",
   },
   {
-    q: "How can I join E-Cell NIT Silchar?",
-    a: "We conduct annual recruitment drives, typically at the beginning of the academic session for freshers (EnGenius). We also occasionally open lateral entry for specific roles. Keep an eye on our social media handles for recruitment announcements.",
+    q: "Do I need a business idea to join E-Cell?",
+    a: "No. You do not need a startup idea to join. E-Cell is open to all students who are interested in entrepreneurship, innovation, leadership, marketing, finance, or startup culture.",
   },
   {
-    q: "What is Srijan?",
-    a: "Srijan is our flagship annual Entrepreneurship Summit (E-Summit). It features keynote sessions by industry leaders, pitching competitions, workshops, and networking opportunities designed to foster innovation among students across India.",
+    q: "How can I get funding for my startup idea?",
+    a: "E-Cell NIT Silchar supports students through: Pitch competitions, Startup bootcamps, Guidance on government startup schemes and Investor networking during entrepreneurship summits",
   },
   {
-    q: "Does E-Cell provide funding for startups?",
-    a: 'Yes, we facilitate funding opportunities through our Incubation Centre. We connect promising student startups with angel investors, venture capitalists, and government grants during events like "Pitch Please" and our Incubation drives.',
+    q: "Can students from non-technical branches join?",
+    a: "Absolutely. Entrepreneurship requires diverse skills, management, finance, design, operations, marketing, and technology.",
+  },
+  {
+    q: "What are the flagship events of E-Cell NIT Silchar?",
+    a: "SRIJAN – National Entrepreneurship Summit, Startup Bootcamps, Ideation Workshops, Investor & Founder Talks, Business Plan Competitions",
   },
   {
     q: "Can I participate in events if I am not from NIT Silchar?",
     a: "Absolutely! Most of our flagship events, including Srijan and Empressario (our module in Tecnoesis), are open to students from colleges across India. We encourage diverse participation to build a broader network.",
   },
   {
-    q: "What is Empressario?",
-    a: "Empressario is the annual entrepreneurship module organized by E-Cell during Tecnoesis (the technical fest of NIT Silchar). It includes competitions like business model pitching, case studies, and managerial challenges.",
-  },
-  {
-    q: "Do you offer internships?",
-    a: "Yes, we facilitate internship opportunities for students by connecting them with the startups incubated at our centre. We also partner with external companies to provide internship drives during our events.",
+    q: "How is E-Cell different from the coding club?",
+    a: "A coding club primarily focuses on programming skills and technical development. E-Cell focuses on: Startup ecosystem, Business model development, Innovation and product thinking, Fundraising  and  pitching, Networking with founders and investors. E-Cell works on turning ideas into viable ventures.",
   },
 ];
 
@@ -174,7 +174,7 @@ export default function FaqSection() {
                 whileInView={{ opacity: 1 }}
                 viewport={{ once: true }}
                 transition={{ delay: 0.3 }}
-                href="#contact"
+                href="#contactus"
                 className="group inline-flex items-center gap-2 text-base font-semibold text-white transition-colors hover:text-blue-400"
               >
                 <span className="border-b border-blue-500 pb-0.5">

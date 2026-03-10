@@ -221,9 +221,9 @@ const About: React.FC = () => {
               <span>Our Ecosystem</span>
             </div>
 
-            <h2 className="mb-4 text-3xl font-black tracking-tighter text-white uppercase sm:text-4xl md:mb-6 md:text-5xl lg:text-6xl">
+            <h2 className="mb-4 text-3xl font-black tracking-tighter text-white uppercase sm:text-4xl md:mb-6 md:text-5xl lg:text-4xl xl:text-5xl 2xl:text-6xl">
               Pioneering <br />
-              <span className="bg-gradient-to-r from-blue-400 to-blue-200 bg-clip-text text-transparent">
+              <span className="bg-gradient-to-r from-blue-400 to-blue-200 bg-clip-text break-words text-transparent sm:break-normal">
                 Entrepreneurship
               </span>
             </h2>

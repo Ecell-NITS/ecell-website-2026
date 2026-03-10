@@ -30,7 +30,7 @@ const HeroSection = () => {
             style={{
               left: `${5 + i * 12}%`,
               top: `${15 + (i % 3) * 30}%`,
-              backgroundImage: `url(/EIC/eic-main-poster.png)`,
+              backgroundImage: `url(https://res.cloudinary.com/ecell/image/upload/f_webp/v1773172416/472479350_18283963327217970_8109521993855505084_n_oxb3he.jpg)`,
               backgroundSize: "cover",
             }}
             animate={{

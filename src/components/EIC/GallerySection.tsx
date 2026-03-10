@@ -4,11 +4,23 @@ import { motion } from "framer-motion";
 import Image from "next/image";
 
 const galleryImages = [
-  "https://res.cloudinary.com/dtt4ftdrw/image/upload/v1770137527/emain_sweptn.png",
-  "https://res.cloudinary.com/dtt4ftdrw/image/upload/v1770137561/emi_bz3gpl.png",
-  "https://res.cloudinary.com/dtt4ftdrw/image/upload/v1770137571/r1_ktxtlr.png",
-  "https://res.cloudinary.com/dtt4ftdrw/image/upload/v1770137577/r2_vqgl8b.png",
-  "https://res.cloudinary.com/dtt4ftdrw/image/upload/v1770137585/r3_zc0atn.png",
+  "https://res.cloudinary.com/dsaaxuphe/image/upload/v1773078309/a5_l5p6ep.webp",
+  "https://res.cloudinary.com/dsaaxuphe/image/upload/v1773078310/a7_jnqfxe.webp",
+  "https://res.cloudinary.com/dsaaxuphe/image/upload/v1773078310/a3_yvhglc.webp",
+  "https://res.cloudinary.com/dsaaxuphe/image/upload/v1773078309/a2_jaoiq2.webp",
+  "https://res.cloudinary.com/dsaaxuphe/image/upload/v1772994031/a1_b15ivc.jpg",
+  "https://res.cloudinary.com/dsaaxuphe/image/upload/v1773078308/a4_tmyctl.webp",
+  "https://res.cloudinary.com/dsaaxuphe/image/upload/v1773082116/a9_mvw8v9.webp",
+  "https://res.cloudinary.com/dsaaxuphe/image/upload/v1773082115/a12_bn6gwq.webp",
+  "https://res.cloudinary.com/dsaaxuphe/image/upload/v1773082115/a8_eqfham.webp",
+  "https://res.cloudinary.com/dsaaxuphe/image/upload/v1773082115/a13_nggba1.webp",
+  "https://res.cloudinary.com/dsaaxuphe/image/upload/v1773082115/a10_zvgkyj.webp",
+  "https://res.cloudinary.com/dsaaxuphe/image/upload/v1773082115/a11_r68o1u.webp",
+  "https://res.cloudinary.com/dsaaxuphe/image/upload/v1773082114/a15_knkz3t.webp",
+  "https://res.cloudinary.com/dsaaxuphe/image/upload/v1773082114/a14_yra40r.webp",
+  "https://res.cloudinary.com/dsaaxuphe/image/upload/v1773082114/a18_wqal82.webp",
+  "https://res.cloudinary.com/dsaaxuphe/image/upload/v1773082113/a19_qc4jhl.webp",
+  "https://res.cloudinary.com/dsaaxuphe/image/upload/v1773082113/a20_scmy0r.webp",
 ];
 
 const Marquee = ({
@@ -70,8 +82,8 @@ const GallerySection = () => {
       </div>
 
       <div className="space-y-8">
-        <Marquee direction="left" speed={50} />
-        <Marquee direction="right" speed={60} />
+        <Marquee direction="left" speed={100} />
+        <Marquee direction="right" speed={100} />
       </div>
 
       {/* Gradient Masks */}

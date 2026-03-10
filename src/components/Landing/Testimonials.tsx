@@ -15,20 +15,20 @@ const testimonialsData = [
       "https://res.cloudinary.com/dp92qug2f/image/upload/v1678340666/Ecell%20website/testimonial/mayank_webp_khudax.webp",
     text: "It was nostalgic to see NIT Silchar students and faculty. I really enjoyed the candid conversation with students and the energy in the room to do something big. Would love to come back soon and work towards building a solid entrepreneurial ecosystem in the campus.",
   },
-  {
-    id: 2,
-    name: "Rohan Das",
-    role: "Founder @ TechSolutions",
-    image: "",
-    text: "E-Cell NITS provided me with the mentorship and network I needed to take my startup from an idea to a funded reality. The ecosystem here is thriving and genuinely supportive of new ideas.",
-  },
-  {
-    id: 3,
-    name: "Priya Sharma",
-    role: "Product Manager @ Google",
-    image: "",
-    text: "The events and workshops are top-notch. It's the best place to learn about entrepreneurship in the region. The team's dedication to fostering innovation is truly inspiring.",
-  },
+  // {
+  //   id: 2,
+  //   name: "Rohan Das",
+  //   role: "Founder @ TechSolutions",
+  //   image: "",
+  //   text: "E-Cell NITS provided me with the mentorship and network I needed to take my startup from an idea to a funded reality. The ecosystem here is thriving and genuinely supportive of new ideas.",
+  // },
+  // {
+  //   id: 3,
+  //   name: "Priya Sharma",
+  //   role: "Product Manager @ Google",
+  //   image: "",
+  //   text: "The events and workshops are top-notch. It's the best place to learn about entrepreneurship in the region. The team's dedication to fostering innovation is truly inspiring.",
+  // },
 ];
 
 const Testimonials: React.FC = () => {

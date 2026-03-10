@@ -87,7 +87,7 @@ export default function MottoSection() {
           {mottoData.map((item) => (
             <div
               key={item.title}
-              className="group relative h-[420px] w-full min-w-[85vw] snap-center overflow-hidden rounded-[2.5rem] border border-white/10 bg-white/5 p-10 text-center transition-transform duration-500 sm:min-w-0"
+              className="group relative h-[420px] w-full min-w-[85vw] snap-center overflow-hidden rounded-[2.5rem] border border-white/10 bg-white/5 p-10 text-center transition-transform duration-500 sm:min-w-0 lg:px-6 xl:px-4 2xl:px-10"
               style={{ perspective: "1000px" }}
             >
               <div className="relative h-full w-full transition-transform duration-500 group-hover:scale-[1.03]">
@@ -106,7 +106,7 @@ export default function MottoSection() {
                   />
                 </div>
 
-                <h3 className="relative z-10 mb-5 text-3xl font-black text-white transition-colors duration-300 group-hover:text-blue-400">
+                <h3 className="relative z-10 mb-5 text-2xl font-black tracking-tight text-white transition-colors duration-300 group-hover:text-blue-400 sm:text-3xl lg:text-2xl xl:text-xl 2xl:text-2xl">
                   {item.title}
                 </h3>
 

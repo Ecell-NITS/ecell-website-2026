@@ -29,15 +29,33 @@ const Footer: React.FC = () => {
               East India.
             </p>
             <div className="flex gap-4">
-              {[Facebook, Instagram, Linkedin, Twitter].map((Icon, i) => (
-                <a
-                  key={i}
-                  href="#"
-                  className="glass flex h-10 w-10 items-center justify-center rounded-xl text-gray-400 transition-all hover:border-blue-500/30 hover:text-blue-500"
-                >
-                  <Icon size={18} />
-                </a>
-              ))}
+              {[
+                {
+                  href: "https://www.facebook.com/ecell.nit.silchar/",
+                  icon: Facebook,
+                },
+                {
+                  href: "https://www.instagram.com/ecell.nitsilchar/",
+                  icon: Instagram,
+                },
+                {
+                  href: "https://www.linkedin.com/company/ecell-nit-silchar",
+                  icon: Linkedin,
+                },
+              ].map((item, i) => {
+                const IconComponent = item.icon;
+                return (
+                  <a
+                    key={i}
+                    href={item.href}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="glass flex h-10 w-10 items-center justify-center rounded-xl text-gray-400 transition-all hover:border-blue-500/30 hover:text-blue-500"
+                  >
+                    <IconComponent size={18} />
+                  </a>
+                );
+              })}
             </div>
           </div>
 
@@ -47,19 +65,19 @@ const Footer: React.FC = () => {
             </h4>
             <ul className="space-y-4">
               {[
-                "Home",
-                "About Us",
-                "Events",
-                "Our Team",
-                "Resources",
-                "Gallery",
+                { label: "Home", href: "/" },
+                { label: "About Us", href: "/about" },
+                { label: "Events", href: "/events" },
+                { label: "Our Team", href: "/team" },
+                { label: "Resources", href: "/resources" },
+                { label: "Gallery", href: "/gallery" },
               ].map((item) => (
-                <li key={item}>
+                <li key={item.label}>
                   <a
-                    href="#"
+                    href={item.href}
                     className="text-sm text-gray-500 transition-colors hover:text-blue-400"
                   >
-                    {item}
+                    {item.label}
                   </a>
                 </li>
               ))}
@@ -68,22 +86,28 @@ const Footer: React.FC = () => {
 
           <div>
             <h4 className="mb-6 text-xs font-bold tracking-widest text-white uppercase lg:mb-8">
-              Organisation
+              Other Links
             </h4>
             <ul className="space-y-4">
               {[
-                "Startup Center",
-                "NIT Silchar",
-                "Assam, India",
-                "IIC Cell",
-                "Srijan Summit",
+                { label: "NIT Silchar", href: "http://www.nits.ac.in/" },
+                { label: "Engenius", href: "/ENGENIUS" },
+                { label: "Empresario", href: "/EMPRESARIO" },
+                { label: "EIC", href: "/EIC" },
+                { label: "Eminence", href: "/EMINENCE" },
               ].map((item) => (
-                <li key={item}>
+                <li key={item.label}>
                   <a
-                    href="#"
+                    href={item.href}
+                    target={item.href.startsWith("http") ? "_blank" : undefined}
+                    rel={
+                      item.href.startsWith("http")
+                        ? "noopener noreferrer"
+                        : undefined
+                    }
                     className="text-sm text-gray-500 transition-colors hover:text-blue-400"
                   >
-                    {item}
+                    {item.label}
                   </a>
                 </li>
               ))}
@@ -115,7 +139,7 @@ const Footer: React.FC = () => {
             © {new Date().getFullYear()} E-Cell, NIT Silchar. All rights
             reserved.
           </p>
-          <div className="flex gap-8">
+          {/* <div className="flex gap-8">
             <a
               href="#"
               className="text-xs text-gray-600 transition-colors hover:text-white"
@@ -128,7 +152,7 @@ const Footer: React.FC = () => {
             >
               Terms of Use
             </a>
-          </div>
+          </div> */}
         </div>
       </div>
 

@@ -6,28 +6,120 @@ import { motion } from "framer-motion";
 const Partners: React.FC = () => {
   const partners = [
     {
-      name: "ED Times",
-      url: "https://res.cloudinary.com/dp92qug2f/image/upload/v1685354010/Ecell%20website/edtimes_logo_bhl4ec.webp",
+      name: "Stock Edge",
+      logo: "https://res.cloudinary.com/df0uaz36o/image/upload/f_webp/v1770903126/stck_edge_yidnjf.png",
     },
     {
-      name: "Payzaql",
-      url: "https://res.cloudinary.com/draptrzrc/image/upload/v1707558984/Payzaql.webp",
+      name: "Quickobook",
+      logo: "https://res.cloudinary.com/df0uaz36o/image/upload/f_webp/v1770903165/quicko_y3mdsr.png",
+    },
+    {
+      name: "The Product Folks",
+      logo: "https://res.cloudinary.com/df0uaz36o/image/upload/f_webp/v1770903184/the_product_folk_ftmcg7.png",
+    },
+    {
+      name: "Geeks for Geeks",
+      logo: "https://res.cloudinary.com/df0uaz36o/image/upload/f_webp/v1770903204/geeksforgeeks_psxxiy.png",
+    },
+    {
+      name: "IDP",
+      logo: "https://res.cloudinary.com/df0uaz36o/image/upload/f_webp/v1770903334/idp_ujvidp.png",
+    },
+    {
+      name: "HDFC",
+      logo: "https://res.cloudinary.com/df0uaz36o/image/upload/f_webp/v1770903358/hdfc_uiealn.png",
+    },
+    {
+      name: "ED Times",
+      logo: "https://res.cloudinary.com/df0uaz36o/image/upload/f_webp/v1770903420/ed_times_hxkqt9.jpg",
+    },
+    {
+      name: "Pyzaql",
+      logo: "https://res.cloudinary.com/df0uaz36o/image/upload/f_webp/v1770903436/pyzaql_nls3om.png",
     },
     {
       name: "Cubelelo",
-      url: "https://res.cloudinary.com/dp92qug2f/image/upload/v1676989598/collaboration-ecell/Cubeleloresized_jimc2g.png",
+      logo: "https://res.cloudinary.com/df0uaz36o/image/upload/f_webp/v1770903451/cubelelo_gmfsu0.png",
     },
     {
       name: "Black Marble",
-      url: "https://res.cloudinary.com/dp92qug2f/image/upload/v1676990266/collaboration-ecell/blackmarble00_q3mowc.png",
+      logo: "https://res.cloudinary.com/df0uaz36o/image/upload/f_webp/v1770903494/black_marble_cgp9zk.png",
     },
     {
-      name: "GFG",
-      url: "https://res.cloudinary.com/dp92qug2f/image/upload/v1676990589/collaboration-ecell/gfgre_xzhxha.png",
+      name: "TruScholar",
+      logo: "https://res.cloudinary.com/df0uaz36o/image/upload/f_webp/v1770903508/truscholar_ntepdv.png",
     },
     {
-      name: "Assam StartUp",
-      url: "https://res.cloudinary.com/dp92qug2f/image/upload/v1676990737/collaboration-ecell/assamStartUpres_n2fbxv.png",
+      name: "Kwikpic",
+      logo: "https://res.cloudinary.com/df0uaz36o/image/upload/f_webp/v1770903524/kwikpick_vkuuxp.jpg",
+    },
+    {
+      name: "S.S. Start",
+      logo: "https://res.cloudinary.com/df0uaz36o/image/upload/f_webp/v1770903541/s.s_start_qeqsna.jpg",
+    },
+    {
+      name: "Stock Grow",
+      logo: "https://res.cloudinary.com/df0uaz36o/image/upload/f_webp/v1770903577/stock_gro_fi5cka.jpg",
+    },
+    {
+      name: "Engineer Hub",
+      logo: "https://res.cloudinary.com/df0uaz36o/image/upload/f_webp/v1770903605/engineer_hub_qf0ao2.png",
+    },
+    {
+      name: "Anterprerna",
+      logo: "https://res.cloudinary.com/df0uaz36o/image/upload/f_webp/v1770903627/anterprerna_ndrjda.jpg",
+    },
+    {
+      name: "Ivy Camp",
+      logo: "https://res.cloudinary.com/df0uaz36o/image/upload/f_webp/v1770903646/Ivy_Camp_e9oqyk.jpg",
+    },
+    {
+      name: "Janta Group",
+      logo: "https://res.cloudinary.com/df0uaz36o/image/upload/f_webp/v1770903661/janta_group_hoksvj.jpg",
+    },
+    {
+      name: "Learning while Travelling",
+      logo: "https://res.cloudinary.com/df0uaz36o/image/upload/f_webp/v1770903680/Learning_while_travelling_tvceic.png",
+    },
+    {
+      name: "Krayonzz",
+      logo: "https://res.cloudinary.com/df0uaz36o/image/upload/f_webp/v1770903726/krayonzz_dntqxt.png",
+    },
+    {
+      name: "ASAP",
+      logo: "https://res.cloudinary.com/df0uaz36o/image/upload/f_webp/v1770903741/asap_mhwpys.jpg",
+    },
+    {
+      name: "YHills",
+      logo: "https://res.cloudinary.com/df0uaz36o/image/upload/f_webp/v1770903755/Yhills_gf0xyb.jpg",
+    },
+    {
+      name: "Yen",
+      logo: "https://res.cloudinary.com/df0uaz36o/image/upload/f_webp/v1770903776/yen_sfbsub.jpg",
+    },
+    {
+      name: "Internet Partner",
+      logo: "https://res.cloudinary.com/df0uaz36o/image/upload/f_webp/v1770903789/Intrnt_l6rvhn.png",
+    },
+    {
+      name: "Agriculture Partner",
+      logo: "https://res.cloudinary.com/df0uaz36o/image/upload/f_webp/v1770903802/crop_sow0ew.jpg",
+    },
+    {
+      name: "Unstop",
+      logo: "https://res.cloudinary.com/df0uaz36o/image/upload/f_webp/v1770903816/unstop_jejjrz.png",
+    },
+    {
+      name: "Energy Partner",
+      logo: "https://res.cloudinary.com/df0uaz36o/image/upload/f_webp/v1770903829/Energy_nu1rba.png",
+    },
+    {
+      name: "Ease my Trip",
+      logo: "https://res.cloudinary.com/df0uaz36o/image/upload/f_webp/v1770903842/Easy_My_trip_ta8cm1.jpg",
+    },
+    {
+      name: "Product Space",
+      logo: "https://res.cloudinary.com/df0uaz36o/image/upload/f_webp/v1770903856/Product_space_yfrgxj.jpg",
     },
   ];
 
@@ -53,7 +145,7 @@ const Partners: React.FC = () => {
         <motion.div
           animate={{ x: "-50%" }}
           transition={{
-            duration: 40,
+            duration: 200,
             repeat: Infinity,
             ease: "linear",
           }}
@@ -67,7 +159,7 @@ const Partners: React.FC = () => {
               <div className="h-12 w-12 overflow-hidden rounded-full border border-white/10 bg-white/5 p-2 md:h-16 md:w-16">
                 {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img
-                  src={partner.url}
+                  src={partner.logo}
                   alt={partner.name}
                   className="h-full w-full object-contain"
                 />

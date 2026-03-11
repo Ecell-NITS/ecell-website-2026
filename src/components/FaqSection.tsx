@@ -107,7 +107,7 @@ export default function FaqSection() {
   const [openIndex, setOpenIndex] = useState<number | null>(0);
 
   return (
-    <section className="relative w-full overflow-hidden bg-[#020617] py-20 md:py-32">
+    <section className="relative w-full overflow-hidden bg-[#020617] py-12 md:py-16 lg:py-20 xl:py-24">
       {/* Section Edge Fades */}
       <div className="pointer-events-none absolute inset-x-0 top-0 z-[1] h-24 bg-gradient-to-b from-[#020617] to-transparent" />
       <div className="pointer-events-none absolute inset-x-0 bottom-0 z-[1] h-24 bg-gradient-to-t from-[#020617] to-transparent" />

@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useRef, useCallback } from "react";
+import React, { useState, useRef, useCallback, useEffect } from "react";
 import { createPortal } from "react-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import { X } from "lucide-react";
@@ -81,6 +81,7 @@ const Achievements: React.FC = () => {
     useState<Achievement | null>(null);
   const [activeIndex, setActiveIndex] = useState(0);
   const scrollRef = useRef<HTMLDivElement>(null);
+  const [isPaused, setIsPaused] = useState(false);
 
   const handleScroll = useCallback(() => {
     if (scrollRef.current) {
@@ -91,6 +92,36 @@ const Achievements: React.FC = () => {
       setActiveIndex(Math.min(Math.max(index, 0), achievementsData.length - 1));
     }
   }, []);
+
+  useEffect(() => {
+    if (isPaused) return;
+    const timer = setInterval(() => {
+      if (scrollRef.current) {
+        // Only auto-scroll if we're in mobile/scrollable view
+        // The container uses flex-row and overflow-x-auto, but switches to grid on md+
+        const isMobile = window.innerWidth < 768;
+        if (isMobile) {
+          const scrollLeft = scrollRef.current.scrollLeft;
+          const scrollWidth = scrollRef.current.scrollWidth;
+          const itemWidth = scrollWidth / achievementsData.length;
+          const maxScrollLeft = scrollWidth - scrollRef.current.clientWidth;
+
+          let nextScrollLeft = scrollLeft + itemWidth;
+          // Loop back to start if we reached the end
+          if (nextScrollLeft >= maxScrollLeft + 10) {
+            nextScrollLeft = 0;
+          }
+
+          scrollRef.current.scrollTo({
+            left: nextScrollLeft,
+            behavior: "smooth",
+          });
+        }
+      }
+    }, 2500); // Auto-advance every 2.5 seconds
+
+    return () => clearInterval(timer);
+  }, [isPaused]);
 
   return (
     <>
@@ -127,6 +158,10 @@ const Achievements: React.FC = () => {
           <div
             ref={scrollRef}
             onScroll={handleScroll}
+            onTouchStart={() => setIsPaused(true)}
+            onTouchEnd={() => setIsPaused(false)}
+            onMouseEnter={() => setIsPaused(true)}
+            onMouseLeave={() => setIsPaused(false)}
             className="scrollbar-hide mx-auto flex max-w-7xl snap-x snap-mandatory gap-8 overflow-x-auto pb-6 md:grid md:grid-cols-2 md:pb-0 lg:grid-cols-3"
           >
             {achievementsData.map((achievement, idx) => (

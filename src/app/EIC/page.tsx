@@ -24,7 +24,7 @@ export const metadata: Metadata = {
     type: "website",
     images: [
       {
-        url: "/og/landing.png",
+        url: "/og/landing2.png",
         width: 1200,
         height: 630,
         alt: "EIC — E-Cell NIT Silchar",
@@ -35,7 +35,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "EIC | E-Cell NIT Silchar",
     description: "Entrepreneurship & Innovation Challenge at NIT Silchar.",
-    images: ["/og/landing.png"],
+    images: ["/og/landing2.png"],
   },
 };
 

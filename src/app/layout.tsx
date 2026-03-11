@@ -52,7 +52,7 @@ export const metadata: Metadata = {
       "E-Cell NIT Silchar is a non-profit student-run organization promoting and nurturing the entrepreneurial spirit among students of NIT Silchar.",
     images: [
       {
-        url: "/og/landing.png",
+        url: "/og/landing2.png",
         width: 1200,
         height: 630,
         alt: "E-Cell NIT Silchar Logo",
@@ -63,7 +63,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "E-Cell NIT Silchar",
     description: "Fostering Innovation & Leadership at NIT Silchar.",
-    images: ["/og/landing.png"],
+    images: ["/og/landing2.png"],
   },
   alternates: {
     canonical: SITE_URL,

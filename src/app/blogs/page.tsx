@@ -20,7 +20,7 @@ export const metadata: Metadata = {
     type: "website",
     images: [
       {
-        url: "/og/landing.png",
+        url: "/og/landing2.png",
         width: 1200,
         height: 630,
         alt: "E-Cell NIT Silchar",
@@ -32,7 +32,7 @@ export const metadata: Metadata = {
     title: "Blogs | E-Cell NIT Silchar",
     description:
       "Read insights, stories, and guides from the entrepreneurial ecosystem at NIT Silchar.",
-    images: ["/og/landing.png"],
+    images: ["/og/landing2.png"],
   },
 };
 

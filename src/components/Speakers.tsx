@@ -84,35 +84,36 @@ const speakersData: Speaker[] = [
 ];
 
 // --- Constants ---
-const CARD_WIDTH = 300;
-const GAP = 32;
-const ITEM_SIZE = CARD_WIDTH + GAP;
+// We will calculate ITEM_SIZE dynamically based on screen width since we are making items responsive.
+// Instead of hardcoded constants, we'll use a hook to track the size of the cards.
 
 // --- Sub-Component ---
 const SpeakerCard: React.FC<{ speaker: Speaker }> = ({ speaker }) => {
   return (
-    <div className="group relative h-[420px] w-[300px] flex-shrink-0 cursor-pointer overflow-hidden rounded-3xl border border-white/10 bg-white/5 transition-all duration-500 hover:-translate-y-2 hover:border-blue-500/30 hover:shadow-[0_20px_40px_-15px_rgba(37,99,235,0.2)]">
+    <div className="group relative h-[320px] w-[220px] flex-shrink-0 cursor-pointer overflow-hidden rounded-[1.5rem] border border-white/10 bg-white/5 transition-all duration-500 hover:-translate-y-2 hover:border-blue-500/30 hover:shadow-[0_20px_40px_-15px_rgba(37,99,235,0.2)] sm:h-[350px] sm:w-[240px] md:h-[380px] md:w-[260px] md:rounded-3xl lg:h-[420px] lg:w-[300px]">
       {/* 1. HOVER STATE: Full Background Image */}
       <div className="absolute inset-0 z-0 opacity-0 transition-opacity duration-500 group-hover:opacity-100">
         <img
           src={speaker.fullImage}
           alt={speaker.name}
           className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-110"
+          draggable={false}
         />
         {/* Gradient Overlay for Text Readability */}
         <div className="absolute inset-0 bg-gradient-to-t from-[#020617] via-[#020617]/50 to-transparent" />
       </div>
 
       {/* 2. DEFAULT STATE: Avatar & Text */}
-      <div className="absolute inset-0 z-10 flex flex-col p-6 transition-all duration-500">
+      <div className="absolute inset-0 z-10 flex flex-col p-4 transition-all duration-500 md:p-6">
         {/* Top: Avatar (Fades out on hover) */}
         <div className="flex flex-1 items-center justify-center transition-all duration-500 group-hover:-translate-y-4 group-hover:opacity-0">
-          <div className="relative h-50 w-50 rounded-full border-4 border-blue-500/20 p-1 shadow-2xl">
+          <div className="relative h-32 w-32 rounded-full border-4 border-blue-500/20 p-1 shadow-2xl sm:h-36 sm:w-36 md:h-44 md:w-44 lg:h-50 lg:w-50">
             <div className="h-full w-full overflow-hidden rounded-full bg-gray-800">
               <img
                 src={speaker.avatar}
                 alt={speaker.name}
                 className="h-full w-full object-cover"
+                draggable={false}
               />
             </div>
           </div>
@@ -120,16 +121,16 @@ const SpeakerCard: React.FC<{ speaker: Speaker }> = ({ speaker }) => {
 
         {/* Bottom: Text Info (Slides down on hover) */}
         <div className="text-center transition-all duration-500 group-hover:translate-y-0 group-hover:text-left">
-          <h3 className="text-2xl font-bold text-white drop-shadow-md transition-all duration-300 group-hover:text-3xl">
+          <h3 className="text-xl font-bold text-white drop-shadow-md transition-all duration-300 group-hover:text-2xl sm:text-2xl lg:group-hover:text-3xl">
             {speaker.name}
           </h3>
-          <p className="mt-2 text-sm font-medium tracking-wide text-blue-400 uppercase group-hover:text-blue-300">
+          <p className="mt-1 text-xs font-medium tracking-wide text-blue-400 uppercase group-hover:text-blue-300 sm:mt-2 md:text-sm">
             {speaker.role}
           </p>
 
           {/* Extra Info visible only on hover */}
-          <div className="h-0 overflow-hidden opacity-0 transition-all duration-500 group-hover:mt-4 group-hover:h-auto group-hover:opacity-100">
-            <p className="line-clamp-3 text-xs leading-relaxed text-gray-300">
+          <div className="h-0 overflow-hidden opacity-0 transition-all duration-500 group-hover:mt-2 group-hover:h-auto group-hover:opacity-100 md:group-hover:mt-4">
+            <p className="line-clamp-3 text-[10px] leading-relaxed text-gray-300 sm:text-xs">
               Visionary leader transforming the industry with innovation and
               resilience.
             </p>
@@ -152,15 +153,39 @@ const Speakers: React.FC = () => {
   const controls = useAnimation();
   const containerRef = useRef<HTMLDivElement>(null);
 
+  const [itemSize, setItemSize] = useState(0);
+
+  // Calculate dynamic item size on load and resize
+  useEffect(() => {
+    const updateSize = () => {
+      const width = window.innerWidth;
+      // Breakpoints: mobile < 640px < sm < 768px < md < 1024px < lg
+      // w-[220px] gap-4 (16px) => 236
+      // sm:w-[240px] sm:gap-6 (24px) => 264
+      // md:w-[260px] md:gap-7 (28px) => 288
+      // lg:w-[300px] lg:gap-8 (32px) => 332
+      if (width >= 1024) setItemSize(300 + 32);
+      else if (width >= 768) setItemSize(260 + 28);
+      else if (width >= 640) setItemSize(240 + 24);
+      else setItemSize(220 + 16);
+    };
+
+    updateSize(); // Initial call
+    window.addEventListener("resize", updateSize);
+    return () => window.removeEventListener("resize", updateSize);
+  }, []);
+
   // --- Animation Logic ---
   const animateToPosition = useCallback(
     (index: number) => {
+      // Don't animate until itemSize is calculated
+      if (itemSize === 0) return;
       void controls.start({
-        x: -index * ITEM_SIZE,
+        x: -index * itemSize,
         transition: { duration: 0.5, ease: [0.32, 0.72, 0, 1] }, // Smooth fluid easing
       });
     },
-    [controls],
+    [controls, itemSize],
   );
 
   useEffect(() => {
@@ -174,33 +199,33 @@ const Speakers: React.FC = () => {
       // Visually this is identical to the start of 2nd set (Real Content)
       if (prev >= totalRealItems * 2) {
         // Instantly jump back to the start of Real Content
-        controls.set({ x: -totalRealItems * ITEM_SIZE });
+        controls.set({ x: -totalRealItems * itemSize });
         // Then animate to the next item
         return totalRealItems + 1;
       }
       return prev + 1;
     });
-  }, [totalRealItems, controls]);
+  }, [totalRealItems, controls, itemSize]);
 
   const handlePrev = useCallback(() => {
     setCurrentIndex((prev) => {
       // If we are at the start of Real Content
       if (prev <= totalRealItems) {
         // Instantly jump to the start of Buffer 2
-        controls.set({ x: -totalRealItems * 2 * ITEM_SIZE });
+        controls.set({ x: -totalRealItems * 2 * itemSize });
         // Then animate to the previous item
         return totalRealItems * 2 - 1;
       }
       return prev - 1;
     });
-  }, [totalRealItems, controls]);
+  }, [totalRealItems, controls, itemSize]);
 
   // --- Auto-Play ---
   useEffect(() => {
-    if (isHovering) return;
+    if (isHovering || itemSize === 0) return;
     const timer = setInterval(handleNext, 3000);
     return () => clearInterval(timer);
-  }, [isHovering, handleNext]);
+  }, [isHovering, handleNext, itemSize]);
 
   return (
     <section className="relative w-full overflow-hidden bg-[#020617] py-12 md:py-16 lg:py-20 xl:py-24">
@@ -220,7 +245,7 @@ const Speakers: React.FC = () => {
       <div className="pointer-events-none absolute bottom-0 left-0 h-[600px] w-[600px] rounded-full bg-purple-600/10 blur-[120px]" />
 
       {/* --- HEADER --- */}
-      <div className="relative z-10 mx-auto mb-16 px-6 sm:px-8 lg:px-12 xl:px-16">
+      <div className="relative z-10 mx-auto px-6 sm:mb-4 sm:px-8 md:mb-8 lg:mb-12 lg:px-12 xl:mb-16 xl:px-16">
         <div className="flex flex-col items-center justify-between gap-8 md:flex-row">
           <div className="max-w-2xl text-center md:text-left">
             <h2 className="mb-3 text-sm font-bold tracking-[0.2em] text-blue-400 uppercase">
@@ -238,18 +263,18 @@ const Speakers: React.FC = () => {
           </div>
 
           {/* Controls */}
-          <div className="flex gap-4">
+          <div className="mt-0 flex justify-center gap-4">
             <button
               onClick={handlePrev}
-              className="group flex h-12 w-12 items-center justify-center rounded-full border border-white/10 bg-white/5 backdrop-blur-sm transition-all hover:border-blue-500/50 hover:bg-blue-500/10 active:scale-95"
+              className="group flex h-10 w-10 items-center justify-center rounded-full border border-white/10 bg-white/5 backdrop-blur-sm transition-all hover:border-blue-500/50 hover:bg-blue-500/10 active:scale-95 sm:h-12 sm:w-12"
             >
-              <ChevronLeft className="h-6 w-6 text-white transition-transform group-hover:-translate-x-0.5" />
+              <ChevronLeft className="h-5 w-5 text-white transition-transform group-hover:-translate-x-0.5 sm:h-6 sm:w-6" />
             </button>
             <button
               onClick={handleNext}
-              className="group flex h-12 w-12 items-center justify-center rounded-full border border-white/10 bg-white/5 backdrop-blur-sm transition-all hover:border-blue-500/50 hover:bg-blue-500/10 active:scale-95"
+              className="group flex h-10 w-10 items-center justify-center rounded-full border border-white/10 bg-white/5 backdrop-blur-sm transition-all hover:border-blue-500/50 hover:bg-blue-500/10 active:scale-95 sm:h-12 sm:w-12"
             >
-              <ChevronRight className="h-6 w-6 text-white transition-transform group-hover:translate-x-0.5" />
+              <ChevronRight className="h-5 w-5 text-white transition-transform group-hover:translate-x-0.5 sm:h-6 sm:w-6" />
             </button>
           </div>
         </div>
@@ -268,9 +293,9 @@ const Speakers: React.FC = () => {
 
         {/* Draggable Track */}
         <motion.div
-          className="flex gap-8 pl-8 md:pl-[calc(50vw-150px)]" // Start centering logic
+          className="flex gap-4 pl-4 sm:gap-6 sm:pl-8 md:gap-7 md:pl-[calc(50vw-130px)] lg:gap-8 lg:pl-[calc(50vw-150px)]" // Start centering logic adjusted slightly for mobile offsets
           animate={controls}
-          initial={{ x: -totalRealItems * ITEM_SIZE }}
+          initial={{ x: itemSize ? -totalRealItems * itemSize : 0 }}
           drag="x"
           dragConstraints={containerRef}
           onDragEnd={(e, { offset, velocity }: PanInfo) => {

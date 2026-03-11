@@ -2,7 +2,7 @@
 // @ts-nocheck
 "use client";
 
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect, useCallback } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import {
   Trophy,
@@ -166,19 +166,35 @@ const EventCard = ({
 const Events: React.FC = () => {
   const [currentEvent, setCurrentEvent] = useState(0);
   const [touchStartX, setTouchStartX] = useState(0);
+  const [isPaused, setIsPaused] = useState(false);
 
   // Use nullish coalescing to prevent potential issues
   const safeCurrentEvent = events[currentEvent] ?? events[0];
 
-  const nextEvent = () => setCurrentEvent((prev) => (prev + 1) % events.length);
-  const prevEvent = () =>
-    setCurrentEvent((prev) => (prev - 1 + events.length) % events.length);
+  const nextEvent = useCallback(
+    () => setCurrentEvent((prev) => (prev + 1) % events.length),
+    [],
+  );
+  const prevEvent = useCallback(
+    () => setCurrentEvent((prev) => (prev - 1 + events.length) % events.length),
+    [],
+  );
+
+  useEffect(() => {
+    if (isPaused) return;
+    const timer = setInterval(() => {
+      nextEvent();
+    }, 2500); // Auto-advance every 2.5 seconds
+    return () => clearInterval(timer);
+  }, [nextEvent, isPaused]);
 
   // Touch swipe handlers for manual mobile navigation
   const handleTouchStart = (e: React.TouchEvent) => {
+    setIsPaused(true);
     setTouchStartX(e.touches[0].clientX);
   };
   const handleTouchEnd = (e: React.TouchEvent) => {
+    setIsPaused(false);
     const diff = touchStartX - e.changedTouches[0].clientX;
     if (Math.abs(diff) > 50) {
       if (diff > 0) nextEvent();
@@ -240,6 +256,8 @@ const Events: React.FC = () => {
           className="relative lg:hidden"
           onTouchStart={handleTouchStart}
           onTouchEnd={handleTouchEnd}
+          onMouseEnter={() => setIsPaused(true)}
+          onMouseLeave={() => setIsPaused(false)}
         >
           <div className="min-h-[280px]">
             <AnimatePresence mode="wait">

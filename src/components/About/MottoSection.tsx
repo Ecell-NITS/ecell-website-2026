@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useRef, useCallback } from "react";
+import { useState, useRef, useCallback, useEffect } from "react";
 import Image from "next/image";
 
 interface MottoItem {
@@ -46,6 +46,7 @@ const mottoData: MottoItem[] = [
 export default function MottoSection() {
   const [activeMotto, setActiveMotto] = useState(0);
   const mottoRef = useRef<HTMLDivElement>(null);
+  const [isPaused, setIsPaused] = useState(false);
 
   const handleScroll = useCallback(() => {
     if (mottoRef.current) {
@@ -56,6 +57,36 @@ export default function MottoSection() {
       setActiveMotto(Math.min(Math.max(index, 0), mottoData.length - 1));
     }
   }, []);
+
+  useEffect(() => {
+    if (isPaused) return;
+    const timer = setInterval(() => {
+      if (mottoRef.current) {
+        // Only auto-scroll if we're in mobile/scrollable view
+        // The container uses flex-row and overflow-x-auto, but switches to grid on sm+
+        const isMobile = window.innerWidth < 640;
+        if (isMobile) {
+          const scrollLeft = mottoRef.current.scrollLeft;
+          const scrollWidth = mottoRef.current.scrollWidth;
+          const itemWidth = scrollWidth / mottoData.length;
+          const maxScrollLeft = scrollWidth - mottoRef.current.clientWidth;
+
+          let nextScrollLeft = scrollLeft + itemWidth;
+          // Loop back to start if we reached the end
+          if (nextScrollLeft >= maxScrollLeft + 10) {
+            nextScrollLeft = 0;
+          }
+
+          mottoRef.current.scrollTo({
+            left: nextScrollLeft,
+            behavior: "smooth",
+          });
+        }
+      }
+    }, 2500); // Auto-advance every 2.5 seconds
+
+    return () => clearInterval(timer);
+  }, [isPaused]);
 
   return (
     <section className="relative overflow-hidden py-12 md:py-16 lg:py-20">
@@ -82,6 +113,10 @@ export default function MottoSection() {
         <div
           ref={mottoRef}
           onScroll={handleScroll}
+          onTouchStart={() => setIsPaused(true)}
+          onTouchEnd={() => setIsPaused(false)}
+          onMouseEnter={() => setIsPaused(true)}
+          onMouseLeave={() => setIsPaused(false)}
           className="scrollbar-hide flex snap-x snap-mandatory gap-6 overflow-x-auto pb-6 sm:grid sm:grid-cols-2 sm:pb-0 lg:grid-cols-3 xl:grid-cols-5"
         >
           {mottoData.map((item) => (

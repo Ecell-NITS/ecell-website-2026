@@ -26,7 +26,6 @@ const marqueeImages1 = [
 const marqueeImages2 = [
   "/Hero/5image.webp",
   "/Hero/6image.webp",
-  "/Hero/7image.webp",
   "/Hero/8image.webp",
   "/Hero/11image.webp",
 ];
@@ -154,7 +153,7 @@ const Hero: React.FC = () => {
               >
                 <div className="absolute inset-0 bg-gradient-to-r from-blue-500 to-blue-700 opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
                 <span className="relative z-10 flex items-center justify-center gap-2 text-[2.2dvh] font-bold tracking-wide whitespace-nowrap text-white sm:text-base">
-                  Ongoing Events
+                  Recent Events
                 </span>
               </button>
 
@@ -291,6 +290,7 @@ const Hero: React.FC = () => {
 const MobileCarousel: React.FC<{ images: string[] }> = ({ images }) => {
   const [activeIndex, setActiveIndex] = useState(0);
   const [touchStartX, setTouchStartX] = useState(0);
+  const [isPaused, setIsPaused] = useState(false);
   const total = images.length;
 
   const next = useCallback(
@@ -302,11 +302,21 @@ const MobileCarousel: React.FC<{ images: string[] }> = ({ images }) => {
     [total],
   );
 
+  useEffect(() => {
+    if (isPaused) return;
+    const timer = setInterval(() => {
+      next();
+    }, 2500); // Auto-advance every 2.5 seconds
+    return () => clearInterval(timer);
+  }, [next, isPaused]);
+
   // Touch swipe handlers for manual scrolling
   const handleTouchStart = (e: React.TouchEvent) => {
+    setIsPaused(true);
     setTouchStartX(e.touches[0].clientX);
   };
   const handleTouchEnd = (e: React.TouchEvent) => {
+    setIsPaused(false);
     const diff = touchStartX - e.changedTouches[0].clientX;
     if (Math.abs(diff) > 50) {
       if (diff > 0) next();
@@ -375,6 +385,8 @@ const MobileCarousel: React.FC<{ images: string[] }> = ({ images }) => {
       style={{ perspective: "1000px" }}
       onTouchStart={handleTouchStart}
       onTouchEnd={handleTouchEnd}
+      onMouseEnter={() => setIsPaused(true)}
+      onMouseLeave={() => setIsPaused(false)}
     >
       {/* Container with fixed aspect ratio */}
       <div className="relative mx-auto aspect-3/4 w-[48%] sm:w-[45%]">

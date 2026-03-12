@@ -36,7 +36,7 @@ export const events: EventData[] = [
     image: "/images/events/eic.jpeg",
     icon: Sparkles,
     reverse: false,
-    href: "/EIC",
+    href: "/EIC-2026",
   },
   {
     title: "Eminence",

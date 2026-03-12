@@ -1,3 +1,9 @@
+// ====================================================================
+// EIC 2025 PAGE — COMMENTED OUT (Preserved for reference)
+// The active EIC page is now at /EIC-2026
+// ====================================================================
+
+/*
 import type { Metadata } from "next";
 import "~/styles/eic.css";
 import EICPageWrapper from "~/components/EIC/EICPageWrapper";
@@ -14,11 +20,11 @@ import Footer from "~/components/EIC/Footer";
 import SpotifyPlayer from "~/components/EIC/SpotifyPlayer";
 
 export const metadata: Metadata = {
-  title: "EIC — Entrepreneurship & Innovation Challenge",
+  title: "EIC 2025 — Entrepreneurship & Innovation Challenge",
   description:
     "The Entrepreneurship and Innovation Challenge (EIC) by E-Cell NIT Silchar — an inter-branch competition fostering collaboration, leadership, and innovation.",
   openGraph: {
-    title: "EIC | E-Cell NIT Silchar",
+    title: "EIC 2025 | E-Cell NIT Silchar",
     description:
       "An inter-branch competition bringing together students to showcase entrepreneurial thinking, creativity, and innovation.",
     type: "website",
@@ -33,7 +39,7 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "EIC | E-Cell NIT Silchar",
+    title: "EIC 2025 | E-Cell NIT Silchar",
     description: "Entrepreneurship & Innovation Challenge at NIT Silchar.",
     images: ["/og/landing2.png"],
   },
@@ -42,13 +48,8 @@ export const metadata: Metadata = {
 export default function EICPage() {
   return (
     <EICPageWrapper>
-      {/* Noise Overlay for texture */}
       <div className="eic-noise-overlay" />
-
-      {/* Navigation */}
       <Navbar />
-
-      {/* Main Content */}
       <main className="pb-24">
         <HeroSection />
         <AboutSection />
@@ -59,9 +60,40 @@ export default function EICPage() {
         <SponsorsSection />
         <CTASection />
       </main>
-
       <Footer />
       <SpotifyPlayer />
     </EICPageWrapper>
+  );
+}
+*/
+
+// Redirect or placeholder for the old EIC route
+export default function EIC2025Page() {
+  return (
+    <div
+      style={{
+        minHeight: "100vh",
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+        background: "#111",
+        color: "#fff",
+        fontFamily: "sans-serif",
+      }}
+    >
+      <div style={{ textAlign: "center" }}>
+        <h1 style={{ fontSize: "2rem", marginBottom: "1rem" }}>EIC 2025</h1>
+        <p style={{ color: "#888" }}>
+          This event has concluded. Check out{" "}
+          <a
+            href="/EIC-2026"
+            style={{ color: "#c2940a", textDecoration: "underline" }}
+          >
+            EIC 2026
+          </a>
+          !
+        </p>
+      </div>
+    </div>
   );
 }

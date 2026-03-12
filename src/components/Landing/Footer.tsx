@@ -93,7 +93,7 @@ const Footer: React.FC = () => {
                 { label: "NIT Silchar", href: "http://www.nits.ac.in/" },
                 { label: "Engenius", href: "/ENGENIUS" },
                 { label: "Empresario", href: "/EMPRESARIO" },
-                { label: "EIC", href: "/EIC" },
+                { label: "EIC", href: "/EIC-2026" },
                 { label: "Eminence", href: "/EMINENCE" },
               ].map((item) => (
                 <li key={item.label}>

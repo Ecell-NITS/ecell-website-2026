@@ -13,6 +13,33 @@
   --eic-gold: #d4a843;
   --eic-sage: #b5c8b5;
   --eic-green-glow: rgba(206, 231, 215, 0.4);
+  --eic-font-heading: "Playfair Display", Georgia, "Times New Roman", serif;
+}
+
+/* ---------- Playfair Display Font Application ---------- */
+.eic2026-page {
+  font-family: var(--eic-font-heading);
+}
+
+.eic2026-page h1,
+.eic2026-page h2,
+.eic2026-page h3,
+.eic2026-page h4 {
+  font-family: var(--eic-font-heading);
+  font-weight: 800;
+}
+
+/* ---------- Hero Section Background ---------- */
+.eic2026-hero-bg {
+  position: relative;
+  background:
+    linear-gradient(rgba(21, 62, 39, 0.04) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(21, 62, 39, 0.04) 1px, transparent 1px),
+    linear-gradient(180deg, #050505 0%, #0a0a0a 40%, #0d1410 70%, #111111 100%);
+  background-size:
+    60px 60px,
+    60px 60px,
+    100% 100%;
 }
 
 /* ---------- 3D Perspective Container ---------- */
@@ -330,4 +357,548 @@
 }
 .eic2026-stagger > *:nth-child(5) {
   animation-delay: 0.5s;
+}
+
+/* ---------- Events Section: Deep Emerald Board ---------- */
+.eic2026-events-board {
+  position: relative;
+  background:
+    linear-gradient(rgba(21, 62, 39, 0.14) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(21, 62, 39, 0.14) 1px, transparent 1px),
+    radial-gradient(
+      ellipse at 30% 20%,
+      rgba(206, 231, 215, 0.08) 0%,
+      transparent 50%
+    ),
+    radial-gradient(
+      ellipse at 70% 80%,
+      rgba(206, 231, 215, 0.06) 0%,
+      transparent 50%
+    ),
+    linear-gradient(
+      180deg,
+      #111111 0%,
+      #0f1f17 8%,
+      #132a1c 20%,
+      #153e27 35%,
+      #153e27 65%,
+      #132a1c 80%,
+      #0f1f17 92%,
+      #111111 100%
+    );
+  background-size:
+    60px 60px,
+    60px 60px,
+    100% 100%,
+    100% 100%,
+    100% 100%;
+  overflow: hidden;
+}
+
+/* inner glow border around the section */
+.eic2026-events-board::before {
+  content: "";
+  position: absolute;
+  inset: 12px;
+  border: 2px solid rgba(206, 231, 215, 0.12);
+  border-radius: 16px;
+  pointer-events: none;
+  z-index: 1;
+}
+
+/* ambient glow at center */
+.eic2026-events-board::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 60%;
+  height: 50%;
+  background: radial-gradient(
+    ellipse,
+    rgba(206, 231, 215, 0.06) 0%,
+    transparent 70%
+  );
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* ---------- Corner Monopoly Decorations ---------- */
+.eic2026-corner-piece {
+  position: absolute;
+  width: 50px;
+  height: 50px;
+  border: 2px solid rgba(206, 231, 215, 0.15);
+  z-index: 2;
+  pointer-events: none;
+}
+.eic2026-corner-piece--tl {
+  top: 20px;
+  left: 20px;
+  border-right: none;
+  border-bottom: none;
+  border-radius: 8px 0 0 0;
+}
+.eic2026-corner-piece--tr {
+  top: 20px;
+  right: 20px;
+  border-left: none;
+  border-bottom: none;
+  border-radius: 0 8px 0 0;
+}
+.eic2026-corner-piece--bl {
+  bottom: 20px;
+  left: 20px;
+  border-right: none;
+  border-top: none;
+  border-radius: 0 0 0 8px;
+}
+.eic2026-corner-piece--br {
+  bottom: 20px;
+  right: 20px;
+  border-left: none;
+  border-top: none;
+  border-radius: 0 0 8px 0;
+}
+
+/* ---------- Property Deed Card ---------- */
+.eic2026-deed-card {
+  position: relative;
+  background: linear-gradient(180deg, #faf9f0 0%, #f4f1e4 100%);
+  border: 3px solid #1a1a1a;
+  border-radius: 4px;
+  overflow: hidden;
+  transform-style: preserve-3d;
+  transition:
+    transform 0.5s cubic-bezier(0.23, 1, 0.32, 1),
+    box-shadow 0.5s ease;
+  will-change: transform;
+}
+
+.eic2026-deed-card:hover {
+  transform: translateY(-8px) rotateX(3deg) scale(1.02);
+  box-shadow:
+    0 20px 40px -10px rgba(0, 0, 0, 0.5),
+    0 0 30px rgba(206, 231, 215, 0.15);
+}
+
+/* coloured header band */
+.eic2026-deed-header {
+  padding: 10px 16px 8px;
+  text-align: center;
+  border-bottom: 3px solid #1a1a1a;
+}
+
+.eic2026-deed-header h3 {
+  font-family: inherit;
+  font-size: 0.95rem;
+  font-weight: 900;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #fff;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+  margin: 0;
+}
+
+.eic2026-deed-header .deed-type {
+  font-size: 0.55rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.85);
+  font-weight: 700;
+}
+
+/* body of the deed */
+.eic2026-deed-body {
+  padding: 16px 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+}
+
+.eic2026-deed-body p {
+  font-size: 0.78rem;
+  color: #444;
+  text-align: center;
+  line-height: 1.5;
+  font-style: italic;
+  margin: 0;
+}
+
+/* rent row */
+.eic2026-deed-rent {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  padding-top: 10px;
+  border-top: 1px dashed #ccc;
+}
+
+.eic2026-deed-rent .rent-label {
+  font-size: 0.65rem;
+  font-weight: 800;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: #222;
+}
+
+.eic2026-deed-rent .rent-value {
+  font-size: 1rem;
+  font-weight: 900;
+  color: #1a6b42;
+}
+
+/* icon circle in deed */
+.eic2026-deed-icon {
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  border: 2px solid #e5e0d0;
+  background: #faf9f0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition:
+    transform 0.4s ease,
+    border-color 0.3s ease;
+}
+.eic2026-deed-card:hover .eic2026-deed-icon {
+  transform: rotateY(180deg);
+  border-color: var(--eic-primary);
+}
+
+/* dice icon decorations in events section */
+.eic2026-events-dice {
+  position: absolute;
+  font-size: 2.5rem;
+  opacity: 0.08;
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* section title bar */
+.eic2026-title-deed-bar {
+  display: inline-block;
+  background: linear-gradient(135deg, #153e27 0%, #1a6b42 100%);
+  border: 2px solid rgba(206, 231, 215, 0.3);
+  border-radius: 6px;
+  padding: 12px 32px;
+  position: relative;
+}
+.eic2026-title-deed-bar::before,
+.eic2026-title-deed-bar::after {
+  content: "◆";
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 0.6rem;
+  opacity: 0.5;
+  color: #cee7d7;
+}
+.eic2026-title-deed-bar::before {
+  left: 8px;
+}
+.eic2026-title-deed-bar::after {
+  right: 8px;
+}
+
+/* ---------- Gallery Section: Medium Dark Green ---------- */
+.eic2026-gallery-section {
+  position: relative;
+  background:
+    linear-gradient(rgba(21, 62, 39, 0.06) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(21, 62, 39, 0.06) 1px, transparent 1px),
+    radial-gradient(
+      ellipse at 20% 40%,
+      rgba(206, 231, 215, 0.05) 0%,
+      transparent 50%
+    ),
+    radial-gradient(
+      ellipse at 80% 60%,
+      rgba(206, 231, 215, 0.03) 0%,
+      transparent 50%
+    ),
+    linear-gradient(
+      180deg,
+      #111111 0%,
+      #101e15 10%,
+      #0f2218 28%,
+      #0f2218 72%,
+      #101e15 90%,
+      #111111 100%
+    );
+  background-size:
+    80px 80px,
+    80px 80px,
+    100% 100%,
+    100% 100%,
+    100% 100%;
+}
+
+.eic2026-gallery-section::before {
+  content: "";
+  position: absolute;
+  inset: 12px;
+  border: 2px solid rgba(206, 231, 215, 0.06);
+  border-radius: 16px;
+  pointer-events: none;
+  z-index: 1;
+}
+
+/* ---------- Gallery Image Frame ---------- */
+.eic2026-gallery-frame {
+  border: 3px solid #1a1a1a;
+  border-radius: 8px;
+  background: #0a0a0a;
+  box-shadow:
+    0 4px 16px rgba(0, 0, 0, 0.4),
+    inset 0 0 0 1px rgba(206, 231, 215, 0.05);
+  transition:
+    box-shadow 0.5s ease,
+    border-color 0.5s ease;
+}
+
+.eic2026-gallery-frame:hover {
+  border-color: rgba(206, 231, 215, 0.25);
+  box-shadow:
+    0 8px 32px rgba(0, 0, 0, 0.5),
+    0 0 20px rgba(206, 231, 215, 0.08),
+    inset 0 0 0 1px rgba(206, 231, 215, 0.1);
+}
+
+/* ---------- Sponsors Section: Lighter Green ---------- */
+.eic2026-sponsors-section {
+  position: relative;
+  background:
+    linear-gradient(rgba(21, 62, 39, 0.07) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(21, 62, 39, 0.07) 1px, transparent 1px),
+    radial-gradient(
+      ellipse at 50% 30%,
+      rgba(206, 231, 215, 0.04) 0%,
+      transparent 50%
+    ),
+    linear-gradient(
+      180deg,
+      #111111 0%,
+      #111c15 12%,
+      #121f17 28%,
+      #121f17 72%,
+      #111c15 88%,
+      #111111 100%
+    );
+  background-size:
+    50px 50px,
+    50px 50px,
+    100% 100%,
+    100% 100%;
+  overflow: hidden;
+}
+
+.eic2026-sponsors-section::before {
+  content: "";
+  position: absolute;
+  inset: 12px;
+  border: 2px solid rgba(206, 231, 215, 0.06);
+  border-radius: 16px;
+  pointer-events: none;
+  z-index: 1;
+}
+
+/* ---------- Sponsor Card ---------- */
+.eic2026-sponsor-card {
+  background: linear-gradient(180deg, #faf9f0 0%, #f4f1e4 100%);
+  border: 2px solid #1a1a1a;
+  border-radius: 6px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+  transition:
+    transform 0.4s ease,
+    box-shadow 0.4s ease,
+    border-color 0.4s ease;
+}
+
+.eic2026-sponsor-card:hover {
+  transform: translateY(-4px);
+  border-color: rgba(26, 107, 66, 0.4);
+  box-shadow:
+    0 8px 24px rgba(0, 0, 0, 0.4),
+    0 0 16px rgba(206, 231, 215, 0.1);
+}
+
+/* ---------- Team Section: Mid-Green ---------- */
+.eic2026-team-section {
+  position: relative;
+  background:
+    linear-gradient(rgba(21, 62, 39, 0.09) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(21, 62, 39, 0.09) 1px, transparent 1px),
+    radial-gradient(
+      ellipse at 60% 50%,
+      rgba(206, 231, 215, 0.05) 0%,
+      transparent 50%
+    ),
+    linear-gradient(
+      180deg,
+      #111111 0%,
+      #0f1d14 10%,
+      #0e2a1b 30%,
+      #0e2a1b 70%,
+      #0f1d14 90%,
+      #111111 100%
+    );
+  background-size:
+    70px 70px,
+    70px 70px,
+    100% 100%,
+    100% 100%;
+  overflow: hidden;
+}
+
+.eic2026-team-section::before {
+  content: "";
+  position: absolute;
+  inset: 12px;
+  border: 2px solid rgba(206, 231, 215, 0.08);
+  border-radius: 16px;
+  pointer-events: none;
+  z-index: 1;
+}
+
+/* ---------- Team Card (Property Deed style) ---------- */
+.eic2026-team-card {
+  background: linear-gradient(180deg, #faf9f0 0%, #f4f1e4 100%);
+  border: 3px solid #1a1a1a;
+  border-radius: 4px;
+  overflow: hidden;
+  transition:
+    transform 0.4s cubic-bezier(0.23, 1, 0.32, 1),
+    box-shadow 0.4s ease;
+}
+
+.eic2026-team-card:hover {
+  transform: translateY(-6px) scale(1.02);
+  box-shadow:
+    0 16px 32px -8px rgba(0, 0, 0, 0.5),
+    0 0 20px rgba(206, 231, 215, 0.1);
+}
+
+.eic2026-team-card-header {
+  padding: 8px 12px;
+  text-align: center;
+  border-bottom: 3px solid #1a1a1a;
+}
+
+/* ---------- Footer Section ---------- */
+.eic2026-footer-section {
+  position: relative;
+  background:
+    linear-gradient(rgba(21, 62, 39, 0.04) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(21, 62, 39, 0.04) 1px, transparent 1px),
+    linear-gradient(180deg, #111111 0%, #0d1410 50%, #0a0f0c 100%);
+  background-size:
+    60px 60px,
+    60px 60px,
+    100% 100%;
+}
+
+/* ---------- Footer Social Links ---------- */
+.eic2026-footer-social-link {
+  background: linear-gradient(180deg, #faf9f0 0%, #f4f1e4 100%);
+  border: 2px solid #1a1a1a;
+  border-radius: 50%;
+  color: #1a1a1a;
+  transition:
+    border-color 0.3s ease,
+    box-shadow 0.3s ease;
+}
+
+.eic2026-footer-social-link:hover {
+  border-color: rgba(26, 107, 66, 0.5);
+  box-shadow: 0 0 12px rgba(206, 231, 215, 0.15);
+}
+
+/* ---------- About Section: Subtle Dark Green ---------- */
+.eic2026-about-section {
+  position: relative;
+  background:
+    linear-gradient(rgba(21, 62, 39, 0.05) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(21, 62, 39, 0.05) 1px, transparent 1px),
+    radial-gradient(
+      ellipse at 40% 50%,
+      rgba(206, 231, 215, 0.04) 0%,
+      transparent 50%
+    ),
+    radial-gradient(
+      ellipse at 70% 30%,
+      rgba(206, 231, 215, 0.03) 0%,
+      transparent 40%
+    ),
+    linear-gradient(
+      180deg,
+      #111111 0%,
+      #111a14 10%,
+      #121d16 25%,
+      #121d16 75%,
+      #111a14 90%,
+      #111111 100%
+    );
+  background-size:
+    45px 45px,
+    45px 45px,
+    100% 100%,
+    100% 100%,
+    100% 100%;
+  overflow: hidden;
+}
+
+.eic2026-about-section::before {
+  content: "";
+  position: absolute;
+  inset: 12px;
+  border: 2px solid rgba(206, 231, 215, 0.07);
+  border-radius: 16px;
+  pointer-events: none;
+  z-index: 1;
+}
+
+/* About content card */
+.eic2026-about-card {
+  background: linear-gradient(
+    135deg,
+    rgba(15, 20, 15, 0.9) 0%,
+    rgba(10, 14, 10, 0.95) 100%
+  );
+  border: 1px solid rgba(206, 231, 215, 0.1);
+  backdrop-filter: blur(8px);
+}
+
+/* About pillar tiles */
+.eic2026-about-pillar {
+  padding: 16px;
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  transition:
+    background 0.3s ease,
+    border-color 0.3s ease;
+}
+
+.eic2026-about-pillar:hover {
+  background: rgba(255, 255, 255, 0.06);
+  border-color: rgba(206, 231, 215, 0.15);
+}
+
+/* About image frame */
+.eic2026-about-image-frame {
+  border-radius: 16px;
+  border: 3px solid #1a1a1a;
+  box-shadow:
+    0 8px 32px rgba(0, 0, 0, 0.4),
+    0 0 0 1px rgba(206, 231, 215, 0.08);
+  transition: border-color 0.5s ease;
+}
+
+.eic2026-about-image-frame:hover {
+  border-color: rgba(206, 231, 215, 0.2);
 }

@@ -4,14 +4,7 @@
 
 import React, { useState, useRef, useEffect, useCallback } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import {
-  Trophy,
-  Rocket,
-  Lightbulb,
-  Store,
-  Shovel,
-  BriefcaseBusiness,
-} from "lucide-react";
+import { Lightbulb, Store, Shovel, BriefcaseBusiness } from "lucide-react";
 
 // --- CUSTOMIZED EVENTS DATA FOR E-CELL NIT SILCHAR ---
 const events = [

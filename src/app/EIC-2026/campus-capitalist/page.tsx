@@ -7,14 +7,18 @@ import "~/styles/eic2026.css";
 
 export default function CampusCapitalist() {
   return (
-    <div className="min-h-screen bg-[#111111] font-sans text-slate-100 antialiased">
+    <div className="eic2026-page min-h-screen bg-[#111111] font-sans text-slate-100 antialiased">
       <header className="sticky top-0 z-50 w-full border-b border-[#cee7d7]/20 bg-[#111111]/80 backdrop-blur-md">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <div className="flex h-16 items-center justify-between">
             <div className="flex items-center gap-3">
-              <span className="material-symbols-outlined text-3xl text-[#cee7d7]">
-                real_estate_agent
-              </span>
+              <Image
+                src="/EIC/eic-logo1.png"
+                alt="EIC Logo"
+                width={36}
+                height={36}
+                className="rounded-md"
+              />
               <h1 className="text-xl font-bold tracking-tight">
                 Campus Capitalist
               </h1>
@@ -35,30 +39,40 @@ export default function CampusCapitalist() {
             </nav>
             <Link
               href="/EIC-2026"
-              className="flex items-center gap-2 rounded-lg bg-[#cee7d7] px-4 py-2 text-sm font-bold text-[#111111]"
+              className="flex shrink-0 items-center gap-1 rounded-lg bg-[#cee7d7] px-3 py-2 text-xs font-bold text-[#111111] sm:gap-2 sm:px-4 sm:text-sm"
             >
-              <span className="material-symbols-outlined text-sm">
+              <span className="material-symbols-outlined text-[16px] sm:text-[20px]">
                 arrow_back
               </span>
-              Back to Events
+              <span className="hidden sm:inline">Back to Events</span>
+              <span className="sm:hidden">Back</span>
             </Link>
           </div>
         </div>
       </header>
 
       <main>
-        <section className="relative w-full overflow-hidden py-20 lg:py-32">
+        <section className="eic2026-events-board relative w-full overflow-hidden border-b border-[#cee7d7]/10 py-28 lg:py-36">
+          <div className="eic2026-corner-piece eic2026-corner-piece--tl" />
+          <div className="eic2026-corner-piece eic2026-corner-piece--tr" />
+          <div className="eic2026-corner-piece eic2026-corner-piece--bl" />
+          <div className="eic2026-corner-piece eic2026-corner-piece--br" />
+
           <div className="absolute inset-0 z-0">
             <div className="absolute inset-0 bg-gradient-to-b from-transparent to-[#111111]/90" />
-            <div className="h-full w-full bg-[url('/images/eic2026/events/campus_capitalist.webp')] bg-cover bg-center opacity-30" />
+            <div className="h-full w-full bg-[url('/images/eic2026/events/campus_capitalist.webp')] bg-cover bg-center opacity-30 mix-blend-luminosity" />
           </div>
           <div className="relative z-10 mx-auto max-w-7xl px-4 text-center">
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
-              className="mb-6 inline-flex items-center rounded-full border border-[#cee7d7]/30 bg-[#cee7d7]/10 px-3 py-1 text-xs font-bold tracking-widest text-[#cee7d7] uppercase"
+              className="mb-6 flex justify-center"
             >
-              Premium Property
+              <div className="eic2026-title-deed-bar">
+                <span className="text-[10px] font-bold tracking-[0.3em] text-[#cee7d7]/70 uppercase">
+                  ★ Premium Property ★
+                </span>
+              </div>
             </motion.div>
             <motion.h1
               initial={{ opacity: 0, y: 20 }}
@@ -211,10 +225,16 @@ export default function CampusCapitalist() {
       <footer className="border-t border-[#cee7d7]/10 bg-[#111111] py-12">
         <div className="mx-auto max-w-7xl px-4 text-center">
           <div className="mb-6 flex items-center justify-center gap-3">
-            <span className="material-symbols-outlined text-2xl text-[#cee7d7]">
-              real_estate_agent
+            <Image
+              src="/EIC/eic-logo1.png"
+              alt="EIC Logo"
+              width={32}
+              height={32}
+              className="rounded-md opacity-80"
+            />
+            <span className="text-lg font-bold text-slate-300">
+              Campus Capitalist
             </span>
-            <span className="text-lg font-bold">Campus Capitalist</span>
           </div>
           <p className="text-sm text-slate-500">
             © 2026 EIC Challenge. All rights reserved.

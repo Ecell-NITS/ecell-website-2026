@@ -11,7 +11,6 @@ import {
   useMotionValue,
   AnimatePresence,
 } from "framer-motion";
-import { Sparkles } from "lucide-react";
 import Link from "next/link";
 
 // Images for the Marquee

@@ -23,32 +23,32 @@ const PERMITTED_EMAILS: Record<string, string[]> = {
   CSE: [
     "dasbishal1717@gmail.com",
     "dasnarayan1717@gmail.com",
-    "bishaldad1717@gmail.com",
+    "muskan_ug_23@civil.nits.ac.in",
   ],
   EE: [
     "dasbishal1717@gmail.com",
     "dasnarayan1717@gmail.com",
-    "bishaldad1717@gmail.com",
+    "muskan_ug_23@civil.nits.ac.in",
   ],
   ECE: [
     "dasbishal1717@gmail.com",
     "dasnarayan1717@gmail.com",
-    "bishaldad1717@gmail.com",
+    "muskan_ug_23@civil.nits.ac.in",
   ],
   EIE: [
     "dasbishal1717@gmail.com",
     "dasnarayan1717@gmail.com",
-    "bishaldad1717@gmail.com",
+    "muskan_ug_23@civil.nits.ac.in",
   ],
   CE: [
     "dasbishal1717@gmail.com",
     "dasnarayan1717@gmail.com",
-    "bishaldad1717@gmail.com",
+    "muskan_ug_23@civil.nits.ac.in",
   ],
   ME: [
     "dasbishal1717@gmail.com",
     "dasnarayan1717@gmail.com",
-    "bishaldad1717@gmail.com",
+    "muskan_ug_23@civil.nits.ac.in",
   ],
 };
 

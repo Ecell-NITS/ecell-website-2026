@@ -3,19 +3,11 @@
 import Image from "next/image";
 import Link from "next/link";
 import { motion, AnimatePresence } from "framer-motion";
-import { useParams } from "next/navigation";
+import { useParams, useSearchParams, useRouter } from "next/navigation";
 import { useState, useEffect, useCallback, useMemo } from "react";
 import "~/styles/eic2026.css";
 
-/* ─── Obscured Branch ID → Branch mapping ─── */
-const BRANCH_MAP: Record<string, string> = {
-  xK9mQ2vL7pR4nT8wBcYd: "CSE",
-  jF5hY3dN6bG1cA0sZeWp: "EE",
-  wU8eZ4iO7qM2xV9kHfLa: "ECE",
-  tP6rJ1yH3fB5lD0aNcGk: "EIE",
-  nC7gS4uW9mX2kR8eTbQv: "CE",
-  bL3vA0dF6hT1jQ5yRiXs: "ME",
-};
+/* ─── Removed Obscured Branch ID → Branch mapping ─── */
 
 const BRANCH_FULL_NAMES: Record<string, string> = {
   CSE: "Computer Science & Engineering",
@@ -24,6 +16,40 @@ const BRANCH_FULL_NAMES: Record<string, string> = {
   EIE: "Electronics & Instrumentation Engineering",
   CE: "Civil Engineering",
   ME: "Mechanical Engineering",
+};
+
+/* ─── Permitted Emails per Branch ─── */
+const PERMITTED_EMAILS: Record<string, string[]> = {
+  CSE: [
+    "dasbishal1717@gmail.com",
+    "dasnarayan1717@gmail.com",
+    "bishaldad1717@gmail.com",
+  ],
+  EE: [
+    "dasbishal1717@gmail.com",
+    "dasnarayan1717@gmail.com",
+    "bishaldad1717@gmail.com",
+  ],
+  ECE: [
+    "dasbishal1717@gmail.com",
+    "dasnarayan1717@gmail.com",
+    "bishaldad1717@gmail.com",
+  ],
+  EIE: [
+    "dasbishal1717@gmail.com",
+    "dasnarayan1717@gmail.com",
+    "bishaldad1717@gmail.com",
+  ],
+  CE: [
+    "dasbishal1717@gmail.com",
+    "dasnarayan1717@gmail.com",
+    "bishaldad1717@gmail.com",
+  ],
+  ME: [
+    "dasbishal1717@gmail.com",
+    "dasnarayan1717@gmail.com",
+    "bishaldad1717@gmail.com",
+  ],
 };
 
 /* ─── Event Definitions ─── */
@@ -79,8 +105,8 @@ const EVENTS: EventDef[] = [
     ],
   },
   {
-    id: "stakes-business",
-    name: "Stakes & Business",
+    id: "boardroom-trivia",
+    name: "Boardroom Trivia",
     apiPath: "/api/stakes-business",
     color: "#1e40af",
     icon: "quiz",
@@ -157,10 +183,10 @@ const EVENTS: EventDef[] = [
     propertyType: "Media Property",
     description:
       "Reimagine famous brands with wild what-if concepts. Create unconventional ad campaigns that break the mould.",
-    minMembers: 1,
+    minMembers: 5,
     maxMembers: 5,
     rules: [
-      "Each branch sends 1 to 5 members.",
+      "Each branch sends exactly 5 members.",
       "Teams reimagine iconic brand campaigns with creative twists.",
       "Presentations can include skits, posters, or digital content.",
       "Creativity, humour, and brand understanding are key criteria.",
@@ -230,14 +256,6 @@ interface Member {
   name: string;
   year: number;
   phone: string;
-}
-
-interface ExistingRegistration {
-  id: string;
-  branch: string;
-  contactEmail: string;
-  members: Member[];
-  createdAt: string;
 }
 
 /* ─── Toast Component ─── */
@@ -393,91 +411,23 @@ function RulesModal({
   );
 }
 
-/* ─── Existing Registration Card ─── */
-function ExistingRegistrationCard({
-  registration,
-  eventName,
-  eventColor,
-}: {
-  registration: ExistingRegistration;
-  eventName: string;
-  eventColor: string;
-}) {
-  return (
-    <motion.div
-      initial={{ opacity: 0, y: 20 }}
-      animate={{ opacity: 1, y: 0 }}
-      className="eic2026-reg-existing"
-    >
-      <div
-        className="eic2026-reg-existing-header"
-        style={{ borderLeftColor: eventColor }}
-      >
-        <span className="material-symbols-outlined text-lg text-[#cee7d7]">
-          check_circle
-        </span>
-        <div>
-          <h4 className="text-sm font-bold text-white">
-            Already Registered for {eventName}
-          </h4>
-          <p className="text-xs text-slate-400">
-            Registered on{" "}
-            {new Date(registration.createdAt).toLocaleDateString("en-IN", {
-              day: "numeric",
-              month: "long",
-              year: "numeric",
-            })}
-          </p>
-        </div>
-      </div>
-      <div className="eic2026-reg-existing-body">
-        <div className="mb-3">
-          <span className="text-[10px] font-bold tracking-widest text-slate-500 uppercase">
-            Contact Email
-          </span>
-          <p className="text-sm text-slate-300">{registration.contactEmail}</p>
-        </div>
-        <div>
-          <span className="text-[10px] font-bold tracking-widest text-slate-500 uppercase">
-            Members
-          </span>
-          <div className="mt-2 space-y-2">
-            {registration.members.map((m, i) => (
-              <div
-                key={i}
-                className="flex items-center justify-between rounded-lg border border-[#cee7d7]/10 bg-[#111111]/50 px-4 py-2"
-              >
-                <span className="text-sm font-medium text-white">{m.name}</span>
-                <div className="flex items-center gap-3 text-xs text-slate-400">
-                  <span>Year {m.year}</span>
-                  <span>📱 {m.phone}</span>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </div>
-    </motion.div>
-  );
-}
-
 /* ═══════════════════════════════════════════════════════════════════════
    MAIN PAGE COMPONENT
    ═══════════════════════════════════════════════════════════════════════ */
 export default function RegisterPage() {
   const params = useParams();
+  const searchParams = useSearchParams();
+  const router = useRouter();
+
   const branchId = params.branchId as string;
-  const branch = BRANCH_MAP[branchId];
+  const branch = branchId ? branchId.toUpperCase() : "";
 
   /* ─── State ─── */
-  const [selectedEvent, setSelectedEvent] = useState<string>("");
+  const initialEvent = searchParams.get("event") ?? "";
+  const [selectedEvent, setSelectedEvent] = useState<string>(initialEvent);
   const [contactEmail, setContactEmail] = useState("");
   const [members, setMembers] = useState<Member[]>([]);
   const [showRules, setShowRules] = useState(false);
-  const [existingReg, setExistingReg] = useState<ExistingRegistration | null>(
-    null,
-  );
-  const [checkingExisting, setCheckingExisting] = useState(false);
 
   /* OTP state */
   const [otpSent, setOtpSent] = useState(false);
@@ -518,42 +468,11 @@ export default function RegisterPage() {
       }),
     );
     setMembers(initial);
-    setExistingReg(null);
     setOtpSent(false);
     setOtpValue("");
     setOtpVerified(false);
     setErrors({});
   }, [currentEvent]);
-
-  /* ─── Check existing registration on event select ─── */
-  useEffect(() => {
-    if (!selectedEvent || !branch) return;
-
-    const eventDef = EVENTS.find((e) => e.id === selectedEvent);
-    if (!eventDef) return;
-
-    setCheckingExisting(true);
-    fetch(`${API_BASE}${eventDef.apiPath}/check`, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ branch }),
-    })
-      .then(async (res) => {
-        if (!res.ok) throw new Error("Failed to check registration");
-        return (await res.json()) as ExistingRegistration | null;
-      })
-      .then((data: ExistingRegistration | null) => {
-        if (data?.contactEmail) {
-          setExistingReg(data);
-        } else {
-          setExistingReg(null);
-        }
-      })
-      .catch(() => {
-        setExistingReg(null);
-      })
-      .finally(() => setCheckingExisting(false));
-  }, [selectedEvent, branch]);
 
   /* ─── OTP Cooldown Timer ─── */
   useEffect(() => {
@@ -606,6 +525,11 @@ export default function RegisterPage() {
       errs.contactEmail = "Email is required";
     } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(contactEmail.trim())) {
       errs.contactEmail = "Invalid email address";
+    } else if (
+      branch &&
+      !PERMITTED_EMAILS[branch]?.includes(contactEmail.trim().toLowerCase())
+    ) {
+      errs.contactEmail = "Email does not have permission";
     }
 
     const phones = new Set<string>();
@@ -632,11 +556,23 @@ export default function RegisterPage() {
       setErrors((prev) => ({ ...prev, contactEmail: "Enter email first" }));
       return;
     }
-    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(contactEmail.trim())) {
+    const normalizedEmail = contactEmail.trim().toLowerCase();
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(normalizedEmail)) {
       setErrors((prev) => ({
         ...prev,
         contactEmail: "Invalid email address",
       }));
+      return;
+    }
+    if (branch && !PERMITTED_EMAILS[branch]?.includes(normalizedEmail)) {
+      setErrors((prev) => ({
+        ...prev,
+        contactEmail: "Email does not have permission",
+      }));
+      setToast({
+        message: "Email does not have permission for this branch",
+        type: "error",
+      });
       return;
     }
 
@@ -721,26 +657,6 @@ export default function RegisterPage() {
           message: data.message || "Registration successful!",
           type: "success",
         });
-        // Re-check to show existing registration
-        try {
-          const checkRes = await fetch(
-            `${API_BASE}${currentEvent.apiPath}/check`,
-            {
-              method: "POST",
-              headers: { "Content-Type": "application/json" },
-              body: JSON.stringify({ branch }),
-            },
-          );
-          if (checkRes.ok) {
-            const checkData =
-              (await checkRes.json()) as ExistingRegistration | null;
-            if (checkData?.contactEmail) {
-              setExistingReg(checkData);
-            }
-          }
-        } catch (e) {
-          console.error("Failed to re-check registration:", e);
-        }
       } else {
         setToast({
           message: data.message || "Registration failed",
@@ -755,7 +671,7 @@ export default function RegisterPage() {
   }, [currentEvent, branch, otpVerified, validate, contactEmail, members]);
 
   /* ═══ INVALID BRANCH ═══ */
-  if (!branch) {
+  if (!branch || !BRANCH_FULL_NAMES[branch]) {
     return (
       <div className="eic2026-page flex min-h-screen flex-col items-center justify-center bg-[#111111] text-slate-100">
         <motion.div
@@ -773,15 +689,15 @@ export default function RegisterPage() {
             This registration link is not valid. Please use the link shared with
             your branch.
           </p>
-          <Link
-            href="/EIC-2026"
+          <button
+            onClick={() => router.back()}
             className="inline-flex items-center gap-2 rounded-xl bg-[#cee7d7] px-6 py-3 font-bold text-[#111111]"
           >
             <span className="material-symbols-outlined text-xl">
               arrow_back
             </span>
-            Back to EIC 2026
-          </Link>
+            Back
+          </button>
         </motion.div>
       </div>
     );
@@ -832,16 +748,16 @@ export default function RegisterPage() {
                 </p>
               </div>
             </div>
-            <Link
-              href="/EIC-2026"
+            <button
+              onClick={() => router.back()}
               className="flex shrink-0 items-center gap-1 rounded-lg bg-[#cee7d7] px-3 py-2 text-xs font-bold text-[#111111] sm:gap-2 sm:px-4 sm:text-sm"
             >
               <span className="material-symbols-outlined text-[16px] sm:text-[20px]">
                 arrow_back
               </span>
-              <span className="hidden sm:inline">Back to Events</span>
+              <span className="hidden sm:inline">Back</span>
               <span className="sm:hidden">Back</span>
-            </Link>
+            </button>
           </div>
         </div>
       </header>
@@ -967,324 +883,296 @@ export default function RegisterPage() {
                 </div>
               </div>
 
-              {/* Loading check */}
-              {checkingExisting && (
-                <div className="mt-4 flex items-center justify-center gap-2 py-4">
-                  <div className="eic2026-reg-spinner" />
-                  <span className="text-sm text-slate-400">
-                    Checking existing registration...
-                  </span>
-                </div>
-              )}
-
-              {/* Existing Registration Card */}
-              {!checkingExisting && existingReg && (
-                <div className="mt-4">
-                  <ExistingRegistrationCard
-                    registration={existingReg}
-                    eventName={currentEvent.name}
-                    eventColor={currentEvent.color}
-                  />
-                </div>
-              )}
-
               {/* Registration Form */}
-              {!checkingExisting && !existingReg && (
-                <motion.div
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  className="mt-8"
-                >
-                  <div className="eic2026-reg-card">
-                    <div className="eic2026-reg-card-header">
-                      <span className="material-symbols-outlined text-lg text-[#cee7d7]">
-                        app_registration
-                      </span>
-                      <h3 className="text-sm font-bold tracking-wide uppercase">
-                        Registration Form
-                      </h3>
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                className="mt-8"
+              >
+                <div className="eic2026-reg-card">
+                  <div className="eic2026-reg-card-header">
+                    <span className="material-symbols-outlined text-lg text-[#cee7d7]">
+                      app_registration
+                    </span>
+                    <h3 className="text-sm font-bold tracking-wide uppercase">
+                      Registration Form
+                    </h3>
+                  </div>
+
+                  <div className="p-5 sm:p-6">
+                    {/* Contact Email */}
+                    <div className="mb-6">
+                      <label className="mb-1.5 block text-xs font-bold tracking-widest text-slate-400 uppercase">
+                        Contact Email
+                      </label>
+                      <input
+                        type="email"
+                        id="contact-email"
+                        value={contactEmail}
+                        onChange={(e) => {
+                          setContactEmail(e.target.value);
+                          if (otpVerified) {
+                            setOtpVerified(false);
+                            setOtpSent(false);
+                            setOtpValue("");
+                          }
+                          setErrors((prev) => {
+                            if (prev.contactEmail) {
+                              const next = { ...prev };
+                              delete next.contactEmail;
+                              return next;
+                            }
+                            return prev;
+                          });
+                        }}
+                        placeholder="team-lead@nitsilchar.ac.in"
+                        className={`eic2026-reg-input w-full ${errors.contactEmail ? "eic2026-reg-input--error" : ""}`}
+                      />
+                      {errors.contactEmail && (
+                        <p className="mt-1 text-xs text-red-400">
+                          {errors.contactEmail}
+                        </p>
+                      )}
                     </div>
 
-                    <div className="p-5 sm:p-6">
-                      {/* Contact Email */}
-                      <div className="mb-6">
-                        <label className="mb-1.5 block text-xs font-bold tracking-widest text-slate-400 uppercase">
-                          Contact Email
+                    {/* Members */}
+                    <div className="mb-6">
+                      <div className="mb-3 flex items-center justify-between">
+                        <label className="text-xs font-bold tracking-widest text-slate-400 uppercase">
+                          Team Members ({members.length}
+                          {currentEvent.minMembers !== currentEvent.maxMembers
+                            ? ` / max ${currentEvent.maxMembers}`
+                            : ""}
+                          )
                         </label>
-                        <input
-                          type="email"
-                          id="contact-email"
-                          value={contactEmail}
-                          onChange={(e) => {
-                            setContactEmail(e.target.value);
-                            if (otpVerified) {
-                              setOtpVerified(false);
-                              setOtpSent(false);
-                              setOtpValue("");
-                            }
-                            setErrors((prev) => {
-                              if (prev.contactEmail) {
-                                const next = { ...prev };
-                                delete next.contactEmail;
-                                return next;
-                              }
-                              return prev;
-                            });
-                          }}
-                          placeholder="team-lead@nitsilchar.ac.in"
-                          className={`eic2026-reg-input w-full ${errors.contactEmail ? "eic2026-reg-input--error" : ""}`}
-                        />
-                        {errors.contactEmail && (
-                          <p className="mt-1 text-xs text-red-400">
-                            {errors.contactEmail}
-                          </p>
-                        )}
-                      </div>
-
-                      {/* Members */}
-                      <div className="mb-6">
-                        <div className="mb-3 flex items-center justify-between">
-                          <label className="text-xs font-bold tracking-widest text-slate-400 uppercase">
-                            Team Members ({members.length}
-                            {currentEvent.minMembers !== currentEvent.maxMembers
-                              ? ` / max ${currentEvent.maxMembers}`
-                              : ""}
-                            )
-                          </label>
-                          {currentEvent.minMembers !==
-                            currentEvent.maxMembers &&
-                            members.length < currentEvent.maxMembers && (
-                              <button
-                                type="button"
-                                onClick={addMember}
-                                className="inline-flex items-center gap-1 rounded-lg border border-[#cee7d7]/20 bg-[#cee7d7]/5 px-3 py-1 text-xs font-bold text-[#cee7d7] transition-colors hover:bg-[#cee7d7]/10"
-                              >
-                                <span className="material-symbols-outlined text-sm">
-                                  add
-                                </span>
-                                Add Member
-                              </button>
-                            )}
-                        </div>
-
-                        <div className="space-y-4">
-                          {members.map((member, index) => (
-                            <motion.div
-                              key={index}
-                              initial={{ opacity: 0, x: -10 }}
-                              animate={{ opacity: 1, x: 0 }}
-                              transition={{ delay: index * 0.05 }}
-                              className="eic2026-reg-member-card"
+                        {currentEvent.minMembers !== currentEvent.maxMembers &&
+                          members.length < currentEvent.maxMembers && (
+                            <button
+                              type="button"
+                              onClick={addMember}
+                              className="inline-flex items-center gap-1 rounded-lg border border-[#cee7d7]/20 bg-[#cee7d7]/5 px-3 py-1 text-xs font-bold text-[#cee7d7] transition-colors hover:bg-[#cee7d7]/10"
                             >
-                              <div className="mb-3 flex items-center justify-between">
-                                <span className="text-xs font-bold text-[#cee7d7]/60">
-                                  Member {index + 1}
-                                </span>
-                                {currentEvent.minMembers !==
-                                  currentEvent.maxMembers &&
-                                  members.length > currentEvent.minMembers && (
-                                    <button
-                                      type="button"
-                                      onClick={() => removeMember(index)}
-                                      className="flex items-center gap-1 text-xs text-red-400/60 transition-colors hover:text-red-400"
-                                    >
-                                      <span className="material-symbols-outlined text-sm">
-                                        remove_circle
-                                      </span>
-                                      Remove
-                                    </button>
-                                  )}
-                              </div>
-                              <div className="grid gap-3 sm:grid-cols-3">
-                                {/* Name */}
-                                <div>
-                                  <input
-                                    type="text"
-                                    value={member.name}
-                                    onChange={(e) =>
-                                      updateMember(
-                                        index,
-                                        "name",
-                                        e.target.value,
-                                      )
-                                    }
-                                    placeholder="Full Name"
-                                    className={`eic2026-reg-input w-full ${errors[`member_${index}_name`] ? "eic2026-reg-input--error" : ""}`}
-                                  />
-                                  {errors[`member_${index}_name`] && (
-                                    <p className="mt-1 text-[10px] text-red-400">
-                                      {errors[`member_${index}_name`]}
-                                    </p>
-                                  )}
-                                </div>
-                                {/* Year */}
-                                <div>
-                                  <select
-                                    value={member.year}
-                                    onChange={(e) =>
-                                      updateMember(
-                                        index,
-                                        "year",
-                                        parseInt(e.target.value),
-                                      )
-                                    }
-                                    className="eic2026-reg-select w-full"
-                                  >
-                                    <option value={1}>1st Year</option>
-                                    <option value={2}>2nd Year</option>
-                                    <option value={3}>3rd Year</option>
-                                    <option value={4}>4th Year</option>
-                                  </select>
-                                </div>
-                                {/* Phone */}
-                                <div>
-                                  <input
-                                    type="tel"
-                                    value={member.phone}
-                                    onChange={(e) => {
-                                      const val = e.target.value
-                                        .replace(/\D/g, "")
-                                        .slice(0, 10);
-                                      updateMember(index, "phone", val);
-                                    }}
-                                    placeholder="10-digit Phone"
-                                    maxLength={10}
-                                    className={`eic2026-reg-input w-full ${errors[`member_${index}_phone`] ? "eic2026-reg-input--error" : ""}`}
-                                  />
-                                  {errors[`member_${index}_phone`] && (
-                                    <p className="mt-1 text-[10px] text-red-400">
-                                      {errors[`member_${index}_phone`]}
-                                    </p>
-                                  )}
-                                </div>
-                              </div>
-                            </motion.div>
-                          ))}
-                        </div>
+                              <span className="material-symbols-outlined text-sm">
+                                add
+                              </span>
+                              Add Member
+                            </button>
+                          )}
                       </div>
 
-                      {/* ─── OTP Verification ─── */}
-                      <div className="eic2026-reg-otp-section">
-                        <h4 className="mb-3 flex items-center gap-2 text-xs font-bold tracking-widest text-slate-400 uppercase">
-                          <span className="material-symbols-outlined text-sm text-[#cee7d7]">
-                            verified_user
-                          </span>
-                          Email Verification
-                        </h4>
+                      <div className="space-y-4">
+                        {members.map((member, index) => (
+                          <motion.div
+                            key={index}
+                            initial={{ opacity: 0, x: -10 }}
+                            animate={{ opacity: 1, x: 0 }}
+                            transition={{ delay: index * 0.05 }}
+                            className="eic2026-reg-member-card"
+                          >
+                            <div className="mb-3 flex items-center justify-between">
+                              <span className="text-xs font-bold text-[#cee7d7]/60">
+                                Member {index + 1}
+                              </span>
+                              {currentEvent.minMembers !==
+                                currentEvent.maxMembers &&
+                                members.length > currentEvent.minMembers && (
+                                  <button
+                                    type="button"
+                                    onClick={() => removeMember(index)}
+                                    className="flex items-center gap-1 text-xs text-red-400/60 transition-colors hover:text-red-400"
+                                  >
+                                    <span className="material-symbols-outlined text-sm">
+                                      remove_circle
+                                    </span>
+                                    Remove
+                                  </button>
+                                )}
+                            </div>
+                            <div className="grid gap-3 sm:grid-cols-3">
+                              {/* Name */}
+                              <div>
+                                <input
+                                  type="text"
+                                  value={member.name}
+                                  onChange={(e) =>
+                                    updateMember(index, "name", e.target.value)
+                                  }
+                                  placeholder="Full Name"
+                                  className={`eic2026-reg-input w-full ${errors[`member_${index}_name`] ? "eic2026-reg-input--error" : ""}`}
+                                />
+                                {errors[`member_${index}_name`] && (
+                                  <p className="mt-1 text-[10px] text-red-400">
+                                    {errors[`member_${index}_name`]}
+                                  </p>
+                                )}
+                              </div>
+                              {/* Year */}
+                              <div>
+                                <select
+                                  value={member.year}
+                                  onChange={(e) =>
+                                    updateMember(
+                                      index,
+                                      "year",
+                                      parseInt(e.target.value),
+                                    )
+                                  }
+                                  className="eic2026-reg-select w-full"
+                                >
+                                  <option value={1}>1st Year</option>
+                                  <option value={2}>2nd Year</option>
+                                  <option value={3}>3rd Year</option>
+                                  <option value={4}>4th Year</option>
+                                </select>
+                              </div>
+                              {/* Phone */}
+                              <div>
+                                <input
+                                  type="tel"
+                                  value={member.phone}
+                                  onChange={(e) => {
+                                    const val = e.target.value
+                                      .replace(/\D/g, "")
+                                      .slice(0, 10);
+                                    updateMember(index, "phone", val);
+                                  }}
+                                  placeholder="10-digit Phone"
+                                  maxLength={10}
+                                  className={`eic2026-reg-input w-full ${errors[`member_${index}_phone`] ? "eic2026-reg-input--error" : ""}`}
+                                />
+                                {errors[`member_${index}_phone`] && (
+                                  <p className="mt-1 text-[10px] text-red-400">
+                                    {errors[`member_${index}_phone`]}
+                                  </p>
+                                )}
+                              </div>
+                            </div>
+                          </motion.div>
+                        ))}
+                      </div>
+                    </div>
 
-                        {!otpVerified ? (
-                          <div className="space-y-3">
-                            {!otpSent ? (
+                    {/* ─── OTP Verification ─── */}
+                    <div className="eic2026-reg-otp-section">
+                      <h4 className="mb-3 flex items-center gap-2 text-xs font-bold tracking-widest text-slate-400 uppercase">
+                        <span className="material-symbols-outlined text-sm text-[#cee7d7]">
+                          verified_user
+                        </span>
+                        Email Verification
+                      </h4>
+
+                      {!otpVerified ? (
+                        <div className="space-y-3">
+                          {!otpSent ? (
+                            <button
+                              type="button"
+                              onClick={handleSendOTP}
+                              disabled={otpLoading || !contactEmail.trim()}
+                              className="eic2026-reg-btn-outline w-full disabled:cursor-not-allowed disabled:opacity-40"
+                            >
+                              {otpLoading ? (
+                                <span className="flex items-center justify-center gap-2">
+                                  <span className="eic2026-reg-spinner" />
+                                  Sending...
+                                </span>
+                              ) : (
+                                <span className="flex items-center justify-center gap-2">
+                                  <span className="material-symbols-outlined text-sm">
+                                    mail
+                                  </span>
+                                  Send OTP to Email
+                                </span>
+                              )}
+                            </button>
+                          ) : (
+                            <>
+                              <div className="flex gap-2">
+                                <input
+                                  type="text"
+                                  id="otp-input"
+                                  value={otpValue}
+                                  onChange={(e) => {
+                                    const val = e.target.value
+                                      .replace(/\D/g, "")
+                                      .slice(0, 6);
+                                    setOtpValue(val);
+                                  }}
+                                  placeholder="Enter 6-digit OTP"
+                                  maxLength={6}
+                                  className="eic2026-reg-input flex-1"
+                                />
+                                <button
+                                  type="button"
+                                  onClick={handleVerifyOTP}
+                                  disabled={otpLoading || otpValue.length < 6}
+                                  className="eic2026-reg-btn shrink-0 px-4 disabled:cursor-not-allowed disabled:opacity-40"
+                                >
+                                  {otpLoading ? (
+                                    <span className="eic2026-reg-spinner" />
+                                  ) : (
+                                    "Verify"
+                                  )}
+                                </button>
+                              </div>
                               <button
                                 type="button"
                                 onClick={handleSendOTP}
-                                disabled={otpLoading || !contactEmail.trim()}
-                                className="eic2026-reg-btn-outline w-full disabled:cursor-not-allowed disabled:opacity-40"
+                                disabled={otpCooldown > 0 || otpLoading}
+                                className="text-xs text-[#cee7d7]/60 transition-colors hover:text-[#cee7d7] disabled:cursor-not-allowed disabled:opacity-40"
                               >
-                                {otpLoading ? (
-                                  <span className="flex items-center justify-center gap-2">
-                                    <span className="eic2026-reg-spinner" />
-                                    Sending...
-                                  </span>
-                                ) : (
-                                  <span className="flex items-center justify-center gap-2">
-                                    <span className="material-symbols-outlined text-sm">
-                                      mail
-                                    </span>
-                                    Send OTP to Email
-                                  </span>
-                                )}
+                                {otpCooldown > 0
+                                  ? `Resend OTP in ${otpCooldown}s`
+                                  : "Resend OTP"}
                               </button>
-                            ) : (
-                              <>
-                                <div className="flex gap-2">
-                                  <input
-                                    type="text"
-                                    id="otp-input"
-                                    value={otpValue}
-                                    onChange={(e) => {
-                                      const val = e.target.value
-                                        .replace(/\D/g, "")
-                                        .slice(0, 6);
-                                      setOtpValue(val);
-                                    }}
-                                    placeholder="Enter 6-digit OTP"
-                                    maxLength={6}
-                                    className="eic2026-reg-input flex-1"
-                                  />
-                                  <button
-                                    type="button"
-                                    onClick={handleVerifyOTP}
-                                    disabled={otpLoading || otpValue.length < 6}
-                                    className="eic2026-reg-btn shrink-0 px-4 disabled:cursor-not-allowed disabled:opacity-40"
-                                  >
-                                    {otpLoading ? (
-                                      <span className="eic2026-reg-spinner" />
-                                    ) : (
-                                      "Verify"
-                                    )}
-                                  </button>
-                                </div>
-                                <button
-                                  type="button"
-                                  onClick={handleSendOTP}
-                                  disabled={otpCooldown > 0 || otpLoading}
-                                  className="text-xs text-[#cee7d7]/60 transition-colors hover:text-[#cee7d7] disabled:cursor-not-allowed disabled:opacity-40"
-                                >
-                                  {otpCooldown > 0
-                                    ? `Resend OTP in ${otpCooldown}s`
-                                    : "Resend OTP"}
-                                </button>
-                              </>
-                            )}
-                          </div>
-                        ) : (
-                          <div className="flex items-center gap-2 rounded-lg border border-green-500/20 bg-green-500/5 px-4 py-3">
-                            <span className="material-symbols-outlined text-lg text-green-400">
-                              check_circle
-                            </span>
-                            <span className="text-sm font-medium text-green-300">
-                              Email verified successfully
-                            </span>
-                          </div>
-                        )}
-                      </div>
-
-                      {/* ─── Submit Button ─── */}
-                      <div className="mt-6">
-                        <button
-                          type="button"
-                          id="register-btn"
-                          onClick={handleSubmit}
-                          disabled={!otpVerified || submitting}
-                          className="eic2026-reg-btn w-full py-4 text-base font-black disabled:cursor-not-allowed disabled:opacity-40"
-                        >
-                          {submitting ? (
-                            <span className="flex items-center justify-center gap-2">
-                              <span className="eic2026-reg-spinner" />
-                              Registering...
-                            </span>
-                          ) : !otpVerified ? (
-                            <span className="flex items-center justify-center gap-2">
-                              <span className="material-symbols-outlined text-lg">
-                                lock
-                              </span>
-                              Verify Email to Register
-                            </span>
-                          ) : (
-                            <span className="flex items-center justify-center gap-2">
-                              <span className="material-symbols-outlined text-lg">
-                                how_to_reg
-                              </span>
-                              Register for {currentEvent.name}
-                            </span>
+                            </>
                           )}
-                        </button>
-                      </div>
+                        </div>
+                      ) : (
+                        <div className="flex items-center gap-2 rounded-lg border border-green-500/20 bg-green-500/5 px-4 py-3">
+                          <span className="material-symbols-outlined text-lg text-green-400">
+                            check_circle
+                          </span>
+                          <span className="text-sm font-medium text-green-300">
+                            Email verified successfully
+                          </span>
+                        </div>
+                      )}
+                    </div>
+
+                    {/* ─── Submit Button ─── */}
+                    <div className="mt-6">
+                      <button
+                        type="button"
+                        id="register-btn"
+                        onClick={handleSubmit}
+                        disabled={!otpVerified || submitting}
+                        className="eic2026-reg-btn w-full py-4 text-base font-black disabled:cursor-not-allowed disabled:opacity-40"
+                      >
+                        {submitting ? (
+                          <span className="flex items-center justify-center gap-2">
+                            <span className="eic2026-reg-spinner" />
+                            Registering...
+                          </span>
+                        ) : !otpVerified ? (
+                          <span className="flex items-center justify-center gap-2">
+                            <span className="material-symbols-outlined text-lg">
+                              lock
+                            </span>
+                            Verify Email to Register
+                          </span>
+                        ) : (
+                          <span className="flex items-center justify-center gap-2">
+                            <span className="material-symbols-outlined text-lg">
+                              how_to_reg
+                            </span>
+                            Register for {currentEvent.name}
+                          </span>
+                        )}
+                      </button>
                     </div>
                   </div>
-                </motion.div>
-              )}
+                </div>
+              </motion.div>
             </motion.div>
           )}
         </AnimatePresence>

@@ -658,7 +658,7 @@ export default function EIC2026Page() {
               },
               {
                 href: "/EIC-2026/business-quiz",
-                title: "Business Quiz",
+                title: "Boardroom Trivia",
                 icon: "quiz",
                 description:
                   "Test your knowledge of markets, brands & startups.",
@@ -732,10 +732,18 @@ export default function EIC2026Page() {
                     </div>
                     <p>{event.description}</p>
 
-                    {/* Rent row */}
-                    <div className="eic2026-deed-rent">
-                      <span className="rent-label">Rent</span>
-                      <span className="rent-value">{event.rent}</span>
+                    {/* View Details Button */}
+                    <div className="mt-auto flex w-full justify-center pt-4">
+                      <span
+                        className="rounded-lg px-6 py-2 text-xs font-bold tracking-wide transition-all group-hover:scale-105"
+                        style={{
+                          backgroundColor: `${event.color}20`,
+                          color: event.color,
+                          border: `1px solid ${event.color}40`,
+                        }}
+                      >
+                        View Details
+                      </span>
                     </div>
                   </div>
                 </Link>
@@ -812,7 +820,7 @@ export default function EIC2026Page() {
               </span>
             </div>
             <h2 className="mb-4 text-4xl font-black text-white md:text-5xl">
-              Strategic <span className="eic2026-shimmer-text">Partners</span>
+              Past <span className="eic2026-shimmer-text">Sponsers</span>
             </h2>
             <p className="mx-auto max-w-md text-sm tracking-wide text-[#cee7d7]/50">
               The investors backing the board

@@ -2,10 +2,22 @@
 
 import Image from "next/image";
 import Link from "next/link";
+import { useState } from "react";
 import { motion } from "framer-motion";
 import "~/styles/eic2026.css";
 
+const BRANCHES = ["CSE", "EE", "ECE", "EIE", "CE", "ME"];
+const BRANCH_TO_ID: Record<string, string> = {
+  CSE: "CSE",
+  EE: "EE",
+  ECE: "ECE",
+  EIE: "EIE",
+  CE: "CE",
+  ME: "ME",
+};
+
 export default function TheDealRoom() {
+  const [selectedBranch, setSelectedBranch] = useState("");
   return (
     <div className="eic2026-page min-h-screen bg-[#111111] font-sans text-slate-100 antialiased">
       <header className="sticky top-0 z-50 w-full border-b border-[#cee7d7]/20 bg-[#111111]/80 backdrop-blur-md">
@@ -91,18 +103,57 @@ export default function TheDealRoom() {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.3 }}
-              className="flex flex-col justify-center gap-4 sm:flex-row"
+              className="flex flex-col items-center justify-center gap-4 sm:flex-row"
             >
               <motion.a
                 whileHover={{
                   scale: 1.05,
                   boxShadow: "0 0 20px rgba(206,231,215,0.4)",
                 }}
-                className="rounded-lg bg-[#cee7d7] px-8 py-4 font-bold text-[#111111] shadow-lg shadow-[#cee7d7]/20"
+                className="rounded-lg bg-[#cee7d7] px-8 py-4 text-center font-bold text-[#111111] shadow-lg shadow-[#cee7d7]/20 transition-all"
                 href="#rules"
               >
                 View Rules
               </motion.a>
+
+              <div className="mt-4 flex w-full flex-col items-center gap-2 sm:mt-0 sm:w-auto sm:flex-row sm:gap-4">
+                <select
+                  aria-label="Select Branch"
+                  className="w-full rounded-lg border border-[#cee7d7]/20 bg-[#111111] px-4 py-4 font-semibold text-[#cee7d7] focus:border-[#cee7d7] focus:ring-1 focus:ring-[#cee7d7] focus:outline-none sm:w-auto"
+                  value={selectedBranch}
+                  onChange={(e) => setSelectedBranch(e.target.value)}
+                >
+                  <option value="" disabled>
+                    Select Branch
+                  </option>
+                  {BRANCHES.map((branch) => (
+                    <option key={branch} value={branch}>
+                      {branch}
+                    </option>
+                  ))}
+                </select>
+
+                <Link
+                  href={
+                    selectedBranch
+                      ? `/EIC-2026/register/${BRANCH_TO_ID[selectedBranch]}?event=dealroom-escape`
+                      : "#"
+                  }
+                  className={`w-full rounded-lg px-8 py-4 text-center font-bold transition-all sm:w-auto ${
+                    selectedBranch
+                      ? "bg-[#cee7d7] text-[#111111] shadow-lg shadow-[#cee7d7]/20 hover:scale-105"
+                      : "cursor-not-allowed border border-[#444444] bg-[#2a2a2a] text-slate-500"
+                  }`}
+                  onClick={(e) => {
+                    if (!selectedBranch) {
+                      e.preventDefault();
+                      alert("Please select a branch to register.");
+                    }
+                  }}
+                >
+                  Register Now
+                </Link>
+              </div>
             </motion.div>
           </div>
         </section>
@@ -111,7 +162,7 @@ export default function TheDealRoom() {
           <div className="grid grid-cols-1 gap-6 md:grid-cols-3">
             {[
               { icon: "groups", label: "Team Size", value: "4 Members" },
-              { icon: "timer", label: "Time Limit", value: "15 Minutes" },
+              { icon: "timer", label: "Time Limit", value: "XX Minutes" },
               {
                 icon: "phonelink_off",
                 label: "Devices",
@@ -166,8 +217,8 @@ export default function TheDealRoom() {
                 },
                 {
                   n: "02",
-                  t: "15-Minute Sprint",
-                  d: "Teams will have 15 minutes to locate clues and solve the puzzles.",
+                  t: "XX-Minute Sprint",
+                  d: "Teams will have XX minutes to locate clues and solve the puzzles.",
                 },
                 {
                   n: "03",

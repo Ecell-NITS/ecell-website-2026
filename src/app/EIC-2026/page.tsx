@@ -4,6 +4,18 @@ import Image from "next/image";
 import Link from "next/link";
 import { motion, useScroll, useTransform } from "framer-motion";
 import { useRef } from "react";
+import {
+  ChevronsDown,
+  Lightbulb,
+  Puzzle,
+  Rocket,
+  Landmark,
+  Building2,
+  BrainCircuit,
+  UsersRound,
+  Megaphone,
+  Unlock,
+} from "lucide-react";
 import "~/styles/eic2026.css";
 
 // /* ─── 3D Dice Component ─── */
@@ -470,9 +482,7 @@ export default function EIC2026Page() {
           transition={{ repeat: Infinity, duration: 2 }}
           className="absolute bottom-10 left-1/2 -translate-x-1/2"
         >
-          <span className="material-symbols-outlined text-3xl text-[#cee7d7]/50">
-            keyboard_double_arrow_down
-          </span>
+          <ChevronsDown size={36} className="text-[#cee7d7]/50" />
         </motion.div>
       </section>
 
@@ -528,25 +538,25 @@ export default function EIC2026Page() {
                 <div className="grid grid-cols-2 gap-4">
                   {[
                     {
-                      icon: "lightbulb",
+                      icon: Lightbulb,
                       title: "Innovation",
                       desc: "Fresh ideas that light the way",
                       color: "#b45309",
                     },
                     {
-                      icon: "extension",
+                      icon: Puzzle,
                       title: "Strategy",
                       desc: "Every move is calculated",
                       color: "#1e40af",
                     },
                     {
-                      icon: "rocket_launch",
+                      icon: Rocket,
                       title: "Growth",
                       desc: "Scale your empire fast",
                       color: "#991b1b",
                     },
                     {
-                      icon: "payments",
+                      icon: Landmark,
                       title: "Capital",
                       desc: "Monopoly money rewards",
                       color: "#166534",
@@ -568,12 +578,7 @@ export default function EIC2026Page() {
                           border: `1px solid ${item.color}40`,
                         }}
                       >
-                        <span
-                          className="material-symbols-outlined text-xl"
-                          style={{ color: item.color }}
-                        >
-                          {item.icon}
-                        </span>
+                        <item.icon size={20} style={{ color: item.color }} />
                       </div>
                       <h3 className="text-sm font-black tracking-wide text-white uppercase">
                         {item.title}
@@ -598,10 +603,10 @@ export default function EIC2026Page() {
               <div className="eic2026-glow-pulse absolute inset-0 rounded-full bg-[#cee7d7]/15 blur-3xl" />
               <div className="eic2026-about-image-frame relative h-full w-full overflow-hidden">
                 <Image
-                  src="/images/eic2026/team_collab.webp"
+                  src="/EIC/main_poster.webp"
                   alt="Team collaborating"
                   fill
-                  className="object-cover grayscale transition-all duration-700 hover:grayscale-0"
+                  className="object-fill transition-all duration-700 hover:grayscale-0"
                   referrerPolicy="no-referrer"
                 />
               </div>
@@ -649,7 +654,7 @@ export default function EIC2026Page() {
               {
                 href: "/EIC-2026/campus-capitalist",
                 title: "Campus Capitalist",
-                icon: "real_estate_agent",
+                icon: Building2,
                 description:
                   "Pitch real campus solutions using your branch expertise.",
                 rent: "$1500",
@@ -659,7 +664,7 @@ export default function EIC2026Page() {
               {
                 href: "/EIC-2026/business-quiz",
                 title: "Boardroom Trivia",
-                icon: "quiz",
+                icon: BrainCircuit,
                 description:
                   "Test your knowledge of markets, brands & startups.",
                 rent: "$1200",
@@ -669,7 +674,7 @@ export default function EIC2026Page() {
               {
                 href: "/EIC-2026/chairmans-conclave",
                 title: "Chairman's Conclave",
-                icon: "forum",
+                icon: UsersRound,
                 description:
                   "High-stakes group discussion as corporate tycoons.",
                 rent: "$1400",
@@ -679,7 +684,7 @@ export default function EIC2026Page() {
               {
                 href: "/EIC-2026/adoshuffle",
                 title: "AdoShuffle",
-                icon: "campaign",
+                icon: Megaphone,
                 description:
                   "Reimagine famous brands with wild what-if concepts.",
                 rent: "$800",
@@ -689,7 +694,7 @@ export default function EIC2026Page() {
               {
                 href: "/EIC-2026/the-deal-room",
                 title: "The Deal Room",
-                icon: "lock_open",
+                icon: Unlock,
                 description:
                   "Solve puzzles, uncover clues, and build your empire.",
                 rent: "$2000",
@@ -723,12 +728,7 @@ export default function EIC2026Page() {
                       className="eic2026-deed-icon"
                       style={{ transformStyle: "preserve-3d" }}
                     >
-                      <span
-                        className="material-symbols-outlined text-2xl"
-                        style={{ color: event.color }}
-                      >
-                        {event.icon}
-                      </span>
+                      <event.icon size={32} style={{ color: event.color }} />
                     </div>
                     <p>{event.description}</p>
 
@@ -870,38 +870,38 @@ export default function EIC2026Page() {
           <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5">
             {[
               {
-                role: "Organizing Head",
-                name: "Dev Mehrotra",
-                email: "dev.m@ecell.in",
-                icon: "shield_person",
+                role: "Campus Capitalist Heads",
+                name: "Aditya & Mimansa",
+                email: "mimansa1312@gmail.com",
+                icon: Building2,
                 color: "#991b1b",
               },
               {
-                role: "Events Lead",
-                name: "Aalya Jain",
-                email: "aalya.j@ecell.in",
-                icon: "event_available",
+                role: "Boardroom Trivia Heads",
+                name: "Dhruv & Anish",
+                email: "dhruv503a@gmail.com",
+                icon: BrainCircuit,
                 color: "#1e40af",
               },
               {
-                role: "Public Relations",
-                name: "Dev Jaiswal",
-                email: "dev.j@ecell.in",
-                icon: "record_voice_over",
+                role: "Chairman's Conclave Head",
+                name: "Arhan",
+                email: "arhan@gmail.com",
+                icon: UsersRound,
                 color: "#b45309",
               },
               {
-                role: "Operations",
-                name: "Devang Bawri",
-                email: "devang.b@ecell.in",
-                icon: "engineering",
+                role: "AdoShuffle Head",
+                name: "Jayant Prasad",
+                email: "jayant_ug_23@ee.nits.ac.in",
+                icon: Megaphone,
                 color: "#166534",
               },
               {
-                role: "Technical Head",
-                name: "Vishal Singh Patel",
-                email: "vishal.p@ecell.in",
-                icon: "terminal",
+                role: "The Deal Room Head",
+                name: "Pallavi Prithani",
+                email: "pallaviprithani04@gmail.com",
+                icon: Unlock,
                 color: "#6b21a8",
               },
             ].map((person, i) => (
@@ -926,12 +926,7 @@ export default function EIC2026Page() {
                 {/* Card body */}
                 <div className="flex flex-col items-center gap-3 p-5">
                   <div className="flex size-12 items-center justify-center rounded-full border-2 border-[#e5e0d0] bg-[#faf9f0] transition-transform duration-400 group-hover:rotate-12">
-                    <span
-                      className="material-symbols-outlined text-xl"
-                      style={{ color: person.color }}
-                    >
-                      {person.icon}
-                    </span>
+                    <person.icon size={20} style={{ color: person.color }} />
                   </div>
                   <h4 className="text-center text-sm font-black tracking-wide text-[#1a1a1a] uppercase">
                     {person.name}

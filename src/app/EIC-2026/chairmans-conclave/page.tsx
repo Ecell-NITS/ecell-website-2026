@@ -4,6 +4,14 @@ import Image from "next/image";
 import Link from "next/link";
 import { useState } from "react";
 import { motion } from "framer-motion";
+import {
+  ArrowLeft,
+  UsersRound,
+  BadgeCent,
+  CalendarDays,
+  MapPin,
+  Gamepad2,
+} from "lucide-react";
 import "~/styles/eic2026.css";
 
 const BRANCHES = ["CSE", "EE", "ECE", "EIE", "CE", "ME"];
@@ -53,9 +61,7 @@ export default function ChairmansConclave() {
               href="/EIC-2026"
               className="flex shrink-0 items-center gap-1 rounded-lg bg-[#cee7d7] px-3 py-2 text-xs font-bold text-[#111111] sm:gap-2 sm:px-4 sm:text-sm"
             >
-              <span className="material-symbols-outlined text-[16px] sm:text-[20px]">
-                arrow_back
-              </span>
+              <ArrowLeft size={16} className="sm:h-5 sm:w-5" />
               <span className="hidden sm:inline">Back to Events</span>
               <span className="sm:hidden">Back</span>
             </Link>
@@ -169,15 +175,24 @@ export default function ChairmansConclave() {
           <div className="grid grid-cols-1 gap-6 md:grid-cols-3">
             {[
               {
-                icon: "groups",
+                icon: UsersRound,
                 label: "Participants",
                 value: "12 (2 per Branch)",
               },
-              { icon: "badge", label: "Roles", value: "CEO, CFO, CTO & More" },
               {
-                icon: "emoji_events",
-                label: "Finalists",
-                value: "Top 6 Advance",
+                icon: BadgeCent,
+                label: "Roles",
+                value: "CEO, CFO, CTO & More",
+              },
+              {
+                icon: CalendarDays,
+                label: "Tentative Date",
+                value: "20th March, 5:30 PM",
+              },
+              {
+                icon: MapPin,
+                label: "Venue",
+                value: "New Gallery",
                 highlight: true,
               },
             ].map((s, i) => (
@@ -190,7 +205,7 @@ export default function ChairmansConclave() {
                 className="eic2026-monopoly-shadow flex items-center gap-4 rounded-xl border border-[#cee7d7]/20 bg-[#111111] p-6"
               >
                 <div className="rounded-lg bg-[#cee7d7]/10 p-3 text-[#cee7d7]">
-                  <span className="material-symbols-outlined">{s.icon}</span>
+                  <s.icon size={24} />
                 </div>
                 <div>
                   <p className="text-xs font-bold text-slate-500 uppercase">
@@ -210,9 +225,7 @@ export default function ChairmansConclave() {
         {/* Rounds Section */}
         <section className="mx-auto max-w-7xl px-4 py-24" id="rounds">
           <h2 className="mb-12 flex items-center gap-3 text-3xl font-bold">
-            <span className="material-symbols-outlined text-[#cee7d7]">
-              sports_esports
-            </span>
+            <Gamepad2 className="text-[#cee7d7]" size={32} />
             Event Rounds
           </h2>
           <div className="grid gap-8 md:grid-cols-2">

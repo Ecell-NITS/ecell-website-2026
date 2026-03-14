@@ -5,6 +5,24 @@ import Link from "next/link";
 import { motion, AnimatePresence } from "framer-motion";
 import { useParams, useSearchParams, useRouter } from "next/navigation";
 import { useState, useEffect, useCallback, useMemo } from "react";
+import {
+  ArrowLeft,
+  CircleCheck,
+  CircleAlert,
+  X,
+  Gavel,
+  Gamepad2,
+  Ban,
+  Users,
+  ClipboardPen,
+  Trash2,
+  ShieldCheck,
+  Mail,
+  Lock,
+  UserCheck,
+  Plus,
+  Calendar,
+} from "lucide-react";
 import "~/styles/eic2026.css";
 
 /* ─── Removed Obscured Branch ID → Branch mapping ─── */
@@ -21,32 +39,32 @@ const BRANCH_FULL_NAMES: Record<string, string> = {
 /* ─── Permitted Emails per Branch ─── */
 const PERMITTED_EMAILS: Record<string, string[]> = {
   CSE: [
-    "dasbishal1717@gmail.com",
+    "shreyaagarwala1988@gmail.com",
     "dasnarayan1717@gmail.com",
     "muskan_ug_23@civil.nits.ac.in",
   ],
   EE: [
-    "dasbishal1717@gmail.com",
+    "shreyaagarwala1988@gmail.com",
     "dasnarayan1717@gmail.com",
     "muskan_ug_23@civil.nits.ac.in",
   ],
   ECE: [
-    "dasbishal1717@gmail.com",
+    "shreyaagarwala1988@gmail.com",
     "dasnarayan1717@gmail.com",
     "muskan_ug_23@civil.nits.ac.in",
   ],
   EIE: [
-    "dasbishal1717@gmail.com",
+    "shreyaagarwala1988@gmail.com",
     "dasnarayan1717@gmail.com",
     "muskan_ug_23@civil.nits.ac.in",
   ],
   CE: [
-    "dasbishal1717@gmail.com",
+    "shreyaagarwala1988@gmail.com",
     "dasnarayan1717@gmail.com",
     "muskan_ug_23@civil.nits.ac.in",
   ],
   ME: [
-    "dasbishal1717@gmail.com",
+    "shreyaagarwala1988@gmail.com",
     "dasnarayan1717@gmail.com",
     "muskan_ug_23@civil.nits.ac.in",
   ],
@@ -280,15 +298,17 @@ function Toast({
       exit={{ opacity: 0, y: 50, x: "-50%", scale: 0.9 }}
       className={`eic2026-reg-toast ${type === "success" ? "eic2026-reg-toast--success" : "eic2026-reg-toast--error"}`}
     >
-      <span className="material-symbols-outlined text-xl">
-        {type === "success" ? "check_circle" : "error"}
-      </span>
+      {type === "success" ? (
+        <CircleCheck size={20} />
+      ) : (
+        <CircleAlert size={20} />
+      )}
       <span>{message}</span>
       <button
         onClick={onClose}
         className="ml-auto opacity-60 hover:opacity-100"
       >
-        <span className="material-symbols-outlined text-lg">close</span>
+        <X size={18} />
       </button>
     </motion.div>
   );
@@ -335,9 +355,7 @@ function RulesModal({
               onClick={onClose}
               className="flex size-8 items-center justify-center rounded-full bg-white/20 transition-colors hover:bg-white/30"
             >
-              <span className="material-symbols-outlined text-lg text-white">
-                close
-              </span>
+              <X size={18} className="text-white" />
             </button>
           </div>
         </div>
@@ -347,7 +365,7 @@ function RulesModal({
           {/* General Rules */}
           <div className="mb-6">
             <h4 className="mb-3 flex items-center gap-2 text-sm font-bold tracking-wider text-[#cee7d7] uppercase">
-              <span className="material-symbols-outlined text-base">gavel</span>
+              <Gavel size={16} />
               Rules
             </h4>
             <ul className="space-y-2">
@@ -366,9 +384,7 @@ function RulesModal({
           {/* Rounds */}
           <div>
             <h4 className="mb-3 flex items-center gap-2 text-sm font-bold tracking-wider text-[#cee7d7] uppercase">
-              <span className="material-symbols-outlined text-base">
-                sports_esports
-              </span>
+              <Gamepad2 size={16} />
               Rounds
             </h4>
             <div className="space-y-4">
@@ -679,9 +695,7 @@ export default function RegisterPage() {
           animate={{ opacity: 1, scale: 1 }}
           className="text-center"
         >
-          <span className="material-symbols-outlined mb-4 text-6xl text-red-400">
-            block
-          </span>
+          <Ban className="mx-auto mb-4 text-red-400" size={60} />
           <h1 className="mb-2 text-3xl font-black">
             Invalid Registration Link
           </h1>
@@ -693,9 +707,7 @@ export default function RegisterPage() {
             onClick={() => router.back()}
             className="inline-flex items-center gap-2 rounded-xl bg-[#cee7d7] px-6 py-3 font-bold text-[#111111]"
           >
-            <span className="material-symbols-outlined text-xl">
-              arrow_back
-            </span>
+            <ArrowLeft size={20} />
             Back
           </button>
         </motion.div>
@@ -752,9 +764,7 @@ export default function RegisterPage() {
               onClick={() => router.back()}
               className="flex shrink-0 items-center gap-1 rounded-lg bg-[#cee7d7] px-3 py-2 text-xs font-bold text-[#111111] sm:gap-2 sm:px-4 sm:text-sm"
             >
-              <span className="material-symbols-outlined text-[16px] sm:text-[20px]">
-                arrow_back
-              </span>
+              <ArrowLeft size={16} className="sm:h-5 sm:w-5" />
               <span className="hidden sm:inline">Back</span>
               <span className="sm:hidden">Back</span>
             </button>
@@ -863,9 +873,7 @@ export default function RegisterPage() {
                   </p>
                   <div className="flex flex-wrap items-center gap-3">
                     <span className="inline-flex items-center gap-1 rounded-full border border-[#cee7d7]/20 bg-[#cee7d7]/5 px-3 py-1 text-xs font-bold text-[#cee7d7]">
-                      <span className="material-symbols-outlined text-sm">
-                        group
-                      </span>
+                      <Users size={14} />
                       {currentEvent.minMembers === currentEvent.maxMembers
                         ? `${currentEvent.minMembers} Members`
                         : `${currentEvent.minMembers}–${currentEvent.maxMembers} Members`}
@@ -874,9 +882,7 @@ export default function RegisterPage() {
                       onClick={() => setShowRules(true)}
                       className="eic2026-reg-btn-outline inline-flex items-center gap-1 text-xs"
                     >
-                      <span className="material-symbols-outlined text-sm">
-                        gavel
-                      </span>
+                      <Gavel size={14} />
                       View Rules
                     </button>
                   </div>
@@ -891,9 +897,7 @@ export default function RegisterPage() {
               >
                 <div className="eic2026-reg-card">
                   <div className="eic2026-reg-card-header">
-                    <span className="material-symbols-outlined text-lg text-[#cee7d7]">
-                      app_registration
-                    </span>
+                    <ClipboardPen size={18} className="text-[#cee7d7]" />
                     <h3 className="text-sm font-bold tracking-wide uppercase">
                       Registration Form
                     </h3>
@@ -952,9 +956,7 @@ export default function RegisterPage() {
                               onClick={addMember}
                               className="inline-flex items-center gap-1 rounded-lg border border-[#cee7d7]/20 bg-[#cee7d7]/5 px-3 py-1 text-xs font-bold text-[#cee7d7] transition-colors hover:bg-[#cee7d7]/10"
                             >
-                              <span className="material-symbols-outlined text-sm">
-                                add
-                              </span>
+                              <Plus size={14} />
                               Add Member
                             </button>
                           )}
@@ -981,9 +983,7 @@ export default function RegisterPage() {
                                     onClick={() => removeMember(index)}
                                     className="flex items-center gap-1 text-xs text-red-400/60 transition-colors hover:text-red-400"
                                   >
-                                    <span className="material-symbols-outlined text-sm">
-                                      remove_circle
-                                    </span>
+                                    <Trash2 size={14} />
                                     Remove
                                   </button>
                                 )}
@@ -1055,9 +1055,7 @@ export default function RegisterPage() {
                     {/* ─── OTP Verification ─── */}
                     <div className="eic2026-reg-otp-section">
                       <h4 className="mb-3 flex items-center gap-2 text-xs font-bold tracking-widest text-slate-400 uppercase">
-                        <span className="material-symbols-outlined text-sm text-[#cee7d7]">
-                          verified_user
-                        </span>
+                        <ShieldCheck size={14} className="text-[#cee7d7]" />
                         Email Verification
                       </h4>
 
@@ -1077,9 +1075,7 @@ export default function RegisterPage() {
                                 </span>
                               ) : (
                                 <span className="flex items-center justify-center gap-2">
-                                  <span className="material-symbols-outlined text-sm">
-                                    mail
-                                  </span>
+                                  <Mail size={14} />
                                   Send OTP to Email
                                 </span>
                               )}
@@ -1129,9 +1125,7 @@ export default function RegisterPage() {
                         </div>
                       ) : (
                         <div className="flex items-center gap-2 rounded-lg border border-green-500/20 bg-green-500/5 px-4 py-3">
-                          <span className="material-symbols-outlined text-lg text-green-400">
-                            check_circle
-                          </span>
+                          <CircleCheck size={18} className="text-green-400" />
                           <span className="text-sm font-medium text-green-300">
                             Email verified successfully
                           </span>
@@ -1155,16 +1149,12 @@ export default function RegisterPage() {
                           </span>
                         ) : !otpVerified ? (
                           <span className="flex items-center justify-center gap-2">
-                            <span className="material-symbols-outlined text-lg">
-                              lock
-                            </span>
+                            <Lock size={18} />
                             Verify Email to Register
                           </span>
                         ) : (
                           <span className="flex items-center justify-center gap-2">
-                            <span className="material-symbols-outlined text-lg">
-                              how_to_reg
-                            </span>
+                            <UserCheck size={18} />
                             Register for {currentEvent.name}
                           </span>
                         )}
@@ -1185,9 +1175,7 @@ export default function RegisterPage() {
             transition={{ delay: 0.5 }}
             className="py-20 text-center"
           >
-            <span className="material-symbols-outlined mb-4 text-5xl text-[#cee7d7]/20">
-              event
-            </span>
+            <Calendar className="mx-auto mb-4 text-[#cee7d7]/20" size={56} />
             <p className="text-sm text-slate-500">
               Select an event above to begin registration
             </p>

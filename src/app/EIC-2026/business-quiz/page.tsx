@@ -4,6 +4,14 @@ import Image from "next/image";
 import Link from "next/link";
 import { useState } from "react";
 import { motion } from "framer-motion";
+import {
+  ArrowLeft,
+  UsersRound,
+  Zap,
+  CalendarDays,
+  MapPin,
+  Gavel,
+} from "lucide-react";
 import "~/styles/eic2026.css";
 
 const BRANCHES = ["CSE", "EE", "ECE", "EIE", "CE", "ME"];
@@ -47,9 +55,7 @@ export default function BusinessQuiz() {
               href="/EIC-2026"
               className="flex shrink-0 items-center gap-1 rounded-lg bg-[#cee7d7] px-3 py-2 text-xs font-bold text-[#111111] sm:gap-2 sm:px-4 sm:text-sm"
             >
-              <span className="material-symbols-outlined text-[16px] sm:text-[20px]">
-                arrow_back
-              </span>
+              <ArrowLeft size={16} className="sm:h-5 sm:w-5" />
               <span className="hidden sm:inline">Back to Events</span>
               <span className="sm:hidden">Back</span>
             </Link>
@@ -162,16 +168,21 @@ export default function BusinessQuiz() {
         <section className="relative z-20 mx-auto -mt-12 max-w-7xl px-4">
           <div className="grid grid-cols-1 gap-6 md:grid-cols-3">
             {[
-              { icon: "groups", label: "Team Size", value: "4 Members" },
+              { icon: UsersRound, label: "Team Size", value: "4 Members" },
               {
-                icon: "category",
-                label: "Topics",
-                value: "Markets, Brands, Startups",
-              },
-              {
-                icon: "bolt",
+                icon: Zap,
                 label: "Format",
                 value: "Rapid Fire + Tiebreaker",
+              },
+              {
+                icon: CalendarDays,
+                label: "Tentative Date",
+                value: "22nd March, 10:00 AM",
+              },
+              {
+                icon: MapPin,
+                label: "Venue",
+                value: "New Gallery",
                 highlight: true,
               },
             ].map((s, i) => (
@@ -184,7 +195,7 @@ export default function BusinessQuiz() {
                 className="eic2026-monopoly-shadow flex items-center gap-4 rounded-xl border border-[#cee7d7]/20 bg-[#111111] p-6"
               >
                 <div className="rounded-lg bg-[#cee7d7]/10 p-3 text-[#cee7d7]">
-                  <span className="material-symbols-outlined">{s.icon}</span>
+                  <s.icon size={24} />
                 </div>
                 <div>
                   <p className="text-xs font-bold text-slate-500 uppercase">
@@ -208,9 +219,7 @@ export default function BusinessQuiz() {
             viewport={{ once: true }}
           >
             <h2 className="mb-8 flex items-center gap-3 text-3xl font-bold">
-              <span className="material-symbols-outlined text-[#cee7d7]">
-                gavel
-              </span>
+              <Gavel className="text-[#cee7d7]" size={32} />
               Rules of Engagement
             </h2>
             <ul className="space-y-5">

@@ -17,14 +17,9 @@
 }
 
 /* ---------- Playfair Display Font Application ---------- */
-.eic2026-page {
-  font-family: var(--eic-font-heading);
-}
 
 .eic2026-page h1,
-.eic2026-page h2,
-.eic2026-page h3,
-.eic2026-page h4 {
+.eic2026-page h2 {
   font-family: var(--eic-font-heading);
   font-weight: 800;
 }
@@ -901,4 +896,310 @@
 
 .eic2026-about-image-frame:hover {
   border-color: rgba(206, 231, 215, 0.2);
+}
+
+/* ===================================================================
+   Registration Page Styles
+   =================================================================== */
+
+/* ---------- Registration Card (form container) ---------- */
+.eic2026-reg-card {
+  background: linear-gradient(
+    180deg,
+    rgba(15, 20, 15, 0.95) 0%,
+    rgba(10, 14, 10, 0.98) 100%
+  );
+  border: 1px solid rgba(206, 231, 215, 0.12);
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow:
+    0 10px 40px -10px rgba(0, 0, 0, 0.5),
+    0 0 0 1px rgba(206, 231, 215, 0.05);
+}
+
+.eic2026-reg-card-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 16px 24px;
+  border-bottom: 1px solid rgba(206, 231, 215, 0.1);
+  background: rgba(206, 231, 215, 0.03);
+}
+
+/* ---------- Event Info Card ---------- */
+.eic2026-reg-event-card {
+  background: linear-gradient(
+    180deg,
+    rgba(15, 20, 15, 0.9) 0%,
+    rgba(10, 14, 10, 0.95) 100%
+  );
+  border: 1px solid rgba(206, 231, 215, 0.12);
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+.eic2026-reg-event-card-band {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 16px 20px;
+  border-bottom: 1px solid rgba(206, 231, 215, 0.1);
+}
+
+/* ---------- Input Fields ---------- */
+.eic2026-reg-input {
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(206, 231, 215, 0.15);
+  border-radius: 10px;
+  padding: 10px 14px;
+  font-size: 0.875rem;
+  color: #e2e8f0;
+  outline: none;
+  transition:
+    border-color 0.3s ease,
+    box-shadow 0.3s ease,
+    background 0.3s ease;
+  font-family: inherit;
+}
+
+.eic2026-reg-input::placeholder {
+  color: rgba(148, 163, 184, 0.4);
+}
+
+.eic2026-reg-input:focus {
+  border-color: rgba(206, 231, 215, 0.4);
+  box-shadow: 0 0 0 3px rgba(206, 231, 215, 0.08);
+  background: rgba(255, 255, 255, 0.06);
+}
+
+.eic2026-reg-input--error {
+  border-color: rgba(248, 113, 113, 0.5) !important;
+  box-shadow: 0 0 0 3px rgba(248, 113, 113, 0.08) !important;
+}
+
+/* ---------- Select Dropdown ---------- */
+.eic2026-reg-select {
+  appearance: none;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(206, 231, 215, 0.15);
+  border-radius: 10px;
+  padding: 10px 40px 10px 14px;
+  font-size: 0.875rem;
+  color: #e2e8f0;
+  outline: none;
+  cursor: pointer;
+  transition:
+    border-color 0.3s ease,
+    box-shadow 0.3s ease;
+  font-family: inherit;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='20' height='20' viewBox='0 0 24 24' fill='none' stroke='%23cee7d7' stroke-width='2'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 12px center;
+  background-size: 16px;
+}
+
+.eic2026-reg-select:focus {
+  border-color: rgba(206, 231, 215, 0.4);
+  box-shadow: 0 0 0 3px rgba(206, 231, 215, 0.08);
+}
+
+.eic2026-reg-select option {
+  background: #111111;
+  color: #e2e8f0;
+  padding: 8px;
+}
+
+/* ---------- Primary Button ---------- */
+.eic2026-reg-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, #cee7d7 0%, #a8d8b9 100%);
+  color: #111111;
+  border: none;
+  border-radius: 12px;
+  padding: 10px 20px;
+  font-size: 0.875rem;
+  font-weight: 700;
+  font-family: inherit;
+  cursor: pointer;
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.3s ease;
+}
+
+.eic2026-reg-btn:hover:not(:disabled) {
+  transform: translateY(-1px);
+  box-shadow: 0 0 24px rgba(206, 231, 215, 0.3);
+}
+
+.eic2026-reg-btn:active:not(:disabled) {
+  transform: translateY(0);
+}
+
+/* ---------- Outline Button ---------- */
+.eic2026-reg-btn-outline {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: transparent;
+  color: #cee7d7;
+  border: 1px solid rgba(206, 231, 215, 0.3);
+  border-radius: 10px;
+  padding: 8px 16px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  font-family: inherit;
+  cursor: pointer;
+  transition:
+    background 0.3s ease,
+    border-color 0.3s ease;
+}
+
+.eic2026-reg-btn-outline:hover:not(:disabled) {
+  background: rgba(206, 231, 215, 0.08);
+  border-color: rgba(206, 231, 215, 0.5);
+}
+
+/* ---------- Member Card ---------- */
+.eic2026-reg-member-card {
+  background: rgba(255, 255, 255, 0.02);
+  border: 1px solid rgba(206, 231, 215, 0.08);
+  border-radius: 12px;
+  padding: 16px;
+  transition: border-color 0.3s ease;
+}
+
+.eic2026-reg-member-card:hover {
+  border-color: rgba(206, 231, 215, 0.15);
+}
+
+/* ---------- OTP Section ---------- */
+.eic2026-reg-otp-section {
+  border-top: 1px dashed rgba(206, 231, 215, 0.1);
+  padding-top: 20px;
+  margin-top: 8px;
+}
+
+/* ---------- Existing Registration Card ---------- */
+.eic2026-reg-existing {
+  background: linear-gradient(
+    180deg,
+    rgba(15, 20, 15, 0.9) 0%,
+    rgba(10, 14, 10, 0.95) 100%
+  );
+  border: 1px solid rgba(206, 231, 215, 0.12);
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+.eic2026-reg-existing-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 14px 20px;
+  border-left: 4px solid transparent;
+  background: rgba(206, 231, 215, 0.04);
+  border-bottom: 1px solid rgba(206, 231, 215, 0.08);
+}
+
+.eic2026-reg-existing-body {
+  padding: 16px 20px;
+}
+
+/* ---------- Rules Modal ---------- */
+.eic2026-reg-modal-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 16px;
+  background: rgba(0, 0, 0, 0.75);
+  backdrop-filter: blur(6px);
+}
+
+.eic2026-reg-modal {
+  position: relative;
+  width: 100%;
+  max-width: 520px;
+  max-height: 85vh;
+  overflow-y: auto;
+  background: linear-gradient(180deg, #0d1410 0%, #0a0f0c 100%);
+  border: 1px solid rgba(206, 231, 215, 0.15);
+  border-radius: 16px;
+  box-shadow:
+    0 20px 60px rgba(0, 0, 0, 0.6),
+    0 0 40px rgba(206, 231, 215, 0.08);
+}
+
+.eic2026-reg-modal-header {
+  padding: 20px 24px;
+  color: #fff;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.15);
+}
+
+.eic2026-reg-modal-body {
+  padding: 20px 24px 24px;
+}
+
+/* modal scrollbar */
+.eic2026-reg-modal::-webkit-scrollbar {
+  width: 6px;
+}
+.eic2026-reg-modal::-webkit-scrollbar-track {
+  background: transparent;
+}
+.eic2026-reg-modal::-webkit-scrollbar-thumb {
+  background: rgba(206, 231, 215, 0.15);
+  border-radius: 3px;
+}
+
+/* ---------- Toast Notification ---------- */
+.eic2026-reg-toast {
+  position: fixed;
+  bottom: 24px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 200;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 12px 20px;
+  border-radius: 12px;
+  font-size: 0.875rem;
+  font-weight: 600;
+  min-width: 280px;
+  max-width: 500px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+}
+
+.eic2026-reg-toast--success {
+  background: linear-gradient(135deg, #0d2818 0%, #153e27 100%);
+  border: 1px solid rgba(206, 231, 215, 0.25);
+  color: #a8d8b9;
+}
+
+.eic2026-reg-toast--error {
+  background: linear-gradient(135deg, #2d1215 0%, #451a1d 100%);
+  border: 1px solid rgba(248, 113, 113, 0.25);
+  color: #fca5a5;
+}
+
+/* ---------- Spinner ---------- */
+@keyframes eic-reg-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.eic2026-reg-spinner {
+  display: inline-block;
+  width: 16px;
+  height: 16px;
+  border: 2px solid rgba(206, 231, 215, 0.2);
+  border-top-color: #cee7d7;
+  border-radius: 50%;
+  animation: eic-reg-spin 0.6s linear infinite;
 }

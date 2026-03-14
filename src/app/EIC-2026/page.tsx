@@ -531,25 +531,25 @@ export default function EIC2026Page() {
                       icon: "lightbulb",
                       title: "Innovation",
                       desc: "Fresh ideas that light the way",
-                      color: "#eab308",
+                      color: "#b45309",
                     },
                     {
                       icon: "extension",
                       title: "Strategy",
                       desc: "Every move is calculated",
-                      color: "#2563eb",
+                      color: "#1e40af",
                     },
                     {
                       icon: "rocket_launch",
                       title: "Growth",
                       desc: "Scale your empire fast",
-                      color: "#dc2626",
+                      color: "#991b1b",
                     },
                     {
                       icon: "payments",
                       title: "Capital",
                       desc: "Monopoly money rewards",
-                      color: "#16a34a",
+                      color: "#166534",
                     },
                   ].map((item, i) => (
                     <motion.div
@@ -653,7 +653,7 @@ export default function EIC2026Page() {
                 description:
                   "Pitch real campus solutions using your branch expertise.",
                 rent: "$1500",
-                color: "#dc2626",
+                color: "#991b1b",
                 propertyType: "Premium Property",
               },
               {
@@ -663,7 +663,7 @@ export default function EIC2026Page() {
                 description:
                   "Test your knowledge of markets, brands & startups.",
                 rent: "$1200",
-                color: "#2563eb",
+                color: "#1e40af",
                 propertyType: "Utility Property",
               },
               {
@@ -673,7 +673,7 @@ export default function EIC2026Page() {
                 description:
                   "High-stakes group discussion as corporate tycoons.",
                 rent: "$1400",
-                color: "#eab308",
+                color: "#b45309",
                 propertyType: "Boardroom Property",
               },
               {
@@ -683,7 +683,7 @@ export default function EIC2026Page() {
                 description:
                   "Reimagine famous brands with wild what-if concepts.",
                 rent: "$800",
-                color: "#16a34a",
+                color: "#166534",
                 propertyType: "Media Property",
               },
               {
@@ -693,7 +693,7 @@ export default function EIC2026Page() {
                 description:
                   "Solve puzzles, uncover clues, and build your empire.",
                 rent: "$2000",
-                color: "#9333ea",
+                color: "#6b21a8",
                 propertyType: "Luxury Property",
               },
             ].map((event, i) => (
@@ -866,35 +866,35 @@ export default function EIC2026Page() {
                 name: "Dev Mehrotra",
                 email: "dev.m@ecell.in",
                 icon: "shield_person",
-                color: "#dc2626",
+                color: "#991b1b",
               },
               {
                 role: "Events Lead",
                 name: "Aalya Jain",
                 email: "aalya.j@ecell.in",
                 icon: "event_available",
-                color: "#2563eb",
+                color: "#1e40af",
               },
               {
                 role: "Public Relations",
                 name: "Dev Jaiswal",
                 email: "dev.j@ecell.in",
                 icon: "record_voice_over",
-                color: "#eab308",
+                color: "#b45309",
               },
               {
                 role: "Operations",
                 name: "Devang Bawri",
                 email: "devang.b@ecell.in",
                 icon: "engineering",
-                color: "#16a34a",
+                color: "#166534",
               },
               {
                 role: "Technical Head",
                 name: "Vishal Singh Patel",
                 email: "vishal.p@ecell.in",
                 icon: "terminal",
-                color: "#9333ea",
+                color: "#6b21a8",
               },
             ].map((person, i) => (
               <motion.div

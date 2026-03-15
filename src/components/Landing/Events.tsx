@@ -4,49 +4,72 @@
 
 import React, { useState, useRef, useEffect, useCallback } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Lightbulb, Store, Shovel, BriefcaseBusiness } from "lucide-react";
+import {
+  Lightbulb,
+  Building2,
+  BrainCircuit,
+  UsersRound,
+  Megaphone,
+  Unlock,
+} from "lucide-react";
+import Link from "next/link";
 
 // --- CUSTOMIZED EVENTS DATA FOR E-CELL NIT SILCHAR ---
 const events = [
   {
     id: 1,
-    title: "BUSINESS HACKATHON",
-    subtitle: "The Entrepreneurship Module of Tecnoesis 2026",
-    category: "Hackathon",
-    desc: "Enter the digital dimension where creativity is your code and strategy is your weapon. In this realm of visionaries, strategists, and innovators, ideas transcend boundaries and solutions reshape realities. Two rounds await: online submission and onsite hackathon.",
+    title: "Campus Capitalist",
+    subtitle: "21st March • Seminar Hall",
+    category: "Pitch Deck",
+    desc: "Pitch real campus solutions using your branch expertise. Step onto the board and build your entrepreneurial empire by solving real-world problems. Strategy is your weapon.",
     img: "https://res.cloudinary.com/dtt4ftdrw/image/upload/f_webp/v1766421071/bussiness_gjaocu.png",
-    icon: BriefcaseBusiness,
-    tagGradient: "from-blue-400 to-indigo-500",
+    icon: Building2,
+    tagGradient: "from-red-500 to-red-700",
+    href: "/EIC-2026/campus-capitalist",
   },
   {
     id: 2,
-    title: "TREASURE HUNT",
-    subtitle: "The Entrepreneurship Module of Tecnoesis 2026",
-    category: "Fun Event",
-    desc: "Get ready for the ultimate campus adventure! Navigate through clues and riddles in this high-stakes treasure hunt where every step tests your wit and every discovery brings you closer to victory. Three thrilling rounds await the brave.",
+    title: "Boardroom Trivia",
+    subtitle: "22nd March • New Gallery",
+    category: "Business Quiz",
+    desc: "Test your knowledge of markets, brands & startups. Navigate through clues and riddles in this high-stakes trivia hunt where every correct answer brings you closer to victory.",
     img: "https://res.cloudinary.com/dtt4ftdrw/image/upload/f_webp/v1766924809/hunt_h4yu67.jpg",
-    icon: Shovel,
-    tagGradient: "from-purple-400 to-pink-500",
+    icon: BrainCircuit,
+    tagGradient: "from-blue-500 to-blue-700",
+    href: "/EIC-2026/boardroom-trivia",
   },
   {
     id: 3,
-    title: "BID-WISE",
-    subtitle: "The Entrepreneurship Module of Tecnoesis 2026",
-    category: "Competition",
-    desc: "Welcome to The Silent Grid: a high-stakes auction where words fall silent and only your moves speak. Manage a 100-point purse and limited bidding tokens across 6 rounds of exploration, discussion, and secret bidding at 10 stalls. Use the Special Token wisely—some rounds may eliminate it. Top 10 teams advance.",
+    title: "Chairman's Conclave",
+    subtitle: "20th March • New Gallery",
+    category: "Group Discussion",
+    desc: "High-stakes group discussion as corporate tycoons. A silent grid where words fall silent and only your moves speak. Manage your points, tokens, and decisions wisely.",
     img: "https://res.cloudinary.com/dtt4ftdrw/image/upload/f_webp/v1767002111/bid_dqm9bf.jpg",
-    icon: Lightbulb,
-    tagGradient: "from-amber-400 to-orange-500",
+    icon: UsersRound,
+    tagGradient: "from-amber-500 to-orange-700",
+    href: "/EIC-2026/chairmans-conclave",
   },
   {
     id: 4,
-    title: "Adovation",
-    subtitle: "The Entrepreneurship Module of Tecnoesis 2026",
-    category: "Online Event",
-    desc: "A Tecnoesis 'Empressario' Module Event by Ecell. Teams will create engaging promotional videos for assigned shops, showcasing their marketing creativity and video production skills.",
+    title: "AdoShuffle",
+    subtitle: "Online Event",
+    category: "Creative Marketing",
+    desc: "Reimagine famous brands with wild what-if concepts. Teams will create engaging promotional strategies for assigned brands, showcasing their marketing creativity.",
     img: "https://res.cloudinary.com/dtt4ftdrw/image/upload/f_webp/v1766736053/Adovation_nxhzzv.png",
-    icon: Store,
-    tagGradient: "from-emerald-400 to-teal-500",
+    icon: Megaphone,
+    tagGradient: "from-emerald-500 to-teal-700",
+    href: "/EIC-2026/adoshuffle",
+  },
+  {
+    id: 5,
+    title: "The Deal Room",
+    subtitle: "21st March • Startup Centre",
+    category: "Strategy & Puzzles",
+    desc: "Solve puzzles, uncover clues, and build your empire. Sharp decisions and bold moves are required to outthink the competition in this high-end property challenge.",
+    img: "https://res.cloudinary.com/dtt4ftdrw/image/upload/f_webp/v1766421071/bussiness_gjaocu.png",
+    icon: Unlock,
+    tagGradient: "from-purple-500 to-fuchsia-700",
+    href: "/EIC-2026/the-deal-room",
   },
 ];
 
@@ -146,10 +169,13 @@ const EventCard = ({
             </p>
           </div>
 
-          <div className="mt-auto flex items-center gap-2 pt-6 text-xs font-bold text-blue-500 transition-all group-hover:gap-3 group-hover:text-blue-400">
+          <Link
+            href={event.href}
+            className="mt-auto flex items-center gap-2 pt-6 text-xs font-bold text-blue-500 transition-all group-hover:gap-3 group-hover:text-blue-400"
+          >
             <span>Explore Details</span>
             <span>→</span>
-          </div>
+          </Link>
         </div>
       </div>
     </motion.div>

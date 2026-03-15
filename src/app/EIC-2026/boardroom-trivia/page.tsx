@@ -40,7 +40,7 @@ export default function BusinessQuiz() {
                 className="rounded-md"
               />
               <h1 className="text-xl font-bold tracking-tight">
-                Business Quiz
+                Boardroom Trivia
               </h1>
             </div>
             <nav className="hidden space-x-8 md:flex">

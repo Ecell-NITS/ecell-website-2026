@@ -129,10 +129,7 @@ export function DashboardClientWrapper({}: DashboardClientWrapperProps) {
                 <div className="group relative shrink-0">
                   <div className="relative size-40 cursor-pointer overflow-hidden rounded-full border-4 border-blue-500 bg-[#111722] shadow-[0_0_30px_rgba(59,130,246,0.5)] transition-transform hover:scale-105 md:size-48">
                     <Image
-                      src={
-                        user?.picture ??
-                        "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png"
-                      }
+                      src={user?.picture ?? "/profile_picture_holder.webp"}
                       alt="Profile"
                       className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-110"
                       width={192}

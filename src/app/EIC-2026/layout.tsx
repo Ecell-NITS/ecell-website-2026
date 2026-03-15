@@ -1,17 +1,31 @@
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "EIC 2026 — Entrepreneurship & Innovation Challenge",
+  title: {
+    default: "EIC 2026 — The Ultimate Board Room",
+    template: "%s | EIC 2026",
+  },
   description:
-    "The Entrepreneurship and Innovation Challenge (EIC) 2026 by E-Cell NIT Silchar — The Ultimate Business Simulation inspired by Monopoly.",
+    "EIC 2026 is the flagship Entrepreneurship & Innovation Challenge hosted by E-Cell NIT Silchar. A Monopoly-themed business simulation featuring high-stakes pitching, strategy, and problem-solving.",
+  keywords: [
+    "EIC 2026",
+    "Entrepreneurship & Innovation Challenge",
+    "E-Cell NIT Silchar",
+    "Business Simulation",
+    "Monopoly",
+    "Startup",
+    "Pitching",
+    "Strategy",
+  ],
   openGraph: {
     title: "EIC 2026 | E-Cell NIT Silchar",
     description:
       "Innovate. Compete. Conquer. Step onto the high-stakes board of global business and build your empire.",
     type: "website",
+    url: "https://ecellnits.org/EIC-2026",
     images: [
       {
-        url: "/og/landing2.png",
+        url: "/og/eic_landing.jpg", // Keep existing OG image if eic2026.png isn't guaranteed
         width: 1200,
         height: 630,
         alt: "EIC 2026 — E-Cell NIT Silchar",
@@ -21,7 +35,8 @@ export const metadata: Metadata = {
   twitter: {
     card: "summary_large_image",
     title: "EIC 2026 | E-Cell NIT Silchar",
-    description: "Entrepreneurship & Innovation Challenge 2026 at NIT Silchar.",
+    description:
+      "Innovate. Compete. Conquer. Join the Entrepreneurship & Innovation Challenge 2026.",
     images: ["/og/landing2.png"],
   },
 };

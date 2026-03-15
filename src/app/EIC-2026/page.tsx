@@ -45,6 +45,13 @@ const galleryImages = [
   "https://res.cloudinary.com/dsaaxuphe/image/upload/v1773082116/a9_mvw8v9.webp",
   "https://res.cloudinary.com/dsaaxuphe/image/upload/v1773082115/a12_bn6gwq.webp",
   "https://res.cloudinary.com/dsaaxuphe/image/upload/v1773082115/a8_eqfham.webp",
+  "https://res.cloudinary.com/dsaaxuphe/image/upload/v1773556561/eic10_u5ptvw.webp",
+  "https://res.cloudinary.com/dsaaxuphe/image/upload/v1773556559/eic13_uslnbb.webp",
+  "https://res.cloudinary.com/dsaaxuphe/image/upload/v1773556559/eic11_nyc9ek.webp",
+  "https://res.cloudinary.com/dsaaxuphe/image/upload/v1773556559/eic12_o6u9d9.webp",
+  "https://res.cloudinary.com/dsaaxuphe/image/upload/v1773556559/eic15_aasu69.webp",
+  "https://res.cloudinary.com/dsaaxuphe/image/upload/v1773556559/eic14_gb9xwx.webp",
+  "https://res.cloudinary.com/dsaaxuphe/image/upload/v1773556559/eic16_hgicus.webp",
   "https://res.cloudinary.com/dsaaxuphe/image/upload/v1773082115/a13_nggba1.webp",
   "https://res.cloudinary.com/dsaaxuphe/image/upload/v1773082115/a10_zvgkyj.webp",
   "https://res.cloudinary.com/dsaaxuphe/image/upload/v1773082115/a11_r68o1u.webp",
@@ -53,6 +60,15 @@ const galleryImages = [
   "https://res.cloudinary.com/dsaaxuphe/image/upload/v1773082114/a18_wqal82.webp",
   "https://res.cloudinary.com/dsaaxuphe/image/upload/v1773082113/a19_qc4jhl.webp",
   "https://res.cloudinary.com/dsaaxuphe/image/upload/v1773082113/a20_scmy0r.webp",
+  "https://res.cloudinary.com/dsaaxuphe/image/upload/v1773556563/eic2_vxu6sx.webp",
+  "https://res.cloudinary.com/dsaaxuphe/image/upload/v1773556562/eic1_mjf2gr.webp",
+  "https://res.cloudinary.com/dsaaxuphe/image/upload/v1773556562/eic3_x5slib.webp",
+  "https://res.cloudinary.com/dsaaxuphe/image/upload/v1773556562/eic5_urwqov.webp",
+  "https://res.cloudinary.com/dsaaxuphe/image/upload/v1773556562/eic4_xig5lx.webp",
+  "https://res.cloudinary.com/dsaaxuphe/image/upload/v1773556561/eic8_uftbds.webp",
+  "https://res.cloudinary.com/dsaaxuphe/image/upload/v1773556561/eic6_mr6wvu.webp",
+  "https://res.cloudinary.com/dsaaxuphe/image/upload/v1773556561/eic9_wp4epu.webp",
+  "https://res.cloudinary.com/dsaaxuphe/image/upload/v1773556561/eic7_se5sxb.webp",
 ];
 
 const sponsors = [
@@ -172,7 +188,7 @@ const Marquee = ({
               src={src}
               alt={`Gallery image ${index}`}
               fill
-              className="transform object-cover grayscale transition-all duration-500 group-hover:scale-110 group-hover:grayscale-0"
+              className="transform object-cover transition-all duration-500 group-hover:scale-110 group-hover:grayscale-0"
               unoptimized
             />
             <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
@@ -191,8 +207,8 @@ function GalleryContinuous() {
 
   return (
     <div className="relative w-full space-y-5 md:space-y-8">
-      <Marquee images={row1} direction="left" speed={60} />
-      <Marquee images={row2} direction="right" speed={60} />
+      <Marquee images={row1} direction="left" speed={150} />
+      <Marquee images={row2} direction="right" speed={150} />
     </div>
   );
 }
@@ -401,14 +417,24 @@ export default function EIC2026Page() {
           style={{ y: heroY, scale: heroScale }}
           className="absolute inset-0 bg-cover bg-center"
         >
-          <Image
-            src="/images/eic2026/hero_bg.webp"
-            alt="EIC 2026 Hero"
-            fill
-            className="object-cover"
-            priority
-            referrerPolicy="no-referrer"
-          />
+          <motion.div
+            animate={{ scale: [1, 1.15, 1] }}
+            transition={{
+              duration: 20,
+              ease: "easeInOut",
+              repeat: Infinity,
+            }}
+            className="h-full w-full"
+          >
+            <Image
+              src="/images/eic2026/hero_bg.webp"
+              alt="EIC 2026 Hero"
+              fill
+              className="object-cover"
+              priority
+              referrerPolicy="no-referrer"
+            />
+          </motion.div>
         </motion.div>
         <div className="absolute inset-0 bg-gradient-to-b from-[#111111]/60 via-[#111111]/80 to-[#111111]" />
         <div className="eic2026-cinematic-overlay absolute inset-0" />
@@ -662,7 +688,7 @@ export default function EIC2026Page() {
                 propertyType: "Premium Property",
               },
               {
-                href: "/EIC-2026/business-quiz",
+                href: "/EIC-2026/boardroom-trivia",
                 title: "Boardroom Trivia",
                 icon: BrainCircuit,
                 description:
@@ -885,7 +911,7 @@ export default function EIC2026Page() {
               },
               {
                 role: "Chairman's Conclave Head",
-                name: "Arhan",
+                name: "Arhan Rahman",
                 email: "arhan@gmail.com",
                 icon: UsersRound,
                 color: "#b45309",

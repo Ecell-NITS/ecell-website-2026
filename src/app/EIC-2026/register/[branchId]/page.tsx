@@ -39,34 +39,34 @@ const BRANCH_FULL_NAMES: Record<string, string> = {
 /* ─── Permitted Emails per Branch ─── */
 const PERMITTED_EMAILS: Record<string, string[]> = {
   CSE: [
-    "shreyaagarwala1988@gmail.com",
-    "dasnarayan1717@gmail.com",
-    "muskan_ug_23@civil.nits.ac.in",
+    "kartika.jauhari28@gmail.com",
+    "soumyaranjandash005@gmail.com",
+    "dasbishal1717@gmail.com",
   ],
   EE: [
-    "shreyaagarwala1988@gmail.com",
+    "connectwithshreyash@gmail.com",
     "dasnarayan1717@gmail.com",
-    "muskan_ug_23@civil.nits.ac.in",
+    "himapahi38@gmail.com",
   ],
   ECE: [
-    "shreyaagarwala1988@gmail.com",
-    "dasnarayan1717@gmail.com",
-    "muskan_ug_23@civil.nits.ac.in",
+    "koustubhmishra2003@gmail.com",
+    "tejeshpandey30@gmail.com",
+    "ahironsharma08@gmail.com",
   ],
   EIE: [
-    "shreyaagarwala1988@gmail.com",
-    "dasnarayan1717@gmail.com",
-    "muskan_ug_23@civil.nits.ac.in",
+    "agrimagoel30@gmail.com",
+    "anmol.s.sahoo@gmail.com",
+    "bishaldad1717@gmail.com",
   ],
   CE: [
-    "shreyaagarwala1988@gmail.com",
-    "dasnarayan1717@gmail.com",
-    "muskan_ug_23@civil.nits.ac.in",
+    "prabhatrai1204@gmail.com",
+    "mgogoi080203@gmail.com",
+    "atulboi222@gmail.com",
   ],
   ME: [
-    "shreyaagarwala1988@gmail.com",
-    "dasnarayan1717@gmail.com",
-    "muskan_ug_23@civil.nits.ac.in",
+    "k.saksham2022@gmail.com",
+    "k.saksham2022@gmail.com",
+    "k.saksham2022@gmail.com",
   ],
 };
 

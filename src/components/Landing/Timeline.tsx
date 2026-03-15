@@ -4,14 +4,7 @@
 
 import React, { useRef } from "react";
 import { motion, useScroll, useSpring } from "framer-motion";
-import {
-  Rocket,
-  Trophy,
-  Lightbulb,
-  Mic2,
-  Store,
-  CalendarClock,
-} from "lucide-react";
+import { Trophy, Lightbulb, Mic2, CalendarClock } from "lucide-react";
 
 // --- Types ---
 interface TimelineItem {

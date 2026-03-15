@@ -105,7 +105,7 @@ export default function CampusCapitalist() {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.2 }}
-              className="mx-auto mb-8 max-w-2xl text-base text-slate-400 sm:mb-10 sm:text-lg md:text-xl"
+              className="text-white-400 mx-auto mb-8 max-w-2xl text-base sm:mb-10 sm:text-lg md:text-xl"
             >
               Is a campus problem slowing everyone down? Just like buying
               properties to upgrade the board in Monopoly, pitch a real solution

@@ -16,6 +16,7 @@ import Link from "next/link";
 // Images for the Marquee
 const marqueeImages1 = [
   "/Hero/3image.webp",
+  "https://res.cloudinary.com/ecell/image/upload/f_webp/v1773825423/eic_dmzcwe.jpg",
   "/Hero/1image.webp",
   "/Hero/2image.webp",
   "/Hero/4image.webp",

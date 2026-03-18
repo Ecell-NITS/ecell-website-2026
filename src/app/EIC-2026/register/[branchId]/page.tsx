@@ -1,7 +1,6 @@
 "use client";
 
 import Image from "next/image";
-import Link from "next/link";
 import { motion, AnimatePresence } from "framer-motion";
 import { useParams, useSearchParams, useRouter } from "next/navigation";
 import { useState, useEffect, useCallback, useMemo } from "react";
@@ -45,7 +44,7 @@ const PERMITTED_EMAILS: Record<string, string[]> = {
   ],
   EE: [
     "connectwithshreyash@gmail.com",
-    "dasnarayan1717@gmail.com",
+    "rra863872@gmail.com",
     "himapahi38@gmail.com",
   ],
   ECE: [
@@ -66,7 +65,7 @@ const PERMITTED_EMAILS: Record<string, string[]> = {
   ME: [
     "k.saksham2022@gmail.com",
     "k.saksham2022@gmail.com",
-    "k.saksham2022@gmail.com",
+    "dasnarayan1717@gmail.com",
   ],
 };
 
@@ -523,7 +522,7 @@ export default function RegisterPage() {
   const addMember = useCallback(() => {
     if (!currentEvent || members.length >= currentEvent.maxMembers) return;
     setMembers((prev) => [...prev, { name: "", year: 1, phone: "" }]);
-  }, [currentEvent, members.length]);
+  }, [currentEvent, members.length, branch]);
 
   const removeMember = useCallback(
     (index: number) => {
@@ -564,7 +563,7 @@ export default function RegisterPage() {
 
     setErrors(errs);
     return Object.keys(errs).length === 0;
-  }, [contactEmail, members]);
+  }, [contactEmail, members, branch]);
 
   /* ─── Send OTP ─── */
   const handleSendOTP = useCallback(async () => {
@@ -615,7 +614,7 @@ export default function RegisterPage() {
     } finally {
       setOtpLoading(false);
     }
-  }, [contactEmail]);
+  }, [contactEmail, branch]);
 
   /* ─── Verify OTP ─── */
   const handleVerifyOTP = useCallback(async () => {
@@ -670,9 +669,25 @@ export default function RegisterPage() {
       const data = (await res.json()) as { message: string };
       if (res.ok) {
         setToast({
-          message: data.message || "Registration successful!",
+          message:
+            data.message ||
+            "Registration successful! Check your email for more details.",
           type: "success",
         });
+
+        // Reset form details on success
+        setContactEmail("");
+        setOtpSent(false);
+        setOtpValue("");
+        setOtpVerified(false);
+        setErrors({});
+        setMembers(
+          Array.from({ length: currentEvent.minMembers }, () => ({
+            name: "",
+            year: 1,
+            phone: "",
+          })),
+        );
       } else {
         setToast({
           message: data.message || "Registration failed",

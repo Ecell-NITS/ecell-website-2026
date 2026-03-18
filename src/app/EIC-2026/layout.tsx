@@ -22,7 +22,6 @@ export const metadata: Metadata = {
     description:
       "Innovate. Compete. Conquer. Step onto the high-stakes board of global business and build your empire.",
     type: "website",
-    url: "https://ecellnits.org/EIC-2026",
     images: [
       {
         url: "/og/eic_landing.jpg", // Keep existing OG image if eic2026.png isn't guaranteed

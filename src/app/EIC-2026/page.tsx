@@ -768,7 +768,7 @@ export default function EIC2026Page() {
                           border: `1px solid ${event.color}40`,
                         }}
                       >
-                        View Details
+                        Register Now
                       </span>
                     </div>
                   </div>
@@ -912,7 +912,7 @@ export default function EIC2026Page() {
               {
                 role: "Chairman's Conclave Head",
                 name: "Arhan Rahman",
-                email: "arhan@gmail.com",
+                email: "rahmanarhan1@gmail.com",
                 icon: UsersRound,
                 color: "#b45309",
               },
@@ -925,7 +925,7 @@ export default function EIC2026Page() {
               },
               {
                 role: "The Deal Room Head",
-                name: "Pallavi Prithani",
+                name: "Pallavi & Gaurav",
                 email: "pallaviprithani04@gmail.com",
                 icon: Unlock,
                 color: "#6b21a8",

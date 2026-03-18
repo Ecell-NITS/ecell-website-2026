@@ -45,7 +45,6 @@ export const metadata: Metadata = {
   openGraph: {
     type: "website",
     locale: "en_IN",
-    url: SITE_URL,
     siteName: "E-Cell NIT Silchar",
     title: "E-Cell NIT Silchar — Fostering Innovation & Leadership",
     description:
@@ -65,9 +64,7 @@ export const metadata: Metadata = {
     description: "Fostering Innovation & Leadership at NIT Silchar.",
     images: ["/og/landing2.png"],
   },
-  alternates: {
-    canonical: SITE_URL,
-  },
+
   robots: {
     index: true,
     follow: true,

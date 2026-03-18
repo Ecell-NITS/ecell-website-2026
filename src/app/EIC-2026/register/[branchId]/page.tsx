@@ -20,6 +20,10 @@ import {
   UserCheck,
   Plus,
   Calendar,
+  Video,
+  ImageIcon,
+  Send,
+  ExternalLink,
 } from "lucide-react";
 import "~/styles/eic2026.css";
 
@@ -79,6 +83,7 @@ interface EventDef {
   description: string;
   minMembers: number;
   maxMembers: number;
+  hasSubmission?: boolean;
   rounds: { title: string; points: string[] }[];
 }
 
@@ -182,6 +187,7 @@ const EVENTS: EventDef[] = [
       "Reimagine famous brands with wild what-if concepts. Create unconventional ad campaigns that break the mould.",
     minMembers: 5,
     maxMembers: 5,
+    hasSubmission: true,
 
     rounds: [
       {
@@ -308,6 +314,18 @@ export default function RegisterPage() {
   /* Submit state */
   const [submitting, setSubmitting] = useState(false);
 
+  /* Submission round state (AdoShuffle) */
+  const [submissionVideoLink, setSubmissionVideoLink] = useState("");
+  const [submissionPosterLink, setSubmissionPosterLink] = useState("");
+  const [submissionEmail, setSubmissionEmail] = useState("");
+  const [submissionSubmitting, setSubmissionSubmitting] = useState(false);
+  const [existingRegistration, setExistingRegistration] = useState<{
+    videoLink?: string | null;
+    posterLink?: string | null;
+    contactEmail?: string;
+  } | null>(null);
+  const [checkingRegistration, setCheckingRegistration] = useState(false);
+
   /* Toast state */
   const [toast, setToast] = useState<{
     message: string;
@@ -323,6 +341,41 @@ export default function RegisterPage() {
   );
 
   /* ─── Initialize members when event changes ─── */
+  /* ─── Check existing registration for submission events ─── */
+  useEffect(() => {
+    if (!currentEvent?.hasSubmission || !branch) {
+      setExistingRegistration(null);
+      return;
+    }
+
+    const checkRegistration = async () => {
+      setCheckingRegistration(true);
+      try {
+        const res = await fetch(`${API_BASE}${currentEvent.apiPath}/check`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ branch }),
+        });
+        const data = (await res.json()) as {
+          videoLink?: string | null;
+          posterLink?: string | null;
+          contactEmail?: string;
+        } | null;
+        if (res.ok && data) {
+          setExistingRegistration(data);
+        } else {
+          setExistingRegistration(null);
+        }
+      } catch {
+        setExistingRegistration(null);
+      } finally {
+        setCheckingRegistration(false);
+      }
+    };
+
+    void checkRegistration();
+  }, [currentEvent, branch]);
+
   useEffect(() => {
     if (!currentEvent) {
       setMembers([]);
@@ -554,6 +607,89 @@ export default function RegisterPage() {
       setSubmitting(false);
     }
   }, [currentEvent, branch, otpVerified, validate, contactEmail, members]);
+
+  /* ─── Handle Submission (AdoShuffle) ─── */
+  const handleSubmission = useCallback(async () => {
+    if (!currentEvent?.hasSubmission || !branch) return;
+
+    if (!submissionEmail.trim()) {
+      setToast({ message: "Enter your registered email", type: "error" });
+      return;
+    }
+    if (!submissionVideoLink.trim()) {
+      setToast({ message: "Enter the video Google Drive link", type: "error" });
+      return;
+    }
+    if (!submissionPosterLink.trim()) {
+      setToast({
+        message: "Enter the poster Google Drive link",
+        type: "error",
+      });
+      return;
+    }
+
+    // Basic URL validation
+    try {
+      new URL(submissionVideoLink.trim());
+    } catch {
+      setToast({ message: "Video link is not a valid URL", type: "error" });
+      return;
+    }
+    try {
+      new URL(submissionPosterLink.trim());
+    } catch {
+      setToast({ message: "Poster link is not a valid URL", type: "error" });
+      return;
+    }
+
+    setSubmissionSubmitting(true);
+    try {
+      const res = await fetch(`${API_BASE}${currentEvent.apiPath}/submit`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          branch,
+          contactEmail: submissionEmail.trim().toLowerCase(),
+          videoLink: submissionVideoLink.trim(),
+          posterLink: submissionPosterLink.trim(),
+        }),
+      });
+      const data = (await res.json()) as { message: string };
+      if (res.ok) {
+        setToast({
+          message: data.message || "Submission successful!",
+          type: "success",
+        });
+        setExistingRegistration((prev) =>
+          prev
+            ? {
+                ...prev,
+                videoLink: submissionVideoLink.trim(),
+                posterLink: submissionPosterLink.trim(),
+              }
+            : prev,
+        );
+        setSubmissionVideoLink("");
+        setSubmissionPosterLink("");
+        setSubmissionEmail("");
+      } else {
+        setToast({
+          message: data.message || "Submission failed",
+          type: "error",
+        });
+      }
+    } catch {
+      setToast({ message: "Network error. Please try again.", type: "error" });
+    } finally {
+      setSubmissionSubmitting(false);
+    }
+  }, [
+    currentEvent,
+    branch,
+    submissionEmail,
+    submissionVideoLink,
+    submissionPosterLink,
+  ]);
 
   /* ═══ INVALID BRANCH ═══ */
   if (!branch || !BRANCH_FULL_NAMES[branch]) {
@@ -1015,6 +1151,182 @@ export default function RegisterPage() {
                   </div>
                 </div>
               </motion.div>
+
+              {/* ═══ SUBMISSION SECTION (AdoShuffle only) ═══ */}
+              {currentEvent.hasSubmission && (
+                <motion.div
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 0.2 }}
+                  className="mt-8"
+                >
+                  <div className="eic2026-reg-card">
+                    <div
+                      className="eic2026-reg-card-header"
+                      style={{ borderLeft: `4px solid ${currentEvent.color}` }}
+                    >
+                      <Send size={18} className="text-[#cee7d7]" />
+                      <h3 className="text-sm font-bold tracking-wide uppercase">
+                        Submission Round
+                      </h3>
+                    </div>
+
+                    <div className="p-5 sm:p-6">
+                      {checkingRegistration ? (
+                        <div className="flex items-center justify-center gap-2 py-8">
+                          <span className="eic2026-reg-spinner" />
+                          <span className="text-sm text-slate-400">
+                            Checking registration status...
+                          </span>
+                        </div>
+                      ) : !existingRegistration ? (
+                        <div className="py-8 text-center">
+                          <Lock
+                            className="mx-auto mb-3 text-slate-500"
+                            size={32}
+                          />
+                          <p className="mb-1 text-sm font-bold text-slate-300">
+                            Registration required first
+                          </p>
+                          <p className="text-xs text-slate-500">
+                            Your branch must be registered for AdoShuffle before
+                            you can submit your video and poster.
+                          </p>
+                        </div>
+                      ) : existingRegistration.videoLink &&
+                        existingRegistration.posterLink ? (
+                        /* Already submitted */
+                        <div>
+                          <div className="mb-4 flex items-center gap-2 rounded-lg border border-green-500/20 bg-green-500/5 px-4 py-3">
+                            <CircleCheck size={18} className="text-green-400" />
+                            <span className="text-sm font-medium text-green-300">
+                              Submission completed successfully
+                            </span>
+                          </div>
+                          <div className="space-y-3">
+                            <div className="rounded-lg border border-[#cee7d7]/10 bg-[#111111]/50 p-4">
+                              <div className="mb-1 flex items-center gap-2 text-xs font-bold text-slate-400 uppercase">
+                                <Video size={14} className="text-[#cee7d7]" />
+                                Video Link
+                              </div>
+                              <a
+                                href={existingRegistration.videoLink}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="inline-flex items-center gap-1 text-sm text-[#cee7d7] underline decoration-[#cee7d7]/30 transition-colors hover:text-[#b4dcc3]"
+                              >
+                                {existingRegistration.videoLink}
+                                <ExternalLink size={12} />
+                              </a>
+                            </div>
+                            <div className="rounded-lg border border-[#cee7d7]/10 bg-[#111111]/50 p-4">
+                              <div className="mb-1 flex items-center gap-2 text-xs font-bold text-slate-400 uppercase">
+                                <ImageIcon
+                                  size={14}
+                                  className="text-[#cee7d7]"
+                                />
+                                Poster Link
+                              </div>
+                              <a
+                                href={existingRegistration.posterLink}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="inline-flex items-center gap-1 text-sm text-[#cee7d7] underline decoration-[#cee7d7]/30 transition-colors hover:text-[#b4dcc3]"
+                              >
+                                {existingRegistration.posterLink}
+                                <ExternalLink size={12} />
+                              </a>
+                            </div>
+                          </div>
+                        </div>
+                      ) : (
+                        /* Submission form */
+                        <div className="space-y-5">
+                          <p className="text-sm leading-relaxed text-slate-400">
+                            Upload your video and poster to Google Drive, set
+                            access to{" "}
+                            <strong className="text-slate-200">
+                              &quot;Anyone with the link&quot;
+                            </strong>
+                            , and paste the links below.
+                          </p>
+
+                          {/* Submission Email */}
+                          <div>
+                            <label className="mb-1.5 flex items-center gap-1.5 text-xs font-bold tracking-widest text-slate-400 uppercase">
+                              <Mail size={12} />
+                              Registered Email
+                            </label>
+                            <input
+                              type="email"
+                              value={submissionEmail}
+                              onChange={(e) =>
+                                setSubmissionEmail(e.target.value)
+                              }
+                              placeholder="Enter your registered contact email"
+                              className="eic2026-reg-input w-full"
+                            />
+                          </div>
+
+                          {/* Video Link */}
+                          <div>
+                            <label className="mb-1.5 flex items-center gap-1.5 text-xs font-bold tracking-widest text-slate-400 uppercase">
+                              <Video size={12} />
+                              Video Link (Google Drive)
+                            </label>
+                            <input
+                              type="url"
+                              value={submissionVideoLink}
+                              onChange={(e) =>
+                                setSubmissionVideoLink(e.target.value)
+                              }
+                              placeholder="https://drive.google.com/..."
+                              className="eic2026-reg-input w-full"
+                            />
+                          </div>
+
+                          {/* Poster Link */}
+                          <div>
+                            <label className="mb-1.5 flex items-center gap-1.5 text-xs font-bold tracking-widest text-slate-400 uppercase">
+                              <ImageIcon size={12} />
+                              Poster Link (Google Drive)
+                            </label>
+                            <input
+                              type="url"
+                              value={submissionPosterLink}
+                              onChange={(e) =>
+                                setSubmissionPosterLink(e.target.value)
+                              }
+                              placeholder="https://drive.google.com/..."
+                              className="eic2026-reg-input w-full"
+                            />
+                          </div>
+
+                          {/* Submit Submission */}
+                          <button
+                            type="button"
+                            onClick={handleSubmission}
+                            disabled={submissionSubmitting}
+                            className="eic2026-reg-btn w-full py-3 text-sm font-black disabled:cursor-not-allowed disabled:opacity-40"
+                          >
+                            {submissionSubmitting ? (
+                              <span className="flex items-center justify-center gap-2">
+                                <span className="eic2026-reg-spinner" />
+                                Submitting...
+                              </span>
+                            ) : (
+                              <span className="flex items-center justify-center gap-2">
+                                <Send size={16} />
+                                Submit Video & Poster
+                              </span>
+                            )}
+                          </button>
+                        </div>
+                      )}
+                    </div>
+                  </div>
+                </motion.div>
+              )}
             </motion.div>
           )}
         </AnimatePresence>

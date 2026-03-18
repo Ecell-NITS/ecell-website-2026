@@ -19,7 +19,7 @@ import {
 import * as XLSX from "xlsx";
 import axios from "axios";
 
-const API_BASE = process.env.NEXT_PUBLIC_BASE_URL ?? "http://localhost:4000";
+const API_BASE = process.env.NEXT_PUBLIC_EIC_API_URL ?? "http://localhost:4000";
 
 /* ================= TYPES ================= */
 type View = "EVENTS" | "MODULES" | "RESPONSES";

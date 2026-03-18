@@ -9,7 +9,6 @@ import {
   CircleCheck,
   CircleAlert,
   X,
-  Gavel,
   Gamepad2,
   Ban,
   Users,
@@ -80,7 +79,6 @@ interface EventDef {
   description: string;
   minMembers: number;
   maxMembers: number;
-  rules: string[];
   rounds: { title: string; points: string[] }[];
 }
 
@@ -96,13 +94,7 @@ const EVENTS: EventDef[] = [
       "Take your seat in a high-stakes Group Discussion, where strategy, negotiation, and bold ideas decide who builds the next business empire.",
     minMembers: 2,
     maxMembers: 2,
-    rules: [
-      "Each branch sends exactly 2 representatives.",
-      "Participants are assigned strategic roles — CEO, CFO, CTO, and others.",
-      "Negotiate, strategize, and collaborate to solve a critical business challenge.",
-      "The problem statement is revealed on the day of the event.",
-      "Top 6 participants from Round 1 advance to the final round.",
-    ],
+
     rounds: [
       {
         title: "Round 1 — The Chance Card Move",
@@ -132,13 +124,7 @@ const EVENTS: EventDef[] = [
       "Test your knowledge of markets, brands & startups in this fast-paced business quiz where only the sharpest minds survive.",
     minMembers: 4,
     maxMembers: 4,
-    rules: [
-      "Each branch sends exactly 4 members as a team.",
-      "The quiz covers markets, brands, startups, and business strategy.",
-      "Multiple rounds of increasing difficulty.",
-      "Team collaboration is key — every member counts.",
-      "Fastest correct answers earn bonus points.",
-    ],
+
     rounds: [
       {
         title: "Round 1 — Qualifying Round",
@@ -167,13 +153,7 @@ const EVENTS: EventDef[] = [
       "Pitch real campus solutions using your branch expertise. Build, present, and defend your business model to a panel of judges.",
     minMembers: 3,
     maxMembers: 5,
-    rules: [
-      "Each branch sends 3 to 5 members.",
-      "Teams pitch innovative campus-based business ideas.",
-      "Solutions must leverage your branch's technical expertise.",
-      "Presentations judged on feasibility, innovation, and delivery.",
-      "Q&A session follows each pitch.",
-    ],
+
     rounds: [
       {
         title: "Round 1 — Ideation Pitch",
@@ -202,13 +182,7 @@ const EVENTS: EventDef[] = [
       "Reimagine famous brands with wild what-if concepts. Create unconventional ad campaigns that break the mould.",
     minMembers: 5,
     maxMembers: 5,
-    rules: [
-      "Each branch sends exactly 5 members.",
-      "Teams reimagine iconic brand campaigns with creative twists.",
-      "Presentations can include skits, posters, or digital content.",
-      "Creativity, humour, and brand understanding are key criteria.",
-      "Time limits apply for each presentation.",
-    ],
+
     rounds: [
       {
         title: "Round 1 — Brand Remix",
@@ -237,13 +211,7 @@ const EVENTS: EventDef[] = [
       "Solve puzzles, uncover clues, and negotiate your way through a business escape room. Build your empire one deal at a time.",
     minMembers: 4,
     maxMembers: 4,
-    rules: [
-      "Each branch sends exactly 4 members.",
-      "Teams navigate through puzzle-based business challenges.",
-      "Clues involve financial analysis, market research, and strategy.",
-      "Time-bound — fastest team to escape wins.",
-      "Communication and teamwork are essential.",
-    ],
+
     rounds: [
       {
         title: "Round 1 — The Locked Room",
@@ -313,119 +281,6 @@ function Toast({
   );
 }
 
-/* ─── Rules Modal ─── */
-function RulesModal({
-  event,
-  onClose,
-}: {
-  event: EventDef;
-  onClose: () => void;
-}) {
-  return (
-    <motion.div
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
-      exit={{ opacity: 0 }}
-      className="eic2026-reg-modal-overlay"
-      onClick={(e) => {
-        if (e.target === e.currentTarget) onClose();
-      }}
-    >
-      <motion.div
-        initial={{ opacity: 0, scale: 0.9, y: 30 }}
-        animate={{ opacity: 1, scale: 1, y: 0 }}
-        exit={{ opacity: 0, scale: 0.9, y: 30 }}
-        transition={{ type: "spring", damping: 25, stiffness: 300 }}
-        className="eic2026-reg-modal"
-      >
-        {/* Header */}
-        <div
-          className="eic2026-reg-modal-header"
-          style={{ backgroundColor: event.color }}
-        >
-          <div className="flex items-center justify-between">
-            <div>
-              <span className="text-[10px] font-bold tracking-[0.2em] uppercase opacity-80">
-                {event.propertyType}
-              </span>
-              <h3 className="text-xl font-black">{event.name}</h3>
-            </div>
-            <button
-              onClick={onClose}
-              className="flex size-8 items-center justify-center rounded-full bg-white/20 transition-colors hover:bg-white/30"
-            >
-              <X size={18} className="text-white" />
-            </button>
-          </div>
-        </div>
-
-        {/* Body */}
-        <div className="eic2026-reg-modal-body">
-          {/* General Rules */}
-          <div className="mb-6">
-            <h4 className="mb-3 flex items-center gap-2 text-sm font-bold tracking-wider text-[#cee7d7] uppercase">
-              <Gavel size={16} />
-              Rules
-            </h4>
-            <ul className="space-y-2">
-              {event.rules.map((rule, i) => (
-                <li
-                  key={i}
-                  className="flex gap-2 text-sm leading-relaxed text-slate-300"
-                >
-                  <span className="mt-0.5 text-[#cee7d7]">•</span>
-                  {rule}
-                </li>
-              ))}
-            </ul>
-          </div>
-
-          {/* Rounds */}
-          <div>
-            <h4 className="mb-3 flex items-center gap-2 text-sm font-bold tracking-wider text-[#cee7d7] uppercase">
-              <Gamepad2 size={16} />
-              Rounds
-            </h4>
-            <div className="space-y-4">
-              {event.rounds.map((round, i) => (
-                <div
-                  key={i}
-                  className="rounded-lg border border-[#cee7d7]/10 bg-[#111111]/50 p-4"
-                >
-                  <h5 className="mb-2 text-sm font-bold text-white">
-                    {round.title}
-                  </h5>
-                  <ul className="space-y-1">
-                    {round.points.map((point, j) => (
-                      <li
-                        key={j}
-                        className="flex gap-2 text-xs leading-relaxed text-slate-400"
-                      >
-                        <span className="text-[#cee7d7]/50">—</span>
-                        {point}
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-              ))}
-            </div>
-          </div>
-
-          {/* Team size note */}
-          <div className="mt-6 rounded-lg border border-[#cee7d7]/20 bg-[#cee7d7]/5 p-3 text-center">
-            <span className="text-xs font-bold text-[#cee7d7]">
-              Team Size:{" "}
-              {event.minMembers === event.maxMembers
-                ? `Exactly ${event.minMembers} member${event.minMembers > 1 ? "s" : ""}`
-                : `${event.minMembers} – ${event.maxMembers} members`}
-            </span>
-          </div>
-        </div>
-      </motion.div>
-    </motion.div>
-  );
-}
-
 /* ═══════════════════════════════════════════════════════════════════════
    MAIN PAGE COMPONENT
    ═══════════════════════════════════════════════════════════════════════ */
@@ -442,7 +297,6 @@ export default function RegisterPage() {
   const [selectedEvent, setSelectedEvent] = useState<string>(initialEvent);
   const [contactEmail, setContactEmail] = useState("");
   const [members, setMembers] = useState<Member[]>([]);
-  const [showRules, setShowRules] = useState(false);
 
   /* OTP state */
   const [otpSent, setOtpSent] = useState(false);
@@ -744,16 +598,6 @@ export default function RegisterPage() {
         )}
       </AnimatePresence>
 
-      {/* Rules Modal */}
-      <AnimatePresence>
-        {showRules && currentEvent && (
-          <RulesModal
-            event={currentEvent}
-            onClose={() => setShowRules(false)}
-          />
-        )}
-      </AnimatePresence>
-
       {/* ═══ HEADER ═══ */}
       <header className="sticky top-0 z-50 w-full border-b border-[#cee7d7]/20 bg-[#111111]/80 backdrop-blur-md">
         <div className="mx-auto max-w-5xl px-4 sm:px-6 lg:px-8">
@@ -893,13 +737,6 @@ export default function RegisterPage() {
                         ? `${currentEvent.minMembers} Members`
                         : `${currentEvent.minMembers}–${currentEvent.maxMembers} Members`}
                     </span>
-                    <button
-                      onClick={() => setShowRules(true)}
-                      className="eic2026-reg-btn-outline inline-flex items-center gap-1 text-xs"
-                    >
-                      <Gavel size={14} />
-                      View Rules
-                    </button>
                   </div>
                 </div>
               </div>

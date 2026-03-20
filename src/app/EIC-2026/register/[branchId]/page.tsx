@@ -43,7 +43,7 @@ const PERMITTED_EMAILS: Record<string, string[]> = {
   CSE: [
     "kartika.jauhari28@gmail.com",
     "soumyaranjandash005@gmail.com",
-    "dasbishal1717@gmail.com",
+    "ramanjain2003ghy@gmail.com",
   ],
   EE: [
     "connectwithshreyash@gmail.com",
@@ -58,7 +58,7 @@ const PERMITTED_EMAILS: Record<string, string[]> = {
   EIE: [
     "agrimagoel30@gmail.com",
     "anmol.s.sahoo@gmail.com",
-    "bishaldad1717@gmail.com",
+    "as1914459@gmail.com",
   ],
   CE: [
     "prabhatrai1204@gmail.com",
@@ -67,7 +67,7 @@ const PERMITTED_EMAILS: Record<string, string[]> = {
   ],
   ME: [
     "k.saksham2022@gmail.com",
-    "k.saksham2022@gmail.com",
+    "bemthoibi_ug_23@mech.nits.ac.in",
     "dasnarayan1717@gmail.com",
   ],
 };

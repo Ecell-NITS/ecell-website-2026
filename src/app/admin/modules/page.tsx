@@ -19,7 +19,11 @@ import {
 import * as XLSX from "xlsx";
 import axios from "axios";
 
-const API_BASE = process.env.NEXT_PUBLIC_EIC_API_URL ?? "http://localhost:4000";
+import { ShieldAlert } from "lucide-react";
+
+const EIC_API_URL = process.env.NEXT_PUBLIC_EIC_API_URL;
+const API_CONFIGURED = !!EIC_API_URL;
+const API_BASE = (EIC_API_URL ?? "http://localhost:4000").replace(/\/+$/, "");
 
 /* ================= TYPES ================= */
 type View = "EVENTS" | "MODULES" | "RESPONSES";
@@ -303,10 +307,11 @@ export default function AdminModulesPage() {
         )}
 
         {/* ================= MODULES ================= */}
-        {view === "MODULES" && selectedEvent && (
-          <>
-            <div className="mb-4 flex flex-col justify-between gap-3 sm:mb-6 sm:flex-row sm:items-center">
-              <div className="flex items-center gap-3">
+        {view === "MODULES" &&
+          selectedEvent &&
+          (!API_CONFIGURED ? (
+            <>
+              <div className="mb-4 flex items-center gap-3">
                 <button
                   onClick={() => {
                     setView("EVENTS");
@@ -320,50 +325,86 @@ export default function AdminModulesPage() {
                   {selectedEvent.name} Modules
                 </h1>
               </div>
-            </div>
-
-            <p className="mb-4 text-xs text-white/60 sm:text-sm">
-              Select an event module to view all the registrations
-            </p>
-
-            <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-              {MODULES.map((m) => {
-                const Icon = m.icon;
-                return (
+              <div className="flex min-h-[50vh] flex-col items-center justify-center text-center">
+                <ShieldAlert size={56} className="mb-4 text-amber-400" />
+                <h2 className="mb-2 text-2xl font-bold sm:text-3xl">
+                  Module Data Unavailable
+                </h2>
+                <p className="mb-1 max-w-md text-sm text-white/60">
+                  The EIC registration API is currently not configured.
+                  Registration data and event modules cannot be accessed at this
+                  time.
+                </p>
+                <p className="max-w-md text-sm text-white/60">
+                  Please contact the{" "}
+                  <span className="font-semibold text-blue-400">
+                    Technical Team
+                  </span>{" "}
+                  for further details or to restore access.
+                </p>
+              </div>
+            </>
+          ) : (
+            <>
+              <div className="mb-4 flex flex-col justify-between gap-3 sm:mb-6 sm:flex-row sm:items-center">
+                <div className="flex items-center gap-3">
                   <button
-                    key={m.id}
                     onClick={() => {
-                      setSelectedModule(m);
-                      setView("RESPONSES");
-                      setSearch("");
-                      void fetchRegistrations(m);
+                      setView("EVENTS");
+                      setSelectedEvent(null);
                     }}
-                    className="flex h-full min-h-[180px] flex-col rounded-lg border border-white/10 bg-[#1a2238] p-5 text-left shadow-lg transition-colors hover:border-white/20 focus:ring-2 focus:ring-blue-500"
+                    className="rounded-lg border border-white/10 bg-[#1a2238] p-2 text-white/60 transition-colors hover:border-white/20 hover:text-white"
                   >
-                    <div
-                      className={`${m.iconColor} mb-4 w-fit rounded-lg p-2.5`}
-                    >
-                      <Icon size={24} />
-                    </div>
-                    <h3 className="text-base font-semibold sm:text-lg">
-                      {m.name}
-                    </h3>
-                    <p className="mt-2 flex-1 text-xs text-white/60 sm:text-sm">
-                      {m.desc}
-                    </p>
-
-                    <div className="mt-4 flex items-center gap-2 border-t border-white/10 pt-3">
-                      <span className="text-xs font-medium text-blue-400">
-                        View Registrations
-                      </span>
-                      <ArrowRight size={12} className="text-blue-400" />
-                    </div>
+                    <ChevronLeft size={20} />
                   </button>
-                );
-              })}
-            </div>
-          </>
-        )}
+                  <h1 className="text-xl font-semibold sm:text-2xl md:text-3xl">
+                    {selectedEvent.name} Modules
+                  </h1>
+                </div>
+              </div>
+
+              <p className="mb-4 text-xs text-white/60 sm:text-sm">
+                Select an event module to view all the registrations
+              </p>
+
+              <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+                {MODULES.map((m) => {
+                  const Icon = m.icon;
+                  return (
+                    <button
+                      key={m.id}
+                      onClick={() => {
+                        setSelectedModule(m);
+                        setView("RESPONSES");
+                        setSearch("");
+                        void fetchRegistrations(m);
+                      }}
+                      className="flex h-full min-h-[180px] flex-col rounded-lg border border-white/10 bg-[#1a2238] p-5 text-left shadow-lg transition-colors hover:border-white/20 focus:ring-2 focus:ring-blue-500"
+                    >
+                      <div
+                        className={`${m.iconColor} mb-4 w-fit rounded-lg p-2.5`}
+                      >
+                        <Icon size={24} />
+                      </div>
+                      <h3 className="text-base font-semibold sm:text-lg">
+                        {m.name}
+                      </h3>
+                      <p className="mt-2 flex-1 text-xs text-white/60 sm:text-sm">
+                        {m.desc}
+                      </p>
+
+                      <div className="mt-4 flex items-center gap-2 border-t border-white/10 pt-3">
+                        <span className="text-xs font-medium text-blue-400">
+                          View Registrations
+                        </span>
+                        <ArrowRight size={12} className="text-blue-400" />
+                      </div>
+                    </button>
+                  );
+                })}
+              </div>
+            </>
+          ))}
 
         {/* ================= RESPONSES (Registrations) ================= */}
         {view === "RESPONSES" && selectedModule && (

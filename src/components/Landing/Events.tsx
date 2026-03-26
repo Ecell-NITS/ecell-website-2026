@@ -21,7 +21,6 @@ const events = [
     subtitle: "21st March • Seminar Hall",
     category: "Pitch Deck",
     desc: "Pitch real campus solutions using your branch expertise. Step onto the board and build your entrepreneurial empire by solving real-world problems. Strategy is your weapon.",
-    img: "https://res.cloudinary.com/dtt4ftdrw/image/upload/f_webp/v1766421071/bussiness_gjaocu.png",
     icon: Building2,
     tagGradient: "from-red-500 to-red-700",
     href: "/EIC-2026/campus-capitalist",
@@ -32,7 +31,6 @@ const events = [
     subtitle: "22nd March • New Gallery",
     category: "Business Quiz",
     desc: "Test your knowledge of markets, brands & startups. Navigate through clues and riddles in this high-stakes trivia hunt where every correct answer brings you closer to victory.",
-    img: "https://res.cloudinary.com/dtt4ftdrw/image/upload/f_webp/v1766924809/hunt_h4yu67.jpg",
     icon: BrainCircuit,
     tagGradient: "from-blue-500 to-blue-700",
     href: "/EIC-2026/boardroom-trivia",
@@ -43,7 +41,6 @@ const events = [
     subtitle: "20th March • New Gallery",
     category: "Group Discussion",
     desc: "High-stakes group discussion as corporate tycoons. A silent grid where words fall silent and only your moves speak. Manage your points, tokens, and decisions wisely.",
-    img: "https://res.cloudinary.com/dtt4ftdrw/image/upload/f_webp/v1767002111/bid_dqm9bf.jpg",
     icon: UsersRound,
     tagGradient: "from-amber-500 to-orange-700",
     href: "/EIC-2026/chairmans-conclave",
@@ -54,7 +51,6 @@ const events = [
     subtitle: "Online Event",
     category: "Creative Marketing",
     desc: "Reimagine famous brands with wild what-if concepts. Teams will create engaging promotional strategies for assigned brands, showcasing their marketing creativity.",
-    img: "https://res.cloudinary.com/dtt4ftdrw/image/upload/f_webp/v1766736053/Adovation_nxhzzv.png",
     icon: Megaphone,
     tagGradient: "from-emerald-500 to-teal-700",
     href: "/EIC-2026/adoshuffle",
@@ -65,7 +61,6 @@ const events = [
     subtitle: "21st March • Startup Centre",
     category: "Strategy & Puzzles",
     desc: "Solve puzzles, uncover clues, and build your empire. Sharp decisions and bold moves are required to outthink the competition in this high-end property challenge.",
-    img: "https://res.cloudinary.com/dtt4ftdrw/image/upload/f_webp/v1766421071/bussiness_gjaocu.png",
     icon: Unlock,
     tagGradient: "from-purple-500 to-fuchsia-700",
     href: "/EIC-2026/the-deal-room",
@@ -114,17 +109,6 @@ const EventCard = ({
           background: `radial-gradient(600px circle at ${mousePos.x}px ${mousePos.y}px, rgba(59, 130, 246, 0.1), transparent 40%)`,
         }}
       />
-
-      {/* Background Image (Subtle) */}
-      <div className="absolute inset-0 z-0 opacity-0 transition-opacity duration-700 group-hover:opacity-20">
-        {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img
-          src={event.img}
-          alt=""
-          className="h-full w-full object-cover grayscale"
-        />
-        <div className="absolute inset-0 bg-[#0d1117]/80" />
-      </div>
 
       {/* Content */}
       <div

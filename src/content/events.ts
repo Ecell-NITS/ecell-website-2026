@@ -33,7 +33,7 @@ export const events: EventData[] = [
     title: "EIC",
     description:
       "The Entrepreneurship and Innovation Challenge (EIC) by E-CELL NIT Silchar is a inter-branch competition that brings together students from across the institute to showcase their entrepreneurial thinking, creativity, and innovation. Designed as a platform for healthy competition, EIC creates a dynamic environment for idea exchange and strategic problem-solving. With structured and engaging modules involving all six branches, the challenge fosters collaboration, leadership, and innovation, celebrating interdisciplinary talent while reinforcing E-Cell’s mission to build a strong entrepreneurial culture on campus.",
-    image: "/images/events/eic.jpeg",
+    image: "/EIC/main_poster.webp",
     icon: Sparkles,
     reverse: false,
     href: "/EIC-2026",

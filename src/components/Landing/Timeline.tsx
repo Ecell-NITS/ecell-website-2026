@@ -42,7 +42,7 @@ const timelineData: TimelineItem[] = [
     title: "EIC",
     icon: Mic2,
     desc: "EIC is an annual event where the six branches of NIT Silchar compete against each other in a series of events.",
-    date: "XX",
+    date: "20",
     month: "Mar",
     year: "2026",
   },

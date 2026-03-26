@@ -238,9 +238,9 @@ const EVENTS: EventDef[] = [
 ];
 
 /* ─── API Base URL ─── */
-const API_BASE = (
-  process.env.NEXT_PUBLIC_EIC_API_URL ?? "http://localhost:4000"
-).replace(/\/+$/, "");
+const EIC_API_URL = process.env.NEXT_PUBLIC_EIC_API_URL;
+const REGISTRATIONS_OPEN = !!EIC_API_URL;
+const API_BASE = (EIC_API_URL ?? "http://localhost:4000").replace(/\/+$/, "");
 
 /* ─── Types ─── */
 interface Member {
@@ -690,6 +690,33 @@ export default function RegisterPage() {
     submissionVideoLink,
     submissionPosterLink,
   ]);
+
+  /* ═══ REGISTRATIONS CLOSED ═══ */
+  if (!REGISTRATIONS_OPEN) {
+    return (
+      <div className="eic2026-page flex min-h-screen flex-col items-center justify-center bg-[#111111] text-slate-100">
+        <motion.div
+          initial={{ opacity: 0, scale: 0.9 }}
+          animate={{ opacity: 1, scale: 1 }}
+          className="text-center"
+        >
+          <Lock className="mx-auto mb-4 text-amber-400" size={60} />
+          <h1 className="mb-2 text-3xl font-black">Registrations Closed</h1>
+          <p className="mb-8 max-w-md text-slate-400">
+            Event registrations for EIC have been closed. Thank you for your
+            interest — stay tuned for future events!
+          </p>
+          <button
+            onClick={() => router.push("/EIC-2026")}
+            className="inline-flex items-center gap-2 rounded-xl bg-[#cee7d7] px-6 py-3 font-bold text-[#111111]"
+          >
+            <ArrowLeft size={20} />
+            Back to EIC
+          </button>
+        </motion.div>
+      </div>
+    );
+  }
 
   /* ═══ INVALID BRANCH ═══ */
   if (!branch || !BRANCH_FULL_NAMES[branch]) {

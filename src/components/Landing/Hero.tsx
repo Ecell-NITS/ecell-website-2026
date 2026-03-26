@@ -153,25 +153,18 @@ const Hero: React.FC = () => {
               >
                 <div className="absolute inset-0 bg-gradient-to-r from-blue-500 to-blue-700 opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
                 <span className="relative z-10 flex items-center justify-center gap-2 text-[2.2dvh] font-bold tracking-wide whitespace-nowrap text-white sm:text-base">
-                  Ongoing Events
+                  Recent Events
                 </span>
               </button>
 
               <Link
-                href="/EIC-2026"
-                className="group relative w-full overflow-hidden rounded-xl border border-green-500/30 bg-green-500/10 px-4 py-[1.6dvh] backdrop-blur-md transition-all duration-300 hover:scale-[1.02] hover:border-green-500/60 hover:bg-green-500/20 hover:shadow-[0_0_20px_rgba(206,231,215,0.2)] active:scale-[0.98] sm:w-auto sm:rounded-2xl sm:px-8 sm:py-3.5 md:px-10 md:py-4"
+                href="/about"
+                className="group relative w-full overflow-hidden rounded-xl border border-white/20 bg-white/5 px-4 py-[1.6dvh] backdrop-blur-sm transition-all duration-300 hover:scale-[1.02] hover:border-white/30 hover:bg-white/10 active:scale-[0.98] sm:w-auto sm:rounded-2xl sm:px-8 sm:py-3.5 md:px-10 md:py-4"
               >
-                {/* Subtle Inner Glow */}
-                <div className="absolute inset-0 bg-gradient-to-r from-[#cee7d7]/0 via-[#cee7d7]/10 to-[#cee7d7]/0 opacity-0 transition-opacity duration-500 group-hover:opacity-100" />
-
-                <span className="relative z-10 flex items-center justify-center gap-3 text-[2.2dvh] font-bold whitespace-nowrap text-white sm:text-base">
-                  <span className="flex items-center gap-1.5 rounded-md border border-green-500/30 bg-green-500/10 px-1.5 py-0.5 text-[0.65rem] tracking-widest text-green-400 uppercase">
-                    <span className="h-1.5 w-1.5 animate-pulse rounded-full bg-green-500" />
-                    Live
-                  </span>
-                  <span className="tracking-wide">EIC 2026</span>
+                <span className="relative z-10 flex items-center justify-center gap-2 text-[2.2dvh] font-semibold whitespace-nowrap text-white sm:text-base">
+                  About Us
                   <svg
-                    className="h-4 w-4 text-[#cee7d7] transition-transform duration-300 group-hover:translate-x-1"
+                    className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-1"
                     fill="none"
                     viewBox="0 0 24 24"
                     stroke="currentColor"

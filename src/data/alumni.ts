@@ -8,6 +8,7 @@ export interface AlumniMember {
   fb?: string;
   linkdln?: string;
   git?: string;
+  profileSlug?: string;
 }
 
 export const alumniData: AlumniMember[] = [
@@ -42,16 +43,17 @@ export const alumniData: AlumniMember[] = [
   {
     id: 3,
     name: "Roshan Farhan",
-    rank: "Founder/CEO of Gobillion",
+    rank: "YC Founder | 2x Founder/CEO | Angel Investor | Startup Advisor",
     fb: "https://www.facebook.com/roshan.farhan?locale=ms_MY",
-    linkdln: "https://www.linkedin.com/in/roshanfarhan/?originalSubdomain=in",
+    linkdln: "https://www.linkedin.com/in/roshanfarhan/",
     git: "#",
     image:
       "https://res.cloudinary.com/dnvhl9pru/image/upload/v1676298110/E-Cell%20Alumni/RoshanFarhanSir_csgy7g.jpg",
     image2:
       "https://res.cloudinary.com/dnvhl9pru/image/upload/v1676307970/E-Cell%20Alumni/Modal%20Cards/RoshanFarhanSir_qhsqzk.jpg",
     content:
-      "Roshan Farhan is the Founder/CEO of Gobillion, a B2C Social Commerce Startup supported by YCombinator, a World Economic Forum Global Shaper, and an Economic Times Young Leader 2019. He is an alumnus of NIT Silchar from the CSE dept and MBA grad from IIM Shillong 2016.",
+      "Roshan Farhan is a YC Founder and 2x Founder/CEO — currently building MyriadAI, the Palantir for Conversational AI, and previously founded Gobillion (YC S21), one of India's fastest-growing social commerce platforms for Tier 2+ cities. He is a World Economic Forum Global Shaper, Economic Times Young Leader, TEDx Speaker, and has been featured in Bloomberg, Times of India, and more. An alumnus of NIT Silchar (B.Tech, CSE) and IIM Shillong (MBA).",
+    profileSlug: "Roshan-Farhan",
   },
   {
     id: 4,

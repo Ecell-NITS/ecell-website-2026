@@ -1,6 +1,13 @@
 import React from "react";
 import Image from "next/image";
-import { Facebook, Github, Linkedin, Instagram } from "lucide-react";
+import Link from "next/link";
+import {
+  Facebook,
+  Github,
+  Linkedin,
+  Instagram,
+  ArrowRight,
+} from "lucide-react";
 
 interface TeamCardProps {
   name: string;
@@ -13,6 +20,7 @@ interface TeamCardProps {
     instagram?: string;
   };
   priority?: boolean;
+  profileHref?: string;
 }
 
 export default function TeamCard({
@@ -21,6 +29,7 @@ export default function TeamCard({
   image,
   socials,
   priority = false,
+  profileHref,
 }: TeamCardProps) {
   return (
     <div className="glowing-border group relative h-full cursor-default">
@@ -43,7 +52,7 @@ export default function TeamCard({
         </div>
 
         {/* Content */}
-        <div className="flex flex-grow flex-col justify-between pt-8 pb-4 text-center">
+        <div className="flex flex-col gap-4 pt-8 pb-4 text-center">
           <div>
             <h3 className="mb-2 text-2xl font-black tracking-tight text-white uppercase italic transition-colors group-hover:text-blue-400 md:text-3xl">
               {name}
@@ -54,7 +63,7 @@ export default function TeamCard({
           </div>
 
           {/* Social Icons - Now with strict checking for "#" placeholders */}
-          <div className="mt-2 flex justify-center gap-6 opacity-50 transition-all duration-300 group-hover:opacity-100">
+          <div className="flex justify-center gap-6 opacity-50 transition-all duration-300 group-hover:opacity-100">
             {socials?.facebook && socials.facebook !== "#" && (
               <a href={socials.facebook} target="_blank" rel="noreferrer">
                 <Facebook
@@ -88,6 +97,23 @@ export default function TeamCard({
               </a>
             )}
           </div>
+
+          {/* View Profile */}
+          {profileHref && (
+            <>
+              <div className="h-px w-full bg-gradient-to-r from-transparent via-white/10 to-transparent" />
+              <Link
+                href={profileHref}
+                className="group/btn flex w-full items-center justify-center gap-2 py-3 text-xs font-bold tracking-[0.2em] text-gray-500 uppercase transition-all duration-300 hover:text-blue-400"
+              >
+                View Profile
+                <ArrowRight
+                  size={12}
+                  className="transition-transform duration-300 group-hover/btn:translate-x-1"
+                />
+              </Link>
+            </>
+          )}
         </div>
       </div>
     </div>

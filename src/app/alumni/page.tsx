@@ -18,7 +18,7 @@ export const metadata: Metadata = {
     type: "website",
     images: [
       {
-        url: "/og/landing2.png",
+        url: "/api/og?title=Alumni | E-Cell NIT Silchar&description=Meet the distinguished alumni of E-Cell NIT Silchar who have gone on to lead and build successful ventures across the globe.",
         width: 1200,
         height: 630,
         alt: "E-Cell NIT Silchar",
@@ -30,7 +30,9 @@ export const metadata: Metadata = {
     title: "Alumni | E-Cell NIT Silchar",
     description:
       "Meet the distinguished alumni of E-Cell NIT Silchar who have gone on to lead and build successful ventures across the globe.",
-    images: ["/og/landing2.png"],
+    images: [
+      "/api/og?title=Alumni | E-Cell NIT Silchar&description=Meet the distinguished alumni of E-Cell NIT Silchar who have gone on to lead and build successful ventures across the globe.",
+    ],
   },
 };
 

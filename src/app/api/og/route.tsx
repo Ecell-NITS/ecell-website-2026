@@ -7,15 +7,16 @@ export async function GET(req: NextRequest) {
   try {
     const { searchParams } = new URL(req.url);
 
-    // Extract query parameters with fallbacks
-    const hasTitle = searchParams.has("title");
-    const title = hasTitle
-      ? searchParams.get("title")?.slice(0, 100)
-      : "E-Cell NIT Silchar";
+    // Extract query parameters with strict hard limits for Satori flexbox constraints
+    const rawTitle = searchParams.get("title") ?? "E-Cell NIT Silchar";
+    const title =
+      rawTitle.length > 60 ? rawTitle.slice(0, 57) + "..." : rawTitle;
 
-    const description =
-      searchParams.get("description")?.slice(0, 200) ??
+    const rawDesc =
+      searchParams.get("description") ??
       "Promoting and nurturing the entrepreneurial spirit among students of NIT Silchar.";
+    const description =
+      rawDesc.length > 130 ? rawDesc.slice(0, 127) + "..." : rawDesc;
 
     const label = searchParams.get("label")?.slice(0, 50) ?? "E-Cell NITS";
 
@@ -64,6 +65,9 @@ export async function GET(req: NextRequest) {
         {/* Top Header & Logo */}
         <div
           style={{
+            position: "absolute",
+            top: "80px",
+            left: "80px",
             display: "flex",
             alignItems: "center",
             gap: "24px",
@@ -100,17 +104,21 @@ export async function GET(req: NextRequest) {
         {/* Main Central Content Area */}
         <div
           style={{
+            position: "absolute",
+            top: "220px",
+            left: "80px",
+            width: "1040px", // 1200 - 160 padding
+            height: "240px", // Strictly bounded height
             display: "flex",
             flexDirection: "column",
-            gap: "24px",
-            marginTop: "auto",
-            marginBottom: "auto",
-            maxWidth: "1000px",
+            justifyContent: "center",
+            gap: "16px",
+            overflow: "hidden",
           }}
         >
           <h1
             style={{
-              fontSize: "80px",
+              fontSize: "72px",
               fontStyle: "italic",
               fontWeight: 900,
               textTransform: "uppercase",
@@ -124,12 +132,11 @@ export async function GET(req: NextRequest) {
           </h1>
           <p
             style={{
-              fontSize: "36px",
+              fontSize: "32px",
               fontWeight: 500,
               color: "#cbd5e1",
               lineHeight: 1.4,
               margin: 0,
-              maxWidth: "850px",
             }}
           >
             {description}
@@ -139,9 +146,12 @@ export async function GET(req: NextRequest) {
         {/* Bottom Footer Border & Branding */}
         <div
           style={{
+            position: "absolute",
+            bottom: "80px",
+            left: "80px",
+            width: "1040px",
             display: "flex",
             justifyContent: "space-between",
-            width: "100%",
             alignItems: "center",
             borderTop: "2px solid rgba(255,255,255,0.1)",
             paddingTop: "40px",

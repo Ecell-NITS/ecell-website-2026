@@ -3,6 +3,39 @@ import type { CoreMember } from "./types";
 export const coreTeam2026_2027: CoreMember[] = [
   {
     id: 1,
+    name: "Shreya Agarwala",
+    rank: "President",
+    image:
+      "https://res.cloudinary.com/dtt4ftdrw/image/upload/v1748863305/IMG_5565_-_Shreya_Agarwala_fgqdip.jpg",
+    fb: "https://www.facebook.com/share/1CKwvcJA9C/?mibextid=wwXIfr",
+    linkedln:
+      "https://www.linkedin.com/in/shreya-agl?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=ios_app",
+    insta:
+      "https://www.instagram.com/shreya_agl05?igsh=M3QyZDhmZzhoN2w3&utm_source=qr",
+  },
+  {
+    id: 2,
+    name: "Mimansa Jain",
+    rank: "General Secretary",
+    image: "/FullSizeRender - MIMANSA JAIN.jpeg",
+    fb: "https://www.facebook.com/share/1AW552Udy8/?mibextid=wwXIfr",
+    linkedln:
+      "https://www.linkedin.com/in/mimansa-jain-56349728a?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=ios_app",
+    insta:
+      "https://www.instagram.com/_mimansa.13?igsh=MWEzdmpsdnJvNjE1aA%3D%3D&utm_source=qr",
+  },
+  {
+    id: 3,
+    name: "Dhruv Mantri",
+    rank: "General Secretary",
+    image:
+      "https://res.cloudinary.com/dtt4ftdrw/image/upload/v1748863478/DhruvMantri_-_Dhruv_Mantri_xokkss.jpg",
+    fb: "https://www.facebook.com/profile.php?id=61550045764555",
+    linkedln: "https://www.linkedin.com/in/dhruv-mantri-952965266/",
+    insta: "https://www.instagram.com/_dhruv.mantri_/",
+  },
+  {
+    id: 4,
     name: "Milit Chamaria",
     rank: "Vice President",
     image:
@@ -12,7 +45,17 @@ export const coreTeam2026_2027: CoreMember[] = [
     fb: "https://www.facebook.com/share/196vJ5JcXx/",
   },
   {
-    id: 2,
+    id: 5,
+    name: "Ronak Agarwal",
+    rank: "Executive Head",
+    image:
+      "https://res.cloudinary.com/daozmezwb/image/upload/v1780899690/RONAK_zpvwpp.PNG",
+    linkedln: "https://www.linkedin.com/in/ronakagarwal18/",
+    insta: "https://www.instagram.com/imronakagarwal/",
+    fb: "https://www.facebook.com/RonakAgarwal018",
+  },
+  {
+    id: 6,
     name: "Nakul Ajitsaria",
     rank: "Executive Head",
     image:
@@ -20,31 +63,12 @@ export const coreTeam2026_2027: CoreMember[] = [
     linkedln:
       "https://www.linkedin.com/in/nakul-ajitsaria-346125333?utm_source=share_via&utm_content=profile&utm_medium=member_android",
     insta: "https://www.instagram.com/nakul_aj07?igsh=MTg0b2lhYmtzNnprMg==",
+    fb: "https://www.facebook.com/share/1CPwzdr8JS/",
   },
   {
-    id: 3,
-    name: "Ronak Agarwal",
-    rank: "Executive Head",
-    image:
-      "https://res.cloudinary.com/daozmezwb/image/upload/v1780899690/RONAK_zpvwpp.PNG",
-    linkedln: "https://www.linkedin.com/in/ronakagarwal18/",
-    insta: "https://www.instagram.com/imronakagarwal/",
-    fb: "https://www.facebook.com/share/RonakAgarwal018",
-  },
-  {
-    id: 4,
-    name: "Anusna Pradhan",
-    rank: "UI/UX Head and CurationXStartup Head",
-    image:
-      "https://res.cloudinary.com/daozmezwb/image/upload/v1780900185/ANUSHNA_nmzkpn.JPG",
-    linkedln:
-      "https://www.linkedin.com/in/anusna-pradhan?utm_source=share_via&utm_content=profile&utm_medium=member_ios",
-    insta: "https://www.instagram.com/anusna_pradhan",
-  },
-  {
-    id: 5,
+    id: 7,
     name: "Harshit Agarwal",
-    rank: "Technical Head",
+    rank: "Technical Head (Web)",
     image:
       "https://res.cloudinary.com/daozmezwb/image/upload/v1780900191/HARSHIT_xj2jpm.jpg",
     linkedln: "https://www.linkedin.com/in/harshit-agarwal-a119a4332/",
@@ -52,9 +76,9 @@ export const coreTeam2026_2027: CoreMember[] = [
     fb: "https://www.facebook.com/harshit.agarwal.905220",
   },
   {
-    id: 6,
+    id: 8,
     name: "Swarup Das",
-    rank: "Technical Head",
+    rank: "Technical Head (Web)",
     image:
       "https://res.cloudinary.com/dw3n9vflw/image/upload/v1756825528/WhatsApp_Image_2024-12-11_at_22.00.26_-_Swarup_Das_jdiiqe.jpg",
     linkedln: "https://www.linkedin.com/in/swarup81/",
@@ -62,7 +86,89 @@ export const coreTeam2026_2027: CoreMember[] = [
     fb: "https://www.facebook.com/swarup.das.806423?rdid=HWgE9u8shCYUcLT3&share_url=https%3A%2F%2Fwww.facebook.com%2Fshare%2F1NdgLWENnY%2F%3Fref%3D1#",
   },
   {
-    id: 7,
+    id: 9,
+    name: "Dhruba Kumar Agarwalla",
+    rank: "AI Head",
+    image:
+      "https://res.cloudinary.com/dw3n9vflw/image/upload/v1756822796/dhruba_igzhj2.jpg",
+    fb: "https://www.facebook.com/profile.php?id=61573045432606",
+    linkedln: "https://www.linkedin.com/in/dhruba-kumar-agarwalla-7a5346270/",
+    git: "https://github.com/DhrubaAgarwalla",
+  },
+  {
+    id: 10,
+    name: "Himanshi Agarwal",
+    rank: "Event Management Head",
+    image:
+      "https://res.cloudinary.com/daozmezwb/image/upload/v1780900191/HIMANSHI_ftofp9.JPG",
+    linkedln:
+      "https://www.linkedin.com/in/himanshi-agarwal-b4a853332?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=android_app",
+    insta: "https://www.instagram.com/himanshi._.16?igsh=MWo2d2lhcXc3eWczYg==",
+    fb: "https://www.facebook.com/share/19R6A1Jyix/",
+  },
+  {
+    id: 11,
+    name: "Piyush Saha",
+    rank: "Event Management Head",
+    image:
+      "https://res.cloudinary.com/daozmezwb/image/upload/v1780900191/PIYUSH_bzmtq6.jpg",
+    linkedln: "https://www.linkedin.com/in/piyush-saha-861530372/",
+    insta: "https://www.instagram.com/p1yu6h_/",
+    fb: "https://www.facebook.com/profile.php?id=61565594848377",
+  },
+  {
+    id: 12,
+    name: "Dhananjay Kumar",
+    rank: "Event Management Head",
+    image:
+      "https://res.cloudinary.com/daozmezwb/image/upload/v1780900184/DHANANJAY_n7qk6d.JPG",
+    linkedln: "https://www.linkedin.com/in/dhananjay-kumar-312a13324",
+    insta: "https://www.instagram.com/okydhananjay?igsh=cWl5NHYxdGFmdXcw",
+    fb: "https://www.facebook.com/share/1EVPkMTVrj/",
+  },
+  {
+    id: 13,
+    name: "Ijazuddin Ahmed",
+    rank: "Marketing Head",
+    image:
+      "https://res.cloudinary.com/daozmezwb/image/upload/v1780900187/ijajuddin_ahmed_jib8zc.jpg",
+    linkedln: "https://www.linkedin.com/in/ijajuddin-ahmed-310758333",
+    insta:
+      "https://www.instagram.com/1jaj._?igsh=dnJqYWE1b3N2Zzh1&utm_source=qr",
+  },
+  {
+    id: 14,
+    name: "Aditi Mishra",
+    rank: "Content Head",
+    image:
+      "https://res.cloudinary.com/daozmezwb/image/upload/v1780900185/Aditi_Mishra_h0cxe2.JPG",
+    linkedln: "https://www.linkedin.com/in/aditi-mishra-9ba66b34a",
+    insta: "https://www.instagram.com/aditimishrraaa?utm_source=qr",
+    fb: "https://www.facebook.com/share/14nvhpcu3ir/?mibextid=wwXIfr",
+  },
+  {
+    id: 15,
+    name: "Anubhav Anand",
+    rank: "Content Head",
+    image:
+      "https://res.cloudinary.com/daozmezwb/image/upload/v1780900183/Anubhav_Anand_unkskc.JPG",
+    linkedln: "https://www.linkedin.com/in/anubhav-anand-a1b2c3",
+    insta: "https://www.instagram.com/_skrillex_here?igsh=YngzYm53dzE1Z3pw",
+    fb: "https://www.facebook.com/share/193icNfLsA/",
+  },
+  {
+    id: 16,
+    name: "Prajukta Kashyap",
+    rank: "Design Head",
+    image:
+      "https://res.cloudinary.com/daozmezwb/image/upload/v1780900195/PRAJUKTA_zvc9kg.jpg",
+    linkedln: "http://linkedin.com/in/prajukta-kashyap-986a67332",
+    insta:
+      "https://www.instagram.com/prajuktaa.a?igsh=M2Q4MmFIN25zbmNu&utm_source=qr",
+    fb: "https://www.facebook.com/share/1CzSi5jcx7/?mibextid=wwXIfr",
+  },
+  {
+    id: 17,
     name: "Anisha Sharma",
     rank: "Design Head",
     image:
@@ -74,28 +180,45 @@ export const coreTeam2026_2027: CoreMember[] = [
     fb: "https://www.facebook.com/share/1HPhGsRLGY/?mibextid=wwXIfr",
   },
   {
-    id: 8,
-    name: "Prajukta Kashyap",
-    rank: "Design Head",
+    id: 18,
+    name: "Tanmay Raj",
+    rank: "Videography Head",
     image:
-      "https://res.cloudinary.com/daozmezwb/image/upload/v1780900195/PRAJUKTA_zvc9kg.jpg",
-    linkedln: "http://linkedin.com/in/prajukta-kashyap-986a67332",
+      "https://res.cloudinary.com/daozmezwb/image/upload/v1780900193/TANMAY_nxtuyj.jpg",
+    linkedln:
+      "https://www.linkedin.com/in/tanmay-raj-970848332?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=member_android",
+    insta: "https://www.instagram.com/iblamemyself_141?igsh=ZHljNmk5bHUwYWJn",
+  },
+  // {
+  //   id: 19,
+  //   name: "Khyatirmayi Janapala",
+  //   rank: "CurationXStartup Head",
+  //   image: "",
+  // },
+  {
+    id: 20,
+    name: "Anusna Pradhan",
+    rank: "CurationXStartup Head",
+    image:
+      "https://res.cloudinary.com/daozmezwb/image/upload/v1780900185/ANUSHNA_nmzkpn.JPG",
+    linkedln:
+      "https://www.linkedin.com/in/anusna-pradhan?utm_source=share_via&utm_content=profile&utm_medium=member_ios",
     insta:
-      "https://www.instagram.com/prajuktaa.a?igsh=M2Q4MmFIN25zbmNu&utm_source=qr",
-    fb: "https://www.facebook.com/share/1CzSi5jcx7/?mibextid=wwXIfr",
+      "https://www.instagram.com/atp.anusna?igsh=ZHN2NTJzYmU3bmMz&utm_source=qr",
   },
   {
-    id: 9,
-    name: "ijajuddin ahmed",
-    rank: "Marketing Head",
+    id: 21,
+    name: "Ayushman Swain",
+    rank: "Collaboration & Outreach Head",
     image:
-      "https://res.cloudinary.com/daozmezwb/image/upload/v1780900187/ijajuddin_ahmed_jib8zc.jpg",
-    linkedln: "https://www.linkedin.com/in/ijajuddin-ahmed-310758333",
-    insta:
-      "https://www.instagram.com/1jaj._?igsh=dnJqYWE1b3N2Zzh1&utm_source=qr",
+      "https://res.cloudinary.com/daozmezwb/image/upload/v1780900185/Ayushman_Swain_sn8abm.jpg",
+    linkedln:
+      "https://www.linkedin.com/in/ayushman-swain-as?utm_source=share_via&utm_content=profile&utm_medium=member_android",
+    insta: "https://www.instagram.com/_ayushman.18?igsh=bnQxZ2gwOXEzcTRs",
+    fb: "https://www.facebook.com/share/1JTx3MoqzZ/",
   },
   {
-    id: 10,
+    id: 22,
     name: "Shubham Shekhar",
     rank: "Publicity Head",
     image:
@@ -107,79 +230,7 @@ export const coreTeam2026_2027: CoreMember[] = [
     fb: "https://www.facebook.com/share/1EnkwpWfnW/",
   },
   {
-    id: 11,
-    name: "Himanshi Agarwal",
-    rank: "Event Management Head",
-    image:
-      "https://res.cloudinary.com/daozmezwb/image/upload/v1780900191/HIMANSHI_ftofp9.JPG",
-    linkedln:
-      "https://www.linkedin.com/in/himanshi-agarwal-b4a853332?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=android_app",
-    insta: "https://www.instagram.com/himanshi._.16?igsh=MWo2d2lhcXc3eWczYg==",
-    fb: "https://www.facebook.com/share/19R6A1Jyix/",
-  },
-  {
-    id: 12,
-    name: "Piyush Saha",
-    rank: "Event Management Head",
-    image:
-      "https://res.cloudinary.com/daozmezwb/image/upload/v1780900191/PIYUSH_bzmtq6.jpg",
-    linkedln: "https://www.linkedin.com/in/piyush-saha-861530372/",
-    insta: "https://www.instagram.com/p1yu6h_/",
-    fb: "https://www.facebook.com/profile.php?id=61565594848377",
-  },
-  {
-    id: 13,
-    name: "Dhananjay Kumar",
-    rank: "Event Management Head",
-    image:
-      "https://res.cloudinary.com/daozmezwb/image/upload/v1780900184/DHANANJAY_n7qk6d.JPG",
-    linkedln: "https://www.linkedin.com/in/dhananjay-kumar-312a13324",
-    insta: "https://www.instagram.com/okydhananjay?igsh=cWl5NHYxdGFmdXcw",
-    fb: "https://www.facebook.com/share/1EVPkMTVrj/",
-  },
-  {
-    id: 14,
-    name: "Tanmay Raj",
-    rank: "Videography Head",
-    image:
-      "https://res.cloudinary.com/daozmezwb/image/upload/v1780900193/TANMAY_nxtuyj.jpg",
-    linkedln:
-      "https://www.linkedin.com/in/tanmay-raj-970848332?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=member_android",
-    insta: "https://www.instagram.com/iblamemyself_141?igsh=ZHljNmk5bHUwYWJn",
-  },
-  {
-    id: 15,
-    name: "Ayushman Swain",
-    rank: "Collaboration and Outreach Head",
-    image:
-      "https://res.cloudinary.com/daozmezwb/image/upload/v1780900185/Ayushman_Swain_sn8abm.jpg",
-    linkedln:
-      "https://www.linkedin.com/in/ayushman-swain-as?utm_source=share_via&utm_content=profile&utm_medium=member_android",
-    insta: "https://www.instagram.com/_ayushman.18?igsh=bnQxZ2gwOXEzcTRs",
-    fb: "https://www.facebook.com/share/1JTx3MoqzZ/",
-  },
-  {
-    id: 16,
-    name: "Aditi Mishra",
-    rank: "Content Head",
-    image:
-      "https://res.cloudinary.com/daozmezwb/image/upload/v1780900185/Aditi_Mishra_h0cxe2.JPG",
-    linkedln: "https://www.linkedin.com/in/aditi-mishra-9ba66b34a",
-    insta: "https://www.instagram.com/aditimishrraaa?utm_source=qr",
-    fb: "https://www.facebook.com/share/14nvhpcu3ir/?mibextid=wwXIfr",
-  },
-  {
-    id: 17,
-    name: "Anubhav Anand",
-    rank: "Content Head",
-    image:
-      "https://res.cloudinary.com/daozmezwb/image/upload/v1780900183/Anubhav_Anand_unkskc.JPG",
-    linkedln: "https://www.linkedin.com/in/anubhav-anand-a1b2c3",
-    insta: "https://www.instagram.com/_skrillex_here?igsh=YngzYm53dzE1Z3pw",
-    fb: "https://www.facebook.com/share/193icNfLsA/",
-  },
-  {
-    id: 18,
+    id: 23,
     name: "Madhurjya Kaushik",
     rank: "Senior Technical Associate",
     image:
@@ -189,7 +240,18 @@ export const coreTeam2026_2027: CoreMember[] = [
     fb: "https://www.facebook.com/madhurjya.kaushik.2025/",
   },
   {
-    id: 19,
+    id: 24,
+    name: "Swastika Paul",
+    rank: "Senior Technical Associate",
+    image:
+      "https://res.cloudinary.com/dw3n9vflw/image/upload/v1756825291/IMG_20250212_153350_090_-_Swastika_Paul_dai8it.webp",
+    linkedln:
+      "https://www.linkedin.com/in/swastika-paul-05186a381?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=android_app",
+    fb: "https://www.facebook.com/share/16rXxbaYzT/",
+    git: "https://github.com/swastika-paul",
+  },
+  {
+    id: 25,
     name: "Bidisha Kakoti",
     rank: "Senior Design Associate",
     image:
@@ -200,17 +262,16 @@ export const coreTeam2026_2027: CoreMember[] = [
     fb: "https://www.facebook.com/share/16wyYj5auF/",
   },
   {
-    id: 20,
+    id: 26,
     name: "Rishi Karmakar",
     rank: "Senior Publicity Associate",
-    image:
-      "https://res.cloudinary.com/daozmezwb/image/upload/v1780900195/RISHI_twj4ah.jpg",
+    image: "/PHOTO-2026-06-10-01-07-09.jpg",
     linkedln: "https://www.linkedin.com/in/rishi-karmakar-246b14313/",
     insta: "https://www.instagram.com/rishi__1507/",
     fb: "https://www.facebook.com/profile.php?id=61560988438953",
   },
   {
-    id: 21,
+    id: 27,
     name: "Muskan Agarwala",
     rank: "General Associate",
     image:
@@ -220,4 +281,10 @@ export const coreTeam2026_2027: CoreMember[] = [
     insta: "https://www.instagram.com/muskan_ag01?igsh=MWVwdHl2ZXJ2cjlieQ==",
     fb: "https://www.facebook.com/share/18oFMqtrDa/",
   },
+  // {
+  //   id: 28,
+  //   name: "Alugubelly Rithwika Reddy",
+  //   rank: "General Associate",
+  //   image: "",
+  // },
 ];

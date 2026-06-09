@@ -53,6 +53,16 @@ export const coreTeam2026_2027: CoreMember[] = [
   },
   {
     id: 6,
+    name: "Swarup Das",
+    rank: "Technical Head",
+    image:
+      "https://res.cloudinary.com/dw3n9vflw/image/upload/v1756825528/WhatsApp_Image_2024-12-11_at_22.00.26_-_Swarup_Das_jdiiqe.jpg",
+    linkedln: "https://www.linkedin.com/in/swarup81/",
+    insta: "https://www.instagram.com/swarup_81?igsh=MXEzdTZoc3UyZ21xbg%3D%3D",
+    fb: "https://www.facebook.com/swarup.das.806423?rdid=HWgE9u8shCYUcLT3&share_url=https%3A%2F%2Fwww.facebook.com%2Fshare%2F1NdgLWENnY%2F%3Fref%3D1#",
+  },
+  {
+    id: 7,
     name: "Anisha Sharma",
     rank: "Design Head",
     image:
@@ -64,7 +74,7 @@ export const coreTeam2026_2027: CoreMember[] = [
     fb: "https://www.facebook.com/share/1HPhGsRLGY/?mibextid=wwXIfr",
   },
   {
-    id: 7,
+    id: 8,
     name: "Prajukta Kashyap",
     rank: "Design Head",
     image:
@@ -75,7 +85,7 @@ export const coreTeam2026_2027: CoreMember[] = [
     fb: "https://www.facebook.com/share/1CzSi5jcx7/?mibextid=wwXIfr",
   },
   {
-    id: 8,
+    id: 9,
     name: "ijajuddin ahmed",
     rank: "Marketing Head",
     image:
@@ -85,7 +95,7 @@ export const coreTeam2026_2027: CoreMember[] = [
       "https://www.instagram.com/1jaj._?igsh=dnJqYWE1b3N2Zzh1&utm_source=qr",
   },
   {
-    id: 9,
+    id: 10,
     name: "Shubham Shekhar",
     rank: "Publicity Head",
     image:
@@ -97,7 +107,7 @@ export const coreTeam2026_2027: CoreMember[] = [
     fb: "https://www.facebook.com/share/1EnkwpWfnW/",
   },
   {
-    id: 10,
+    id: 11,
     name: "Himanshi Agarwal",
     rank: "Event Management Head",
     image:
@@ -108,7 +118,7 @@ export const coreTeam2026_2027: CoreMember[] = [
     fb: "https://www.facebook.com/share/19R6A1Jyix/",
   },
   {
-    id: 11,
+    id: 12,
     name: "Piyush Saha",
     rank: "Event Management Head",
     image:
@@ -118,7 +128,7 @@ export const coreTeam2026_2027: CoreMember[] = [
     fb: "https://www.facebook.com/profile.php?id=61565594848377",
   },
   {
-    id: 12,
+    id: 13,
     name: "Dhananjay Kumar",
     rank: "Event Management Head",
     image:
@@ -128,7 +138,7 @@ export const coreTeam2026_2027: CoreMember[] = [
     fb: "https://www.facebook.com/share/1EVPkMTVrj/",
   },
   {
-    id: 13,
+    id: 14,
     name: "Tanmay Raj",
     rank: "Videography Head",
     image:
@@ -138,7 +148,7 @@ export const coreTeam2026_2027: CoreMember[] = [
     insta: "https://www.instagram.com/iblamemyself_141?igsh=ZHljNmk5bHUwYWJn",
   },
   {
-    id: 14,
+    id: 15,
     name: "Ayushman Swain",
     rank: "Collaboration and Outreach Head",
     image:
@@ -149,7 +159,7 @@ export const coreTeam2026_2027: CoreMember[] = [
     fb: "https://www.facebook.com/share/1JTx3MoqzZ/",
   },
   {
-    id: 15,
+    id: 16,
     name: "Aditi Mishra",
     rank: "Content Head",
     image:
@@ -159,7 +169,7 @@ export const coreTeam2026_2027: CoreMember[] = [
     fb: "https://www.facebook.com/share/14nvhpcu3ir/?mibextid=wwXIfr",
   },
   {
-    id: 16,
+    id: 17,
     name: "Anubhav Anand",
     rank: "Content Head",
     image:
@@ -169,7 +179,7 @@ export const coreTeam2026_2027: CoreMember[] = [
     fb: "https://www.facebook.com/share/193icNfLsA/",
   },
   {
-    id: 17,
+    id: 18,
     name: "Madhurjya Kaushik",
     rank: "Senior Technical Associate",
     image:
@@ -179,7 +189,7 @@ export const coreTeam2026_2027: CoreMember[] = [
     fb: "https://www.facebook.com/madhurjya.kaushik.2025/",
   },
   {
-    id: 18,
+    id: 19,
     name: "Bidisha Kakoti",
     rank: "Senior Design Associate",
     image:
@@ -190,7 +200,7 @@ export const coreTeam2026_2027: CoreMember[] = [
     fb: "https://www.facebook.com/share/16wyYj5auF/",
   },
   {
-    id: 19,
+    id: 20,
     name: "Rishi Karmakar",
     rank: "Senior Publicity Associate",
     image:
@@ -200,7 +210,7 @@ export const coreTeam2026_2027: CoreMember[] = [
     fb: "https://www.facebook.com/profile.php?id=61560988438953",
   },
   {
-    id: 20,
+    id: 21,
     name: "Muskan Agarwala",
     rank: "General Associate",
     image:

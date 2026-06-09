@@ -16,7 +16,7 @@ export default function TeamPage() {
   const [activeTab, setActiveTab] = useState<"faculty" | "core" | "developers">(
     "faculty",
   );
-  const [selectedYear, setSelectedYear] = useState<CoreYear>("2025-2026");
+  const [selectedYear, setSelectedYear] = useState<CoreYear>("2026-2027");
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
 
@@ -35,6 +35,7 @@ export default function TeamPage() {
   }, []);
 
   const years: CoreYear[] = [
+    "2026-2027",
     "2025-2026",
     "2024-2025",
     "2023-2024",

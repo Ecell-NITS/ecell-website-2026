@@ -1,6 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
+import { coreTeam2026_2027 } from "@/data/coreTeam/2026-2027";
 import { coreTeam2025_2026 } from "@/data/coreTeam/2025-2026";
 import { coreTeam2024_2025 } from "@/data/coreTeam/2024-2025";
 import { coreTeam2023_2024 } from "@/data/coreTeam/2023-2024";
@@ -16,6 +17,8 @@ interface CoreTeamProps {
 export default function CoreTeam({ year }: CoreTeamProps) {
   const getYearData = () => {
     switch (year) {
+      case "2026-2027":
+        return coreTeam2026_2027;
       case "2025-2026":
         return coreTeam2025_2026;
       case "2024-2025":

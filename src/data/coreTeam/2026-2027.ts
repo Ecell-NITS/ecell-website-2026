@@ -189,12 +189,16 @@ export const coreTeam2026_2027: CoreMember[] = [
       "https://www.linkedin.com/in/tanmay-raj-970848332?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=member_android",
     insta: "https://www.instagram.com/iblamemyself_141?igsh=ZHljNmk5bHUwYWJn",
   },
-  // {
-  //   id: 19,
-  //   name: "Khyatirmayi Janapala",
-  //   rank: "CurationXStartup Head",
-  //   image: "",
-  // },
+  {
+    id: 19,
+    name: "Khyatirmayi Janapala",
+    rank: "CurationXStartup Head",
+    image: "/kphoto.jpg",
+    linkedln:
+      "https://www.linkedin.com/in/khyatirmayi-janapala-104b30332?utm_source=share_via&utm_content=profile&utm_medium=member_android",
+    insta:
+      "https://www.instagram.com/__khyathii._?igsh=MXFoOG5pZmtuMXJ1Nw%3D%3D",
+  },
   {
     id: 20,
     name: "Anusna Pradhan",

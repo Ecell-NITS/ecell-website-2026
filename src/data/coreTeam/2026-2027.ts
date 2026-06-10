@@ -104,7 +104,7 @@ export const coreTeam2026_2027: CoreMember[] = [
     linkedln:
       "https://www.linkedin.com/in/himanshi-agarwal-b4a853332?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=android_app",
     insta: "https://www.instagram.com/himanshi._.16?igsh=MWo2d2lhcXc3eWczYg==",
-    fb: "https://www.facebook.com/share/19R6A1Jyix/",
+    fb: "https://www.facebook.com/himanshi.agarwal.528046?rdid=pimzQNLBDCX9L8pO&share_url=https%3A%2F%2Fwww.facebook.com%2Fshare%2F17u1kVxzX7%2F#",
   },
   {
     id: 11,
@@ -128,13 +128,13 @@ export const coreTeam2026_2027: CoreMember[] = [
   },
   {
     id: 13,
-    name: "Ijazuddin Ahmed",
+    name: "Ijajuddin Ahmed",
     rank: "Marketing Head",
     image:
       "https://res.cloudinary.com/daozmezwb/image/upload/v1780900187/ijajuddin_ahmed_jib8zc.jpg",
     linkedln: "https://www.linkedin.com/in/ijajuddin-ahmed-310758333",
     insta:
-      "https://www.instagram.com/1jaj._?igsh=dnJqYWE1b3N2Zzh1&utm_source=qr",
+      "https://www.instagram.com/1jaj.__?igsh=dnJ1ejVkM2kxbnZ4&utm_source=qr",
   },
   {
     id: 14,
@@ -198,7 +198,7 @@ export const coreTeam2026_2027: CoreMember[] = [
   {
     id: 20,
     name: "Anusna Pradhan",
-    rank: "CurationXStartup Head",
+    rank: "UI/UX Head and CurationXStartup Head",
     image:
       "https://res.cloudinary.com/daozmezwb/image/upload/v1780900185/ANUSHNA_nmzkpn.JPG",
     linkedln:
@@ -258,7 +258,8 @@ export const coreTeam2026_2027: CoreMember[] = [
       "https://res.cloudinary.com/daozmezwb/image/upload/v1780900186/Bidisha_Kakoti_yt0v2r.JPG",
     linkedln:
       "https://www.linkedin.com/in/bidisha-kakoti-65167b28b?utm_source=share_via&utm_content=profile&utm_medium=member_android",
-    insta: "https://www.instagram.com/bi__diishaa?igsh=MW5hcWZzaXZxZGwzZQ==",
+    insta:
+      "https://www.instagram.com/bi__diiishaa?igsh=MW5hcWZzanZxZGwxZQ%3D%3D",
     fb: "https://www.facebook.com/share/16wyYj5auF/",
   },
   {
@@ -281,10 +282,12 @@ export const coreTeam2026_2027: CoreMember[] = [
     insta: "https://www.instagram.com/muskan_ag01?igsh=MWVwdHl2ZXJ2cjlieQ==",
     fb: "https://www.facebook.com/share/18oFMqtrDa/",
   },
-  // {
-  //   id: 28,
-  //   name: "Alugubelly Rithwika Reddy",
-  //   rank: "General Associate",
-  //   image: "",
-  // },
+  {
+    id: 28,
+    name: "Alugubelly Rithwika Reddy",
+    rank: "General Associate",
+    image: "/PHOTO-2026-06-10-10-32-50.jpg",
+    linkedln: "https://www.linkedin.com/in/rithwika-reddy-52274a341",
+    insta: "https://www.instagram.com/a.rithwika_reddy?igsh=Y2V3ODl1bjRidHph",
+  },
 ];

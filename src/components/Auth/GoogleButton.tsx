@@ -44,11 +44,14 @@
 
 export default function GoogleButton({ label }: { label: string }) {
   const handleGoogleLogin = () => {
-    // Redirect to the backend Google OAuth endpoint.
-    // The backend handles the full OAuth flow and redirects back to
-    // /auth/google/callback with token + user in the query string.
-    window.location.href =
-      "https://e-cell-website-25-api.onrender.com/api/auth/google";
+    // Store the current page so we can redirect back after login
+    if (typeof window !== "undefined") {
+      sessionStorage.setItem("postLoginRedirect", window.location.pathname);
+    }
+    // Redirect to the backend Google OAuth endpoint
+    const apiUrl =
+      process.env.NEXT_PUBLIC_API_URL ?? "http://localhost:4000";
+    window.location.href = `${apiUrl}/api/auth/google`;
   };
 
   return (

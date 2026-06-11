@@ -40,7 +40,10 @@ export default function LoginPage() {
 
       toast.success("Login successful");
 
-      router.push("/dashboard");
+      const redirectTo =
+        sessionStorage.getItem("postLoginRedirect") ?? "/dashboard";
+      sessionStorage.removeItem("postLoginRedirect");
+      router.push(redirectTo);
     } catch (err: unknown) {
       console.log("LOGIN FRONTEND ERROR:", err);
       const axiosErr = err as { response?: { data?: { message?: string } } };

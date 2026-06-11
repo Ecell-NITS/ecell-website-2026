@@ -67,7 +67,7 @@ const FaqItem: React.FC<FaqItemProps> = ({
       >
         <span
           className={`text-base font-medium transition-colors duration-300 sm:text-lg ${
-            isOpen ? "text-blue-400" : "text-gray-200 group-hover:text-white"
+            isOpen ? "text-[#8b5cf6]" : "text-gray-200 group-hover:text-white"
           }`}
         >
           {question}
@@ -75,8 +75,8 @@ const FaqItem: React.FC<FaqItemProps> = ({
         <div
           className={`ml-4 flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-full border border-white/10 transition-all duration-300 ${
             isOpen
-              ? "rotate-180 border-blue-500 bg-blue-500/10 text-blue-400"
-              : "text-gray-500"
+              ? "rotate-180 border-[#5c3cff] bg-[#5c3cff]/10 text-[#5c3cff]"
+              : "text-gray-500 group-hover:border-[#5c3cff]/50 group-hover:text-[#5c3cff]"
           }`}
         >
           <ChevronDown size={18} />
@@ -152,10 +152,10 @@ export default function FaqSection() {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ delay: 0.1 }}
-                className="mb-6 text-4xl font-black tracking-tight text-white md:text-5xl lg:text-6xl"
+                className="mb-6 flex flex-col items-start gap-3 text-4xl font-black uppercase tracking-tight text-white md:text-5xl lg:text-6xl"
               >
-                Frequently <br />
-                <span className="text-blue-500">Asked Questions</span>
+                FREQUENTLY <br />
+                <span className="rounded-md bg-[#5c3cff] px-4 py-1 text-white">ASKED QUESTIONS</span>
               </motion.h2>
 
               <motion.p

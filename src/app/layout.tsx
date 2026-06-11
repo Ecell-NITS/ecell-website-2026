@@ -2,14 +2,7 @@ import "@/styles/globals.css";
 
 import { type Metadata } from "next";
 import ClientLayout from "@/components/Preloader/ClientLayout";
-import { Inter } from "next/font/google";
 import { AuthProvider } from "@/context/AuthContext";
-
-const inter = Inter({
-  subsets: ["latin"],
-  display: "swap",
-  variable: "--font-inter",
-});
 
 const SITE_URL = "https://ecellnits.org";
 
@@ -82,11 +75,14 @@ export default function RootLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
   return (
-    <html lang="en" className={inter.variable}>
+    <html lang="en" className="antialiased">
       <head>
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
+        <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet" />
         {/* Inline critical CSS: match preloader bg to prevent flash */}
         <style
-          dangerouslySetInnerHTML={{ __html: `body{background:#020617}` }}
+          dangerouslySetInnerHTML={{ __html: `:root { --font-inter: 'Inter', sans-serif; } body{background:#020617}` }}
         />
         {/* eslint-disable-next-line @next/next/no-page-custom-font -- App Router layout applies to all pages */}
         <link

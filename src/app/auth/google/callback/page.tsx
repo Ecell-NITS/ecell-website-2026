@@ -25,7 +25,14 @@ function GoogleCallbackInner() {
         const user = JSON.parse(decodeURIComponent(userStr));
         login(user, token);
         toast.success("Signed in with Google!");
-        router.replace("/dashboard");
+
+        // Redirect back to the page user was on before login
+        const redirectTo =
+          typeof window !== "undefined"
+            ? (sessionStorage.getItem("postLoginRedirect") ?? "/dashboard")
+            : "/dashboard";
+        sessionStorage.removeItem("postLoginRedirect");
+        router.replace(redirectTo);
       } catch {
         toast.error("Failed to process Google login");
         router.replace("/login");

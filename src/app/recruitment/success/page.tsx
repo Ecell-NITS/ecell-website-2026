@@ -6,7 +6,7 @@ import { useSearchParams } from "next/navigation";
 import { motion } from "framer-motion";
 import { ArrowLeft, ExternalLink, CheckCircle2 } from "lucide-react";
 
-export const WHATSAPP_LINKS: Record<string, string> = {
+const WHATSAPP_LINKS: Record<string, string> = {
   "Content Team": "https://chat.whatsapp.com/JeCUs8HzOc6L9anGKr3f6I",
   "Collaboration and Outreach Team": "https://chat.whatsapp.com/Dc8Pexw1yhCFEeoZh3ZHEn",
   "Curation X Startup Team": "https://chat.whatsapp.com/JTxF7HNShWXBRv6Al4hXAa",
@@ -16,6 +16,9 @@ export const WHATSAPP_LINKS: Record<string, string> = {
   "Event Management Team": "https://chat.whatsapp.com/LjQiecGgYSy7YYGn0PrVFB",
   "Videography Team": "https://chat.whatsapp.com/D8GT8YkKvKaFvHo6cvx5Dc",
   "Tech": "https://chat.whatsapp.com/DD2XXKBK1jLKbD4zfwNpfM?s=cl&p=i&ilr=2",
+  "Web Development": "https://chat.whatsapp.com/DD2XXKBK1jLKbD4zfwNpfM?s=cl&p=i&ilr=2",
+  "Artificial Intelligence": "https://chat.whatsapp.com/DD2XXKBK1jLKbD4zfwNpfM?s=cl&p=i&ilr=2",
+  "UI/UX Design": "https://chat.whatsapp.com/DD2XXKBK1jLKbD4zfwNpfM?s=cl&p=i&ilr=2",
 };
 
 function SuccessPageContent() {
@@ -24,10 +27,10 @@ function SuccessPageContent() {
   const teamsParam = searchParams.get("teams");
   
   let selectedTeams: string[] = [];
-  if (type === "TECH") {
-    selectedTeams = ["Tech"];
-  } else if (teamsParam) {
+  if (teamsParam) {
     selectedTeams = teamsParam.split(",");
+  } else if (type === "TECH") {
+    selectedTeams = ["Tech"];
   } else {
     selectedTeams = ["Tech"]; // fallback
   }

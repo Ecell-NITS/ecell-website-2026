@@ -22,6 +22,9 @@ interface Application {
   taskPreviewLink?: string;
   taskGithubRepoLink?: string;
   taskSelection?: string;
+  projectFigmaLink?: string;
+  prototypeFigmaLink?: string;
+  designInspirationLink?: string;
   whatsappNumber?: string;
   instituteEmail?: string;
   whyJoinECell?: string;
@@ -190,6 +193,22 @@ export default function AdminRecruitmentDetailPage() {
             <DetailRow
               label="Task GitHub Repo"
               value={application.taskGithubRepoLink}
+              isLink
+            />
+            {/* UI/UX specific fields */}
+            <DetailRow
+              label="Project Developer Figma / Framer Link"
+              value={application.projectFigmaLink}
+              isLink
+            />
+            <DetailRow
+              label="Prototype Figma / Framer Link"
+              value={application.prototypeFigmaLink}
+              isLink
+            />
+            <DetailRow
+              label="Design Inspiration Document Link"
+              value={application.designInspirationLink}
               isLink
             />
           </>

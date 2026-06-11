@@ -7,8 +7,8 @@ import { ArrowLeft, ArrowRight } from "lucide-react";
 
 const domains = [
   { id: "web", title: "Web Development", description: "Build responsive web applications, landing pages, and authentication systems.", available: true, href: "/recruitment/apply/tech/web" },
-  { id: "ai", title: "Artificial Intelligence", description: "Work on machine learning models, NLP, and intelligent systems.", available: false, href: "#" },
-  { id: "uiux", title: "UI/UX Design", description: "Design intuitive interfaces, prototypes, and user experiences.", available: false, href: "#" },
+  { id: "ai", title: "Artificial Intelligence", description: "Work on machine learning models, NLP, and intelligent systems.", available: true, href: "/recruitment/apply/tech/ai" },
+  { id: "uiux", title: "UI/UX Design", description: "Design intuitive interfaces, prototypes, and user experiences.", available: true, href: "/recruitment/apply/tech/uiux" },
 ];
 
 export default function TechDomainPage() {

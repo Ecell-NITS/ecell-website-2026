@@ -4,7 +4,6 @@ import Hero from "../components/Landing/Hero";
 import Partners from "../components/Landing/Partners";
 import About from "../components/Landing/About";
 import Events from "../components/Landing/Events";
-import Timeline from "../components/Landing/Timeline";
 import Testimonials from "../components/Landing/Testimonials";
 import ContactForm from "../components/Landing/ContactForm";
 import Footer from "../components/Landing/Footer";
@@ -24,9 +23,7 @@ export default function Page() {
         <Events />
         <Speakers />
         <DirectorsMessage />
-        <Timeline />
         <Testimonials />
-        <FaqSection />
         <ContactForm />
         <Footer />
       </div>

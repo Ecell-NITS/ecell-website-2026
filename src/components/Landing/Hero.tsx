@@ -135,8 +135,6 @@ const Hero: React.FC = () => {
                 transition={{
                   duration: 1.5,
                   ease: "easeInOut",
-                  repeat: Infinity,
-                  repeatType: "reverse",
                 }}
               />
             </svg>

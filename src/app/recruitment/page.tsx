@@ -116,10 +116,11 @@ export default function RecruitmentPage() {
             <div className="group relative flex h-full flex-col justify-between overflow-hidden rounded-2xl border border-white/10 bg-white/[0.02] p-8 backdrop-blur-xl transition-all duration-500 hover:bg-white/[0.05]">
               <div>
                 <h2 className="text-2xl font-medium tracking-tight text-white">
-                  Management & Creatives
+                  Non Technical
                 </h2>
                 <p className="mt-3 text-sm leading-relaxed font-light text-gray-400">
-                  Marketing, Design, Videography, Content, Events, and PR.
+                  Management & Creatives (Marketing, Design, Videography,
+                  Content, Events, and PR).
                 </p>
                 {otherApp && (
                   <div className="mt-5">

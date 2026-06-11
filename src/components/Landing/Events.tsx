@@ -25,7 +25,7 @@ const Events: React.FC = () => {
           <h2 className="text-3xl font-black tracking-tight text-white uppercase sm:text-4xl md:text-5xl">
             ONGOING EVENTS
           </h2>
-          
+
           <h3 className="mt-4 text-2xl font-bold tracking-widest text-[#5c3cff] sm:text-3xl md:text-4xl">
             RECRUITMENT 2026
           </h3>
@@ -39,8 +39,8 @@ const Events: React.FC = () => {
           transition={{ duration: 0.8 }}
           className="mx-auto flex w-full max-w-md justify-center overflow-hidden rounded-2xl shadow-[0_0_50px_rgba(92,60,255,0.15)] ring-1 ring-white/10 sm:max-w-lg md:max-w-xl lg:max-w-2xl"
         >
-          <img 
-            src="/recruitmemntposter.jpg" 
+          <img
+            src="/recruitmemntposter.jpg"
             alt="Recruitment 2026"
             className="h-auto w-full object-contain"
           />
@@ -60,12 +60,14 @@ const Events: React.FC = () => {
           >
             Register Now
           </Link>
-          <Link
-            href="#"
+          <a
+            href="/EcellRecruitmentBrochure2026.pdf"
+            target="_blank"
+            rel="noopener noreferrer"
             className="flex w-full items-center justify-center rounded-lg bg-[#1e293b] px-8 py-4 font-bold text-white transition-all hover:bg-[#334155] sm:w-auto"
           >
-            Join WA Group
-          </Link>
+            Download Brochure
+          </a>
         </motion.div>
       </div>
     </section>

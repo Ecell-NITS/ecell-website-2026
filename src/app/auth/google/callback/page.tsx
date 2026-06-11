@@ -29,7 +29,7 @@ function GoogleCallbackInner() {
         // Redirect back to the page user was on before login
         const redirectTo =
           typeof window !== "undefined"
-            ? sessionStorage.getItem("postLoginRedirect") || "/dashboard"
+            ? (sessionStorage.getItem("postLoginRedirect") ?? "/dashboard")
             : "/dashboard";
         sessionStorage.removeItem("postLoginRedirect");
         router.replace(redirectTo);

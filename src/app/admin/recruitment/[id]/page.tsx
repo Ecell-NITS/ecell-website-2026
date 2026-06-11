@@ -78,10 +78,13 @@ export default function AdminRecruitmentDetailPage() {
 
   useEffect(() => {
     if (params.id) {
+      const idStr = Array.isArray(params.id) ? params.id[0] : params.id;
       api
-        .get(`/api/recruitment/admin/applications/${params.id}`)
+        .get<{ data: { application: Application } }>(
+          `/api/recruitment/admin/applications/${idStr}`,
+        )
         .then((res) => setApplication(res.data.data.application))
-        .catch(() => {})
+        .catch((err) => console.error("Failed to fetch application", err))
         .finally(() => setLoading(false));
     }
   }, [params.id]);
@@ -127,9 +130,7 @@ export default function AdminRecruitmentDetailPage() {
         {/* Header */}
         <div className="mb-6 flex items-start justify-between">
           <div>
-            <h1 className="text-xl font-bold text-white">
-              {application.name}
-            </h1>
+            <h1 className="text-xl font-bold text-white">{application.name}</h1>
             <p className="mt-1 text-sm text-gray-400">{application.email}</p>
           </div>
           <div className="flex items-center gap-2">
@@ -237,10 +238,7 @@ export default function AdminRecruitmentDetailPage() {
               label="Past Contributions"
               value={application.pastContributions}
             />
-            <DetailRow
-              label="Other Clubs"
-              value={application.otherClubs}
-            />
+            <DetailRow label="Other Clubs" value={application.otherClubs} />
           </>
         )}
 

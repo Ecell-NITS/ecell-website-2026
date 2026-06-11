@@ -13,69 +13,92 @@ const Hero: React.FC = () => {
     {
       src: "/landing1.jpg",
       alt: "Team collaboration",
-      className: "absolute top-[10%] left-[5%] w-32 h-48 sm:w-48 sm:h-64 rounded-2xl object-cover shadow-2xl hidden md:block",
+      className:
+        "absolute top-[10%] left-[5%] w-32 h-48 sm:w-48 sm:h-64 rounded-2xl object-cover shadow-2xl hidden md:block",
       delay: 0.2,
       initialX: -400,
       initialY: -100,
-      yRange: [0, -10, 0]
+      yRange: [0, -10, 0],
     },
     {
       src: "/landing2.jpeg",
       alt: "Meeting",
-      className: "absolute bottom-[20%] left-[8%] w-40 h-32 sm:w-56 sm:h-40 rounded-2xl object-cover shadow-2xl hidden md:block",
+      className:
+        "absolute bottom-[20%] left-[8%] w-40 h-32 sm:w-56 sm:h-40 rounded-2xl object-cover shadow-2xl hidden md:block",
       delay: 0.4,
       initialX: -400,
       initialY: 100,
-      yRange: [0, 8, 0]
+      yRange: [0, 8, 0],
     },
     {
       src: "/landing3.jpeg",
       alt: "Design UI",
-      className: "absolute top-[15%] right-[8%] w-36 h-36 sm:w-52 sm:h-52 rounded-full object-cover shadow-2xl hidden md:block",
+      className:
+        "absolute top-[15%] right-[8%] w-36 h-36 sm:w-52 sm:h-52 rounded-full object-cover shadow-2xl hidden md:block",
       delay: 0.6,
       initialX: 400,
       initialY: -100,
-      yRange: [0, -8, 0]
+      yRange: [0, -8, 0],
     },
     {
       src: "/landing4.jpeg",
       alt: "Laptop work",
-      className: "absolute bottom-[15%] right-[5%] w-36 h-48 sm:w-48 sm:h-64 rounded-2xl object-cover shadow-2xl hidden md:block",
+      className:
+        "absolute bottom-[15%] right-[5%] w-36 h-48 sm:w-48 sm:h-64 rounded-2xl object-cover shadow-2xl hidden md:block",
       delay: 0.8,
       initialX: 400,
       initialY: 100,
-      yRange: [0, 10, 0]
-    }
+      yRange: [0, 10, 0],
+    },
   ];
 
-  const marqueeItems = ["25+ EVENTS HOSTED", "5000+ PARTICIPANTS", "50+ STARTUPS", "30+ PARTNERS"];
+  const marqueeItems = [
+    "25+ EVENTS HOSTED",
+    "5000+ PARTICIPANTS",
+    "50+ STARTUPS",
+    "30+ PARTNERS",
+  ];
 
   return (
     <section className="relative flex min-h-[100svh] items-center justify-center overflow-hidden bg-[#020617] pt-20">
       {/* Subtle Ambient Glows */}
-      <div className="pointer-events-none absolute left-1/2 top-1/2 h-[600px] w-[800px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-blue-600/10 blur-[120px]" />
-      
+      <div className="pointer-events-none absolute top-1/2 left-1/2 h-[600px] w-[800px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-blue-600/10 blur-[120px]" />
+
       {/* Floating Images (Desktop only for clutter-free mobile) */}
       <div className="pointer-events-none absolute inset-0 z-10 mx-auto max-w-7xl">
         {floatingImages.map((img, i) => (
           <motion.div
             key={i}
-            initial={{ opacity: 0, scale: 0.8, x: img.initialX, y: img.initialY }}
-            animate={{ 
-              opacity: 0.8, 
-              scale: 1, 
-              x: 0,
-              y: img.yRange 
+            initial={{
+              opacity: 0,
+              scale: 0.8,
+              x: img.initialX,
+              y: img.initialY,
             }}
-            transition={{ 
+            animate={{
+              opacity: 0.8,
+              scale: 1,
+              x: 0,
+              y: img.yRange,
+            }}
+            transition={{
               opacity: { duration: 1.5, delay: img.delay, ease: "easeOut" },
               scale: { duration: 1.5, delay: img.delay, ease: "easeOut" },
               x: { duration: 1.5, delay: img.delay, ease: "backOut" },
-              y: { duration: 10, repeat: Infinity, ease: "easeInOut", delay: img.delay + 1.5 }
+              y: {
+                duration: 10,
+                repeat: Infinity,
+                ease: "easeInOut",
+                delay: img.delay + 1.5,
+              },
             }}
             className={img.className}
           >
-            <img src={img.src} alt={img.alt} className="w-full h-full object-cover rounded-inherit transition-all duration-500 pointer-events-auto cursor-pointer border border-white/10 shadow-[0_0_30px_rgba(92,60,255,0.15)]" />
+            <img
+              src={img.src}
+              alt={img.alt}
+              className="rounded-inherit pointer-events-auto h-full w-full cursor-pointer border border-white/10 object-cover shadow-[0_0_30px_rgba(92,60,255,0.15)] transition-all duration-500"
+            />
           </motion.div>
         ))}
       </div>
@@ -91,7 +114,8 @@ const Hero: React.FC = () => {
           transition={{ duration: 0.8, delay: 0.1, ease: "easeOut" }}
           className="text-5xl font-medium tracking-tight text-white sm:text-6xl md:text-7xl lg:text-8xl"
         >
-          Empowering Dreams,<br /> Building the{" "}
+          Empowering Dreams,
+          <br /> Building the{" "}
           <span className="relative whitespace-nowrap">
             Future
             <svg
@@ -108,7 +132,12 @@ const Hero: React.FC = () => {
                 strokeLinecap="round"
                 initial={{ pathLength: 0, opacity: 0 }}
                 animate={{ pathLength: 1, opacity: 1 }}
-                transition={{ duration: 1.5, ease: "easeInOut", repeat: Infinity, repeatType: "reverse" }}
+                transition={{
+                  duration: 1.5,
+                  ease: "easeInOut",
+                  repeat: Infinity,
+                  repeatType: "reverse",
+                }}
               />
             </svg>
           </span>
@@ -118,9 +147,11 @@ const Hero: React.FC = () => {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.2, ease: "easeOut" }}
-          className="mt-8 max-w-2xl text-lg font-light leading-relaxed text-gray-400 sm:text-xl"
+          className="mt-8 max-w-2xl text-lg leading-relaxed font-light text-gray-400 sm:text-xl"
         >
-          Our philosophy is simple; nurture innovative minds, foster entrepreneurial spirit, and give you the resources to do your best work.
+          Our philosophy is simple; nurture innovative minds, foster
+          entrepreneurial spirit, and give you the resources to do your best
+          work.
         </motion.p>
 
         {/* Down Arrow */}
@@ -130,8 +161,12 @@ const Hero: React.FC = () => {
           transition={{ duration: 1, delay: 1 }}
           className="mt-16 flex justify-center"
         >
-          <button 
-            onClick={() => document.getElementById("about")?.scrollIntoView({ behavior: "smooth" })}
+          <button
+            onClick={() =>
+              document
+                .getElementById("about")
+                ?.scrollIntoView({ behavior: "smooth" })
+            }
             className="text-gray-500 transition-colors hover:text-white"
             aria-label="Scroll down"
           >
@@ -148,12 +183,19 @@ const Hero: React.FC = () => {
           className="flex w-max"
         >
           {/* Render 2 identical blocks to create seamless infinite scroll */}
-          {[...Array(2)].map((_, i) => (
-            <div key={i} className="flex shrink-0 items-center justify-around gap-8 px-4 sm:gap-16 sm:px-8">
+          {Array.from({ length: 2 }).map((_, i) => (
+            <div
+              key={i}
+              className="flex shrink-0 items-center justify-around gap-8 px-4 sm:gap-16 sm:px-8"
+            >
               {marqueeItems.map((text, j) => (
                 <React.Fragment key={j}>
-                  <span className="text-xl font-black tracking-widest text-white sm:text-2xl">{text}</span>
-                  <span className="text-xl font-bold text-white/50 sm:text-2xl">|</span>
+                  <span className="text-xl font-black tracking-widest text-white sm:text-2xl">
+                    {text}
+                  </span>
+                  <span className="text-xl font-bold text-white/50 sm:text-2xl">
+                    |
+                  </span>
                 </React.Fragment>
               ))}
             </div>

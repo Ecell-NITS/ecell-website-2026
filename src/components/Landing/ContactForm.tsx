@@ -3,8 +3,6 @@
 "use client";
 
 import React, { useState } from "react";
-import { motion } from "framer-motion";
-import { Send, MapPin, Mail, Phone } from "lucide-react";
 import toast from "react-hot-toast";
 import api from "@/lib/api";
 
@@ -55,37 +53,43 @@ const ContactForm: React.FC = () => {
             "linear-gradient(#fff 1px, transparent 1px), linear-gradient(90deg, #fff 1px, transparent 1px)",
           backgroundSize: "40px 40px",
           WebkitMaskImage: "linear-gradient(to bottom, black, transparent)",
-          maskImage: "linear-gradient(to bottom, black, transparent)"
+          maskImage: "linear-gradient(to bottom, black, transparent)",
         }}
       />
 
       <div className="relative z-10 mx-auto max-w-7xl px-6 md:px-12 lg:px-20">
-        
         {/* Title Block */}
         <div className="mb-16 flex justify-center lg:mb-24">
-          <div className="flex text-4xl font-black uppercase tracking-tight md:text-5xl lg:text-7xl">
-            <span className="bg-white px-5 py-2 text-black md:px-6 md:py-3">CONTACT</span>
-            <span className="bg-[#5c3cff] px-5 py-2 text-white md:px-6 md:py-3">US</span>
+          <div className="flex text-4xl font-black tracking-tight uppercase md:text-5xl lg:text-7xl">
+            <span className="bg-white px-5 py-2 text-black md:px-6 md:py-3">
+              CONTACT
+            </span>
+            <span className="bg-[#5c3cff] px-5 py-2 text-white md:px-6 md:py-3">
+              US
+            </span>
           </div>
         </div>
 
         <div className="flex flex-col gap-12 lg:flex-row lg:items-start lg:gap-20">
-          
           {/* Left Side: Text */}
           <div className="lg:w-1/2 lg:pr-8">
             <h2 className="mb-6 text-4xl font-bold tracking-tight text-white md:text-5xl lg:text-6xl">
               Let&apos;s Connect!
             </h2>
             <p className="mb-8 text-lg leading-relaxed text-gray-300 sm:text-xl lg:text-[22px]">
-              Have questions, ideas, or want to collaborate with <span className="font-bold text-white">E-CELL NITS</span>?<br />
-              Reach out to us and our team will get back to you as soon as possible.
+              Have questions, ideas, or want to collaborate with{" "}
+              <span className="font-bold text-white">E-CELL NITS</span>?<br />
+              Reach out to us and our team will get back to you as soon as
+              possible.
             </p>
             <p className="mb-8 text-lg leading-relaxed text-gray-300 sm:text-xl lg:text-[22px]">
-              📞 8136099500, 7002431874<br />
+              📞 8136099500, 7002431874
+              <br />
               ✉️ ecell@nits.ac.in
             </p>
-            <p className="text-lg font-light italic text-gray-400 sm:text-xl lg:text-[22px]">
-              We love hearing from passionate entrepreneurs, students, and partners!
+            <p className="text-lg font-light text-gray-400 italic sm:text-xl lg:text-[22px]">
+              We love hearing from passionate entrepreneurs, students, and
+              partners!
             </p>
           </div>
 
@@ -123,7 +127,7 @@ const ContactForm: React.FC = () => {
                     className="w-full resize-none rounded-xl border border-white/5 bg-[#2A2A2A] px-5 py-4 text-white placeholder-gray-400 transition-colors focus:border-[#5c3cff] focus:outline-none"
                   />
                 </div>
-                
+
                 <button
                   type="submit"
                   disabled={isLoading}
@@ -134,7 +138,6 @@ const ContactForm: React.FC = () => {
               </form>
             </div>
           </div>
-
         </div>
       </div>
     </section>

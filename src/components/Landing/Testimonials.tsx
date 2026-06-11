@@ -2,9 +2,8 @@
 // @ts-nocheck
 "use client";
 
-import React, { useState } from "react";
-import { motion, AnimatePresence } from "framer-motion";
-import { Quote, User } from "lucide-react";
+import React from "react";
+import { Quote } from "lucide-react";
 // --- Data Logic (Derived from the logic request) ---
 const testimonialsData = [
   {
@@ -22,14 +21,16 @@ const Testimonials: React.FC = () => {
     <section className="relative overflow-hidden py-16 md:py-24">
       <div className="relative z-10 mx-auto px-6 sm:px-8 lg:px-12 xl:px-16">
         <div className="mb-16 text-center">
-          <h2 className="flex flex-col items-center justify-center gap-3 text-4xl font-black uppercase tracking-tight text-white md:flex-row md:text-5xl lg:text-6xl">
-            OUR <span className="rounded-md bg-[#5c3cff] px-4 py-1 text-white">TESTIMONIALS</span>
+          <h2 className="flex flex-col items-center justify-center gap-3 text-4xl font-black tracking-tight text-white uppercase md:flex-row md:text-5xl lg:text-6xl">
+            OUR{" "}
+            <span className="rounded-md bg-[#5c3cff] px-4 py-1 text-white">
+              TESTIMONIALS
+            </span>
           </h2>
         </div>
         <div className="mx-auto max-w-5xl">
           {/* Main Card - Super Clean Minimalist (No borders/bg) */}
           <div className="flex flex-col items-center gap-10 md:flex-row md:items-start lg:gap-16">
-            
             {/* Left Side: Image */}
             <div className="relative shrink-0 overflow-hidden rounded-full border-4 border-[#5c3cff]/20">
               <img
@@ -45,18 +46,21 @@ const Testimonials: React.FC = () => {
                 className="absolute -top-10 -left-6 text-[#5c3cff]/20"
                 size={80}
               />
-              <p className="relative z-10 mb-6 text-lg leading-relaxed font-light italic text-gray-300 sm:text-xl md:mb-8 md:text-2xl">
+              <p className="relative z-10 mb-6 text-lg leading-relaxed font-light text-gray-300 italic sm:text-xl md:mb-8 md:text-2xl">
                 &quot;{testimonialsData[0].text}&quot;
               </p>
 
               <div className="mt-8 flex items-center justify-between">
                 <div className="flex flex-col">
-                  <span className="text-xl font-bold text-white">{testimonialsData[0].name}</span>
-                  <span className="text-sm font-medium text-[#5c3cff]">{testimonialsData[0].role}</span>
+                  <span className="text-xl font-bold text-white">
+                    {testimonialsData[0].name}
+                  </span>
+                  <span className="text-sm font-medium text-[#5c3cff]">
+                    {testimonialsData[0].role}
+                  </span>
                 </div>
               </div>
             </div>
-
           </div>
         </div>
       </div>

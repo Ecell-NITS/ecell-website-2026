@@ -63,9 +63,9 @@ export default function AdminRecruitmentPage() {
       if (filterType) params.set("type", filterType);
       if (filterStatus) params.set("status", filterStatus);
 
-      const res = await api.get(
-        `/api/recruitment/admin/applications?${params.toString()}`,
-      );
+      const res = await api.get<{
+        data: { applications: Application[]; pagination: Pagination };
+      }>(`/api/recruitment/admin/applications?${params.toString()}`);
       setApplications(res.data.data.applications);
       setPagination(res.data.data.pagination);
     } catch {
@@ -76,13 +76,13 @@ export default function AdminRecruitmentPage() {
   }, [pagination.page, search, filterType, filterStatus]);
 
   useEffect(() => {
-    fetchApplications();
+    void fetchApplications();
   }, [fetchApplications]);
 
   const handleSearch = (e: React.FormEvent) => {
     e.preventDefault();
     setPagination((p) => ({ ...p, page: 1 }));
-    fetchApplications();
+    void fetchApplications();
   };
 
   return (
@@ -100,9 +100,9 @@ export default function AdminRecruitmentPage() {
       <div className="flex flex-col gap-3 sm:flex-row">
         <form onSubmit={handleSearch} className="flex-1">
           <div className="relative">
-            <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-gray-500" />
+            <Search className="absolute top-1/2 left-3 h-4 w-4 -translate-y-1/2 text-gray-500" />
             <input
-              className="w-full rounded-xl border border-white/10 bg-[#0f172a] py-2.5 pl-10 pr-4 text-sm text-white placeholder:text-gray-500 outline-none focus:border-blue-500"
+              className="w-full rounded-xl border border-white/10 bg-[#0f172a] py-2.5 pr-4 pl-10 text-sm text-white outline-none placeholder:text-gray-500 focus:border-blue-500"
               placeholder="Search by name, email, or scholar ID..."
               value={search}
               onChange={(e) => setSearch(e.target.value)}
@@ -112,9 +112,9 @@ export default function AdminRecruitmentPage() {
 
         <div className="flex gap-2">
           <div className="relative">
-            <Filter className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-gray-500" />
+            <Filter className="pointer-events-none absolute top-1/2 left-3 h-4 w-4 -translate-y-1/2 text-gray-500" />
             <select
-              className="appearance-none rounded-xl border border-white/10 bg-[#0f172a] py-2.5 pl-10 pr-8 text-sm text-white outline-none focus:border-blue-500"
+              className="appearance-none rounded-xl border border-white/10 bg-[#0f172a] py-2.5 pr-8 pl-10 text-sm text-white outline-none focus:border-blue-500"
               value={filterType}
               onChange={(e) => {
                 setFilterType(e.target.value);
@@ -163,13 +163,9 @@ export default function AdminRecruitmentPage() {
                   Scholar ID
                 </th>
                 <th className="px-4 py-3 font-medium text-gray-400">Type</th>
-                <th className="px-4 py-3 font-medium text-gray-400">
-                  Status
-                </th>
+                <th className="px-4 py-3 font-medium text-gray-400">Status</th>
                 <th className="px-4 py-3 font-medium text-gray-400">Date</th>
-                <th className="px-4 py-3 font-medium text-gray-400">
-                  Action
-                </th>
+                <th className="px-4 py-3 font-medium text-gray-400">Action</th>
               </tr>
             </thead>
             <tbody>
@@ -187,9 +183,7 @@ export default function AdminRecruitmentPage() {
                       <p className="text-xs text-gray-500">{app.email}</p>
                     </div>
                   </td>
-                  <td className="px-4 py-3 text-gray-400">
-                    {app.scholarId}
-                  </td>
+                  <td className="px-4 py-3 text-gray-400">{app.scholarId}</td>
                   <td className="px-4 py-3">
                     <span
                       className={`inline-flex items-center gap-1.5 rounded-full px-2.5 py-0.5 text-xs font-medium ${
@@ -254,18 +248,14 @@ export default function AdminRecruitmentPage() {
           <div className="flex gap-2">
             <button
               disabled={pagination.page <= 1}
-              onClick={() =>
-                setPagination((p) => ({ ...p, page: p.page - 1 }))
-              }
+              onClick={() => setPagination((p) => ({ ...p, page: p.page - 1 }))}
               className="rounded-lg border border-white/10 bg-white/5 p-2 text-gray-400 transition-colors hover:bg-white/10 disabled:opacity-30"
             >
               <ChevronLeft className="h-4 w-4" />
             </button>
             <button
               disabled={pagination.page >= pagination.totalPages}
-              onClick={() =>
-                setPagination((p) => ({ ...p, page: p.page + 1 }))
-              }
+              onClick={() => setPagination((p) => ({ ...p, page: p.page + 1 }))}
               className="rounded-lg border border-white/10 bg-white/5 p-2 text-gray-400 transition-colors hover:bg-white/10 disabled:opacity-30"
             >
               <ChevronRight className="h-4 w-4" />

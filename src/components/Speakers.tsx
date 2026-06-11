@@ -3,9 +3,7 @@
 // @ts-nocheck
 "use client";
 
-import React, { useState, useEffect, useCallback, useRef } from "react";
-import { motion, useAnimation, type PanInfo } from "framer-motion";
-import { ChevronLeft, ChevronRight } from "lucide-react";
+import React from "react";
 
 // --- Types ---
 type Speaker = {
@@ -78,13 +76,12 @@ const speakersData: Speaker[] = [
 const SpeakerCard: React.FC<{ speaker: Speaker }> = ({ speaker }) => {
   return (
     <div className="relative flex h-[160px] overflow-hidden rounded-2xl border border-white/10 bg-[#060B19] transition-transform duration-300 hover:-translate-y-1 hover:border-[#5c3cff]/50 hover:shadow-[0_0_30px_-10px_rgba(92,60,255,0.3)] sm:h-[180px] md:h-[200px]">
-      
       {/* Background Glow */}
       <div className="absolute inset-0 z-0 bg-[radial-gradient(ellipse_at_top_right,_var(--tw-gradient-stops))] from-[#5c3cff]/10 via-transparent to-transparent opacity-80" />
 
       {/* Left Text Content */}
       <div className="z-10 flex w-[60%] flex-col justify-center px-6 sm:px-8">
-        <h3 className="text-lg font-medium text-white sm:text-xl lg:text-2xl drop-shadow-md">
+        <h3 className="text-lg font-medium text-white drop-shadow-md sm:text-xl lg:text-2xl">
           {speaker.name}
         </h3>
         <p className="mt-1 text-sm font-semibold tracking-wide text-[#5c3cff] sm:text-base">
@@ -117,8 +114,11 @@ const Speakers: React.FC = () => {
       <div className="relative z-10 mx-auto max-w-7xl px-6 sm:px-8 lg:px-12 xl:px-16">
         {/* --- HEADER --- */}
         <div className="mb-12 text-center lg:mb-16">
-          <h2 className="flex items-center justify-center gap-3 text-4xl font-black uppercase tracking-tight text-white md:text-5xl lg:text-6xl">
-            OUR <span className="rounded-md bg-[#5c3cff] px-4 py-1 text-white">VISIONARIES</span>
+          <h2 className="flex items-center justify-center gap-3 text-4xl font-black tracking-tight text-white uppercase md:text-5xl lg:text-6xl">
+            OUR{" "}
+            <span className="rounded-md bg-[#5c3cff] px-4 py-1 text-white">
+              VISIONARIES
+            </span>
           </h2>
         </div>
 

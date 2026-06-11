@@ -40,7 +40,8 @@ export default function LoginPage() {
 
       toast.success("Login successful");
 
-      const redirectTo = sessionStorage.getItem("postLoginRedirect") || "/dashboard";
+      const redirectTo =
+        sessionStorage.getItem("postLoginRedirect") ?? "/dashboard";
       sessionStorage.removeItem("postLoginRedirect");
       router.push(redirectTo);
     } catch (err: unknown) {

@@ -131,9 +131,11 @@ const Hero: React.FC = () => {
                 strokeWidth="10"
                 strokeLinecap="round"
                 initial={{ pathLength: 0, opacity: 0 }}
-                animate={{ pathLength: 1, opacity: 1 }}
+                whileInView={{ pathLength: 1, opacity: 1 }}
+                viewport={{ once: true }}
                 transition={{
                   duration: 1.5,
+                  delay: 0.5,
                   ease: "easeInOut",
                 }}
               />

@@ -6,10 +6,17 @@ export const metadata: Metadata = {
     "Apply to join the E-Cell NIT Silchar team. Tech and non-tech positions available for 2026.",
 };
 
+import Navbar from "@/components/Landing/Navbar";
+
 export default function RecruitmentLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
-  return <main className="min-h-screen pt-24 pb-16">{children}</main>;
+  return (
+    <main className="min-h-screen pt-24 pb-16">
+      <Navbar />
+      {children}
+    </main>
+  );
 }

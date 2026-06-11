@@ -119,7 +119,8 @@ export default function RecruitmentPage() {
                   Non Technical
                 </h2>
                 <p className="mt-3 text-sm leading-relaxed font-light text-gray-400">
-                  Marketing, Design, Videography, Content, Events, and PR.
+                  Event Management, Marketing, Design, Collaboration & Outreach,
+                  Videography, CurationXStartup, Publicity, and Content.
                 </p>
                 {otherApp && (
                   <div className="mt-5">

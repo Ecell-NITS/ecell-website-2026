@@ -16,8 +16,9 @@ const Navbar: React.FC = () => {
 
   const navLinks = [
     { name: "HOME", href: "/" },
-    { name: "EVENTS", href: "/events" },
     { name: "RECRUITMENT", href: "/recruitment" },
+    { name: "EVENTS", href: "/#events" },
+    { name: "GALLERY", href: "/gallery" },
     { name: "TEAM", href: "/team" },
     { name: "ALUMNI", href: "/alumni" },
   ];
@@ -28,7 +29,7 @@ const Navbar: React.FC = () => {
         initial={{ y: -50, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
         transition={{ duration: 0.8, ease: "easeOut" }}
-        className="fixed left-1/2 top-6 z-[150] w-[95%] max-w-6xl -translate-x-1/2 rounded-full border border-white/10 bg-black/40 px-6 py-3 shadow-[0_0_40px_rgba(0,0,0,0.5)] backdrop-blur-xl transition-all duration-300 sm:px-8"
+        className="fixed top-6 left-1/2 z-[150] w-[95%] max-w-6xl -translate-x-1/2 rounded-full border border-white/10 bg-black/40 px-6 py-3 shadow-[0_0_40px_rgba(0,0,0,0.5)] backdrop-blur-xl transition-all duration-300 sm:px-8"
       >
         <div className="flex w-full items-center justify-between">
           {/* Logo (Left) */}
@@ -110,7 +111,7 @@ const Navbar: React.FC = () => {
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: -20, scale: 0.95 }}
             transition={{ duration: 0.2 }}
-            className="fixed left-1/2 top-24 z-[149] flex w-[90%] -translate-x-1/2 flex-col gap-6 rounded-3xl border border-white/10 bg-black/60 p-8 backdrop-blur-2xl shadow-2xl md:hidden"
+            className="fixed top-24 left-1/2 z-[149] flex w-[90%] -translate-x-1/2 flex-col gap-6 rounded-3xl border border-white/10 bg-black/60 p-8 shadow-2xl backdrop-blur-2xl md:hidden"
           >
             {navLinks.map((link) => (
               <Link

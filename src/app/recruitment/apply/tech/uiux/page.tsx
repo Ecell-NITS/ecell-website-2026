@@ -86,17 +86,16 @@ export default function TechUIUXFormPage() {
     if (!form.resumeLink.trim()) e.resumeLink = "Required";
     else if (!isValidUrl(form.resumeLink)) e.resumeLink = "Invalid URL";
 
-    if (!form.projectFigmaLink.trim()) e.projectFigmaLink = "Required";
-    else if (!isValidUrl(form.projectFigmaLink))
+    if (form.projectFigmaLink.trim() && !isValidUrl(form.projectFigmaLink))
       e.projectFigmaLink = "Invalid URL";
 
-    if (!form.prototypeFigmaLink.trim()) e.prototypeFigmaLink = "Required";
-    else if (!isValidUrl(form.prototypeFigmaLink))
+    if (form.prototypeFigmaLink.trim() && !isValidUrl(form.prototypeFigmaLink))
       e.prototypeFigmaLink = "Invalid URL";
 
-    if (!form.designInspirationLink.trim())
-      e.designInspirationLink = "Required";
-    else if (!isValidUrl(form.designInspirationLink))
+    if (
+      form.designInspirationLink.trim() &&
+      !isValidUrl(form.designInspirationLink)
+    )
       e.designInspirationLink = "Invalid URL";
 
     setErrors(e);
@@ -236,7 +235,7 @@ export default function TechUIUXFormPage() {
 
           <FormField
             label="Project Developer Figma / Framer Link"
-            required
+            hint="Optional"
             error={errors.projectFigmaLink}
           >
             <input
@@ -249,7 +248,7 @@ export default function TechUIUXFormPage() {
 
           <FormField
             label="Prototype Figma / Framer Link"
-            required
+            hint="Optional"
             error={errors.prototypeFigmaLink}
           >
             <input
@@ -262,8 +261,7 @@ export default function TechUIUXFormPage() {
 
           <FormField
             label="Design Inspiration Document Link"
-            required
-            hint="Add the video walkthrough link in this document itself"
+            hint="Optional"
             error={errors.designInspirationLink}
           >
             <input

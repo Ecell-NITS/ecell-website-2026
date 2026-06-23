@@ -167,7 +167,7 @@ export default function TechWebFormPage() {
         transition={{ duration: 0.8, ease: "easeOut" }}
       >
         <h1 className="text-3xl font-light tracking-tight text-white sm:text-4xl">
-          Web Development
+          Full-Stack Engineering
         </h1>
         <p className="mt-3 text-sm font-light text-gray-500">
           Provide your information to apply for the tech team.

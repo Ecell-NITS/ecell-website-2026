@@ -179,7 +179,7 @@ export default function AdminRecruitmentPage() {
           >
             <option value="ALL">All Teams</option>
             <optgroup label="Tech Domains">
-              <option value="WEB">Web Development</option>
+              <option value="WEB">Full-Stack Engineering</option>
               <option value="AI">AI/ML</option>
               <option value="UIUX">UI/UX</option>
             </optgroup>

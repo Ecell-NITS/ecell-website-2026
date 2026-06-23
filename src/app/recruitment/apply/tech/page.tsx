@@ -29,6 +29,7 @@ const domains = [
     description:
       "Design intuitive interfaces, prototypes, and user experiences.",
     available: true,
+    recommended: true,
     href: "/recruitment/apply/tech/uiux",
   },
 ];

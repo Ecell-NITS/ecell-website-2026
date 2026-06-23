@@ -162,6 +162,7 @@ export default function AdminRecruitmentDetailPage() {
 
         {/* Common Fields */}
         <DetailRow label="Scholar ID" value={application.scholarId} />
+        <DetailRow label="WhatsApp Number" value={application.whatsappNumber} />
         <DetailRow label="Branch" value={application.branch} />
 
         {/* Tech Fields */}
@@ -218,10 +219,6 @@ export default function AdminRecruitmentDetailPage() {
         {/* Other Teams Fields */}
         {application.type === "OTHER" && (
           <>
-            <DetailRow
-              label="WhatsApp Number"
-              value={application.whatsappNumber}
-            />
             <DetailRow
               label="Institute Email"
               value={application.instituteEmail}

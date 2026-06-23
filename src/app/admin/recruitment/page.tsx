@@ -12,6 +12,7 @@ import {
   Loader2,
   Users,
   Code2,
+  Download,
 } from "lucide-react";
 import api from "@/lib/api";
 
@@ -20,6 +21,7 @@ interface Application {
   name: string;
   email: string;
   scholarId: string;
+  whatsappNumber?: string;
   type: "TECH" | "OTHER";
   status: "DRAFT" | "SUBMITTED";
   techDomain?: string;
@@ -52,6 +54,7 @@ export default function AdminRecruitmentPage() {
   const [search, setSearch] = useState("");
   const [filterType, setFilterType] = useState("");
   const [filterStatus, setFilterStatus] = useState("");
+  const [exportTeamFilter, setExportTeamFilter] = useState("ALL");
 
   const fetchApplications = useCallback(async () => {
     setLoading(true);
@@ -85,15 +88,126 @@ export default function AdminRecruitmentPage() {
     void fetchApplications();
   };
 
+  const handleExportCSV = async () => {
+    try {
+      const params = new URLSearchParams();
+      params.set("page", "1");
+      params.set("limit", "10000"); // Fetch all
+      if (search) params.set("search", search);
+      if (filterType) params.set("type", filterType);
+      if (filterStatus) params.set("status", filterStatus);
+
+      const res = await api.get<{
+        data: { applications: Application[]; pagination: Pagination };
+      }>(`/api/recruitment/admin/applications?${params.toString()}`);
+
+      let allApps = res.data.data.applications;
+
+      if (exportTeamFilter !== "ALL") {
+        allApps = allApps.filter((app) => {
+          if (app.type === "TECH") {
+            return app.techDomain === exportTeamFilter;
+          } else {
+            return app.teamSelection?.includes(exportTeamFilter);
+          }
+        });
+      }
+
+      const headers = [
+        "Name",
+        "Email",
+        "Phone",
+        "Scholar ID",
+        "Type",
+        "Domain/Teams",
+        "Status",
+        "Date",
+      ];
+      const csvContent = [
+        headers.join(","),
+        ...allApps.map((app) => {
+          const domainOrTeams =
+            app.type === "TECH"
+              ? (app.techDomain ?? "")
+              : (app.teamSelection?.join("; ") ?? "");
+          return [
+            `"${app.name}"`,
+            `"${app.email}"`,
+            `"${app.whatsappNumber ?? ""}"`,
+            `"${app.scholarId}"`,
+            `"${app.type}"`,
+            `"${domainOrTeams}"`,
+            `"${app.status}"`,
+            `"${new Date(app.createdAt).toLocaleDateString()}"`,
+          ].join(",");
+        }),
+      ].join("\\n");
+
+      const blob = new Blob([csvContent], { type: "text/csv;charset=utf-8;" });
+      const url = URL.createObjectURL(blob);
+      const link = document.createElement("a");
+      link.href = url;
+      link.setAttribute(
+        "download",
+        `recruitment_${exportTeamFilter.replace(/ /g, "_")}_${new Date().toISOString().split("T")[0]}.csv`,
+      );
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+    } catch (error) {
+      console.error("Failed to export CSV", error);
+      alert("Failed to export CSV. Please try again.");
+    }
+  };
+
   return (
     <div className="space-y-6">
-      <div>
-        <h1 className="text-2xl font-bold text-white">
-          Recruitment Applications
-        </h1>
-        <p className="mt-1 text-sm text-gray-400">
-          {pagination.total} total applications
-        </p>
+      <div className="flex items-center justify-between">
+        <div>
+          <h1 className="text-2xl font-bold text-white">
+            Recruitment Applications
+          </h1>
+          <p className="mt-1 text-sm text-gray-400">
+            {pagination.total} total applications
+          </p>
+        </div>
+        <div className="flex items-center gap-2">
+          <select
+            value={exportTeamFilter}
+            onChange={(e) => setExportTeamFilter(e.target.value)}
+            className="rounded-xl border border-white/10 bg-[#0f172a] px-4 py-2 text-sm text-white outline-none focus:border-blue-500"
+          >
+            <option value="ALL">All Teams</option>
+            <optgroup label="Tech Domains">
+              <option value="WEB">Web Development</option>
+              <option value="AI">AI/ML</option>
+              <option value="UIUX">UI/UX</option>
+            </optgroup>
+            <optgroup label="Other Teams">
+              <option value="Marketing Team">Marketing Team</option>
+              <option value="Design Team">Design Team</option>
+              <option value="Videography Team">Videography Team</option>
+              <option value="Publicity Team">Publicity Team</option>
+              <option value="Content Team">Content Team</option>
+              <option value="Curation X Startup Team">
+                Curation X Startup Team
+              </option>
+              <option value="Event Management Team">
+                Event Management Team
+              </option>
+              <option value="Collaboration and Outreach Team">
+                Collaboration and Outreach Team
+              </option>
+            </optgroup>
+          </select>
+          <button
+            onClick={handleExportCSV}
+            className="flex items-center gap-2 rounded-xl bg-blue-600 px-4 py-2 text-sm font-medium text-white transition-colors hover:bg-blue-700"
+          >
+            <Download className="h-4 w-4" />
+            Export CSV
+          </button>
+        </div>
       </div>
 
       {/* Filters */}
@@ -199,7 +313,9 @@ export default function AdminRecruitmentPage() {
                       )}
                       {app.type === "TECH"
                         ? `Tech${app.techDomain ? ` — ${app.techDomain}` : ""}`
-                        : "Other"}
+                        : app.teamSelection?.length
+                          ? app.teamSelection.join(", ")
+                          : "Other"}
                     </span>
                   </td>
                   <td className="px-4 py-3">

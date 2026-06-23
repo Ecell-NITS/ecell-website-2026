@@ -25,6 +25,13 @@ const TEAMS = [
   "Collaboration and Outreach Team",
 ];
 
+const RECOMMENDED_TEAMS = [
+  "Design Team",
+  "Content Team",
+  "Publicity Team",
+  "Videography Team",
+];
+
 export default function OtherTeamsFormPage() {
   const { user } = useAuth();
   const router = useRouter();
@@ -282,18 +289,26 @@ export default function OtherTeamsFormPage() {
           <div className="mt-3 flex flex-wrap gap-3">
             {TEAMS.map((team) => {
               const sel = form.teamSelection.includes(team);
+              const isRecommended = RECOMMENDED_TEAMS.includes(team);
               return (
                 <button
                   key={team}
                   type="button"
                   onClick={() => toggleTeam(team)}
-                  className={`flex items-center gap-2 rounded-full border px-5 py-2.5 text-[14px] font-medium transition-all duration-300 ${
+                  className={`relative flex items-center gap-2 overflow-hidden rounded-full border px-5 py-2.5 text-[14px] font-medium transition-all duration-300 ${
                     sel
                       ? "border-blue-500 bg-blue-500/10 text-white shadow-[0_0_15px_rgba(59,130,246,0.2)]"
-                      : "border-white/10 bg-white/[0.02] text-gray-400 hover:border-white/30 hover:bg-white/[0.05] hover:text-gray-200"
+                      : isRecommended
+                        ? "border-blue-500/50 bg-blue-500/[0.05] text-blue-200 shadow-[0_0_15px_rgba(59,130,246,0.15)] hover:bg-blue-500/[0.1]"
+                        : "border-white/10 bg-white/[0.02] text-gray-400 hover:border-white/30 hover:bg-white/[0.05] hover:text-gray-200"
                   }`}
                 >
                   {team}
+                  {isRecommended && !sel && (
+                    <span className="ml-1 flex items-center rounded-full bg-blue-500/20 px-2 py-0.5 text-[10px] font-bold tracking-widest text-blue-400 uppercase">
+                      High Priority
+                    </span>
+                  )}
                   {sel && (
                     <svg
                       className="h-4 w-4 text-blue-400"

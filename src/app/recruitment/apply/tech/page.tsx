@@ -12,7 +12,7 @@ const domains = [
     description:
       "Architect scalable systems, craft immersive frontend experiences, and engineer robust backends.",
     available: true,
-    recommended: true,
+    closingSoon: true,
     href: "/recruitment/apply/tech/web",
   },
   {
@@ -20,7 +20,7 @@ const domains = [
     title: "Artificial Intelligence",
     description:
       "Automate workflows, build AI agents, and integrate tools like n8n.",
-    available: true,
+    available: false,
     href: "/recruitment/apply/tech/ai",
   },
   {
@@ -29,7 +29,6 @@ const domains = [
     description:
       "Design intuitive interfaces, prototypes, and user experiences.",
     available: true,
-    recommended: true,
     href: "/recruitment/apply/tech/uiux",
   },
 ];
@@ -68,12 +67,10 @@ export default function TechDomainPage() {
           >
             {domain.available ? (
               <Link href={domain.href}>
-                <div
-                  className={`group relative flex h-full cursor-pointer flex-col justify-between overflow-hidden rounded-2xl border p-8 backdrop-blur-xl transition-all duration-500 ${domain.recommended ? "border-blue-500/50 bg-blue-500/[0.05] shadow-[0_0_30px_rgba(59,130,246,0.15)] hover:bg-blue-500/[0.1]" : "border-white/10 bg-white/[0.02] hover:bg-white/[0.05]"}`}
-                >
-                  {domain.recommended && (
-                    <div className="absolute top-4 right-4 rounded-full border border-blue-500/30 bg-blue-500/10 px-3 py-1 text-[10px] font-bold tracking-widest text-blue-400 uppercase">
-                      High Priority
+                <div className="group relative flex h-full cursor-pointer flex-col justify-between overflow-hidden rounded-2xl border border-white/10 bg-white/[0.02] p-8 backdrop-blur-xl transition-all duration-500 hover:bg-white/[0.05]">
+                  {domain.closingSoon && (
+                    <div className="absolute top-4 right-4 rounded-full border border-amber-500/30 bg-amber-500/10 px-3 py-1 text-[10px] font-bold tracking-widest text-amber-400 uppercase">
+                      Closing Soon
                     </div>
                   )}
                   <div>
@@ -92,7 +89,7 @@ export default function TechDomainPage() {
             ) : (
               <div className="relative flex h-full flex-col justify-between overflow-hidden rounded-2xl border border-white/5 bg-white/[0.01] p-8 opacity-50">
                 <div className="absolute top-4 right-4 rounded-full border border-white/10 bg-white/5 px-3 py-1 text-[10px] font-medium tracking-widest text-gray-400 uppercase">
-                  Soon
+                  Closed
                 </div>
                 <div>
                   <h3 className="text-lg font-medium text-white">

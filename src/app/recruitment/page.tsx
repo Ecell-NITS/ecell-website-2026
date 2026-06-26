@@ -106,39 +106,37 @@ export default function RecruitmentPage() {
           </Link>
         </motion.div>
 
-        {/* Other Teams Card */}
+        {/* Other Teams Card — Closed */}
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.4, ease: "easeOut" }}
         >
-          <Link href="/recruitment/apply/other">
-            <div className="group relative flex h-full flex-col justify-between overflow-hidden rounded-2xl border border-white/10 bg-white/[0.02] p-8 backdrop-blur-xl transition-all duration-500 hover:bg-white/[0.05]">
-              <div>
-                <h2 className="text-2xl font-medium tracking-tight text-white">
-                  Non Technical
-                </h2>
-                <p className="mt-3 text-sm leading-relaxed font-light text-gray-400">
-                  Event Management, Marketing, Design, Collaboration & Outreach,
-                  Videography, CurationXStartup, Publicity, and Content.
-                </p>
-                {otherApp && (
-                  <div className="mt-5">
-                    <span className="inline-flex items-center gap-1.5 rounded-full border border-white/10 bg-white/5 px-3 py-1 text-xs font-medium text-gray-300">
-                      <span className="h-1.5 w-1.5 rounded-full bg-white" />
-                      Submitted
-                    </span>
-                  </div>
-                )}
-              </div>
-              <div className="mt-12 flex items-center gap-2 text-sm font-medium text-white transition-transform group-hover:translate-x-1">
-                {otherApp?.status === "SUBMITTED"
-                  ? "View Application"
-                  : "Apply Now"}
-                <ArrowRight className="h-4 w-4" />
-              </div>
+          <div className="group relative flex h-full flex-col justify-between overflow-hidden rounded-2xl border border-white/5 bg-white/[0.01] p-8 opacity-50 backdrop-blur-xl">
+            <div className="absolute top-4 right-4 rounded-full border border-white/10 bg-white/5 px-3 py-1 text-[10px] font-medium tracking-widest text-gray-400 uppercase">
+              Closed
             </div>
-          </Link>
+            <div>
+              <h2 className="text-2xl font-medium tracking-tight text-white">
+                Non Technical
+              </h2>
+              <p className="mt-3 text-sm leading-relaxed font-light text-gray-400">
+                Event Management, Marketing, Design, Collaboration & Outreach,
+                Videography, CurationXStartup, Publicity, and Content.
+              </p>
+              {otherApp && (
+                <div className="mt-5">
+                  <span className="inline-flex items-center gap-1.5 rounded-full border border-white/10 bg-white/5 px-3 py-1 text-xs font-medium text-gray-300">
+                    <span className="h-1.5 w-1.5 rounded-full bg-white" />
+                    Submitted
+                  </span>
+                </div>
+              )}
+            </div>
+            <div className="mt-12 text-sm font-medium text-gray-500">
+              Registration Closed
+            </div>
+          </div>
         </motion.div>
       </div>
 

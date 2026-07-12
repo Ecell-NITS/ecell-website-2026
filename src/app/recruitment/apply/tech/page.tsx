@@ -11,8 +11,8 @@ const domains = [
     title: "Full-Stack Engineering",
     description:
       "Architect scalable systems, craft immersive frontend experiences, and engineer robust backends.",
-    available: true,
-    closingSoon: true,
+    available: false,
+    closingSoon: false,
     href: "/recruitment/apply/tech/web",
   },
   {
@@ -28,7 +28,7 @@ const domains = [
     title: "UI/UX Design",
     description:
       "Design intuitive interfaces, prototypes, and user experiences.",
-    available: true,
+    available: false,
     href: "/recruitment/apply/tech/uiux",
   },
 ];

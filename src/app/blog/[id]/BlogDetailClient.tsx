@@ -9,6 +9,7 @@ import BlogEngagement from "../../../components/Blogs/BlogEngagement";
 import BlogComments from "../../../components/Blogs/BlogComments";
 import api from "@/lib/api";
 import { useAuth } from "@/context/AuthContext";
+import fallbackBlogs from "@/data/blogs.json";
 
 interface ApiBlog {
   id: string;
@@ -31,6 +32,13 @@ interface ApiBlog {
   status?: string;
 }
 
+function toSlug(title: string): string {
+  return title
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/^-+|-+$/g, "");
+}
+
 export default function BlogDetailClient({ slug }: { slug: string }) {
   const router = useRouter();
   const { user } = useAuth();
@@ -42,15 +50,29 @@ export default function BlogDetailClient({ slug }: { slug: string }) {
       try {
         const { data } = await api.get(`/api/blog/getBySlug/${slug}`);
         const blogData = data.data ?? data;
-        setBlog(blogData);
+        if (blogData && (blogData.title || blogData.id)) {
+          setBlog(blogData);
+          return;
+        }
       } catch {
+        // Fallback to local blog if not found on backend
+      }
+
+      const localBlog = (fallbackBlogs as unknown as ApiBlog[]).find(
+        (b) => toSlug(b.title) === slug || String(b.id) === slug,
+      );
+
+      if (localBlog) {
+        setBlog(localBlog);
+      } else {
         toast.error("Blog not found");
-        router.push("/blog");
-      } finally {
-        setLoading(false);
+        router.push("/blogs");
       }
     };
-    fetchBlog();
+
+    fetchBlog().finally(() => {
+      setLoading(false);
+    });
   }, [slug, router]);
 
   if (loading) {

@@ -3,6 +3,7 @@ import Navbar from "../../../components/Landing/Navbar";
 import Footer from "../../../components/Landing/Footer";
 import BackButton from "../../../components/Blogs/BackButton";
 import BlogDetailClient from "./BlogDetailClient";
+import fallbackBlogs from "@/data/blogs.json";
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL ?? "http://localhost:4000";
 
@@ -20,17 +21,32 @@ interface BlogData {
   subject?: string;
 }
 
+function toSlug(title: string): string {
+  return title
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/^-+|-+$/g, "");
+}
+
 async function fetchBlog(slug: string): Promise<BlogData | null> {
   try {
     const res = await fetch(`${API_URL}/api/blog/getBySlug/${slug}`, {
       next: { revalidate: 60 },
     });
-    if (!res.ok) return null;
-    const json = (await res.json()) as { data?: BlogData };
-    return json.data ?? null;
+    if (res.ok) {
+      const json = (await res.json()) as { data?: BlogData } | BlogData;
+      const data = "data" in json ? json.data : (json as BlogData);
+      if (data?.title) return data;
+    }
   } catch {
-    return null;
+    // API unavailable
   }
+
+  const found = (fallbackBlogs as unknown as BlogData[]).find(
+    (b) => toSlug(b.title) === slug || String(b.id) === slug,
+  );
+
+  return found ?? null;
 }
 
 export async function generateMetadata({

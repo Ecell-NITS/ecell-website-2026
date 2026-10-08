@@ -3,10 +3,10 @@
 
 import { useState, useMemo, useCallback, useEffect } from "react";
 import { Search, ChevronDown } from "lucide-react";
-import toast from "react-hot-toast";
 import BlogCard from "./BlogCard";
 import api from "@/lib/api";
 import { useAuth } from "@/context/AuthContext";
+import fallbackBlogs from "@/data/blogs.json";
 
 interface ApiBlog {
   id: string;
@@ -38,16 +38,27 @@ export default function BlogsClient() {
       try {
         const { data } = await api.get("/api/blog/acceptedBlogs");
         const blogsData = data.data ?? data ?? [];
-        setBlogs(Array.isArray(blogsData) ? blogsData : []);
-      } catch (err: unknown) {
-        const error = err as { response?: { data?: { message?: string } } };
-        toast.error(error.response?.data?.message ?? "Failed to load blogs");
-        setBlogs([]);
-      } finally {
-        setLoading(false);
+        if (Array.isArray(blogsData) && blogsData.length > 0) {
+          // Merge API blogs with fallback blogs, avoiding duplicates by title
+          const existingTitles = new Set(
+            blogsData.map((b: ApiBlog) => b.title?.toLowerCase()),
+          );
+          const extraFallback = (fallbackBlogs as unknown as ApiBlog[]).filter(
+            (b) => !existingTitles.has(b.title?.toLowerCase()),
+          );
+          setBlogs([...blogsData, ...extraFallback]);
+          return;
+        }
+      } catch {
+        // Backend offline or error: fall back to local blogs
       }
+
+      setBlogs(fallbackBlogs as unknown as ApiBlog[]);
     };
-    fetchBlogs();
+
+    fetchBlogs().finally(() => {
+      setLoading(false);
+    });
   }, []);
 
   const filteredBlogs = useMemo(() => {

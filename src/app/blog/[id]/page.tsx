@@ -8,24 +8,32 @@ import BackButton from "../../../components/Blogs/BackButton";
 import BlogDetailClient from "@/components/Blogs/BlogDetailClient";
 
 import blogsData from "@/data/blogs2.json";
+import { extractApiBlogs, normalizeApiBlog, type Blog } from "@/lib/blogs";
 import { blogSlug } from "@/lib/utils";
 
-interface Blog {
-  id: string;
-  title: string;
-  description: string;
-  fullContent: string;
-  author: string;
-  role: string;
-  readTime: string;
-  likes: number;
-  tags: string[];
-  image: string;
-  avatar: string;
-  date: string;
-}
-
 const blogs = blogsData as Blog[];
+
+async function findBlogBySlug(slug: string): Promise<Blog | undefined> {
+  const staticBlog = blogs.find(
+    (blog) => blog.id === slug || blogSlug(blog.title) === slug,
+  );
+  if (staticBlog) {
+    return staticBlog;
+  }
+
+  const apiUrl = process.env.NEXT_PUBLIC_API_URL ?? "http://localhost:4000";
+  const response = await fetch(`${apiUrl}/api/blog`, {
+    next: { revalidate: 300 },
+  });
+  if (!response.ok) {
+    throw new Error(`Failed to load blogs: ${response.status}`);
+  }
+
+  const apiBlogs = extractApiBlogs(await response.json()).map(normalizeApiBlog);
+  return apiBlogs.find(
+    (blog) => blog.id === slug || blogSlug(blog.title) === slug,
+  );
+}
 
 export async function generateMetadata({
   params,
@@ -35,10 +43,7 @@ export async function generateMetadata({
   const { id: slug } = await params;
   const normalizedSlug = slug.replace(/^\/+|\/+$/g, "");
 
-  const blog = blogs.find(
-    (blog) =>
-      blog.id === normalizedSlug || blogSlug(blog.title) === normalizedSlug,
-  );
+  const blog = await findBlogBySlug(normalizedSlug);
 
   if (!blog) {
     return {
@@ -85,10 +90,7 @@ export default async function BlogDetailPage({
 }) {
   const { id: slug } = await params;
   const normalizedSlug = slug.replace(/^\/+|\/+$/g, "");
-  const blog = blogs.find(
-    (blog) =>
-      blog.id === normalizedSlug || blogSlug(blog.title) === normalizedSlug,
-  );
+  const blog = await findBlogBySlug(normalizedSlug);
 
   if (!blog) {
     notFound();

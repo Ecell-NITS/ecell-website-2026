@@ -1,39 +1,64 @@
 "use client";
 
-import { useState, useMemo, useCallback } from "react";
+import { useState, useMemo, useCallback, useEffect } from "react";
 import { motion } from "framer-motion";
 
 import { Search, ChevronDown } from "lucide-react";
+import toast from "react-hot-toast";
+import axios from "axios";
 
 import BlogCard from "./BlogCard";
 
 import { useAuth } from "@/context/AuthContext";
+import api from "@/lib/api";
+import { extractApiBlogs, normalizeApiBlog, type Blog } from "@/lib/blogs";
 
 import blogsData from "@/data/blogs2.json";
 
-interface Blog {
-  id: string;
-  title: string;
-  description: string;
-  fullContent: string;
-  author: string;
-  role: string;
-  readTime: string;
-  likes: number;
-  tags: string[];
-  image: string;
-  avatar: string;
-  date: string;
-}
+const staticBlogs = blogsData as Blog[];
 
 export default function BlogsClient() {
   const [sortOpen, setSortOpen] = useState(false);
   const [sortBy, setSortBy] = useState("Latest");
   const [searchQuery, setSearchQuery] = useState("");
+  const [apiBlogs, setApiBlogs] = useState<Blog[]>([]);
 
   const { user } = useAuth();
 
-  const blogs = blogsData as Blog[];
+  useEffect(() => {
+    let isActive = true;
+
+    const fetchBlogs = async () => {
+      try {
+        const { data } = await api.get<unknown>("/api/blog");
+        const normalizedBlogs = extractApiBlogs(data).map(normalizeApiBlog);
+        if (isActive) {
+          setApiBlogs(normalizedBlogs);
+        }
+      } catch (error: unknown) {
+        if (isActive) {
+          const message = axios.isAxiosError<{ message?: string }>(error)
+            ? (error.response?.data?.message ??
+              (error.response
+                ? `Request failed (${error.response.status})`
+                : error.message))
+            : error instanceof Error
+              ? error.message
+              : "Unknown error";
+
+          console.error("Failed to load published blogs:", error);
+          toast.error(`Failed to load published blogs: ${message}`);
+        }
+      }
+    };
+
+    void fetchBlogs();
+    return () => {
+      isActive = false;
+    };
+  }, []);
+
+  const blogs = useMemo(() => [...staticBlogs, ...apiBlogs], [apiBlogs]);
 
   const filteredBlogs = useMemo(() => {
     const query = searchQuery.toLowerCase();
@@ -210,7 +235,7 @@ export default function BlogsClient() {
             <div className="grid grid-cols-1 gap-5 sm:gap-6 md:grid-cols-2 lg:grid-cols-3">
               {filteredBlogs.map((blog, index) => (
                 <BlogCard
-                  key={blog.id}
+                  key={`${blog.source ?? "static"}-${blog.id}`}
                   isLoggedIn={!!user}
                   initialLiked={false}
                   blog={blog}

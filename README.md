@@ -49,7 +49,7 @@ Built from the ground up using the latest web technologies, the website features
 ### Recent blog refinements
 
 - The blog cards now behave as a single clickable area that routes to the article detail page while keeping the like action independent.
-- The original blog route (`/blog/[id]`) now loads the article directly instead of redirecting to the legacy `/blog2` route.
+- The `/blog/[id]` route loads blog articles directly.
 - The sidebar comment section stays sticky on larger screens for a better reading experience.
 - The blog sorting logic now parses dates more reliably across common day-month-year formats.
 

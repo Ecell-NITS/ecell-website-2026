@@ -8,9 +8,7 @@ experience. It is separate from the official project `README.md`.
 - Used sample blog records in `src/data/blogs2.json` to populate the blog
   listing and the blog detail pages.
 - Connected the “Read More” link on a sample blog card to the matching detail
-  route under `/blog2/<slug>`.
-- Added a compatibility route for older `/blog/<slug>` links. It redirects to
-  `/blog2/<slug>`, where the sample blog detail page is rendered.
+  route under `/blog/<slug>`.
 - Updated the detail page to resolve a blog by either its ID or its title slug
   on the server and pass the resolved record to the client component. Unknown
   slugs use Next.js `notFound()` rather than rendering an empty detail page.
@@ -21,26 +19,27 @@ experience. It is separate from the official project `README.md`.
 
 ## Blog data flow
 
-The sample content is local JSON data. It is not loaded from the blog backend
-for the `/blogs` listing or the `/blog2/<slug>` detail page.
+The `/blogs` listing combines local sample content with published posts from
+the blog API. Blog details resolve local sample posts first and then look up
+published API posts.
 
-1. Add or edit a sample record in `src/data/blogs2.json`.
+1. Add or edit a sample record in `src/data/blogs2.json`, or publish a post
+   through the blog backend.
 2. `src/app/blogs/page.tsx` renders the listing page and
    `src/components/Blogs/BlogsClient.tsx`.
-3. `BlogsClient` imports `blogs2.json`, filters records by title, description,
-   and tags, sorts them, and renders one `src/components/Blogs/BlogCard.tsx`
-   per record.
+3. `BlogsClient` combines sample records with posts from `/api/blog`, then
+   filters by title, description, and tags, sorts them, and renders one
+   `src/components/Blogs/BlogCard.tsx` per record.
 4. Each record should provide the fields used by the UI:
    `id`, `title`, `description`, `fullContent`, `author`, `role`, `readTime`,
    `likes`, `tags`, `image`, `avatar`, and `date`. Dates are written as
    `day-month-year`, for example `16-9-2026`.
-5. `src/lib/utils.ts` exports `blogSlug(title)`, which generates the
-   URL-safe title segment. The card links to `/blog2/<slug>`.
-6. `src/app/blog2/[id]/page.tsx` finds a JSON record by slug or ID, creates
-   page metadata, and passes the record to
-   `src/app/blog2/[id]/BlogDetailClient.tsx`.
-7. `src/app/blog/[id]/page.tsx` redirects legacy `/blog/<slug>` visits to
-   `/blog2/<slug>`.
+5. `src/lib/blogs.ts` maps backend blog fields to the shared card and detail
+   shape; `src/lib/utils.ts` exports `blogSlug(title)` for URL-safe title
+   segments. Cards link to `/blog/<slug>`.
+6. `src/app/blog/[id]/page.tsx` resolves sample and API posts by slug or ID,
+   creates page metadata, and passes the record to
+   `src/components/Blogs/BlogDetailClient.tsx`.
 
 Example: a title such as `NIT Silchar’s Semiconductor Chip: Innovation from
 the Northeast` is converted to a slug like
@@ -103,25 +102,18 @@ work.
 
 ## Related files
 
-| File                                      | Responsibility                                                           |
-| ----------------------------------------- | ------------------------------------------------------------------------ |
-| `src/data/blogs2.json`                    | Sample blog records used by listing and detail pages                     |
-| `src/app/blogs/page.tsx`                  | `/blogs` page shell                                                      |
-| `src/components/Blogs/BlogsClient.tsx`    | Reads, searches, filters, and sorts the JSON records                     |
-| `src/components/Blogs/BlogCard.tsx`       | Blog card, initial likes, like request, and Read More link               |
-| `src/app/blog2/[id]/page.tsx`             | Resolves sample blog by slug/ID and generates metadata                   |
-| `src/app/blog2/[id]/BlogDetailClient.tsx` | Renders article detail and engagement/comment components                 |
-| `src/app/blog/[id]/page.tsx`              | Redirects legacy blog links to `/blog2/`                                 |
-| `src/components/Blogs/BlogEngagement.tsx` | Like toggle and social sharing UI                                        |
-| `src/components/Blogs/BlogComments.tsx`   | Loads and posts comments; applies signed-in UI checks                    |
-| `src/context/AuthContext.tsx`             | Loads and provides current user state                                    |
-| `src/lib/api.ts`                          | Axios client, API base URL, credentials, and access-token handling       |
-| `src/lib/utils.ts`                        | `blogSlug` helper                                                        |
-| `next.config.js`                          | Next.js configuration; no longer overrides caching for `/_next/static/*` |
-
-## Validation note
-
-The modified blog components were checked with the editor diagnostics during
-the work. A full TypeScript check reported existing issues in date parsing in
-the blog components and an unresolved `useRouter` reference in the legacy
-`blog-old` component; those are separate from this work summary.
+| File                                        | Responsibility                                                           |
+| ------------------------------------------- | ------------------------------------------------------------------------ |
+| `src/data/blogs2.json`                      | Sample blog records used by listing and detail pages                     |
+| `src/app/blogs/page.tsx`                    | `/blogs` page shell                                                      |
+| `src/components/Blogs/BlogsClient.tsx`      | Fetches, combines, searches, filters, and sorts sample and API records   |
+| `src/components/Blogs/BlogCard.tsx`         | Blog card, initial likes, like request, and Read More link               |
+| `src/app/blog/[id]/page.tsx`                | Resolves sample/API blog by slug/ID and generates metadata               |
+| `src/components/Blogs/BlogDetailClient.tsx` | Renders article detail and engagement/comment components                 |
+| `src/lib/blogs.ts`                          | Backend blog shape and normalization                                     |
+| `src/components/Blogs/BlogEngagement.tsx`   | Like toggle and social sharing UI                                        |
+| `src/components/Blogs/BlogComments.tsx`     | Loads and posts comments; applies signed-in UI checks                    |
+| `src/context/AuthContext.tsx`               | Loads and provides current user state                                    |
+| `src/lib/api.ts`                            | Axios client, API base URL, credentials, and access-token handling       |
+| `src/lib/utils.ts`                          | `blogSlug` helper                                                        |
+| `next.config.js`                            | Next.js configuration; no longer overrides caching for `/_next/static/*` |

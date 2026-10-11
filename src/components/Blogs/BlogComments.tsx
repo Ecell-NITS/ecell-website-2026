@@ -99,8 +99,13 @@ export default function BlogComments({ blogId }: BlogCommentsProps) {
     async (e: React.FormEvent) => {
       e.preventDefault();
 
-      if (!isAuthenticated) {
+      if (!user) {
         setShowLoginPrompt(true);
+        return;
+      }
+
+      if (!user.id) {
+        toast.error("Please sign in to post a comment");
         return;
       }
 
@@ -112,8 +117,8 @@ export default function BlogComments({ blogId }: BlogCommentsProps) {
           `/api/comment/apicomment/${blogId}`,
           {
             text: comment.trim(),
-            commentAuthor: user.name.trim() || user.email,
-            commentPic: getCommentPicture(user.picture),
+            commentAuthor: user?.name?.trim() || user?.email || "E-Cell User",
+            commentPic: getCommentPicture(user?.picture),
             userId: String(user.id),
           },
         );
@@ -131,15 +136,7 @@ export default function BlogComments({ blogId }: BlogCommentsProps) {
         setSubmitting(false);
       }
     },
-    [
-      comment,
-      isAuthenticated,
-      blogId,
-      user?.id,
-      user?.name,
-      user?.email,
-      user?.picture,
-    ],
+    [comment, blogId, user],
   );
 
   const formatTime = (dateString: string) => {
@@ -214,7 +211,11 @@ export default function BlogComments({ blogId }: BlogCommentsProps) {
           ))
         ) : comments.length > 0 ? (
           comments.map((c) => {
-            const userName = c.commentAuthor ?? "Anonymous";
+            const commentAuthor = c.commentAuthor?.trim();
+            const userName =
+              commentAuthor && commentAuthor.length > 0
+                ? commentAuthor
+                : "Anonymous";
             const userAvatar = c.commentPic ?? "/profile_picture_holder.webp";
 
             return (
@@ -228,6 +229,7 @@ export default function BlogComments({ blogId }: BlogCommentsProps) {
                     alt={userName}
                     width={40}
                     height={40}
+                    unoptimized
                     className="object-cover"
                   />
                 </div>

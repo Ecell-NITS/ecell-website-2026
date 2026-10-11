@@ -15,6 +15,7 @@ import {
   subscribeToMockBlogLikes,
   toggleMockBlogLike,
 } from "@/lib/mock-blog-likes";
+import { sanitizeBlogHtml } from "@/lib/sanitize-blog-html";
 import { blogSlug } from "@/lib/utils";
 
 interface Blog {
@@ -273,7 +274,7 @@ export default function BlogDetailClient({ blog }: { blog: Blog }) {
                     {mainContent.includes("<") ? (
                       <div
                         dangerouslySetInnerHTML={{
-                          __html: mainContent,
+                          __html: sanitizeBlogHtml(mainContent),
                         }}
                       />
                     ) : (

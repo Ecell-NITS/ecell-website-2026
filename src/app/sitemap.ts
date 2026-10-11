@@ -2,6 +2,8 @@ import type { MetadataRoute } from "next";
 
 const SITE_URL = "https://ecellnits.org";
 
+export const dynamic = "force-dynamic";
+
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   // Static routes
   const staticRoutes: MetadataRoute.Sitemap = [

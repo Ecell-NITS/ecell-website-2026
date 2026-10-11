@@ -1,13 +1,20 @@
 "use client";
 
+import { useCallback, useEffect, useState } from "react";
 import Image from "next/image";
 import { motion } from "framer-motion";
+import toast from "react-hot-toast";
 
 import BlogEngagement from "./BlogEngagement";
 
 import BlogComments from "./BlogComments";
 
 import { useAuth } from "@/context/AuthContext";
+import {
+  getMockBlogLikeState,
+  subscribeToMockBlogLikes,
+  toggleMockBlogLike,
+} from "@/lib/mock-blog-likes";
 import { blogSlug } from "@/lib/utils";
 
 interface Blog {
@@ -23,10 +30,51 @@ interface Blog {
   image: string;
   avatar: string;
   date: string;
+  source?: "api";
 }
 
 export default function BlogDetailClient({ blog }: { blog: Blog }) {
   const { user } = useAuth();
+  const isMockBlog = blog.source !== "api";
+  const [mockLiked, setMockLiked] = useState(false);
+  const [mockLikesCount, setMockLikesCount] = useState(blog.likes);
+
+  useEffect(() => {
+    if (!isMockBlog) {
+      return;
+    }
+
+    const updateLikeState = () => {
+      try {
+        const state = getMockBlogLikeState(
+          blog.id,
+          user ? String(user.id) : undefined,
+          blog.likes,
+        );
+        setMockLiked(state.liked);
+        setMockLikesCount(state.likesCount);
+      } catch (error: unknown) {
+        console.error("Failed to load mock blog likes:", error);
+      }
+    };
+
+    updateLikeState();
+    return subscribeToMockBlogLikes(blog.id, updateLikeState);
+  }, [blog.id, blog.likes, isMockBlog, user]);
+
+  const handleMockLike = useCallback(() => {
+    if (!user) {
+      return;
+    }
+    try {
+      const state = toggleMockBlogLike(blog.id, String(user.id), blog.likes);
+      setMockLiked(state.liked);
+      setMockLikesCount(state.likesCount);
+    } catch (error: unknown) {
+      console.error("Failed to update mock blog like:", error);
+      toast.error("Failed to update like");
+    }
+  }, [blog.id, blog.likes, user]);
 
   const formattedDate = (() => {
     const normalized = blog.date.trim().replace(/\//g, "-");
@@ -240,6 +288,10 @@ export default function BlogDetailClient({ blog }: { blog: Blog }) {
                   isLoggedIn={!!user}
                   initialLiked={false}
                   likesCount={blog.likes}
+                  isMockBlog={isMockBlog}
+                  mockLiked={mockLiked}
+                  mockLikesCount={mockLikesCount}
+                  onMockLike={handleMockLike}
                 />
               </div>
             </motion.div>

@@ -1,10 +1,15 @@
 "use client";
 
-import { useState, useCallback } from "react";
+import { useState, useCallback, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
 import toast from "react-hot-toast";
 import api from "@/lib/api";
+import {
+  getMockBlogLikeState,
+  subscribeToMockBlogLikes,
+  toggleMockBlogLike,
+} from "@/lib/mock-blog-likes";
 import { blogSlug } from "@/lib/utils";
 
 interface Blog {
@@ -20,11 +25,13 @@ interface Blog {
   image: string;
   avatar: string;
   date: string;
+  source?: "api";
 }
 
 interface BlogCardProps {
   blog: Blog;
   isLoggedIn?: boolean;
+  userId?: string;
   initialLiked?: boolean;
   animationDelayMs?: number;
 }
@@ -32,12 +39,33 @@ interface BlogCardProps {
 export default function BlogCard({
   blog,
   isLoggedIn = false,
+  userId,
   initialLiked = false,
   animationDelayMs = 0,
 }: BlogCardProps) {
   const router = useRouter();
   const [liked, setLiked] = useState(initialLiked);
   const [likesCount, setLikesCount] = useState(blog.likes ?? 0);
+  const isMockBlog = blog.source !== "api";
+
+  useEffect(() => {
+    if (!isMockBlog) {
+      return;
+    }
+
+    const updateLikeState = () => {
+      try {
+        const state = getMockBlogLikeState(blog.id, userId, blog.likes ?? 0);
+        setLiked(state.liked);
+        setLikesCount(state.likesCount);
+      } catch (error: unknown) {
+        console.error("Failed to load mock blog likes:", error);
+      }
+    };
+
+    updateLikeState();
+    return subscribeToMockBlogLikes(blog.id, updateLikeState);
+  }, [blog.id, blog.likes, isMockBlog, userId]);
 
   // const readTime = useMemo(() => {
   //   const text = (blog.fullContent || blog.description).replace(/<[^>]*>/g, "");
@@ -53,6 +81,21 @@ export default function BlogCard({
         toast("Please log in to like a blog", { icon: "🔒" });
         return;
       }
+      if (isMockBlog) {
+        if (!userId) {
+          toast.error("Unable to identify the signed-in user");
+          return;
+        }
+        try {
+          const state = toggleMockBlogLike(blog.id, userId, blog.likes ?? 0);
+          setLiked(state.liked);
+          setLikesCount(state.likesCount);
+        } catch (error: unknown) {
+          console.error("Failed to update mock blog like:", error);
+          toast.error("Failed to update like");
+        }
+        return;
+      }
       try {
         const { data } = await api.post<{ liked: boolean; likesCount: number }>(
           `/api/blog/toggleLike/${blog.id}`,
@@ -63,7 +106,7 @@ export default function BlogCard({
         toast.error("Failed to update like");
       }
     },
-    [blog.id, isLoggedIn],
+    [blog.id, blog.likes, isLoggedIn, isMockBlog, userId],
   );
 
   const handleCardClick = useCallback(() => {

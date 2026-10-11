@@ -20,6 +20,22 @@ interface BlogCommentsProps {
   blogId: string;
 }
 
+function getCommentPicture(picture?: string): string {
+  try {
+    const url = new URL(picture ?? "");
+    if (url.protocol === "https:" || url.protocol === "http:") {
+      return url.toString();
+    }
+  } catch {
+    // Invalid or relative profile pictures use the absolute site fallback below.
+  }
+
+  return new URL(
+    "/profile_picture_holder.webp",
+    window.location.origin,
+  ).toString();
+}
+
 function isApiComment(value: unknown): value is ApiComment {
   if (typeof value !== "object" || value === null) {
     return false;
@@ -68,8 +84,10 @@ export default function BlogComments({ blogId }: BlogCommentsProps) {
           `/api/comment/apiComment/${blogId}`,
         );
         setComments(extractComments(data));
-      } catch {
+      } catch (error: unknown) {
+        console.error("Failed to load blog comments:", error);
         setComments([]);
+        toast.error("Failed to load comments");
       } finally {
         setLoading(false);
       }
@@ -94,8 +112,8 @@ export default function BlogComments({ blogId }: BlogCommentsProps) {
           `/api/comment/apicomment/${blogId}`,
           {
             text: comment.trim(),
-            commentAuthor: user.name || user.email,
-            commentPic: user.picture || "/profile_picture_holder.webp",
+            commentAuthor: user.name.trim() || user.email,
+            commentPic: getCommentPicture(user.picture),
             userId: String(user.id),
           },
         );

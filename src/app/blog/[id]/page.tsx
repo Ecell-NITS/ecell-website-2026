@@ -21,18 +21,25 @@ async function findBlogBySlug(slug: string): Promise<Blog | undefined> {
     return staticBlog;
   }
 
-  const apiUrl = process.env.NEXT_PUBLIC_API_URL ?? "http://localhost:4000";
-  const response = await fetch(`${apiUrl}/api/blog`, {
-    next: { revalidate: 300 },
-  });
-  if (!response.ok) {
-    throw new Error(`Failed to load blogs: ${response.status}`);
-  }
+  try {
+    const apiUrl = process.env.NEXT_PUBLIC_API_URL ?? "http://localhost:4000";
+    const response = await fetch(`${apiUrl}/api/blog/acceptedBlogs`, {
+      next: { revalidate: 300 },
+    });
+    if (!response.ok) {
+      throw new Error(`Failed to load blogs: ${response.status}`);
+    }
 
-  const apiBlogs = extractApiBlogs(await response.json()).map(normalizeApiBlog);
-  return apiBlogs.find(
-    (blog) => blog.id === slug || blogSlug(blog.title) === slug,
-  );
+    const apiBlogs = extractApiBlogs(await response.json()).map(
+      normalizeApiBlog,
+    );
+    return apiBlogs.find(
+      (blog) => blog.id === slug || blogSlug(blog.title) === slug,
+    );
+  } catch (error) {
+    console.error("Failed to find published blog:", error);
+    return undefined;
+  }
 }
 
 export async function generateMetadata({

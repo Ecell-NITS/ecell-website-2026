@@ -30,7 +30,7 @@ export default function BlogsClient() {
 
     const fetchBlogs = async () => {
       try {
-        const { data } = await api.get<unknown>("/api/blog");
+        const { data } = await api.get<unknown>("/api/blog/acceptedBlogs");
         const normalizedBlogs = extractApiBlogs(data).map(normalizeApiBlog);
         if (isActive) {
           setApiBlogs(normalizedBlogs);
@@ -237,6 +237,7 @@ export default function BlogsClient() {
                 <BlogCard
                   key={`${blog.source ?? "static"}-${blog.id}`}
                   isLoggedIn={!!user}
+                  userId={user ? String(user.id) : undefined}
                   initialLiked={false}
                   blog={blog}
                   animationDelayMs={Math.min(index * 70, 350)}

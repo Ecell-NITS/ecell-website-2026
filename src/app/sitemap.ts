@@ -59,9 +59,12 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   let blogRoutes: MetadataRoute.Sitemap = [];
   try {
     const API_URL = process.env.NEXT_PUBLIC_API_URL ?? "http://localhost:4000";
-    const res = await fetch(`${API_URL}/api/blog`, {
+    const res = await fetch(`${API_URL}/api/blog/acceptedBlogs`, {
       next: { revalidate: 3600 },
     });
+    if (!res.ok) {
+      throw new Error(`Failed to load blogs: ${res.status}`);
+    }
     const json = (await res.json()) as {
       data?: { title: string; timeStamp?: string; createdAt?: string }[];
     };
@@ -74,12 +77,17 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
         .replace(/^-+|-+$/g, "");
       return {
         url: `${SITE_URL}/blog/${slug}`,
-        lastModified: blog.timeStamp ? new Date(blog.timeStamp) : new Date(),
+        lastModified: blog.timeStamp
+          ? new Date(blog.timeStamp)
+          : blog.createdAt
+            ? new Date(blog.createdAt)
+            : new Date(),
         changeFrequency: "weekly" as const,
         priority: 0.7,
       };
     });
-  } catch {
+  } catch (error) {
+    console.error("Failed to load published blogs for sitemap:", error);
     // If API is down, still serve static routes
   }
 

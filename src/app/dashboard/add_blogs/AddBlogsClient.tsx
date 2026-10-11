@@ -132,9 +132,14 @@ export default function AddBlogsClient() {
       });
       const topicPicUrl: string =
         uploadRes.data?.data?.url ?? uploadRes.data?.url ?? "";
+      if (!topicPicUrl) {
+        throw new Error("Image upload did not return a URL");
+      }
       setUploadingImage(false);
 
       // 2. Create blog
+      // Keep this payload compatible with the backend createBlog Zod schema.
+      // The backend schema remains authoritative and must not be bypassed.
       await api.post("/api/blog/createBlog", {
         title: title.trim(),
         intro: intro.trim(),
@@ -151,7 +156,10 @@ export default function AddBlogsClient() {
       router.push("/dashboard");
     } catch (err: unknown) {
       const error = err as { response?: { data?: { message?: string } } };
-      toast.error(error.response?.data?.message ?? "Failed to create blog");
+      toast.error(
+        error.response?.data?.message ??
+          (err instanceof Error ? err.message : "Failed to create blog"),
+      );
     } finally {
       setIsPublishing(false);
       setUploadingImage(false);

@@ -11,6 +11,10 @@ interface BlogEngagementProps {
   isLoggedIn?: boolean;
   initialLiked?: boolean;
   likesCount?: number;
+  isMockBlog?: boolean;
+  mockLiked?: boolean;
+  mockLikesCount?: number;
+  onMockLike?: () => void;
 }
 
 export default function BlogEngagement({
@@ -19,6 +23,10 @@ export default function BlogEngagement({
   isLoggedIn = false,
   initialLiked = false,
   likesCount: initialLikesCount = 0,
+  isMockBlog = false,
+  mockLiked = false,
+  mockLikesCount = initialLikesCount,
+  onMockLike,
 }: BlogEngagementProps) {
   const [liked, setLiked] = useState(initialLiked);
   const [likesCount, setLikesCount] = useState(initialLikesCount);
@@ -27,6 +35,10 @@ export default function BlogEngagement({
   const handleLike = useCallback(async () => {
     if (!isLoggedIn) {
       setShowLoginPrompt(true);
+      return;
+    }
+    if (isMockBlog) {
+      onMockLike?.();
       return;
     }
     try {
@@ -38,7 +50,10 @@ export default function BlogEngagement({
     } catch {
       toast.error("Failed to update like");
     }
-  }, [blogId, isLoggedIn]);
+  }, [blogId, isLoggedIn, isMockBlog, onMockLike]);
+
+  const displayedLiked = isMockBlog ? mockLiked : liked;
+  const displayedLikesCount = isMockBlog ? mockLikesCount : likesCount;
 
   const handleShare = useCallback(() => {
     if (navigator.share) {
@@ -61,7 +76,7 @@ export default function BlogEngagement({
           <button
             onClick={handleLike}
             className={`glass flex items-center justify-center gap-2 rounded-lg border border-white/10 px-3 py-2 text-xs font-bold transition-all sm:rounded-xl sm:px-5 sm:py-3 sm:text-sm md:rounded-2xl md:px-8 md:py-4 ${
-              liked
+              displayedLiked
                 ? "bg-rose-500/20 text-rose-400 hover:bg-rose-500/30"
                 : "text-rose-500 hover:bg-rose-500/10"
             }`}
@@ -71,7 +86,7 @@ export default function BlogEngagement({
               width="18"
               height="18"
               viewBox="0 0 24 24"
-              fill={liked ? "currentColor" : "none"}
+              fill={displayedLiked ? "currentColor" : "none"}
               stroke="currentColor"
               strokeWidth="2"
               strokeLinecap="round"
@@ -80,7 +95,8 @@ export default function BlogEngagement({
               <path d="M2 9.5a5.5 5.5 0 0 1 9.591-3.676.56.56 0 0 0 .818 0A5.49 5.49 0 0 1 22 9.5c0 2.29-1.5 4-3 5.5l-5.492 5.313a2 2 0 0 1-3 .019L5 15c-1.5-1.5-3-3.2-3-5.5" />
             </svg>
             <span>
-              {liked ? "Liked" : "Like"} {likesCount > 0 && `(${likesCount})`}
+              {displayedLiked ? "Liked" : "Like"}{" "}
+              {displayedLikesCount > 0 && `(${displayedLikesCount})`}
             </span>
           </button>
 

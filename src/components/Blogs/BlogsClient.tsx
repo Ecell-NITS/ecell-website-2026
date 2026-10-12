@@ -3,10 +3,10 @@
 
 import { useState, useMemo, useCallback, useEffect } from "react";
 import { Search, ChevronDown } from "lucide-react";
-import toast from "react-hot-toast";
 import BlogCard from "./BlogCard";
 import api from "@/lib/api";
 import { useAuth } from "@/context/AuthContext";
+import { staticBlogs } from "@/data/blogsData";
 
 interface ApiBlog {
   id: string;
@@ -15,6 +15,7 @@ interface ApiBlog {
   tag?: string;
   content?: string;
   writerName?: string;
+  writerRole?: string;
   coverImage?: string;
   topicPic?: string;
   writerPic?: string;
@@ -37,12 +38,31 @@ export default function BlogsClient() {
     const fetchBlogs = async () => {
       try {
         const { data } = await api.get("/api/blog/acceptedBlogs");
-        const blogsData = data.data ?? data ?? [];
-        setBlogs(Array.isArray(blogsData) ? blogsData : []);
+        const backendBlogs: ApiBlog[] = Array.isArray(data?.data)
+          ? data.data
+          : Array.isArray(data)
+            ? data
+            : [];
+
+        // Deduplicate backend blogs against static blogs by title or ID
+        const staticIds = new Set(staticBlogs.map((b) => b.id));
+        const staticTitles = new Set(
+          staticBlogs.map((b) => b.title.toLowerCase().trim()),
+        );
+
+        const uniqueBackendBlogs = backendBlogs.filter(
+          (b) =>
+            Boolean(b?.id) &&
+            !staticIds.has(b.id) &&
+            !staticTitles.has((b.title ?? "").toLowerCase().trim()),
+        );
+
+        // Curated new blogs placed at the top!
+        setBlogs([...staticBlogs, ...uniqueBackendBlogs]);
       } catch (err: unknown) {
-        const error = err as { response?: { data?: { message?: string } } };
-        toast.error(error.response?.data?.message ?? "Failed to load blogs");
-        setBlogs([]);
+        // Fallback to static blogs if backend is unreachable or not running
+        console.warn("Backend blog fetch error, using curated blogs:", err);
+        setBlogs(staticBlogs);
       } finally {
         setLoading(false);
       }
@@ -54,9 +74,10 @@ export default function BlogsClient() {
     const query = searchQuery.toLowerCase();
     const filtered = blogs.filter(
       (blog) =>
-        blog.title.toLowerCase().includes(query) ||
-        blog.intro?.toLowerCase().includes(query) ||
-        blog.tag?.toLowerCase().includes(query),
+        Boolean(blog) &&
+        (blog.title?.toLowerCase().includes(query) ||
+          blog.intro?.toLowerCase().includes(query) ||
+          blog.tag?.toLowerCase().includes(query)),
     );
 
     const sorted = [...filtered];
@@ -209,7 +230,7 @@ export default function BlogsClient() {
                     description: blog.intro ?? "",
                     fullContent: blog.content ?? blog.intro ?? "",
                     author: blog.writerName ?? "Anonymous",
-                    role: "Contributor",
+                    role: blog.writerRole ?? "Contributor",
                     readTime: "5 min read",
                     likes: blog.likes?.length ?? 0,
                     tags: blog.tag

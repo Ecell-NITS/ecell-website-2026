@@ -3,6 +3,7 @@ import Navbar from "../../../components/Landing/Navbar";
 import Footer from "../../../components/Landing/Footer";
 import BackButton from "../../../components/Blogs/BackButton";
 import BlogDetailClient from "./BlogDetailClient";
+import { getStaticBlogBySlug } from "@/data/blogsData";
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL ?? "http://localhost:4000";
 
@@ -21,6 +22,21 @@ interface BlogData {
 }
 
 async function fetchBlog(slug: string): Promise<BlogData | null> {
+  const staticMatch = getStaticBlogBySlug(slug);
+  if (staticMatch) {
+    return {
+      id: staticMatch.id,
+      title: staticMatch.title,
+      intro: staticMatch.intro,
+      content: staticMatch.content,
+      tag: staticMatch.tag,
+      writerName: staticMatch.writerName,
+      writerPic: staticMatch.writerPic,
+      topicPic: staticMatch.topicPic,
+      timeStamp: staticMatch.timeStamp ?? staticMatch.createdAt,
+    };
+  }
+
   try {
     const res = await fetch(`${API_URL}/api/blog/getBySlug/${slug}`, {
       next: { revalidate: 60 },

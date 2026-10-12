@@ -9,6 +9,7 @@ import BlogEngagement from "../../../components/Blogs/BlogEngagement";
 import BlogComments from "../../../components/Blogs/BlogComments";
 import api from "@/lib/api";
 import { useAuth } from "@/context/AuthContext";
+import { getStaticBlogBySlug } from "@/data/blogsData";
 
 interface ApiBlog {
   id: string;
@@ -39,13 +40,35 @@ export default function BlogDetailClient({ slug }: { slug: string }) {
 
   useEffect(() => {
     const fetchBlog = async () => {
+      const staticMatch = getStaticBlogBySlug(slug);
+      if (staticMatch) {
+        setBlog({
+          id: staticMatch.id,
+          title: staticMatch.title,
+          intro: staticMatch.intro,
+          content: staticMatch.content,
+          tag: staticMatch.tag,
+          writerName: staticMatch.writerName,
+          writerIntro: staticMatch.writerIntro,
+          writerPic: staticMatch.writerPic,
+          topicPic: staticMatch.topicPic,
+          timeStamp: staticMatch.timeStamp ?? staticMatch.createdAt,
+          createdAt: staticMatch.createdAt,
+          likes: staticMatch.likes,
+          status: staticMatch.status,
+          isAccepted: staticMatch.isAccepted,
+        });
+        setLoading(false);
+        return;
+      }
+
       try {
         const { data } = await api.get(`/api/blog/getBySlug/${slug}`);
         const blogData = data.data ?? data;
         setBlog(blogData);
       } catch {
         toast.error("Blog not found");
-        router.push("/blog");
+        router.push("/blogs");
       } finally {
         setLoading(false);
       }

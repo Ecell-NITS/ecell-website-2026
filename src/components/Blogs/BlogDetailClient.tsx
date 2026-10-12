@@ -10,15 +10,12 @@ import BlogEngagement from "./BlogEngagement";
 import BlogComments from "./BlogComments";
 
 import { useAuth } from "@/context/AuthContext";
-import api from "@/lib/api";
-import { extractApiBlogs, normalizeApiBlog } from "@/lib/blogs";
 import {
   getMockBlogLikeState,
   subscribeToMockBlogLikes,
   toggleMockBlogLike,
 } from "@/lib/mock-blog-likes";
 import { sanitizeBlogHtml } from "@/lib/sanitize-blog-html";
-import { blogSlug } from "@/lib/utils";
 
 interface Blog {
   id: string;
@@ -34,10 +31,17 @@ interface Blog {
   avatar: string;
   date: string;
   isLiked?: boolean;
+  likedByUserIds?: string[];
   source?: "api";
 }
 
-export default function BlogDetailClient({ blog }: { blog: Blog }) {
+export default function BlogDetailClient({
+  blog,
+  shareUrl,
+}: {
+  blog: Blog;
+  shareUrl: string;
+}) {
   const { user } = useAuth();
   const isMockBlog = blog.source !== "api";
   const [apiLiked, setApiLiked] = useState(blog.isLiked ?? false);
@@ -71,33 +75,17 @@ export default function BlogDetailClient({ blog }: { blog: Blog }) {
       return;
     }
 
-    if (blog.isLiked !== undefined) {
-      setApiLiked(blog.isLiked);
-      return;
-    }
-
-    let isActive = true;
-    const fetchLikeState = async () => {
-      try {
-        const { data } = await api.get<unknown>("/api/blog/acceptedBlogs");
-        const apiBlog = extractApiBlogs(data).find(
-          (candidate) => candidate.id === blog.id,
-        );
-        if (isActive && apiBlog) {
-          const liked = normalizeApiBlog(apiBlog, String(user.id)).isLiked;
-          setApiLiked(liked ?? false);
-        }
-      } catch (error: unknown) {
-        console.error("Failed to load blog like status:", error);
-        toast.error("Failed to load blog like status");
-      }
-    };
-
-    void fetchLikeState();
-    return () => {
-      isActive = false;
-    };
-  }, [blog.id, blog.isLiked, blog.likes, isMockBlog, user]);
+    setApiLiked(
+      blog.isLiked ?? blog.likedByUserIds?.includes(String(user.id)) ?? false,
+    );
+  }, [
+    blog.id,
+    blog.isLiked,
+    blog.likedByUserIds,
+    blog.likes,
+    isMockBlog,
+    user,
+  ]);
 
   const handleMockLike = useCallback(() => {
     if (!user) {
@@ -321,7 +309,7 @@ export default function BlogDetailClient({ blog }: { blog: Blog }) {
 
                 <BlogEngagement
                   blogId={blog.id}
-                  shareUrl={`https://ecellnits.org/blog/${blogSlug(blog.title)}`}
+                  shareUrl={shareUrl}
                   isLoggedIn={!!user}
                   initialLiked={apiLiked}
                   likesCount={blog.likes}

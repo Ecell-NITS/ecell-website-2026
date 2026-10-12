@@ -11,6 +11,7 @@ import Image from "next/image";
 import api from "@/lib/axios";
 
 import { Skeleton } from "@/components/ui/skeleton";
+import { blogSlug } from "@/lib/utils";
 import {
   FaFacebook,
   FaInstagram,
@@ -25,8 +26,6 @@ import {
   FaSignOutAlt,
   FaClipboardList,
 } from "react-icons/fa";
-
-import { blogSlug } from "@/lib/utils";
 
 // Backend blog shape returned by /blog/myBlogs
 type MyBlog = {

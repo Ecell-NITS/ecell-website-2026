@@ -62,18 +62,56 @@ export default function BlogEngagement({
   const displayedLiked = isMockBlog ? mockLiked : liked;
   const displayedLikesCount = isMockBlog ? mockLikesCount : likesCount;
 
-  const handleShare = useCallback(() => {
+  const handleShare = useCallback(async () => {
+    const url = new URL(shareUrl, window.location.origin).toString();
+    const copyLink = async () => {
+      if (navigator.clipboard?.writeText) {
+        await navigator.clipboard.writeText(url);
+      } else {
+        const input = document.createElement("textarea");
+        input.value = url;
+        input.setAttribute("readonly", "");
+        input.style.position = "fixed";
+        input.style.opacity = "0";
+        document.body.appendChild(input);
+        input.select();
+        try {
+          if (!document.execCommand("copy")) {
+            throw new Error("Browser could not copy the blog link");
+          }
+        } finally {
+          document.body.removeChild(input);
+        }
+      }
+      toast.success("Blog link copied to clipboard");
+    };
+
     if (navigator.share) {
-      navigator
-        .share({
+      try {
+        await navigator.share({
           title: document.title,
-          url: shareUrl,
-        })
-        .catch(() => {
-          // User cancelled share
+          url,
         });
+        return;
+      } catch (error: unknown) {
+        if (error instanceof DOMException && error.name === "AbortError") {
+          return;
+        }
+        console.error(
+          "Native sharing failed; copying the blog link instead:",
+          error,
+        );
+      }
+    }
+
+    try {
+      await copyLink();
+    } catch (error: unknown) {
+      console.error("Failed to copy blog link:", error);
+      toast.error("Unable to copy the blog link");
     }
   }, [shareUrl]);
+  const encodedShareUrl = encodeURIComponent(shareUrl);
 
   return (
     <>
@@ -130,6 +168,41 @@ export default function BlogEngagement({
             </svg>
             <span>Share</span>
           </button>
+        </div>
+        <div className="flex gap-2 sm:gap-3" aria-label="Share this blog">
+          <a
+            href={`https://twitter.com/intent/tweet?url=${encodedShareUrl}`}
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label="Share on X"
+            className="glass flex h-9 w-9 items-center justify-center rounded-lg border border-white/5 text-gray-500 transition-all hover:border-blue-500/20 hover:text-white sm:h-10 sm:w-10 sm:rounded-xl md:h-12 md:w-12 md:rounded-2xl"
+          >
+            <span className="text-sm font-bold" aria-hidden="true">
+              X
+            </span>
+          </a>
+          <a
+            href={`https://www.linkedin.com/sharing/share-offsite/?url=${encodedShareUrl}`}
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label="Share on LinkedIn"
+            className="glass flex h-9 w-9 items-center justify-center rounded-lg border border-white/5 text-gray-500 transition-all hover:border-blue-500/20 hover:text-white sm:h-10 sm:w-10 sm:rounded-xl md:h-12 md:w-12 md:rounded-2xl"
+          >
+            <span className="text-xs font-bold" aria-hidden="true">
+              in
+            </span>
+          </a>
+          <a
+            href={`https://www.facebook.com/sharer/sharer.php?u=${encodedShareUrl}`}
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label="Share on Facebook"
+            className="glass flex h-9 w-9 items-center justify-center rounded-lg border border-white/5 text-gray-500 transition-all hover:border-blue-500/20 hover:text-white sm:h-10 sm:w-10 sm:rounded-xl md:h-12 md:w-12 md:rounded-2xl"
+          >
+            <span className="text-sm font-bold" aria-hidden="true">
+              f
+            </span>
+          </a>
         </div>
       </div>
       <LoginRequiredDialog

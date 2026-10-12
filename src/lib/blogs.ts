@@ -38,6 +38,7 @@ export interface Blog {
   readTime: string;
   likes: number;
   isLiked?: boolean;
+  likedByUserIds?: string[];
   tags: string[];
   image: string;
   avatar: string;
@@ -132,6 +133,9 @@ export function normalizeApiBlog(blog: ApiBlog, userId?: string): Blog {
     tags,
     likes,
     isLiked,
+    likedByUserIds: Array.isArray(blog.likes)
+      ? blog.likes.map(String)
+      : undefined,
     image: nonEmpty(blog.image) ?? coverImage ?? topicPic ?? "/landing1.jpg",
     avatar:
       nonEmpty(blog.avatar) ?? writerPic ?? "/profile_picture_holder.webp",

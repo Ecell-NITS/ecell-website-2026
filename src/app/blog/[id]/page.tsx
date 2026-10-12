@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
+import { cache } from "react";
 
 import Navbar from "../../../components/Landing/Navbar";
 import Footer from "../../../components/Landing/Footer";
@@ -8,39 +9,58 @@ import BackButton from "../../../components/Blogs/BackButton";
 import BlogDetailClient from "@/components/Blogs/BlogDetailClient";
 
 import blogsData from "@/data/blogs2.json";
-import { extractApiBlogs, normalizeApiBlog, type Blog } from "@/lib/blogs";
+import { isApiBlog, normalizeApiBlog, type Blog } from "@/lib/blogs";
 import { blogSlug } from "@/lib/utils";
 
 const blogs = blogsData as Blog[];
+const SITE_URL = "https://ecellnits.org";
 
-async function findBlogBySlug(slug: string): Promise<Blog | undefined> {
-  const staticBlog = blogs.find(
-    (blog) => blog.id === slug || blogSlug(blog.title) === slug,
-  );
-  if (staticBlog) {
-    return staticBlog;
-  }
+function getBlogUrl(slug: string): string {
+  return new URL(`/blog/${encodeURIComponent(slug)}`, SITE_URL).toString();
+}
 
-  try {
-    const apiUrl = process.env.NEXT_PUBLIC_API_URL ?? "http://localhost:4000";
-    const response = await fetch(`${apiUrl}/api/blog/acceptedBlogs`, {
-      next: { revalidate: 300 },
-    });
-    if (!response.ok) {
-      throw new Error(`Failed to load blogs: ${response.status}`);
-    }
-
-    const apiBlogs = extractApiBlogs(await response.json()).map((blog) =>
-      normalizeApiBlog(blog),
-    );
-    return apiBlogs.find(
+const findBlogBySlug = cache(
+  async (slug: string): Promise<Blog | undefined> => {
+    const staticBlog = blogs.find(
       (blog) => blog.id === slug || blogSlug(blog.title) === slug,
     );
-  } catch (error) {
-    console.error("Failed to find published blog:", error);
-    return undefined;
-  }
-}
+    if (staticBlog) {
+      return staticBlog;
+    }
+
+    const apiUrl = process.env.NEXT_PUBLIC_API_URL ?? "http://localhost:4000";
+
+    try {
+      const response = await fetch(
+        `${apiUrl}/api/blog/getBySlug/${encodeURIComponent(slug)}`,
+        {
+          cache: "no-store",
+        },
+      );
+      if (response.status === 404) {
+        return undefined;
+      }
+
+      if (!response.ok) {
+        throw new Error(`Failed to load blog: ${response.status}`);
+      }
+
+      const responsePayload: unknown = await response.json();
+      const payload =
+        typeof responsePayload === "object" &&
+        responsePayload !== null &&
+        "data" in responsePayload
+          ? responsePayload.data
+          : responsePayload;
+      return isApiBlog(payload) && payload.isAccepted === true
+        ? normalizeApiBlog(payload)
+        : undefined;
+    } catch (error) {
+      console.error("Failed to find published blog:", error);
+      return undefined;
+    }
+  },
+);
 
 export async function generateMetadata({
   params,
@@ -61,20 +81,26 @@ export async function generateMetadata({
   const description =
     blog.description.slice(0, 160) ||
     `Read "${blog.title}" on E-Cell NIT Silchar blog.`;
+  const blogUrl = getBlogUrl(normalizedSlug);
+  const imageUrl = new URL(blog.image, SITE_URL).toString();
 
   return {
     title: blog.title,
     description,
     authors: [{ name: blog.author }],
+    alternates: {
+      canonical: blogUrl,
+    },
     openGraph: {
       title: `${blog.title} | E-Cell NIT Silchar`,
       description,
+      url: blogUrl,
       type: "article",
       publishedTime: blog.date,
       authors: [blog.author],
       images: [
         {
-          url: blog.image,
+          url: imageUrl,
           width: 1200,
           height: 630,
           alt: blog.title,
@@ -85,7 +111,7 @@ export async function generateMetadata({
       card: "summary_large_image",
       title: blog.title,
       description,
-      images: [blog.image],
+      images: [imageUrl],
     },
   };
 }
@@ -116,7 +142,7 @@ export default async function BlogDetailPage({
         </div>
       </section>
 
-      <BlogDetailClient blog={blog} />
+      <BlogDetailClient blog={blog} shareUrl={getBlogUrl(normalizedSlug)} />
 
       <Footer />
     </main>

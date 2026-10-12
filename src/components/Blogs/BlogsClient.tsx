@@ -23,15 +23,22 @@ export default function BlogsClient() {
   const [searchQuery, setSearchQuery] = useState("");
   const [apiBlogs, setApiBlogs] = useState<Blog[]>([]);
 
-  const { user } = useAuth();
+  const { user, loading: authLoading } = useAuth();
 
   useEffect(() => {
+    if (authLoading) {
+      return;
+    }
+
     let isActive = true;
 
     const fetchBlogs = async () => {
       try {
         const { data } = await api.get<unknown>("/api/blog/acceptedBlogs");
-        const normalizedBlogs = extractApiBlogs(data).map(normalizeApiBlog);
+        const userId = user ? String(user.id) : undefined;
+        const normalizedBlogs = extractApiBlogs(data).map((blog) =>
+          normalizeApiBlog(blog, userId),
+        );
         if (isActive) {
           setApiBlogs(normalizedBlogs);
         }
@@ -56,7 +63,7 @@ export default function BlogsClient() {
     return () => {
       isActive = false;
     };
-  }, []);
+  }, [authLoading, user]);
 
   const blogs = useMemo(() => [...staticBlogs, ...apiBlogs], [apiBlogs]);
 
@@ -238,7 +245,7 @@ export default function BlogsClient() {
                   key={`${blog.source ?? "static"}-${blog.id}`}
                   isLoggedIn={!!user}
                   userId={user ? String(user.id) : undefined}
-                  initialLiked={false}
+                  initialLiked={blog.isLiked ?? false}
                   blog={blog}
                   animationDelayMs={Math.min(index * 70, 350)}
                 />

@@ -47,23 +47,21 @@ the Northeast` is converted to a slug like
 
 ## Likes
 
-The like count has two sources at different points in the interaction:
+Static sample blogs and API blogs initialize their like state differently:
 
-- **Initial page/card display:** `likes` is read from the JSON record. The
-  listing also sorts by this local value for “Most Liked” and uses it in its
-  “Trending” calculation.
-- **After a successful Like click:** `BlogCard.tsx` and
-  `src/components/Blogs/BlogEngagement.tsx` send
-  `POST /api/blog/toggleLike/<blogId>` through `src/lib/api.ts`. The UI updates
-  its local liked state and count from the backend response's `liked` and
-  `likesCount` fields.
+- Static sample blogs use the local mock-like store.
+- API blogs load from `/api/blog/acceptedBlogs`. Their count comes from the
+  `likes` field, and the signed-in user's initial liked state comes from
+  `isLiked`/`is_liked` or a matching user ID in a `likes` array.
+- On blog detail pages, the client requests the accepted blogs when needed to
+  load the signed-in user's initial state.
 
-The frontend does not fetch the current total likes or the current user's
-liked state when loading these sample blog pages. After a reload, the initial
-count and liked state therefore return to the JSON-provided values. The
-frontend request alone does not prove how the backend stores or persists
-likes; that needs to be verified in the backend code. Like toggling requires
-the backend to be available.
+When a user toggles an API blog's like, `BlogCard.tsx` and
+`src/components/Blogs/BlogEngagement.tsx` send
+`POST /api/blog/toggleLike/<blogId>` through `src/lib/api.ts`; the response's
+`liked` and `likesCount` fields update the UI. The backend must provide one of
+the initial-state fields above for the UI to show a previously saved like
+after a reload.
 
 ## Login state
 

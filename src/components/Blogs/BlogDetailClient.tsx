@@ -10,6 +10,8 @@ import BlogEngagement from "./BlogEngagement";
 import BlogComments from "./BlogComments";
 
 import { useAuth } from "@/context/AuthContext";
+import api from "@/lib/api";
+import { extractApiBlogs, normalizeApiBlog } from "@/lib/blogs";
 import {
   getMockBlogLikeState,
   subscribeToMockBlogLikes,
@@ -31,37 +33,71 @@ interface Blog {
   image: string;
   avatar: string;
   date: string;
+  isLiked?: boolean;
   source?: "api";
 }
 
 export default function BlogDetailClient({ blog }: { blog: Blog }) {
   const { user } = useAuth();
   const isMockBlog = blog.source !== "api";
+  const [apiLiked, setApiLiked] = useState(blog.isLiked ?? false);
   const [mockLiked, setMockLiked] = useState(false);
   const [mockLikesCount, setMockLikesCount] = useState(blog.likes);
 
   useEffect(() => {
-    if (!isMockBlog) {
+    if (isMockBlog) {
+      setApiLiked(false);
+
+      const updateLikeState = () => {
+        try {
+          const state = getMockBlogLikeState(
+            blog.id,
+            user ? String(user.id) : undefined,
+            blog.likes,
+          );
+          setMockLiked(state.liked);
+          setMockLikesCount(state.likesCount);
+        } catch (error: unknown) {
+          console.error("Failed to load mock blog likes:", error);
+        }
+      };
+
+      updateLikeState();
+      return subscribeToMockBlogLikes(blog.id, updateLikeState);
+    }
+
+    if (!user) {
+      setApiLiked(false);
       return;
     }
 
-    const updateLikeState = () => {
+    if (blog.isLiked !== undefined) {
+      setApiLiked(blog.isLiked);
+      return;
+    }
+
+    let isActive = true;
+    const fetchLikeState = async () => {
       try {
-        const state = getMockBlogLikeState(
-          blog.id,
-          user ? String(user.id) : undefined,
-          blog.likes,
+        const { data } = await api.get<unknown>("/api/blog/acceptedBlogs");
+        const apiBlog = extractApiBlogs(data).find(
+          (candidate) => candidate.id === blog.id,
         );
-        setMockLiked(state.liked);
-        setMockLikesCount(state.likesCount);
+        if (isActive && apiBlog) {
+          const liked = normalizeApiBlog(apiBlog, String(user.id)).isLiked;
+          setApiLiked(liked ?? false);
+        }
       } catch (error: unknown) {
-        console.error("Failed to load mock blog likes:", error);
+        console.error("Failed to load blog like status:", error);
+        toast.error("Failed to load blog like status");
       }
     };
 
-    updateLikeState();
-    return subscribeToMockBlogLikes(blog.id, updateLikeState);
-  }, [blog.id, blog.likes, isMockBlog, user]);
+    void fetchLikeState();
+    return () => {
+      isActive = false;
+    };
+  }, [blog.id, blog.isLiked, blog.likes, isMockBlog, user]);
 
   const handleMockLike = useCallback(() => {
     if (!user) {
@@ -287,7 +323,7 @@ export default function BlogDetailClient({ blog }: { blog: Blog }) {
                   blogId={blog.id}
                   shareUrl={`https://ecellnits.org/blog/${blogSlug(blog.title)}`}
                   isLoggedIn={!!user}
-                  initialLiked={false}
+                  initialLiked={apiLiked}
                   likesCount={blog.likes}
                   isMockBlog={isMockBlog}
                   mockLiked={mockLiked}

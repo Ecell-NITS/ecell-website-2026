@@ -6,7 +6,9 @@ export interface ApiBlog {
   author?: string;
   role?: string;
   readTime?: string;
-  likes?: number | string[];
+  likes?: number | Array<string | number>;
+  isLiked?: boolean;
+  is_liked?: boolean;
   tags?: string[] | string;
   image?: string;
   avatar?: string;
@@ -35,6 +37,7 @@ export interface Blog {
   role: string;
   readTime: string;
   likes: number;
+  isLiked?: boolean;
   tags: string[];
   image: string;
   avatar: string;
@@ -72,7 +75,7 @@ function nonEmpty(value?: string): string | undefined {
   return trimmed;
 }
 
-export function normalizeApiBlog(blog: ApiBlog): Blog {
+export function normalizeApiBlog(blog: ApiBlog, userId?: string): Blog {
   const content = nonEmpty(blog.content);
   const fullContent =
     nonEmpty(blog.fullContent) ?? content ?? nonEmpty(blog.intro) ?? "";
@@ -107,6 +110,14 @@ export function normalizeApiBlog(blog: ApiBlog): Blog {
       : Array.isArray(blog.likes)
         ? blog.likes.length
         : 0;
+  const isLiked =
+    typeof blog.isLiked === "boolean"
+      ? blog.isLiked
+      : typeof blog.is_liked === "boolean"
+        ? blog.is_liked
+        : userId && Array.isArray(blog.likes)
+          ? blog.likes.some((likedUserId) => String(likedUserId) === userId)
+          : undefined;
 
   return {
     id: blog.id,
@@ -120,6 +131,7 @@ export function normalizeApiBlog(blog: ApiBlog): Blog {
       `${Math.max(1, Math.ceil(wordCount / 200))} min read`,
     tags,
     likes,
+    isLiked,
     image: nonEmpty(blog.image) ?? coverImage ?? topicPic ?? "/landing1.jpg",
     avatar:
       nonEmpty(blog.avatar) ?? writerPic ?? "/profile_picture_holder.webp",

@@ -25,6 +25,7 @@ interface Blog {
   image: string;
   avatar: string;
   date: string;
+  isLiked?: boolean;
   source?: "api";
 }
 
@@ -50,6 +51,8 @@ export default function BlogCard({
 
   useEffect(() => {
     if (!isMockBlog) {
+      setLiked(initialLiked);
+      setLikesCount(blog.likes ?? 0);
       return;
     }
 
@@ -65,7 +68,7 @@ export default function BlogCard({
 
     updateLikeState();
     return subscribeToMockBlogLikes(blog.id, updateLikeState);
-  }, [blog.id, blog.likes, isMockBlog, userId]);
+  }, [blog.id, blog.likes, initialLiked, isMockBlog, userId]);
 
   // const readTime = useMemo(() => {
   //   const text = (blog.fullContent || blog.description).replace(/<[^>]*>/g, "");

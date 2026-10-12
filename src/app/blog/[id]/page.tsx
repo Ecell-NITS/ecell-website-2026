@@ -30,8 +30,8 @@ async function findBlogBySlug(slug: string): Promise<Blog | undefined> {
       throw new Error(`Failed to load blogs: ${response.status}`);
     }
 
-    const apiBlogs = extractApiBlogs(await response.json()).map(
-      normalizeApiBlog,
+    const apiBlogs = extractApiBlogs(await response.json()).map((blog) =>
+      normalizeApiBlog(blog),
     );
     return apiBlogs.find(
       (blog) => blog.id === slug || blogSlug(blog.title) === slug,

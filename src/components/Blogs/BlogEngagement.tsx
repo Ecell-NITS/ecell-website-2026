@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useCallback } from "react";
+import { useState, useCallback, useEffect } from "react";
 import toast from "react-hot-toast";
 import api from "@/lib/api";
 import LoginRequiredDialog from "./LoginRequiredDialog";
@@ -31,6 +31,13 @@ export default function BlogEngagement({
   const [liked, setLiked] = useState(initialLiked);
   const [likesCount, setLikesCount] = useState(initialLikesCount);
   const [showLoginPrompt, setShowLoginPrompt] = useState(false);
+
+  useEffect(() => {
+    if (!isMockBlog) {
+      setLiked(initialLiked);
+      setLikesCount(initialLikesCount);
+    }
+  }, [initialLiked, initialLikesCount, isMockBlog]);
 
   const handleLike = useCallback(async () => {
     if (!isLoggedIn) {

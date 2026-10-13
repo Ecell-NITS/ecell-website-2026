@@ -88,25 +88,34 @@ export default function BlogComments({ blogId }: BlogCommentsProps) {
   );
 
   const formatTime = (dateString: string) => {
-    try {
-      const date = new Date(dateString);
-      const now = new Date();
-      const diffMs = now.getTime() - date.getTime();
-      const diffMins = Math.floor(diffMs / 60000);
-      const diffHours = Math.floor(diffMins / 60);
-      const diffDays = Math.floor(diffHours / 24);
+  const date = new Date(dateString);
 
-      if (diffMins < 60)
-        return `${diffMins} min${diffMins !== 1 ? "s" : ""} ago`;
-      if (diffHours < 24)
-        return `${diffHours} hour${diffHours !== 1 ? "s" : ""} ago`;
-      if (diffDays < 7)
-        return `${diffDays} day${diffDays !== 1 ? "s" : ""} ago`;
-      return date.toLocaleDateString();
-    } catch {
-      return "Recently";
-    }
-  };
+  if (Number.isNaN(date.getTime())) {
+    return "Recently";
+  }
+
+  const diffMs = Math.max(0, Date.now() - date.getTime());
+  const diffMins = Math.floor(diffMs / 60000);
+  const diffHours = Math.floor(diffMins / 60);
+  const diffDays = Math.floor(diffHours / 24);
+
+  if (diffMins < 1) return "Just now";
+  if (diffMins < 60) {
+    return `${diffMins} min${diffMins !== 1 ? "s" : ""} ago`;
+  }
+  if (diffHours < 24) {
+    return `${diffHours} hour${diffHours !== 1 ? "s" : ""} ago`;
+  }
+  if (diffDays < 7) {
+    return `${diffDays} day${diffDays !== 1 ? "s" : ""} ago`;
+  }
+
+  return date.toLocaleDateString("en-IN", {
+    day: "2-digit",
+    month: "short",
+    year: "numeric",
+  });
+};
 
   return (
     <div className="glass rounded-lg border border-white/10 p-4 backdrop-blur-md sm:rounded-2xl sm:p-6 md:rounded-[2.5rem] md:p-10">

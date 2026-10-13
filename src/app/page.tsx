@@ -9,8 +9,6 @@ import ContactForm from "../components/Landing/ContactForm";
 import Footer from "../components/Landing/Footer";
 import Speakers from "~/components/Speakers";
 import DirectorsMessage from "~/components/DirectorsMessage";
-import FaqSection from "~/components/FaqSection";
-import BlogsClient from "@/components/Blogs/BlogsClient";
 
 export default function Page() {
   return (
@@ -18,7 +16,6 @@ export default function Page() {
       <Background />
       <Navbar />
       <div className="relative z-10 flex flex-col pt-0 lg:pt-20">
-        <BlogsClient /> {/* <--- Yeh raha sabse upar */}
         <Hero />
         <Partners />
         <About />

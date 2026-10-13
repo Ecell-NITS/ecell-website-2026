@@ -10,6 +10,7 @@ import Footer from "../components/Landing/Footer";
 import Speakers from "~/components/Speakers";
 import DirectorsMessage from "~/components/DirectorsMessage";
 import FaqSection from "~/components/FaqSection";
+import BlogsSection from "../components/Landing/BlogsSection";
 
 export default function Page() {
   return (
@@ -21,6 +22,7 @@ export default function Page() {
         <Partners />
         <About />
         <Events />
+        <BlogsSection />
         <Speakers />
         <DirectorsMessage />
         <Testimonials />

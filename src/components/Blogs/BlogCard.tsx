@@ -1,3 +1,4 @@
+
 "use client";
 
 import { useState, useMemo, useCallback } from "react";
@@ -36,7 +37,10 @@ export default function BlogCard({
   const [likesCount, setLikesCount] = useState(blog.likes ?? 0);
 
   const readTime = useMemo(() => {
-    const text = (blog.fullContent || blog.description).replace(/<[^>]*>/g, "");
+    const text = (blog.fullContent || blog.description).replace(
+      /<[^>]*>/g,
+      "",
+    );
     const words = text.trim().split(/\s+/).length;
     return Math.max(1, Math.ceil(words / 200));
   }, [blog.fullContent, blog.description]);
@@ -46,10 +50,13 @@ export default function BlogCard({
       toast("Please log in to like a blog", { icon: "🔒" });
       return;
     }
+
     try {
-      const { data } = await api.post<{ liked: boolean; likesCount: number }>(
-        `/api/blog/toggleLike/${blog.id}`,
-      );
+      const { data } = await api.post<{
+        liked: boolean;
+        likesCount: number;
+      }>(`/api/blog/toggleLike/${blog.id}`);
+
       setLiked(data.liked);
       setLikesCount(data.likesCount);
     } catch {
@@ -57,12 +64,23 @@ export default function BlogCard({
     }
   }, [blog.id, isLoggedIn]);
 
+  const articleUrl = blogSlug(blog.title);
+
   return (
     <div className="group relative h-full">
-      <div className="absolute inset-0 rounded-[2rem] bg-blue-400/20 bg-blue-500/5 opacity-0 blur-2xl transition-opacity duration-500 group-hover:opacity-100" />
+      <div className="absolute inset-0 rounded-[2rem] bg-blue-500/5 opacity-0 blur-2xl transition-opacity duration-500 group-hover:opacity-100" />
 
-      <div className="glass flex h-full flex-col overflow-hidden rounded-[2rem] border border-white/5 transition-all duration-500 hover:border-blue-500/20">
-        {/* IMAGE — aspect-video prevents CLS */}
+      <div className="glass relative flex h-full flex-col overflow-hidden rounded-[2rem] border border-white/5 transition-all duration-500 hover:border-blue-500/20">
+        {/* Full-card article link */}
+        <Link
+          href={articleUrl}
+          aria-label={`Read ${blog.title}`}
+          className="absolute inset-0 z-10 rounded-[2rem] focus-visible:outline focus-visible:outline-2 focus-visible:outline-blue-400"
+        >
+          <span className="sr-only">Read {blog.title}</span>
+        </Link>
+
+        {/* Image */}
         <div className="relative aspect-video w-full overflow-hidden">
           <Image
             src={blog.image}
@@ -74,11 +92,11 @@ export default function BlogCard({
             loading="lazy"
           />
 
-          <div className="absolute top-4 left-4 flex flex-wrap gap-2">
+          <div className="absolute left-4 top-4 z-20 flex flex-wrap gap-2">
             {blog.tags.map((tag) => (
               <span
                 key={tag}
-                className="rounded-full border border-white/10 bg-black/40 px-3 py-1 text-[8px] font-black tracking-widest text-blue-400 uppercase backdrop-blur-md sm:text-[9px] md:text-[10px] lg:text-[10px]"
+                className="rounded-full border border-white/10 bg-black/40 px-3 py-1 text-[8px] font-black tracking-widest text-blue-400 uppercase backdrop-blur-md sm:text-[9px] md:text-[10px]"
               >
                 #{tag}
               </span>
@@ -86,15 +104,12 @@ export default function BlogCard({
           </div>
         </div>
 
-        {/* CONTENT */}
-        <div className="flex flex-grow flex-col p-4 sm:p-4 md:p-5 lg:p-6 xl:p-8">
+        {/* Content */}
+        <div className="pointer-events-none flex flex-grow flex-col p-4 sm:p-4 md:p-5 lg:p-6 xl:p-8">
           <div className="mb-6 flex items-center gap-3">
             <div className="relative h-10 w-10 shrink-0 overflow-hidden rounded-full border border-white/10 p-0.5">
               <Image
-                src={
-                  blog.avatar ||
-                  "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png"
-                }
+                src={blog.avatar}
                 alt={`${blog.author} avatar`}
                 width={40}
                 height={40}
@@ -102,6 +117,7 @@ export default function BlogCard({
                 loading="lazy"
               />
             </div>
+
             <div>
               <p className="text-xs font-bold text-white sm:text-sm md:text-base">
                 {blog.author}
@@ -112,7 +128,7 @@ export default function BlogCard({
             </div>
           </div>
 
-          <h3 className="mb-4 text-lg leading-tight font-black text-white transition-colors group-hover:text-blue-400 sm:text-xl md:text-2xl lg:text-2xl xl:text-2xl">
+          <h3 className="mb-4 text-lg leading-tight font-black text-white transition-colors group-hover:text-blue-400 sm:text-xl md:text-2xl">
             {blog.title}
           </h3>
 
@@ -120,66 +136,71 @@ export default function BlogCard({
             {blog.description.replace(/<[^>]*>/g, "")}
           </p>
 
-          <div className="mt-auto flex items-center justify-between border-t border-white/5 pt-6">
-            <div className="flex items-center justify-between">
-              <div className="flex items-center gap-6">
-                {/* Like button */}
-                <button
-                  onClick={handleLike}
-                  className={`flex items-center gap-2 transition-all ${
-                    liked ? "text-rose-500" : "text-gray-500"
-                  } hover:text-rose-500`}
+          <div className="pointer-events-auto mt-auto flex items-center justify-between border-t border-white/5 pt-6">
+            <div className="flex items-center gap-6">
+              {/* Like button stays independent of article navigation */}
+              <button
+                type="button"
+                onClick={(event) => {
+                  event.preventDefault();
+                  event.stopPropagation();
+                  void handleLike();
+                }}
+                aria-label={liked ? "Unlike blog" : "Like blog"}
+                aria-pressed={liked}
+                className={`relative z-20 flex items-center gap-2 transition-all ${
+                  liked ? "text-rose-500" : "text-gray-500"
+                } hover:text-rose-500`}
+              >
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="18"
+                  height="18"
+                  viewBox="0 0 24 24"
+                  fill={liked ? "currentColor" : "none"}
+                  stroke="currentColor"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  aria-hidden="true"
                 >
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    width="18"
-                    height="18"
-                    viewBox="0 0 24 24"
-                    fill={liked ? "currentColor" : "none"}
-                    stroke="currentColor"
-                    strokeWidth="2"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    className={`transition-transform ${liked ? "scale-110" : "scale-100"}`}
-                    aria-hidden="true"
-                  >
-                    <path d="M2 9.5a5.5 5.5 0 0 1 9.591-3.676.56.56 0 0 0 .818 0A5.49 5.49 0 0 1 22 9.5c0 2.29-1.5 4-3 5.5l-5.492 5.313a2 2 0 0 1-3 .019L5 15c-1.5-1.5-3-3.2-3-5.5" />
-                  </svg>
+                  <path d="M2 9.5a5.5 5.5 0 0 1 9.591-3.676.56.56 0 0 0 .818 0A5.49 5.49 0 0 1 22 9.5c0 2.29-1.5 4-3 5.5l-5.492 5.313a2 2 0 0 1-3 .019L5 15c-1.5-1.5-3-3.2-3-5.5" />
+                </svg>
 
-                  <span className="text-[10px] font-bold sm:text-xs md:text-sm">
-                    {likesCount}
-                  </span>
-                </button>
+                <span className="text-[10px] font-bold sm:text-xs md:text-sm">
+                  {likesCount}
+                </span>
+              </button>
 
-                {/* Read time */}
-                <div className="flex items-center gap-2 text-gray-500">
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    width="16"
-                    height="16"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="currentColor"
-                    strokeWidth="2"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    aria-hidden="true"
-                  >
-                    <path d="M12 6v6l4 2" />
-                    <circle cx="12" cy="12" r="10" />
-                  </svg>
-                  <span className="text-[10px] font-bold sm:text-xs md:text-sm">
-                    {readTime} min read
-                  </span>
-                </div>
+              <div className="flex items-center gap-2 text-gray-500">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="16"
+                  height="16"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  aria-hidden="true"
+                >
+                  <path d="M12 6v6l4 2" />
+                  <circle cx="12" cy="12" r="10" />
+                </svg>
+
+                <span className="text-[10px] font-bold sm:text-xs md:text-sm">
+                  {readTime} min read
+                </span>
               </div>
             </div>
 
             <Link
-              href={blogSlug(blog.title)}
-              className="flex items-center gap-2 text-[8px] font-black tracking-[0.2em] text-blue-500 uppercase transition-colors group-hover:text-white sm:text-[9px] md:text-[10px] lg:text-xs"
+              href={articleUrl}
+              aria-label={`Read ${blog.title}`}
+              className="relative z-20 flex items-center gap-2 text-[8px] font-black tracking-[0.2em] text-blue-500 uppercase transition-colors hover:text-white sm:text-[9px] md:text-[10px] lg:text-xs"
             >
-              Read More →
+              Read More <span aria-hidden="true">→</span>
             </Link>
           </div>
         </div>

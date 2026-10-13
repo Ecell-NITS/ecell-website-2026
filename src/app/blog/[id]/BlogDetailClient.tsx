@@ -1,10 +1,9 @@
 /* eslint-disable @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-floating-promises, @typescript-eslint/no-unsafe-argument */
 "use client";
 
+import { localBlogs } from "@/data/localBlogs";
 import { useState, useEffect } from "react";
 import Image from "next/image";
-import { useRouter } from "next/navigation";
-import toast from "react-hot-toast";
 import BlogEngagement from "../../../components/Blogs/BlogEngagement";
 import BlogComments from "../../../components/Blogs/BlogComments";
 import api from "@/lib/api";
@@ -32,27 +31,55 @@ interface ApiBlog {
 }
 
 export default function BlogDetailClient({ slug }: { slug: string }) {
-  const router = useRouter();
+  
   const { user } = useAuth();
   const [blog, setBlog] = useState<ApiBlog | null>(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const fetchBlog = async () => {
-      try {
-        const { data } = await api.get(`/api/blog/getBySlug/${slug}`);
-        const blogData = data.data ?? data;
-        setBlog(blogData);
-      } catch {
-        toast.error("Blog not found");
-        router.push("/blog");
-      } finally {
-        setLoading(false);
-      }
-    };
+    
     fetchBlog();
   }, [slug, router]);
+useEffect(() => {
+  let cancelled = false;
 
+  const fetchBlog = async () => {
+    const findLocalBlog = () =>
+      localBlogs.find((item) => {
+        const titleSlug = item.title
+          .toLowerCase()
+          .replace(/[^a-z0-9]+/g, "-")
+          .replace(/^-+|-+$/g, "");
+
+        return item.id === slug || titleSlug === slug;
+      });
+
+    try {
+      const { data } = await api.get(`/api/blog/getBySlug/${slug}`);
+      const blogData = data.data ?? data;
+
+      if (!cancelled && blogData?.id && blogData?.title) {
+        setBlog(blogData);
+      } else if (!cancelled) {
+        setBlog(findLocalBlog() ?? null);
+      }
+    } catch {
+      if (!cancelled) {
+        setBlog(findLocalBlog() ?? null);
+      }
+    } finally {
+      if (!cancelled) {
+        setLoading(false);
+      }
+    }
+  };
+
+  void fetchBlog();
+
+  return () => {
+    cancelled = true;
+  };
+}, [slug]);
   if (loading) {
     return (
       <section className="px-4 pt-32 md:px-8 lg:px-12">
@@ -105,7 +132,6 @@ export default function BlogDetailClient({ slug }: { slug: string }) {
           <div className="animate-[fadeIn_0.8s_ease-out_0.1s_forwards] opacity-0">
             <div className="space-y-6 sm:space-y-8">
               {/* Tags */}
-              {tags.length > 0 && (
                 <div className="mb-6 flex flex-wrap gap-2 sm:mb-8 sm:gap-3">
                   {tags.map((tag, index) => (
                     <span
@@ -117,7 +143,7 @@ export default function BlogDetailClient({ slug }: { slug: string }) {
                     </span>
                   ))}
                 </div>
-              )}
+              )
 
               {/* Title */}
               <div>
@@ -284,7 +310,9 @@ export default function BlogDetailClient({ slug }: { slug: string }) {
                 </div>
 
                 {/* Comments Section */}
-                <BlogComments blogId={blog.id} />
+                <div className="lg:sticky lg:top-28">
+  <BlogComments blogId={blog.id} />
+</div>
               </div>
             </div>
           </div>

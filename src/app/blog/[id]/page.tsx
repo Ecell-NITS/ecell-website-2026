@@ -25,10 +25,14 @@ async function fetchBlog(slug: string): Promise<BlogData | null> {
     const res = await fetch(`${API_URL}/api/blog/getBySlug/${slug}`, {
       next: { revalidate: 60 },
     });
-    if (!res.ok) return null;
+    if (!res.ok) {
+      console.error("fetchBlog failed:", res.url, res.status);
+      return null;
+    }
     const json = (await res.json()) as { data?: BlogData };
     return json.data ?? null;
-  } catch {
+  } catch (e) {
+    console.error("fetchBlog error:", e);
     return null;
   }
 }

@@ -6,6 +6,7 @@ import Image from "next/image";
 import toast from "react-hot-toast";
 import api from "@/lib/api";
 import { blogSlug } from "@/lib/utils";
+import { featuredBlogs } from "@/data/featuredBlogs";
 
 interface Blog {
   id: string;
@@ -34,6 +35,10 @@ export default function BlogCard({
 }: BlogCardProps) {
   const [liked, setLiked] = useState(initialLiked);
   const [likesCount, setLikesCount] = useState(blog.likes ?? 0);
+
+  // Featured blogs live in the frontend only, so likes (which need the
+  // backend) are hidden for them.
+  const isFeatured = featuredBlogs.some((b) => b.id === blog.id);
 
   const readTime = useMemo(() => {
     const text = (blog.fullContent || blog.description).replace(/<[^>]*>/g, "");
@@ -123,33 +128,35 @@ export default function BlogCard({
           <div className="mt-auto flex items-center justify-between border-t border-white/5 pt-6">
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-6">
-                {/* Like button */}
-                <button
-                  onClick={handleLike}
-                  className={`flex items-center gap-2 transition-all ${
-                    liked ? "text-rose-500" : "text-gray-500"
-                  } hover:text-rose-500`}
-                >
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    width="18"
-                    height="18"
-                    viewBox="0 0 24 24"
-                    fill={liked ? "currentColor" : "none"}
-                    stroke="currentColor"
-                    strokeWidth="2"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    className={`transition-transform ${liked ? "scale-110" : "scale-100"}`}
-                    aria-hidden="true"
+                {/* Like button (hidden for featured blogs) */}
+                {!isFeatured && (
+                  <button
+                    onClick={handleLike}
+                    className={`flex items-center gap-2 transition-all ${
+                      liked ? "text-rose-500" : "text-gray-500"
+                    } hover:text-rose-500`}
                   >
-                    <path d="M2 9.5a5.5 5.5 0 0 1 9.591-3.676.56.56 0 0 0 .818 0A5.49 5.49 0 0 1 22 9.5c0 2.29-1.5 4-3 5.5l-5.492 5.313a2 2 0 0 1-3 .019L5 15c-1.5-1.5-3-3.2-3-5.5" />
-                  </svg>
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="18"
+                      height="18"
+                      viewBox="0 0 24 24"
+                      fill={liked ? "currentColor" : "none"}
+                      stroke="currentColor"
+                      strokeWidth="2"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      className={`transition-transform ${liked ? "scale-110" : "scale-100"}`}
+                      aria-hidden="true"
+                    >
+                      <path d="M2 9.5a5.5 5.5 0 0 1 9.591-3.676.56.56 0 0 0 .818 0A5.49 5.49 0 0 1 22 9.5c0 2.29-1.5 4-3 5.5l-5.492 5.313a2 2 0 0 1-3 .019L5 15c-1.5-1.5-3-3.2-3-5.5" />
+                    </svg>
 
-                  <span className="text-[10px] font-bold sm:text-xs md:text-sm">
-                    {likesCount}
-                  </span>
-                </button>
+                    <span className="text-[10px] font-bold sm:text-xs md:text-sm">
+                      {likesCount}
+                    </span>
+                  </button>
+                )}
 
                 {/* Read time */}
                 <div className="flex items-center gap-2 text-gray-500">

@@ -9,6 +9,8 @@ import BlogEngagement from "../../../components/Blogs/BlogEngagement";
 import BlogComments from "../../../components/Blogs/BlogComments";
 import api from "@/lib/api";
 import { useAuth } from "@/context/AuthContext";
+import { featuredBlogs } from "@/data/featuredBlogs";
+import { blogSlug } from "@/lib/utils";
 
 interface ApiBlog {
   id: string;
@@ -39,6 +41,14 @@ export default function BlogDetailClient({ slug }: { slug: string }) {
 
   useEffect(() => {
     const fetchBlog = async () => {
+      const featured = featuredBlogs.find(
+        (b) => b.id === slug || blogSlug(b.title) === `/blog/${slug}`,
+      );
+      if (featured) {
+        setBlog(featured);
+        setLoading(false);
+        return;
+      }
       try {
         const { data } = await api.get(`/api/blog/getBySlug/${slug}`);
         const blogData = data.data ?? data;
@@ -74,6 +84,10 @@ export default function BlogDetailClient({ slug }: { slug: string }) {
 
   if (!blog) return null;
 
+  // Featured blogs are stored in the frontend only, so likes and comments
+  // (which need the backend) are hidden for them.
+  const isFeatured = featuredBlogs.some((b) => b.id === blog.id);
+
   const blogDate = blog.timeStamp ?? blog.createdAt;
   const formattedDate = blogDate
     ? new Date(blogDate).toLocaleDateString("en-IN", {
@@ -81,7 +95,7 @@ export default function BlogDetailClient({ slug }: { slug: string }) {
         month: "short",
         year: "numeric",
       })
-    : "Date not available";
+    : "";
 
   const mainContent = blog.content ?? blog.text ?? "";
   const blogIntro = blog.intro ?? blog.subject ?? "";
@@ -149,28 +163,30 @@ export default function BlogDetailClient({ slug }: { slug: string }) {
                 </div>
 
                 <div className="flex flex-col items-start gap-3 sm:gap-4 md:ml-auto md:flex-row md:items-center md:gap-6 lg:gap-8">
-                  <div className="flex items-center gap-2 text-gray-500">
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      width="16"
-                      height="16"
-                      viewBox="0 0 24 24"
-                      fill="none"
-                      stroke="currentColor"
-                      strokeWidth="2"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      aria-hidden="true"
-                    >
-                      <path d="M8 2v4" />
-                      <path d="M16 2v4" />
-                      <rect width="18" height="18" x="3" y="4" rx="2" />
-                      <path d="M3 10h18" />
-                    </svg>
-                    <span className="text-[8px] font-bold tracking-widest uppercase sm:text-xs md:text-sm">
-                      {formattedDate}
-                    </span>
-                  </div>
+                  {formattedDate && (
+                    <div className="flex items-center gap-2 text-gray-500">
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        width="16"
+                        height="16"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        strokeWidth="2"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        aria-hidden="true"
+                      >
+                        <path d="M8 2v4" />
+                        <path d="M16 2v4" />
+                        <rect width="18" height="18" x="3" y="4" rx="2" />
+                        <path d="M3 10h18" />
+                      </svg>
+                      <span className="text-[8px] font-bold tracking-widest uppercase sm:text-xs md:text-sm">
+                        {formattedDate}
+                      </span>
+                    </div>
+                  )}
 
                   <div className="flex items-center gap-2 text-gray-500">
                     <svg
@@ -236,14 +252,16 @@ export default function BlogDetailClient({ slug }: { slug: string }) {
                     )}
                   </div>
                 )}
-                <BlogEngagement
-                  blogId={blog.id}
-                  isLoggedIn={!!user}
-                  initialLiked={
-                    !!(user && blog.likes?.includes(String(user.id)))
-                  }
-                  likesCount={blog.likes?.length ?? 0}
-                />
+                {!isFeatured && (
+                  <BlogEngagement
+                    blogId={blog.id}
+                    isLoggedIn={!!user}
+                    initialLiked={
+                      !!(user && blog.likes?.includes(String(user.id)))
+                    }
+                    likesCount={blog.likes?.length ?? 0}
+                  />
+                )}
               </div>
             </div>
 
@@ -284,7 +302,7 @@ export default function BlogDetailClient({ slug }: { slug: string }) {
                 </div>
 
                 {/* Comments Section */}
-                <BlogComments blogId={blog.id} />
+                {!isFeatured && <BlogComments blogId={blog.id} />}
               </div>
             </div>
           </div>

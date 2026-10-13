@@ -37,12 +37,37 @@ export default function BlogsClient() {
     const fetchBlogs = async () => {
       try {
         const { data } = await api.get("/api/blog/acceptedBlogs");
-        const blogsData = data.data ?? data ?? [];
-        setBlogs(Array.isArray(blogsData) ? blogsData : []);
+        let blogsData = data.data ?? data ?? [];
+        
+        // Agar API se koi blog nahi aata, toh hum fallback mein ye PDF wala blog dikha denge
+        if (!Array.isArray(blogsData) || blogsData.length === 0) {
+          blogsData = [
+            {
+              id: "nit-silchar-semiconductor-chip",
+              title: "NIT Silchar's Semiconductor Chip: Innovation from the Northeast",
+              intro: "Semiconductors are at the heart of almost every modern technology, from smartphones to medical devices. NIT Silchar has added its own contribution through indigenous chip design and semiconductor research.",
+              content: "When we think about semiconductors, we often think about massive technology companies and manufacturing facilities. But innovation in this field can also begin inside a college laboratory. At NIT Silchar, semiconductor research has moved beyond classroom concepts into actual chip development, including an indigenously designed bio-sensor semiconductor chip for EEG signal detection showcased at SEMICON India 2025.",
+              writerName: "E-Cell Team",
+              tag: "Semiconductors, Innovation, NIT Silchar, Technology",
+              createdAt: new Date().toISOString(),
+            }
+          ];
+        }
+
+        setBlogs(blogsData);
       } catch (err: unknown) {
-        const error = err as { response?: { data?: { message?: string } } };
-        toast.error(error.response?.data?.message ?? "Failed to load blogs");
-        setBlogs([]);
+        // Fallback in case of network/API error so the blog from PDF still shows up
+        setBlogs([
+          {
+            id: "nit-silchar-semiconductor-chip",
+            title: "NIT Silchar's Semiconductor Chip: Innovation from the Northeast",
+            intro: "Semiconductors are at the heart of almost every modern technology, from smartphones to medical devices. NIT Silchar has added its own contribution through indigenous chip design and semiconductor research.",
+            content: "When we think about semiconductors, we often think about massive technology companies and manufacturing facilities. But innovation in this field can also begin inside a college laboratory. At NIT Silchar, semiconductor research has moved beyond classroom concepts into actual chip development, including an indigenously designed bio-sensor semiconductor chip for EEG signal detection showcased at SEMICON India 2025.",
+            writerName: "E-Cell Team",
+            tag: "Semiconductors, Innovation, NIT Silchar, Technology",
+            createdAt: new Date().toISOString(),
+          }
+        ]);
       } finally {
         setLoading(false);
       }

@@ -248,23 +248,49 @@ export default function BlogDetailClient({ slug }: { slug: string }) {
                   </div>
                 )}
 
-                {/* Main Content */}
+                {/* Main Content — rendered directly as raw HTML without sanitization */}
                 {mainContent && (
-                  <div className="space-y-3 sm:space-y-4">
-                    {mainContent.includes("<") ? (
-                      <div dangerouslySetInnerHTML={{ __html: mainContent }} />
-                    ) : (
-                      <p>{mainContent}</p>
-                    )}
+                  <div className="space-y-4">
+                    <div
+                      dangerouslySetInnerHTML={{
+                        __html:
+                          mainContent.includes("<p>") ||
+                          mainContent.includes("<div")
+                            ? mainContent
+                            : mainContent
+                                .split("\n\n")
+                                .map((para) => {
+                                  const trimmed = para.trim();
+                                  if (trimmed.startsWith("### ")) {
+                                    return `<h3 class="text-xl sm:text-2xl font-bold text-white mt-8 mb-4 tracking-tight">${trimmed.slice(4)}</h3>`;
+                                  }
+                                  if (trimmed.startsWith("## ")) {
+                                    return `<h2 class="text-2xl sm:text-3xl font-extrabold text-white mt-10 mb-4 tracking-tight">${trimmed.slice(3)}</h2>`;
+                                  }
+                                  return `<p class="leading-relaxed text-gray-300 mb-4">${trimmed.replace(/\n/g, "<br/>")}</p>`;
+                                })
+                                .join(""),
+                      }}
+                    />
                   </div>
                 )}
                 <BlogEngagement
                   blogId={blog.id}
                   isLoggedIn={!!user}
                   initialLiked={
-                    !!(user && blog.likes?.includes(String(user.id)))
+                    !!(
+                      user &&
+                      Array.isArray(blog.likes) &&
+                      blog.likes.includes(String(user.id))
+                    )
                   }
-                  likesCount={blog.likes?.length ?? 0}
+                  likesCount={
+                    Array.isArray(blog.likes)
+                      ? blog.likes.length
+                      : typeof blog.likes === "number"
+                        ? blog.likes
+                        : 0
+                  }
                 />
               </div>
             </div>

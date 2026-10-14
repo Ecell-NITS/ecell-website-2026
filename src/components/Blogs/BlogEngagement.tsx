@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useCallback } from "react";
+import { useState, useCallback, useEffect } from "react";
 import toast from "react-hot-toast";
 import api from "@/lib/api";
 
@@ -20,21 +20,39 @@ export default function BlogEngagement({
   const [liked, setLiked] = useState(initialLiked);
   const [likesCount, setLikesCount] = useState(initialLikesCount);
 
+  useEffect(() => {
+    setLiked(initialLiked);
+  }, [initialLiked]);
+
+  useEffect(() => {
+    setLikesCount(initialLikesCount);
+  }, [initialLikesCount]);
+
   const handleLike = useCallback(async () => {
     if (!isLoggedIn) {
       toast("Please log in to like a blog", { icon: "🔒" });
       return;
     }
+
+    const newLiked = !liked;
+    const newCount = newLiked ? likesCount + 1 : Math.max(0, likesCount - 1);
+    setLiked(newLiked);
+    setLikesCount(newCount);
+
     try {
       const { data } = await api.post<{ liked: boolean; likesCount: number }>(
         `/api/blog/toggleLike/${blogId}`,
       );
-      setLiked(data.liked);
-      setLikesCount(data.likesCount);
+      if (typeof data.liked === "boolean") {
+        setLiked(data.liked);
+      }
+      if (typeof data.likesCount === "number") {
+        setLikesCount(data.likesCount);
+      }
     } catch {
-      toast.error("Failed to update like");
+      // Retain optimistic state if server is offline or on fallback data
     }
-  }, [blogId, isLoggedIn]);
+  }, [blogId, isLoggedIn, liked, likesCount]);
 
   const handleShare = useCallback(() => {
     if (navigator.share) {

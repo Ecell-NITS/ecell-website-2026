@@ -4,7 +4,6 @@ import Hero from "../components/Landing/Hero";
 import Partners from "../components/Landing/Partners";
 import About from "../components/Landing/About";
 import Events from "../components/Landing/Events";
-import Blogs from "../components/Landing/Blogs";
 import Testimonials from "../components/Landing/Testimonials";
 import ContactForm from "../components/Landing/ContactForm";
 import Footer from "../components/Landing/Footer";
@@ -21,7 +20,6 @@ export default function Page() {
         <Partners />
         <About />
         <Events />
-        <Blogs />
         <Speakers />
         <DirectorsMessage />
         <Testimonials />

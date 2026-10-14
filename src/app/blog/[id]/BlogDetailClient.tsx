@@ -5,12 +5,30 @@ import { useState, useEffect } from "react";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import toast from "react-hot-toast";
+import sanitize from "sanitize-html";
 import BlogEngagement from "../../../components/Blogs/BlogEngagement";
 import BlogComments from "../../../components/Blogs/BlogComments";
 import api from "@/lib/api";
 import { useAuth } from "@/context/AuthContext";
 import { featuredBlogs } from "@/data/featuredBlogs";
 import { blogSlug } from "@/lib/utils";
+
+// Strips scripts, event handlers (onclick, onerror...) and javascript: links
+// from blog HTML before it is rendered with dangerouslySetInnerHTML.
+function sanitizeHtml(dirty: string): string {
+  return sanitize(dirty, {
+    allowedTags: sanitize.defaults.allowedTags.concat(["img", "h1", "h2"]),
+    allowedAttributes: {
+      "*": ["class"],
+      a: ["href", "target", "rel"],
+      img: ["src", "alt", "width", "height"],
+    },
+    allowedSchemes: ["http", "https", "mailto"],
+    transformTags: {
+      a: sanitize.simpleTransform("a", { rel: "noopener noreferrer" }),
+    },
+  });
+}
 
 interface ApiBlog {
   id: string;
@@ -33,13 +51,20 @@ interface ApiBlog {
   status?: string;
 }
 
-export default function BlogDetailClient({ slug }: { slug: string }) {
+export default function BlogDetailClient({
+  slug,
+  initialBlog = null,
+}: {
+  slug: string;
+  initialBlog?: ApiBlog | null;
+}) {
   const router = useRouter();
   const { user } = useAuth();
-  const [blog, setBlog] = useState<ApiBlog | null>(null);
-  const [loading, setLoading] = useState(true);
+  const [blog, setBlog] = useState<ApiBlog | null>(initialBlog);
+  const [loading, setLoading] = useState(!initialBlog);
 
   useEffect(() => {
+    if (initialBlog) return; // already rendered on the server
     const fetchBlog = async () => {
       const featured = featuredBlogs.find(
         (b) => b.id === slug || blogSlug(b.title) === `/blog/${slug}`,
@@ -61,7 +86,7 @@ export default function BlogDetailClient({ slug }: { slug: string }) {
       }
     };
     fetchBlog();
-  }, [slug, router]);
+  }, [slug, router, initialBlog]);
 
   if (loading) {
     return (
@@ -84,8 +109,8 @@ export default function BlogDetailClient({ slug }: { slug: string }) {
 
   if (!blog) return null;
 
-  // Featured blogs are stored in the frontend only, so likes and comments
-  // (which need the backend) are hidden for them.
+  // Featured blogs are stored in the frontend only, so their likes and
+  // comments work on screen only (they reset on refresh).
   const isFeatured = featuredBlogs.some((b) => b.id === blog.id);
 
   const blogDate = blog.timeStamp ?? blog.createdAt;
@@ -246,22 +271,25 @@ export default function BlogDetailClient({ slug }: { slug: string }) {
                 {mainContent && (
                   <div className="space-y-3 sm:space-y-4">
                     {mainContent.includes("<") ? (
-                      <div dangerouslySetInnerHTML={{ __html: mainContent }} />
+                      <div
+                        dangerouslySetInnerHTML={{
+                          __html: sanitizeHtml(mainContent),
+                        }}
+                      />
                     ) : (
                       <p>{mainContent}</p>
                     )}
                   </div>
                 )}
-                {!isFeatured && (
-                  <BlogEngagement
-                    blogId={blog.id}
-                    isLoggedIn={!!user}
-                    initialLiked={
-                      !!(user && blog.likes?.includes(String(user.id)))
-                    }
-                    likesCount={blog.likes?.length ?? 0}
-                  />
-                )}
+                <BlogEngagement
+                  blogId={blog.id}
+                  isLoggedIn={!!user}
+                  isLocal={isFeatured}
+                  initialLiked={
+                    !!(user && blog.likes?.includes(String(user.id)))
+                  }
+                  likesCount={blog.likes?.length ?? 0}
+                />
               </div>
             </div>
 
@@ -302,7 +330,7 @@ export default function BlogDetailClient({ slug }: { slug: string }) {
                 </div>
 
                 {/* Comments Section */}
-                {!isFeatured && <BlogComments blogId={blog.id} />}
+                <BlogComments blogId={blog.id} isLocal={isFeatured} />
               </div>
             </div>
           </div>

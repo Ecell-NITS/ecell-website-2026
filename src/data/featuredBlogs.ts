@@ -1,3 +1,12 @@
+export interface FeaturedComment {
+  id: string;
+  text: string;
+  commentAuthor: string;
+  commentPic: string;
+  userId: string;
+  createdAt: string;
+}
+
 export interface FeaturedBlog {
   id: string;
   title: string;
@@ -5,9 +14,11 @@ export interface FeaturedBlog {
   tag: string;
   content: string;
   writerName: string;
+  writerPic: string;
+  topicPic: string;
   likes: string[];
-  createdAt?: string;
-  timeStamp?: string;
+  comments: FeaturedComment[];
+  createdAt: string;
 }
 
 const h = (text: string) =>
@@ -15,6 +26,28 @@ const h = (text: string) =>
 const p = (text: string) => `<p class="mb-4">${text}</p>`;
 
 const AUTHOR = "E-Cell NIT Silchar";
+const WRITER_PIC = "/ecelllogo.png";
+
+// These featured blogs are temporary and are not stored in the database, so
+// likes and comments below are dummy values.
+const dummyLikes = (count: number): string[] =>
+  Array.from({ length: count }, (_, i) => `dummy-like-${i}`);
+
+const dummyComments = (
+  blogNo: number,
+  texts: [string, string],
+): FeaturedComment[] =>
+  [
+    { name: "Aarav Sharma", text: texts[0], day: 18 },
+    { name: "Priya Das", text: texts[1], day: 19 },
+  ].map((c, i) => ({
+    id: `featured-${blogNo}-comment-${i + 1}`,
+    text: c.text,
+    commentAuthor: c.name,
+    commentPic: "/profile_picture_holder.webp",
+    userId: `dummy-user-${i + 1}`,
+    createdAt: `2026-09-${c.day}T10:00:00.000Z`,
+  }));
 
 export const featuredBlogs: FeaturedBlog[] = [
   {
@@ -24,7 +57,14 @@ export const featuredBlogs: FeaturedBlog[] = [
       "Semiconductors are at the heart of almost every modern technology, from smartphones to medical devices. NIT Silchar has added its own contribution to this growing ecosystem through indigenous chip design and semiconductor research, showing how advanced technological innovation can emerge from a campus in the Northeast.",
     tag: "NIT Silchar, Semiconductor, VLSI, Innovation",
     writerName: AUTHOR,
-    likes: [],
+    writerPic: WRITER_PIC,
+    topicPic: "/blogs/blog-1.jpg",
+    createdAt: "2026-09-16T10:00:00.000Z",
+    likes: dummyLikes(24),
+    comments: dummyComments(1, [
+      "Great read! It is inspiring to see chip design happening in our own campus.",
+      "Proud of the ECE department. More such stories please!",
+    ]),
     content: [
       p(
         "When we think about semiconductors, we often think about massive technology companies and manufacturing facilities.",
@@ -80,7 +120,14 @@ export const featuredBlogs: FeaturedBlog[] = [
       "Assam is increasingly attracting attention as an emerging investment and industrial destination. From technology and digital infrastructure to manufacturing, energy and connectivity, large companies are showing growing interest in the state. Reliance Industries’ ₹50,000-crore investment commitment is one example of this changing industrial landscape.",
     tag: "Assam, Industry, Investment, Northeast India",
     writerName: AUTHOR,
-    likes: [],
+    writerPic: WRITER_PIC,
+    topicPic: "/blogs/blog-2.jpg",
+    createdAt: "2026-09-23T10:00:00.000Z",
+    likes: dummyLikes(18),
+    comments: dummyComments(2, [
+      "Very informative. Assam really is becoming an investment hub.",
+      "Good to see opportunities coming to the Northeast itself.",
+    ]),
     content: [
       p(
         "For a long time, Assam was primarily associated with tea, oil, tourism and its natural resources.",
@@ -146,7 +193,14 @@ export const featuredBlogs: FeaturedBlog[] = [
       "India’s development story is increasingly moving beyond traditional sectors. Startups, digital infrastructure, electronics, semiconductor manufacturing, advanced technology and new industries are becoming important parts of the country’s economic landscape, creating new opportunities for businesses, engineers, researchers and young entrepreneurs.",
     tag: "India, Development, Semiconductors, Startups",
     writerName: AUTHOR,
-    likes: [],
+    writerPic: WRITER_PIC,
+    topicPic: "/blogs/blog-3.jpg",
+    createdAt: "2026-09-30T10:00:00.000Z",
+    likes: dummyLikes(31),
+    comments: dummyComments(3, [
+      "Nice summary of where Indian industry is heading.",
+      "The point about building skills for tomorrow is spot on.",
+    ]),
     content: [
       p("India has changed significantly over the past decade."),
       p(
@@ -208,7 +262,14 @@ export const featuredBlogs: FeaturedBlog[] = [
       "Global development is entering a new phase shaped by artificial intelligence, digital infrastructure, clean technology, advanced manufacturing and access to information. At the same time, development remains uneven across countries. The challenge is not simply creating new technology, but making sure it reaches people and solves real problems.",
     tag: "Global Development, Technology, Artificial Intelligence, Innovation",
     writerName: AUTHOR,
-    likes: [],
+    writerPic: WRITER_PIC,
+    topicPic: "/blogs/blog-4.jpg",
+    createdAt: "2026-10-07T10:00:00.000Z",
+    likes: dummyLikes(15),
+    comments: dummyComments(4, [
+      "Technology only matters if it solves real problems. Well said.",
+      "Loved the questions in the Next Challenge section.",
+    ]),
     content: [
       p("Development has always been connected to technology."),
       p(
@@ -278,7 +339,14 @@ export const featuredBlogs: FeaturedBlog[] = [
       "India’s entrepreneurial ecosystem is expanding beyond traditional startup hubs. For the Northeast, this creates an opportunity to build ventures around the region’s unique strengths, challenges and communities. With technology, education and entrepreneurial networks becoming more accessible, students can play an important role in shaping the region’s next generation of businesses.",
     tag: "Entrepreneurship, Northeast India, Startups",
     writerName: AUTHOR,
-    likes: [],
+    writerPic: WRITER_PIC,
+    topicPic: "/landing2.jpeg",
+    createdAt: "2026-10-14T10:00:00.000Z",
+    likes: dummyLikes(27),
+    comments: dummyComments(5, [
+      "Adapt, don't copy. This is the best advice for founders here.",
+      "Great motivation for students in the Northeast.",
+    ]),
     content: [
       p(
         "When we think about Indian startups, certain cities immediately come to mind. Bengaluru. Mumbai. Delhi-NCR. Hyderabad.",

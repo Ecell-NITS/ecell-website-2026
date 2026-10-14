@@ -1,4 +1,6 @@
 import type { MetadataRoute } from "next";
+import { featuredBlogs } from "@/data/featuredBlogs";
+import { blogSlug } from "@/lib/utils";
 
 const SITE_URL = "https://ecellnits.org";
 
@@ -55,6 +57,14 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     },
   ];
 
+  // Featured blogs live in the frontend (not in the API), so add them here.
+  const featuredRoutes: MetadataRoute.Sitemap = featuredBlogs.map((blog) => ({
+    url: `${SITE_URL}${blogSlug(blog.title)}`,
+    lastModified: blog.createdAt ? new Date(blog.createdAt) : new Date(),
+    changeFrequency: "weekly" as const,
+    priority: 0.7,
+  }));
+
   // Dynamic blog routes
   let blogRoutes: MetadataRoute.Sitemap = [];
   try {
@@ -83,5 +93,9 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     // If API is down, still serve static routes
   }
 
-  return [...staticRoutes, ...blogRoutes];
+  // Skip any API blog that is already listed as a featured blog.
+  const featuredUrls = new Set(featuredRoutes.map((r) => r.url));
+  const uniqueBlogRoutes = blogRoutes.filter((r) => !featuredUrls.has(r.url));
+
+  return [...staticRoutes, ...featuredRoutes, ...uniqueBlogRoutes];
 }

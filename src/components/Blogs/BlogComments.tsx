@@ -19,19 +19,27 @@ interface ApiComment {
 
 interface BlogCommentsProps {
   blogId: string;
+  // Featured blogs are not in the database, so their comments only update the
+  // screen (they reset on refresh) and don't need a login.
+  isLocal?: boolean;
 }
 
-export default function BlogComments({ blogId }: BlogCommentsProps) {
+export default function BlogComments({
+  blogId,
+  isLocal = false,
+}: BlogCommentsProps) {
   const [comment, setComment] = useState("");
   const [comments, setComments] = useState<ApiComment[]>([]);
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(!isLocal);
   const [submitting, setSubmitting] = useState(false);
   const { user } = useAuth();
   const isAuthenticated = !!user;
+  const canComment = isLocal || isAuthenticated;
   const router = useRouter();
 
-  // Fetch comments
+  // Fetch comments (skipped for local blogs)
   useEffect(() => {
+    if (isLocal) return;
     const fetchComments = async () => {
       try {
         const { data } = await api.get(`/api/comment/apiComment/${blogId}`);
@@ -44,12 +52,28 @@ export default function BlogComments({ blogId }: BlogCommentsProps) {
       }
     };
     fetchComments();
-  }, [blogId]);
+  }, [blogId, isLocal]);
 
   const handleSubmit = useCallback(
     async (e: React.FormEvent) => {
       e.preventDefault();
       if (!comment.trim()) return;
+
+      // Local blogs: add the comment on screen only.
+      if (isLocal) {
+        const localComment: ApiComment = {
+          id: `local-${Date.now()}`,
+          text: comment.trim(),
+          commentAuthor: user?.name ?? "Guest",
+          commentPic: user?.picture ?? "https://i.pravatar.cc/150",
+          userId: String(user?.id ?? ""),
+          createdAt: new Date().toISOString(),
+        };
+        setComments((prev) => [localComment, ...prev]);
+        setComment("");
+        toast.success("Comment posted! 💬");
+        return;
+      }
 
       if (!isAuthenticated) {
         toast.error("Please login to comment");
@@ -78,6 +102,7 @@ export default function BlogComments({ blogId }: BlogCommentsProps) {
     },
     [
       comment,
+      isLocal,
       isAuthenticated,
       blogId,
       router,
@@ -124,16 +149,14 @@ export default function BlogComments({ blogId }: BlogCommentsProps) {
           value={comment}
           onChange={(e) => setComment(e.target.value)}
           placeholder={
-            isAuthenticated
-              ? "Write a comment..."
-              : "Login to write a comment..."
+            canComment ? "Write a comment..." : "Login to write a comment..."
           }
-          disabled={!isAuthenticated}
+          disabled={!canComment}
           className="min-h-20 w-full resize-none rounded border border-white/10 bg-black/40 p-2 text-[12px] text-white transition-all focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 focus:outline-none disabled:cursor-not-allowed disabled:opacity-50 sm:min-h-24 sm:rounded-lg sm:p-3 sm:text-xs md:min-h-30 md:rounded-2xl md:p-4 md:text-sm"
         />
         <button
           type="submit"
-          disabled={submitting || !isAuthenticated || !comment.trim()}
+          disabled={submitting || !canComment || !comment.trim()}
           className="flex w-full items-center justify-center gap-2 rounded border border-white/10 bg-blue-600 px-3 py-1.5 text-[12px] font-bold text-white transition-all hover:bg-blue-700 disabled:cursor-not-allowed disabled:opacity-50 sm:rounded-lg sm:px-4 sm:py-2 sm:text-xs md:rounded-2xl md:px-6 md:py-3 md:text-sm"
         >
           {submitting ? (

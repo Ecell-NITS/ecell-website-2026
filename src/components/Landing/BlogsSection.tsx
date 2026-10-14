@@ -62,7 +62,7 @@ if (Array.isArray(blogsData)) {
   return (
     <section className="bg-[#020617] px-6 py-16 text-white">
       <div className="mx-auto max-w-6xl">
-        <p className="mb-3 text-sm font-bold tracking-widest text-blue-400 uppercase">
+        <p className="mb-3 text-sm font-bold uppercase tracking-widest text-blue-400">
           E-Cell Blog
         </p>
 

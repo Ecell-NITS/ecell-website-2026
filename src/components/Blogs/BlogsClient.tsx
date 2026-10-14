@@ -7,6 +7,7 @@ import toast from "react-hot-toast";
 import BlogCard from "./BlogCard";
 import api from "@/lib/api";
 import { useAuth } from "@/context/AuthContext";
+import { featuredBlogs } from "@/data/featuredBlogs";
 
 interface ApiBlog {
   id: string;
@@ -29,7 +30,7 @@ export default function BlogsClient() {
   const [sortOpen, setSortOpen] = useState(false);
   const [sortBy, setSortBy] = useState("Latest");
   const [searchQuery, setSearchQuery] = useState("");
-  const [blogs, setBlogs] = useState<ApiBlog[]>([]);
+  const [blogs, setBlogs] = useState<ApiBlog[]>(featuredBlogs);
   const [loading, setLoading] = useState(true);
   const { user } = useAuth();
 
@@ -38,11 +39,14 @@ export default function BlogsClient() {
       try {
         const { data } = await api.get("/api/blog/acceptedBlogs");
         const blogsData = data.data ?? data ?? [];
-        setBlogs(Array.isArray(blogsData) ? blogsData : []);
+        setBlogs([
+          ...featuredBlogs,
+          ...(Array.isArray(blogsData) ? blogsData : []),
+        ]);
       } catch (err: unknown) {
         const error = err as { response?: { data?: { message?: string } } };
         toast.error(error.response?.data?.message ?? "Failed to load blogs");
-        setBlogs([]);
+        setBlogs(featuredBlogs);
       } finally {
         setLoading(false);
       }

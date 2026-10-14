@@ -3,7 +3,10 @@ import Navbar from "../../../components/Landing/Navbar";
 import Footer from "../../../components/Landing/Footer";
 import BackButton from "../../../components/Blogs/BackButton";
 import BlogDetailClient from "./BlogDetailClient";
+import { featuredBlogs } from "@/data/featuredBlogs";
+import { blogSlug } from "@/lib/utils";
 
+const SITE_URL = "https://ecellnits.org";
 const API_URL = process.env.NEXT_PUBLIC_API_URL ?? "http://localhost:4000";
 
 interface BlogData {
@@ -16,19 +19,36 @@ interface BlogData {
   writerPic?: string;
   topicPic?: string;
   timeStamp?: string;
+  createdAt?: string;
   text?: string;
   subject?: string;
 }
 
+const absoluteUrl = (url: string) =>
+  url.startsWith("http") ? url : `${SITE_URL}${url}`;
+
+// Featured blogs live in the frontend, so the API would return 404 for them.
+function findFeatured(slug: string) {
+  return featuredBlogs.find(
+    (b) => b.id === slug || blogSlug(b.title) === `/blog/${slug}`,
+  );
+}
+
 async function fetchBlog(slug: string): Promise<BlogData | null> {
+  const featured = findFeatured(slug);
+  if (featured) return featured;
   try {
     const res = await fetch(`${API_URL}/api/blog/getBySlug/${slug}`, {
       next: { revalidate: 60 },
     });
-    if (!res.ok) return null;
+    if (!res.ok) {
+      console.error("fetchBlog failed:", res.url, res.status);
+      return null;
+    }
     const json = (await res.json()) as { data?: BlogData };
     return json.data ?? null;
-  } catch {
+  } catch (e) {
+    console.error("fetchBlog error:", e);
     return null;
   }
 }
@@ -49,7 +69,8 @@ export async function generateMetadata({
     (blog.intro ?? blog.subject ?? blog.text ?? "").slice(0, 160) ||
     `Read "${blog.title}" on E-Cell NIT Silchar blog.`;
 
-  const ogImage = blog.topicPic ?? "https://ecellnits.org/ecelllogo.png";
+  const ogImage = absoluteUrl(blog.topicPic ?? "/ecelllogo.png");
+  const published = blog.timeStamp ?? blog.createdAt;
 
   return {
     title: blog.title,
@@ -59,7 +80,7 @@ export async function generateMetadata({
       title: `${blog.title} | E-Cell NIT Silchar`,
       description,
       type: "article",
-      publishedTime: blog.timeStamp ?? undefined,
+      publishedTime: published ?? undefined,
       authors: blog.writerName ? [blog.writerName] : undefined,
       images: [
         {
@@ -85,6 +106,7 @@ export default async function BlogDetailPage({
   params: Promise<{ id: string }>;
 }) {
   const { id: slug } = await params;
+  const featured = findFeatured(slug);
 
   return (
     <main className="relative min-h-screen bg-[#020617] text-white">
@@ -96,7 +118,7 @@ export default async function BlogDetailPage({
           </div>
         </div>
       </section>
-      <BlogDetailClient slug={slug} />
+      <BlogDetailClient slug={slug} initialBlog={featured ?? null} />
       <Footer />
     </main>
   );

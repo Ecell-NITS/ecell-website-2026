@@ -1,26 +1,43 @@
 "use client";
 
-import { useState, useCallback } from "react";
+import { useState, useCallback, useEffect } from "react";
 import toast from "react-hot-toast";
 import api from "@/lib/api";
 
 interface BlogEngagementProps {
   blogId: string;
   isLoggedIn?: boolean;
+  isLocal?: boolean;
   initialLiked?: boolean;
   likesCount?: number;
 }
 
+const socialLinkClass =
+  "glass flex h-9 w-9 items-center justify-center rounded-lg border border-white/5 text-gray-500 transition-all hover:border-blue-500/20 hover:text-white sm:h-10 sm:w-10 sm:rounded-xl md:h-12 md:w-12 md:rounded-2xl";
+
 export default function BlogEngagement({
   blogId,
   isLoggedIn = false,
+  isLocal = false,
   initialLiked = false,
   likesCount: initialLikesCount = 0,
 }: BlogEngagementProps) {
   const [liked, setLiked] = useState(initialLiked);
   const [likesCount, setLikesCount] = useState(initialLikesCount);
+  // Set after the page loads so server and browser render the same HTML.
+  const [pageUrl, setPageUrl] = useState("");
+
+  useEffect(() => {
+    setPageUrl(window.location.href);
+  }, []);
 
   const handleLike = useCallback(async () => {
+    // Local blogs (not in the database) only update the screen.
+    if (isLocal) {
+      setLiked((prev) => !prev);
+      setLikesCount((prev) => (liked ? prev - 1 : prev + 1));
+      return;
+    }
     if (!isLoggedIn) {
       toast("Please log in to like a blog", { icon: "🔒" });
       return;
@@ -34,20 +51,28 @@ export default function BlogEngagement({
     } catch {
       toast.error("Failed to update like");
     }
-  }, [blogId, isLoggedIn]);
+  }, [blogId, isLoggedIn, isLocal, liked]);
 
-  const handleShare = useCallback(() => {
+  const handleShare = useCallback(async () => {
+    const url = window.location.href;
     if (navigator.share) {
-      navigator
-        .share({
-          title: document.title,
-          url: window.location.href,
-        })
-        .catch(() => {
-          // User cancelled share
-        });
+      try {
+        await navigator.share({ title: document.title, url });
+      } catch {
+        // User cancelled share
+      }
+      return;
+    }
+    // Desktop browsers without the Web Share API: copy the link instead.
+    try {
+      await navigator.clipboard.writeText(url);
+      toast.success("Link copied to clipboard");
+    } catch {
+      toast.error("Could not copy the link");
     }
   }, []);
+
+  const encodedUrl = encodeURIComponent(pageUrl);
 
   return (
     <div className="mt-8 flex flex-col items-start justify-between gap-4 border-t border-white/5 pt-6 sm:gap-6 sm:pt-8 md:mt-12 md:flex-row md:items-center md:gap-8 md:pt-12">
@@ -107,10 +132,11 @@ export default function BlogEngagement({
       {/* Social buttons */}
       <div className="flex gap-2 sm:gap-3">
         <a
-          href={`https://twitter.com/intent/tweet?url=${typeof window !== "undefined" ? encodeURIComponent(window.location.href) : ""}`}
+          href={`https://twitter.com/intent/tweet?url=${encodedUrl}`}
           target="_blank"
           rel="noopener noreferrer"
-          className="glass flex h-9 w-9 items-center justify-center rounded-lg border border-white/5 text-gray-500 transition-all hover:border-blue-500/20 hover:text-white sm:h-10 sm:w-10 sm:rounded-xl md:h-12 md:w-12 md:rounded-2xl"
+          aria-label="Share on X"
+          className={socialLinkClass}
         >
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -128,10 +154,11 @@ export default function BlogEngagement({
           </svg>
         </a>
         <a
-          href={`https://www.linkedin.com/sharing/share-offsite/?url=${typeof window !== "undefined" ? encodeURIComponent(window.location.href) : ""}`}
+          href={`https://www.linkedin.com/sharing/share-offsite/?url=${encodedUrl}`}
           target="_blank"
           rel="noopener noreferrer"
-          className="glass flex h-9 w-9 items-center justify-center rounded-lg border border-white/5 text-gray-500 transition-all hover:border-blue-500/20 hover:text-white sm:h-10 sm:w-10 sm:rounded-xl md:h-12 md:w-12 md:rounded-2xl"
+          aria-label="Share on LinkedIn"
+          className={socialLinkClass}
         >
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -151,10 +178,11 @@ export default function BlogEngagement({
           </svg>
         </a>
         <a
-          href={`https://www.facebook.com/sharer/sharer.php?u=${typeof window !== "undefined" ? encodeURIComponent(window.location.href) : ""}`}
+          href={`https://www.facebook.com/sharer/sharer.php?u=${encodedUrl}`}
           target="_blank"
           rel="noopener noreferrer"
-          className="glass flex h-9 w-9 items-center justify-center rounded-lg border border-white/5 text-gray-500 transition-all hover:border-blue-500/20 hover:text-white sm:h-10 sm:w-10 sm:rounded-xl md:h-12 md:w-12 md:rounded-2xl"
+          aria-label="Share on Facebook"
+          className={socialLinkClass}
         >
           <svg
             xmlns="http://www.w3.org/2000/svg"

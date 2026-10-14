@@ -5,10 +5,30 @@ import { useState, useEffect } from "react";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import toast from "react-hot-toast";
+import sanitize from "sanitize-html";
 import BlogEngagement from "../../../components/Blogs/BlogEngagement";
 import BlogComments from "../../../components/Blogs/BlogComments";
 import api from "@/lib/api";
 import { useAuth } from "@/context/AuthContext";
+import { featuredBlogs } from "@/data/featuredBlogs";
+import { blogSlug } from "@/lib/utils";
+
+// Strips scripts, event handlers (onclick, onerror...) and javascript: links
+// from blog HTML before it is rendered with dangerouslySetInnerHTML.
+function sanitizeHtml(dirty: string): string {
+  return sanitize(dirty, {
+    allowedTags: sanitize.defaults.allowedTags.concat(["img", "h1", "h2"]),
+    allowedAttributes: {
+      "*": ["class"],
+      a: ["href", "target", "rel"],
+      img: ["src", "alt", "width", "height"],
+    },
+    allowedSchemes: ["http", "https", "mailto"],
+    transformTags: {
+      a: sanitize.simpleTransform("a", { rel: "noopener noreferrer" }),
+    },
+  });
+}
 
 interface ApiBlog {
   id: string;
@@ -31,14 +51,29 @@ interface ApiBlog {
   status?: string;
 }
 
-export default function BlogDetailClient({ slug }: { slug: string }) {
+export default function BlogDetailClient({
+  slug,
+  initialBlog = null,
+}: {
+  slug: string;
+  initialBlog?: ApiBlog | null;
+}) {
   const router = useRouter();
   const { user } = useAuth();
-  const [blog, setBlog] = useState<ApiBlog | null>(null);
-  const [loading, setLoading] = useState(true);
+  const [blog, setBlog] = useState<ApiBlog | null>(initialBlog);
+  const [loading, setLoading] = useState(!initialBlog);
 
   useEffect(() => {
+    if (initialBlog) return; // already rendered on the server
     const fetchBlog = async () => {
+      const featured = featuredBlogs.find(
+        (b) => b.id === slug || blogSlug(b.title) === `/blog/${slug}`,
+      );
+      if (featured) {
+        setBlog(featured);
+        setLoading(false);
+        return;
+      }
       try {
         const { data } = await api.get(`/api/blog/getBySlug/${slug}`);
         const blogData = data.data ?? data;
@@ -51,7 +86,7 @@ export default function BlogDetailClient({ slug }: { slug: string }) {
       }
     };
     fetchBlog();
-  }, [slug, router]);
+  }, [slug, router, initialBlog]);
 
   if (loading) {
     return (
@@ -74,6 +109,10 @@ export default function BlogDetailClient({ slug }: { slug: string }) {
 
   if (!blog) return null;
 
+  // Featured blogs are stored in the frontend only, so their likes and
+  // comments work on screen only (they reset on refresh).
+  const isFeatured = featuredBlogs.some((b) => b.id === blog.id);
+
   const blogDate = blog.timeStamp ?? blog.createdAt;
   const formattedDate = blogDate
     ? new Date(blogDate).toLocaleDateString("en-IN", {
@@ -81,7 +120,7 @@ export default function BlogDetailClient({ slug }: { slug: string }) {
         month: "short",
         year: "numeric",
       })
-    : "Date not available";
+    : "";
 
   const mainContent = blog.content ?? blog.text ?? "";
   const blogIntro = blog.intro ?? blog.subject ?? "";
@@ -149,28 +188,30 @@ export default function BlogDetailClient({ slug }: { slug: string }) {
                 </div>
 
                 <div className="flex flex-col items-start gap-3 sm:gap-4 md:ml-auto md:flex-row md:items-center md:gap-6 lg:gap-8">
-                  <div className="flex items-center gap-2 text-gray-500">
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      width="16"
-                      height="16"
-                      viewBox="0 0 24 24"
-                      fill="none"
-                      stroke="currentColor"
-                      strokeWidth="2"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      aria-hidden="true"
-                    >
-                      <path d="M8 2v4" />
-                      <path d="M16 2v4" />
-                      <rect width="18" height="18" x="3" y="4" rx="2" />
-                      <path d="M3 10h18" />
-                    </svg>
-                    <span className="text-[8px] font-bold tracking-widest uppercase sm:text-xs md:text-sm">
-                      {formattedDate}
-                    </span>
-                  </div>
+                  {formattedDate && (
+                    <div className="flex items-center gap-2 text-gray-500">
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        width="16"
+                        height="16"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        strokeWidth="2"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        aria-hidden="true"
+                      >
+                        <path d="M8 2v4" />
+                        <path d="M16 2v4" />
+                        <rect width="18" height="18" x="3" y="4" rx="2" />
+                        <path d="M3 10h18" />
+                      </svg>
+                      <span className="text-[8px] font-bold tracking-widest uppercase sm:text-xs md:text-sm">
+                        {formattedDate}
+                      </span>
+                    </div>
+                  )}
 
                   <div className="flex items-center gap-2 text-gray-500">
                     <svg
@@ -230,7 +271,11 @@ export default function BlogDetailClient({ slug }: { slug: string }) {
                 {mainContent && (
                   <div className="space-y-3 sm:space-y-4">
                     {mainContent.includes("<") ? (
-                      <div dangerouslySetInnerHTML={{ __html: mainContent }} />
+                      <div
+                        dangerouslySetInnerHTML={{
+                          __html: sanitizeHtml(mainContent),
+                        }}
+                      />
                     ) : (
                       <p>{mainContent}</p>
                     )}
@@ -239,6 +284,7 @@ export default function BlogDetailClient({ slug }: { slug: string }) {
                 <BlogEngagement
                   blogId={blog.id}
                   isLoggedIn={!!user}
+                  isLocal={isFeatured}
                   initialLiked={
                     !!(user && blog.likes?.includes(String(user.id)))
                   }
@@ -284,7 +330,7 @@ export default function BlogDetailClient({ slug }: { slug: string }) {
                 </div>
 
                 {/* Comments Section */}
-                <BlogComments blogId={blog.id} />
+                <BlogComments blogId={blog.id} isLocal={isFeatured} />
               </div>
             </div>
           </div>

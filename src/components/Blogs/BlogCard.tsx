@@ -6,6 +6,7 @@ import Image from "next/image";
 import toast from "react-hot-toast";
 import api from "@/lib/api";
 import { blogSlug } from "@/lib/utils";
+import { featuredBlogs } from "@/data/featuredBlogs";
 
 interface Blog {
   id: string;
@@ -35,6 +36,10 @@ export default function BlogCard({
   const [liked, setLiked] = useState(initialLiked);
   const [likesCount, setLikesCount] = useState(blog.likes ?? 0);
 
+  // Featured blogs live in the frontend only (not in the database), so their
+  // likes are handled locally with dummy values.
+  const isFeatured = featuredBlogs.some((b) => b.id === blog.id);
+
   const readTime = useMemo(() => {
     const text = (blog.fullContent || blog.description).replace(/<[^>]*>/g, "");
     const words = text.trim().split(/\s+/).length;
@@ -42,6 +47,11 @@ export default function BlogCard({
   }, [blog.fullContent, blog.description]);
 
   const handleLike = useCallback(async () => {
+    if (isFeatured) {
+      setLiked((prev) => !prev);
+      setLikesCount((prev) => (liked ? prev - 1 : prev + 1));
+      return;
+    }
     if (!isLoggedIn) {
       toast("Please log in to like a blog", { icon: "🔒" });
       return;
@@ -55,7 +65,7 @@ export default function BlogCard({
     } catch {
       toast.error("Failed to update like");
     }
-  }, [blog.id, isLoggedIn]);
+  }, [blog.id, isLoggedIn, isFeatured, liked]);
 
   return (
     <div className="group relative h-full">

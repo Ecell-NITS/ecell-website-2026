@@ -1,4 +1,5 @@
 import type { MetadataRoute } from "next";
+import fallbackBlogs from "@/data/blogs.json";
 
 const SITE_URL = "https://ecellnits.org";
 
@@ -59,15 +60,34 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   let blogRoutes: MetadataRoute.Sitemap = [];
   try {
     const API_URL = process.env.NEXT_PUBLIC_API_URL ?? "http://localhost:4000";
-    const res = await fetch(`${API_URL}/api/blog`, {
+    const res = await fetch(`${API_URL}/api/blog/acceptedBlogs`, {
       next: { revalidate: 3600 },
     });
     const json = (await res.json()) as {
       data?: { title: string; timeStamp?: string; createdAt?: string }[];
     };
-    const blogs = json.data ?? [];
+    const apiBlogs = json.data ?? [];
 
-    blogRoutes = blogs.map((blog) => {
+    const allBlogsMap = new Map<
+      string,
+      { title: string; timeStamp?: string }
+    >();
+    fallbackBlogs.forEach((b) => {
+      if (b.title)
+        allBlogsMap.set(b.title.toLowerCase(), {
+          title: b.title,
+          timeStamp: b.timeStamp,
+        });
+    });
+    apiBlogs.forEach((b) => {
+      if (b.title)
+        allBlogsMap.set(b.title.toLowerCase(), {
+          title: b.title,
+          timeStamp: b.timeStamp ?? b.createdAt,
+        });
+    });
+
+    blogRoutes = Array.from(allBlogsMap.values()).map((blog) => {
       const slug = blog.title
         .toLowerCase()
         .replace(/[^a-z0-9]+/g, "-")
@@ -80,7 +100,19 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       };
     });
   } catch {
-    // If API is down, still serve static routes
+    // If API is down, use fallback blogs for sitemap
+    blogRoutes = fallbackBlogs.map((blog) => {
+      const slug = blog.title
+        .toLowerCase()
+        .replace(/[^a-z0-9]+/g, "-")
+        .replace(/^-+|-+$/g, "");
+      return {
+        url: `${SITE_URL}/blog/${slug}`,
+        lastModified: blog.timeStamp ? new Date(blog.timeStamp) : new Date(),
+        changeFrequency: "weekly" as const,
+        priority: 0.7,
+      };
+    });
   }
 
   return [...staticRoutes, ...blogRoutes];

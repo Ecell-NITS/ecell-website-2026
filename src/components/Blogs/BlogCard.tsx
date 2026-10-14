@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useMemo, useCallback } from "react";
+import { useState, useMemo, useCallback, useEffect } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import toast from "react-hot-toast";
@@ -35,27 +35,51 @@ export default function BlogCard({
   const [liked, setLiked] = useState(initialLiked);
   const [likesCount, setLikesCount] = useState(blog.likes ?? 0);
 
+  useEffect(() => {
+    setLiked(initialLiked);
+  }, [initialLiked]);
+
+  useEffect(() => {
+    setLikesCount(blog.likes ?? 0);
+  }, [blog.likes]);
+
   const readTime = useMemo(() => {
     const text = (blog.fullContent || blog.description).replace(/<[^>]*>/g, "");
     const words = text.trim().split(/\s+/).length;
     return Math.max(1, Math.ceil(words / 200));
   }, [blog.fullContent, blog.description]);
 
-  const handleLike = useCallback(async () => {
-    if (!isLoggedIn) {
-      toast("Please log in to like a blog", { icon: "🔒" });
-      return;
-    }
-    try {
-      const { data } = await api.post<{ liked: boolean; likesCount: number }>(
-        `/api/blog/toggleLike/${blog.id}`,
-      );
-      setLiked(data.liked);
-      setLikesCount(data.likesCount);
-    } catch {
-      toast.error("Failed to update like");
-    }
-  }, [blog.id, isLoggedIn]);
+  const handleLike = useCallback(
+    async (e: React.MouseEvent) => {
+      e.stopPropagation();
+      e.preventDefault();
+
+      if (!isLoggedIn) {
+        toast("Please log in to like a blog", { icon: "🔒" });
+        return;
+      }
+
+      const newLiked = !liked;
+      const newCount = newLiked ? likesCount + 1 : Math.max(0, likesCount - 1);
+      setLiked(newLiked);
+      setLikesCount(newCount);
+
+      try {
+        const { data } = await api.post<{ liked: boolean; likesCount: number }>(
+          `/api/blog/toggleLike/${blog.id}`,
+        );
+        if (typeof data.liked === "boolean") {
+          setLiked(data.liked);
+        }
+        if (typeof data.likesCount === "number") {
+          setLikesCount(data.likesCount);
+        }
+      } catch {
+        // Retain optimistic state if server is offline or on fallback data
+      }
+    },
+    [blog.id, isLoggedIn, liked, likesCount],
+  );
 
   return (
     <div className="group relative h-full">

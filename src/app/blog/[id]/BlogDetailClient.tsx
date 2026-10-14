@@ -9,6 +9,7 @@ import BlogEngagement from "../../../components/Blogs/BlogEngagement";
 import BlogComments from "../../../components/Blogs/BlogComments";
 import api from "@/lib/api";
 import { useAuth } from "@/context/AuthContext";
+import fallbackBlogs from "@/data/blogs.json";
 
 interface ApiBlog {
   id: string;
@@ -31,6 +32,13 @@ interface ApiBlog {
   status?: string;
 }
 
+function toSlug(title: string): string {
+  return title
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/^-+|-+$/g, "");
+}
+
 export default function BlogDetailClient({ slug }: { slug: string }) {
   const router = useRouter();
   const { user } = useAuth();
@@ -42,15 +50,29 @@ export default function BlogDetailClient({ slug }: { slug: string }) {
       try {
         const { data } = await api.get(`/api/blog/getBySlug/${slug}`);
         const blogData = data.data ?? data;
-        setBlog(blogData);
+        if (blogData && (blogData.title || blogData.id)) {
+          setBlog(blogData);
+          return;
+        }
       } catch {
+        // Fallback to local blog if not found on backend
+      }
+
+      const localBlog = (fallbackBlogs as unknown as ApiBlog[]).find(
+        (b) => toSlug(b.title) === slug || String(b.id) === slug,
+      );
+
+      if (localBlog) {
+        setBlog(localBlog);
+      } else {
         toast.error("Blog not found");
-        router.push("/blog");
-      } finally {
-        setLoading(false);
+        router.push("/blogs");
       }
     };
-    fetchBlog();
+
+    fetchBlog().finally(() => {
+      setLoading(false);
+    });
   }, [slug, router]);
 
   if (loading) {
@@ -226,23 +248,49 @@ export default function BlogDetailClient({ slug }: { slug: string }) {
                   </div>
                 )}
 
-                {/* Main Content */}
+                {/* Main Content — rendered directly as raw HTML without sanitization */}
                 {mainContent && (
-                  <div className="space-y-3 sm:space-y-4">
-                    {mainContent.includes("<") ? (
-                      <div dangerouslySetInnerHTML={{ __html: mainContent }} />
-                    ) : (
-                      <p>{mainContent}</p>
-                    )}
+                  <div className="space-y-4">
+                    <div
+                      dangerouslySetInnerHTML={{
+                        __html:
+                          mainContent.includes("<p>") ||
+                          mainContent.includes("<div")
+                            ? mainContent
+                            : mainContent
+                                .split("\n\n")
+                                .map((para) => {
+                                  const trimmed = para.trim();
+                                  if (trimmed.startsWith("### ")) {
+                                    return `<h3 class="text-xl sm:text-2xl font-bold text-white mt-8 mb-4 tracking-tight">${trimmed.slice(4)}</h3>`;
+                                  }
+                                  if (trimmed.startsWith("## ")) {
+                                    return `<h2 class="text-2xl sm:text-3xl font-extrabold text-white mt-10 mb-4 tracking-tight">${trimmed.slice(3)}</h2>`;
+                                  }
+                                  return `<p class="leading-relaxed text-gray-300 mb-4">${trimmed.replace(/\n/g, "<br/>")}</p>`;
+                                })
+                                .join(""),
+                      }}
+                    />
                   </div>
                 )}
                 <BlogEngagement
                   blogId={blog.id}
                   isLoggedIn={!!user}
                   initialLiked={
-                    !!(user && blog.likes?.includes(String(user.id)))
+                    !!(
+                      user &&
+                      Array.isArray(blog.likes) &&
+                      blog.likes.includes(String(user.id))
+                    )
                   }
-                  likesCount={blog.likes?.length ?? 0}
+                  likesCount={
+                    Array.isArray(blog.likes)
+                      ? blog.likes.length
+                      : typeof blog.likes === "number"
+                        ? blog.likes
+                        : 0
+                  }
                 />
               </div>
             </div>

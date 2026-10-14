@@ -9,7 +9,6 @@ import ContactForm from "../components/Landing/ContactForm";
 import Footer from "../components/Landing/Footer";
 import Speakers from "~/components/Speakers";
 import DirectorsMessage from "~/components/DirectorsMessage";
-import FaqSection from "~/components/FaqSection";
 
 export default function Page() {
   return (

@@ -44,5 +44,9 @@ yarn-error.log*
 
 # idea files
 .idea
+
+# local project notes
+READMEJuganta.md
+
 # clerk configuration (can include secrets)
 /.clerk/

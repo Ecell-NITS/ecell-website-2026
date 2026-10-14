@@ -44,13 +44,14 @@
 
 export default function GoogleButton({ label }: { label: string }) {
   const handleGoogleLogin = () => {
-    // Store the current page so we can redirect back after login
+    // Preserve a page-specific login destination set by the caller.
     if (typeof window !== "undefined") {
-      sessionStorage.setItem("postLoginRedirect", window.location.pathname);
+      if (!sessionStorage.getItem("postLoginRedirect")) {
+        sessionStorage.setItem("postLoginRedirect", window.location.pathname);
+      }
     }
     // Redirect to the backend Google OAuth endpoint
-    const apiUrl =
-      process.env.NEXT_PUBLIC_API_URL ?? "http://localhost:4000";
+    const apiUrl = process.env.NEXT_PUBLIC_API_URL ?? "http://localhost:4000";
     window.location.href = `${apiUrl}/api/auth/google`;
   };
 

@@ -1,84 +1,120 @@
-/* eslint-disable @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-floating-promises, @typescript-eslint/prefer-nullish-coalescing */
 "use client";
 
 import { useState, useMemo, useCallback, useEffect } from "react";
+import { motion } from "framer-motion";
+
 import { Search, ChevronDown } from "lucide-react";
 import toast from "react-hot-toast";
-import BlogCard from "./BlogCard";
-import api from "@/lib/api";
-import { useAuth } from "@/context/AuthContext";
+import axios from "axios";
 
-interface ApiBlog {
-  id: string;
-  title: string;
-  intro?: string;
-  tag?: string;
-  content?: string;
-  writerName?: string;
-  coverImage?: string;
-  topicPic?: string;
-  writerPic?: string;
-  createdAt?: string;
-  likes?: string[];
-  authorId?: string;
-  status?: string;
-  _count?: { comments?: number };
-}
+import BlogCard from "./BlogCard";
+
+import { useAuth } from "@/context/AuthContext";
+import api from "@/lib/api";
+import { extractApiBlogs, normalizeApiBlog, type Blog } from "@/lib/blogs";
+
+import blogsData from "@/data/blogs2.json";
+
+const staticBlogs = blogsData as Blog[];
 
 export default function BlogsClient() {
   const [sortOpen, setSortOpen] = useState(false);
   const [sortBy, setSortBy] = useState("Latest");
   const [searchQuery, setSearchQuery] = useState("");
-  const [blogs, setBlogs] = useState<ApiBlog[]>([]);
-  const [loading, setLoading] = useState(true);
-  const { user } = useAuth();
+  const [apiBlogs, setApiBlogs] = useState<Blog[]>([]);
+
+  const { user, loading: authLoading } = useAuth();
 
   useEffect(() => {
+    if (authLoading) {
+      return;
+    }
+
+    let isActive = true;
+
     const fetchBlogs = async () => {
       try {
-        const { data } = await api.get("/api/blog/acceptedBlogs");
-        const blogsData = data.data ?? data ?? [];
-        setBlogs(Array.isArray(blogsData) ? blogsData : []);
-      } catch (err: unknown) {
-        const error = err as { response?: { data?: { message?: string } } };
-        toast.error(error.response?.data?.message ?? "Failed to load blogs");
-        setBlogs([]);
-      } finally {
-        setLoading(false);
+        const { data } = await api.get<unknown>("/api/blog/acceptedBlogs");
+        const userId = user ? String(user.id) : undefined;
+        const normalizedBlogs = extractApiBlogs(data).map((blog) =>
+          normalizeApiBlog(blog, userId),
+        );
+        if (isActive) {
+          setApiBlogs(normalizedBlogs);
+        }
+      } catch (error: unknown) {
+        if (isActive) {
+          const message = axios.isAxiosError<{ message?: string }>(error)
+            ? (error.response?.data?.message ??
+              (error.response
+                ? `Request failed (${error.response.status})`
+                : error.message))
+            : error instanceof Error
+              ? error.message
+              : "Unknown error";
+
+          console.error("Failed to load published blogs:", error);
+          toast.error(`Failed to load published blogs: ${message}`);
+        }
       }
     };
-    fetchBlogs();
-  }, []);
+
+    void fetchBlogs();
+    return () => {
+      isActive = false;
+    };
+  }, [authLoading, user]);
+
+  const blogs = useMemo(() => [...staticBlogs, ...apiBlogs], [apiBlogs]);
 
   const filteredBlogs = useMemo(() => {
     const query = searchQuery.toLowerCase();
+
     const filtered = blogs.filter(
       (blog) =>
         blog.title.toLowerCase().includes(query) ||
-        blog.intro?.toLowerCase().includes(query) ||
-        blog.tag?.toLowerCase().includes(query),
+        blog.description.toLowerCase().includes(query) ||
+        blog.tags.some((tag) => tag.toLowerCase().includes(query)),
     );
 
     const sorted = [...filtered];
+
+    const parseDate = (date: string) => {
+      const normalized = date.trim().replace(/\//g, "-");
+      const match = /^(\d{1,2})-(\d{1,2})-(\d{4})$/.exec(normalized);
+
+      if (match) {
+        const [, day, month, year] = match;
+        return new Date(Number(year), Number(month) - 1, Number(day)).getTime();
+      }
+
+      const parsed = new Date(normalized);
+      return Number.isNaN(parsed.getTime()) ? 0 : parsed.getTime();
+    };
+
     switch (sortBy) {
       case "Most Liked":
-        sorted.sort((a, b) => (b.likes?.length ?? 0) - (a.likes?.length ?? 0));
+        sorted.sort((a, b) => b.likes - a.likes);
         break;
+
       case "Trending":
-        // Trending: combination of recency + likes
         sorted.sort((a, b) => {
-          const aTime = a.createdAt ? new Date(a.createdAt).getTime() : 0;
-          const bTime = b.createdAt ? new Date(b.createdAt).getTime() : 0;
-          const aScore = (a.likes?.length ?? 0) * 2 + aTime / 1e12;
-          const bScore = (b.likes?.length ?? 0) * 2 + bTime / 1e12;
+          const aTime = parseDate(a.date);
+          const bTime = parseDate(b.date);
+
+          const aScore = a.likes * 2 + aTime / 1e12;
+          const bScore = b.likes * 2 + bTime / 1e12;
+
           return bScore - aScore;
         });
         break;
+
       case "Latest":
       default:
         sorted.sort((a, b) => {
-          const aTime = a.createdAt ? new Date(a.createdAt).getTime() : 0;
-          const bTime = b.createdAt ? new Date(b.createdAt).getTime() : 0;
+          const aTime = parseDate(a.date);
+          const bTime = parseDate(b.date);
+
           return bTime - aTime;
         });
         break;
@@ -106,49 +142,63 @@ export default function BlogsClient() {
   return (
     <>
       {/* HERO SECTION */}
-      <section className="relative z-20 border-b border-white/5 pt-32 pb-16 md:py-40">
-        {/* Background gradient */}
-        <div className="absolute z-10 h-screen">
-          <div className="absolute top-0 left-1/2 h-96 w-96 -translate-x-1/2 rounded-full bg-blue-500/5 blur-3xl" />
-          <div className="absolute right-0 bottom-0 h-96 w-96 rounded-full bg-blue-500/5 blur-3xl" />
-        </div>
-
-        <div className="mx-auto w-full max-w-7xl px-4 md:px-8 lg:px-12">
+      <section className="relative z-10 border-b border-white/5 pt-24 pb-10 md:pt-28 md:pb-12">
+        <div className="mx-auto w-full max-w-7xl px-4 text-center md:px-8 lg:px-12">
           {/* Insight pill */}
-          <div className="mb-8 inline-flex animate-[fadeIn_0.6s_ease-out_forwards] rounded-full bg-blue-500/5 px-4 py-2 opacity-0 ring-1 ring-blue-500/30 backdrop-blur-sm">
-            <span className="text-[10px] font-semibold tracking-widest text-blue-400 uppercase">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6, ease: "easeOut" }}
+            className="mb-5 inline-flex rounded-full border border-blue-400/15 bg-white/5 px-3.5 py-1.5 backdrop-blur-sm"
+          >
+            <span className="text-[9px] font-semibold tracking-[0.2em] text-blue-300 uppercase">
               INSIGHTS FROM THE ECOSYSTEM
             </span>
-          </div>
+          </motion.div>
 
           {/* TITLE SECTION */}
-          <div className="mb-12 translate-y-8 animate-[fadeIn_0.8s_ease-out_0.1s_forwards] opacity-0">
-            <h1 className="mb-2 text-4xl font-black tracking-tight text-white md:text-6xl lg:text-8xl">
+          <motion.div
+            initial={{ opacity: 0, y: 24 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.7, delay: 0.08, ease: "easeOut" }}
+            className="mb-8"
+          >
+            <h1 className="mb-3 text-4xl leading-[0.98] font-black tracking-tighter text-white uppercase italic sm:text-5xl md:text-6xl lg:text-7xl">
               The Startup
               <br />
-              Chronicles
+              <span className="text-blue-500">Chronicles</span>
             </h1>
-            <p className="max-w-xl text-base leading-relaxed text-gray-400 md:text-lg">
+
+            <p className="mx-auto max-w-2xl text-sm leading-relaxed text-slate-400 sm:text-base md:text-lg">
               Stories, insights, and learnings from the entrepreneurial journey.
               Dive into our curated collection of thought leadership and
               real-world experiences.
             </p>
-          </div>
+          </motion.div>
 
           {/* SEARCH & FILTER */}
-          <div className="flex translate-y-8 animate-[fadeIn_0.8s_ease-out_0.2s_forwards] flex-col gap-4 opacity-0 sm:flex-row sm:items-center sm:justify-between">
+          <motion.div
+            initial={{ opacity: 0, y: 24 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.7, delay: 0.16, ease: "easeOut" }}
+            className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-center"
+          >
             {/* Search */}
-            <div className="group relative w-full sm:w-96">
+            <div className="group relative w-full sm:max-w-md sm:flex-1">
               <Search
                 className="absolute top-1/2 left-4 -translate-y-1/2 text-gray-500 transition-colors group-focus-within:text-blue-400"
                 size={18}
               />
+
               <input
                 type="text"
                 placeholder="Search blogs..."
                 value={searchQuery}
                 onChange={handleSearchChange}
-                className="w-full rounded-2xl border border-white/10 bg-white/5 py-3.5 pr-4 pl-12 text-sm text-white placeholder-gray-500 transition-all outline-none focus:border-blue-500/40 focus:bg-blue-500/5"
+                className="w-full rounded-xl border border-white/10 bg-white/4 py-3 pr-4 pl-12 text-sm text-white placeholder-gray-500 transition-all outline-none focus:border-blue-400/40 focus:bg-white/7 focus:ring-4 focus:ring-blue-500/5"
               />
             </div>
 
@@ -156,16 +206,19 @@ export default function BlogsClient() {
             <div className="relative">
               <button
                 onClick={handleToggleSort}
-                className="flex items-center gap-2 rounded-2xl border border-white/10 bg-white/5 px-6 py-3.5 text-sm font-semibold text-white transition-all hover:border-blue-500/40 hover:bg-blue-500/5"
+                className="flex w-full items-center justify-between gap-3 rounded-xl border border-white/10 bg-white/4 px-5 py-3 text-sm font-semibold text-slate-200 transition-all hover:border-blue-400/30 hover:bg-white/7 sm:w-auto"
               >
                 Sort: {sortBy}
                 <ChevronDown
                   size={16}
-                  className={`transition-transform ${sortOpen ? "rotate-180" : ""}`}
+                  className={`transition-transform ${
+                    sortOpen ? "rotate-180" : ""
+                  }`}
                 />
               </button>
+
               {sortOpen && (
-                <div className="absolute top-14 right-0 z-50 w-40 overflow-hidden rounded-2xl border border-white/10 bg-[#0a0f1e] shadow-2xl">
+                <div className="absolute top-14 right-0 z-50 w-full overflow-hidden rounded-xl border border-white/10 bg-[#0a0f1e] shadow-2xl sm:w-44">
                   {["Latest", "Most Liked", "Trending"].map((option) => (
                     <button
                       key={option}
@@ -178,51 +231,23 @@ export default function BlogsClient() {
                 </div>
               )}
             </div>
-          </div>
+          </motion.div>
         </div>
       </section>
 
       {/* BLOGS GRID */}
-      <section className="py-20">
+      <section className="py-10 sm:py-12 md:py-16">
         <div className="mx-auto w-full max-w-7xl px-4 md:px-8 lg:px-12">
-          {loading ? (
-            <div className="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3">
-              {[...Array(6)].map((_, i) => (
-                <div
-                  key={i}
-                  className="h-96 animate-pulse rounded-3xl bg-white/5"
-                />
-              ))}
-            </div>
-          ) : filteredBlogs.length > 0 ? (
-            <div className="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3">
-              {filteredBlogs.map((blog, _index) => (
+          {filteredBlogs.length > 0 ? (
+            <div className="grid grid-cols-1 gap-5 sm:gap-6 md:grid-cols-2 lg:grid-cols-3">
+              {filteredBlogs.map((blog, index) => (
                 <BlogCard
-                  key={blog.id}
+                  key={`${blog.source ?? "static"}-${blog.id}`}
                   isLoggedIn={!!user}
-                  initialLiked={
-                    !!(user && blog.likes?.includes(String(user.id)))
-                  }
-                  blog={{
-                    id: blog.id,
-                    title: blog.title,
-                    description: blog.intro ?? "",
-                    fullContent: blog.content ?? blog.intro ?? "",
-                    author: blog.writerName ?? "Anonymous",
-                    role: "Contributor",
-                    readTime: "5 min read",
-                    likes: blog.likes?.length ?? 0,
-                    tags: blog.tag
-                      ? blog.tag.split(",").map((t) => t.trim())
-                      : [],
-                    image:
-                      blog.topicPic ??
-                      blog.coverImage ??
-                      "https://images.unsplash.com/photo-1488190211105-8b0e65b80b4e?auto=format&q=80&w=600",
-                    avatar:
-                      blog.writerPic ??
-                      `https://ui-avatars.com/api/?name=${encodeURIComponent(blog.writerName ?? "A")}&background=3b82f6&color=fff&size=80`,
-                  }}
+                  userId={user ? String(user.id) : undefined}
+                  initialLiked={blog.isLiked ?? false}
+                  blog={blog}
+                  animationDelayMs={Math.min(index * 70, 350)}
                 />
               ))}
             </div>

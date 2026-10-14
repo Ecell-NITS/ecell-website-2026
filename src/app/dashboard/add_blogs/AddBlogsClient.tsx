@@ -8,6 +8,7 @@ import { useAuth } from "@/context/AuthContext";
 import api from "@/lib/api";
 import dynamic from "next/dynamic";
 import { Eye, Edit3 } from "lucide-react";
+import { sanitizeBlogHtml } from "@/lib/sanitize-blog-html";
 
 // Lazy load TipTap editors to reduce initial bundle size
 const TipTapEditors = dynamic(
@@ -132,9 +133,14 @@ export default function AddBlogsClient() {
       });
       const topicPicUrl: string =
         uploadRes.data?.data?.url ?? uploadRes.data?.url ?? "";
+      if (!topicPicUrl) {
+        throw new Error("Image upload did not return a URL");
+      }
       setUploadingImage(false);
 
       // 2. Create blog
+      // Keep this payload compatible with the backend createBlog Zod schema.
+      // The backend schema remains authoritative and must not be bypassed.
       await api.post("/api/blog/createBlog", {
         title: title.trim(),
         intro: intro.trim(),
@@ -151,7 +157,10 @@ export default function AddBlogsClient() {
       router.push("/dashboard");
     } catch (err: unknown) {
       const error = err as { response?: { data?: { message?: string } } };
-      toast.error(error.response?.data?.message ?? "Failed to create blog");
+      toast.error(
+        error.response?.data?.message ??
+          (err instanceof Error ? err.message : "Failed to create blog"),
+      );
     } finally {
       setIsPublishing(false);
       setUploadingImage(false);
@@ -415,7 +424,9 @@ export default function AddBlogsClient() {
                     <div className="mb-8 border-l-4 border-blue-500 pl-4 sm:pl-6">
                       <div
                         className="max-w-none text-base font-medium text-white/90 italic sm:text-lg [&_a]:text-blue-400 [&_em]:text-white/80 [&_ol]:list-decimal [&_ol]:pl-5 [&_p]:mb-2 [&_strong]:text-white [&_ul]:list-disc [&_ul]:pl-5"
-                        dangerouslySetInnerHTML={{ __html: intro }}
+                        dangerouslySetInnerHTML={{
+                          __html: sanitizeBlogHtml(intro),
+                        }}
                       />
                     </div>
                   )}
@@ -424,7 +435,9 @@ export default function AddBlogsClient() {
                   {content && (
                     <div
                       className="max-w-none text-sm leading-relaxed text-gray-300 sm:text-base md:text-lg [&_a]:text-blue-400 [&_a]:underline [&_blockquote]:my-4 [&_blockquote]:border-l-4 [&_blockquote]:border-blue-500 [&_blockquote]:bg-white/5 [&_blockquote]:py-2 [&_blockquote]:pl-4 [&_blockquote]:text-gray-400 [&_blockquote]:italic [&_code]:rounded [&_code]:bg-white/10 [&_code]:px-1.5 [&_code]:py-0.5 [&_code]:text-sm [&_code]:text-blue-300 [&_em]:text-gray-200 [&_h1]:mt-8 [&_h1]:mb-4 [&_h1]:text-2xl [&_h1]:font-bold [&_h1]:text-white [&_h2]:mt-6 [&_h2]:mb-3 [&_h2]:text-xl [&_h2]:font-bold [&_h2]:text-white [&_h3]:mt-4 [&_h3]:mb-2 [&_h3]:text-lg [&_h3]:font-semibold [&_h3]:text-white [&_img]:my-4 [&_img]:max-w-full [&_img]:rounded-xl [&_li]:mb-1 [&_ol]:my-4 [&_ol]:list-decimal [&_ol]:pl-6 [&_p]:mb-4 [&_pre]:my-4 [&_pre]:overflow-x-auto [&_pre]:rounded-xl [&_pre]:bg-black/40 [&_pre]:p-4 [&_strong]:text-white [&_ul]:my-4 [&_ul]:list-disc [&_ul]:pl-6"
-                      dangerouslySetInnerHTML={{ __html: content }}
+                      dangerouslySetInnerHTML={{
+                        __html: sanitizeBlogHtml(content),
+                      }}
                     />
                   )}
 

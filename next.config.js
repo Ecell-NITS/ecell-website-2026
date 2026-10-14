@@ -11,6 +11,8 @@ const config = {
   // Remove X-Powered-By header for security
   poweredByHeader: false,
 
+  serverExternalPackages: ["isomorphic-dompurify", "jsdom"],
+
   images: {
     remotePatterns: [
       {

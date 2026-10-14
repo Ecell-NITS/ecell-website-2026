@@ -1,23 +1,23 @@
-/* eslint-disable @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-floating-promises, @typescript-eslint/no-unsafe-argument */
 "use client";
 
-import { useState, useEffect } from "react";
+import { useEffect, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import toast from "react-hot-toast";
+import axios from "axios";
+import { FaCalendarAlt, FaEdit } from "react-icons/fa";
+
 import { useAuth } from "@/context/AuthContext";
-import api from "@/lib/axios";
-import { FaEdit } from "react-icons/fa";
+import api from "@/lib/api";
+import { sanitizeBlogHtml } from "@/lib/sanitize-blog-html";
 
 interface DraftBlog {
   id: string;
-  title: string;
+  title?: string;
   intro?: string;
   content?: string;
   tag?: string;
   writerName?: string;
-  writerEmail?: string;
   writerPic?: string;
   topicPic?: string;
   timeStamp?: string;
@@ -25,9 +25,33 @@ interface DraftBlog {
   subject?: string;
   text?: string;
   isAccepted?: boolean;
-  likes?: string[];
   authorId?: string;
   status?: string;
+}
+
+interface DraftBlogResponse {
+  data?: DraftBlog;
+}
+
+function LoadingPreview() {
+  return (
+    <section
+      aria-label="Loading draft preview"
+      className="px-4 pt-8 pb-24 md:px-8 lg:px-12"
+    >
+      <div className="mx-auto max-w-6xl animate-pulse space-y-6">
+        <div className="h-8 w-48 rounded-lg bg-white/10" />
+        <div className="h-12 w-3/4 rounded-lg bg-white/10" />
+        <div className="h-6 w-1/2 rounded-lg bg-white/10" />
+        <div className="aspect-video w-full rounded-2xl bg-white/10" />
+        <div className="space-y-3">
+          <div className="h-4 w-full rounded bg-white/10" />
+          <div className="h-4 w-full rounded bg-white/10" />
+          <div className="h-4 w-5/6 rounded bg-white/10" />
+        </div>
+      </div>
+    </section>
+  );
 }
 
 export default function DraftBlogClient({ blogId }: { blogId: string }) {
@@ -36,267 +60,242 @@ export default function DraftBlogClient({ blogId }: { blogId: string }) {
   const [blog, setBlog] = useState<DraftBlog | null>(null);
   const [loading, setLoading] = useState(true);
   const [forbidden, setForbidden] = useState(false);
+  const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
   useEffect(() => {
-    if (authLoading) return;
-    if (!user) {
-      router.push("/login");
+    if (authLoading) {
       return;
     }
 
+    if (!user) {
+      router.replace("/login");
+      return;
+    }
+
+    let isActive = true;
+
     const fetchDraft = async () => {
       try {
-        const { data } = await api.get(`/blog/draft/${blogId}`);
-        const blogData = data.data ?? data;
-        setBlog(blogData);
-      } catch (err: unknown) {
-        const error = err as { response?: { status?: number } };
-        if (error.response?.status === 403) {
+        const { data } = await api.get<DraftBlog | DraftBlogResponse>(
+          `/api/blog/draft/${blogId}`,
+        );
+        const blogData =
+          "data" in data && data.data ? data.data : (data as DraftBlog);
+        if (isActive) {
+          setBlog(blogData);
+        }
+      } catch (error: unknown) {
+        if (!isActive) {
+          return;
+        }
+        if (axios.isAxiosError(error) && error.response?.status === 403) {
           setForbidden(true);
+        } else if (
+          axios.isAxiosError(error) &&
+          error.response?.status === 404
+        ) {
+          setErrorMessage("This blog could not be found.");
         } else {
-          toast.error("Blog not found");
-          router.push("/dashboard");
+          console.error("Failed to load draft blog preview:", error);
+          setErrorMessage(
+            "We couldn’t load this blog preview. Please try again.",
+          );
         }
       } finally {
-        setLoading(false);
+        if (isActive) {
+          setLoading(false);
+        }
       }
     };
-    fetchDraft();
-  }, [blogId, router, user, authLoading]);
+
+    void fetchDraft();
+    return () => {
+      isActive = false;
+    };
+  }, [authLoading, blogId, router, user]);
 
   if (authLoading || loading) {
-    return (
-      <section className="px-4 pt-8 md:px-8 lg:px-12">
-        <div className="mx-auto max-w-6xl animate-pulse space-y-6">
-          <div className="h-8 w-48 rounded-lg bg-white/10" />
-          <div className="h-12 w-3/4 rounded-lg bg-white/10" />
-          <div className="h-6 w-1/2 rounded-lg bg-white/10" />
-          <div className="aspect-video w-full rounded-2xl bg-white/10" />
-          <div className="space-y-3">
-            <div className="h-4 w-full rounded bg-white/10" />
-            <div className="h-4 w-full rounded bg-white/10" />
-            <div className="h-4 w-5/6 rounded bg-white/10" />
-          </div>
-        </div>
-      </section>
-    );
+    return <LoadingPreview />;
+  }
+
+  if (!user) {
+    return null;
   }
 
   if (forbidden) {
     return (
       <section className="px-4 pt-8 pb-24 md:px-8 lg:px-12">
-        <div className="mx-auto max-w-2xl py-32 text-center">
-          <h2 className="mb-4 text-3xl font-bold text-white">Access Denied</h2>
+        <div className="mx-auto max-w-2xl rounded-3xl border border-white/10 bg-white/5 px-6 py-16 text-center">
+          <h1 className="mb-4 text-3xl font-bold text-white">Access denied</h1>
           <p className="mb-8 text-gray-400">
-            You don&apos;t have permission to view this draft blog.
+            Only the blog’s author and E-Cell administrators can preview this
+            unpublished blog.
           </p>
           <Link
             href="/dashboard"
-            className="rounded-xl bg-blue-600 px-6 py-3 font-semibold text-white transition-all hover:bg-blue-700"
+            className="rounded-xl bg-blue-600 px-6 py-3 font-semibold text-white transition-colors hover:bg-blue-700"
           >
-            Back to Dashboard
+            Back to dashboard
           </Link>
         </div>
       </section>
     );
   }
 
-  if (!blog) return null;
+  if (errorMessage || !blog) {
+    return (
+      <section className="px-4 pt-8 pb-24 md:px-8 lg:px-12">
+        <div className="mx-auto max-w-2xl rounded-3xl border border-white/10 bg-white/5 px-6 py-16 text-center">
+          <h1 className="mb-4 text-3xl font-bold text-white">
+            Preview unavailable
+          </h1>
+          <p className="mb-8 text-gray-400">
+            {errorMessage ?? "This blog preview is not available."}
+          </p>
+          <Link
+            href="/dashboard"
+            className="rounded-xl bg-blue-600 px-6 py-3 font-semibold text-white transition-colors hover:bg-blue-700"
+          >
+            Back to dashboard
+          </Link>
+        </div>
+      </section>
+    );
+  }
 
-  const blogDate = blog.timeStamp ?? blog.createdAt;
-  const formattedDate = blogDate
-    ? new Date(blogDate).toLocaleDateString("en-IN", {
-        day: "2-digit",
-        month: "short",
-        year: "numeric",
-      })
-    : "Date not available";
-
-  const mainContent = blog.content ?? blog.text ?? "";
-  const blogIntro = blog.intro ?? blog.subject ?? "";
+  const isOwner = String(blog.authorId) === String(user.id);
+  const isPublished = blog.isAccepted === true;
+  const rawDate = blog.timeStamp ?? blog.createdAt;
+  const date = rawDate ? new Date(rawDate) : null;
+  const formattedDate =
+    date && !Number.isNaN(date.getTime())
+      ? date.toLocaleDateString("en-IN", {
+          day: "2-digit",
+          month: "short",
+          year: "numeric",
+        })
+      : "Date not available";
+  const content = blog.content ?? blog.text ?? "";
+  const intro = blog.intro ?? blog.subject ?? "";
+  const tags =
+    blog.tag
+      ?.split(",")
+      .map((tag) => tag.trim().replace(/^#/, ""))
+      .filter(Boolean) ?? [];
+  const authorAvatar = blog.writerPic ?? "/profile_picture_holder.webp";
+  const topicImage = blog.topicPic ?? "/landing1.jpg";
   const readTime = Math.max(
     1,
-    Math.ceil((blogIntro + " " + mainContent).split(/\s+/).length / 200),
+    Math.ceil(
+      `${intro} ${content}`
+        .replace(/<[^>]*>/g, " ")
+        .split(/\s+/)
+        .filter(Boolean).length / 200,
+    ),
   );
-
-  const tags = blog.tag ? blog.tag.split(",").map((t) => t.trim()) : [];
-  const authorAvatar =
-    blog.writerPic ??
-    "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png";
-  const topicImage =
-    blog.topicPic ??
-    "https://images.unsplash.com/photo-1559136555-9303baea8ebd?auto=format&q=80&w=900";
-
-  const isOwner = user && blog.authorId === String(user.id);
-  const statusLabel = blog.isAccepted ? "Published" : "Pending Review";
-  const statusColor = blog.isAccepted
-    ? "border-green-500/30 bg-green-500/10 text-green-400"
-    : "border-yellow-500/30 bg-yellow-500/10 text-yellow-400";
 
   return (
     <>
-      {/* Draft Banner */}
-      <section className="border-b border-yellow-500/20 bg-yellow-500/5 px-4 py-3 md:px-8">
+      <section className="border-y border-yellow-500/20 bg-yellow-500/5 px-4 py-4 md:px-8">
         <div className="mx-auto flex max-w-6xl flex-wrap items-center justify-between gap-3">
-          <div className="flex items-center gap-3">
+          <div className="flex flex-wrap items-center gap-3">
             <span
-              className={`rounded-full border px-3 py-1 text-[10px] font-bold tracking-widest uppercase ${statusColor}`}
+              className={`rounded-full border px-3 py-1 text-[10px] font-bold tracking-widest uppercase ${
+                isPublished
+                  ? "border-green-500/30 bg-green-500/10 text-green-400"
+                  : "border-yellow-500/30 bg-yellow-500/10 text-yellow-400"
+              }`}
             >
-              {statusLabel}
+              {isPublished ? "Published" : "Pending review"}
             </span>
-            <span className="text-sm text-gray-400">
-              This is a draft preview — only you and admins can see this.
-            </span>
+            <p className="text-sm text-gray-400">
+              Private preview — only you and E-Cell administrators can view
+              unpublished blogs.
+            </p>
           </div>
-          {isOwner && (
+          {isOwner && !isPublished && (
             <Link
               href={`/dashboard/edit_blog/${blog.id}`}
-              className="flex items-center gap-2 rounded-lg border border-white/10 bg-white/5 px-4 py-2 text-sm font-semibold text-white transition-all hover:bg-white/10"
+              className="flex items-center gap-2 rounded-lg border border-white/10 bg-white/5 px-4 py-2 text-sm font-semibold text-white transition-colors hover:bg-white/10"
             >
-              <FaEdit /> Edit Blog
+              <FaEdit aria-hidden="true" />
+              Edit blog
             </Link>
           )}
         </div>
       </section>
 
-      {/* Header Section */}
-      <section className="relative border-b border-white/5 pt-8">
-        <div className="mx-auto w-full max-w-6xl px-4 md:px-8 lg:px-12">
-          <div className="animate-[fadeIn_0.8s_ease-out_0.1s_forwards] opacity-0">
-            <div className="space-y-6 sm:space-y-8">
-              {/* Tags */}
-              {tags.length > 0 && (
-                <div className="mb-6 flex flex-wrap gap-2 sm:mb-8 sm:gap-3">
-                  {tags.map((tag, index) => (
-                    <span
-                      key={index}
-                      className="animate-[fadeIn_0.4s_ease-out_forwards] rounded-full border border-blue-500/30 bg-blue-500/10 px-3 py-1 text-[8px] font-black tracking-widest text-blue-400 uppercase opacity-0 backdrop-blur-sm sm:px-4 sm:py-2 sm:text-[9px] md:text-[10px]"
-                      style={{ animationDelay: `${index * 0.1}s` }}
-                    >
-                      #{tag}
-                    </span>
-                  ))}
-                </div>
-              )}
-
-              {/* Title */}
-              <div>
-                <h1 className="text-2xl leading-tight font-black tracking-tight text-white sm:text-3xl md:text-5xl lg:text-6xl xl:text-7xl">
-                  {blog.title}
-                </h1>
-              </div>
-
-              {/* Author Meta */}
-              <div className="flex flex-col items-start gap-4 border-y border-white/5 py-4 sm:gap-6 sm:py-6 md:flex-row md:items-center md:gap-8 md:py-8">
-                <div className="flex items-center gap-3 sm:gap-4">
-                  <Image
-                    className="h-10 w-10 rounded-full border border-white/10 object-cover sm:h-12 sm:w-12 md:h-14 md:w-14"
-                    src={authorAvatar}
-                    alt="author"
-                    width={56}
-                    height={56}
-                    loading="lazy"
-                    placeholder="empty"
-                  />
-                  <div>
-                    <p className="text-xs font-bold text-white sm:text-sm md:text-base">
-                      {blog.writerName ?? "Anonymous"}
-                    </p>
-                    <p className="text-[8px] font-black tracking-widest text-gray-500 uppercase sm:text-[9px] md:text-[10px]">
-                      Contributor
-                    </p>
-                  </div>
-                </div>
-
-                <div className="flex flex-col items-start gap-3 sm:gap-4 md:ml-auto md:flex-row md:items-center md:gap-6 lg:gap-8">
-                  <div className="flex items-center gap-2 text-gray-500">
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      width="16"
-                      height="16"
-                      viewBox="0 0 24 24"
-                      fill="none"
-                      stroke="currentColor"
-                      strokeWidth="2"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      aria-hidden="true"
-                    >
-                      <path d="M8 2v4" />
-                      <path d="M16 2v4" />
-                      <rect width="18" height="18" x="3" y="4" rx="2" />
-                      <path d="M3 10h18" />
-                    </svg>
-                    <span className="text-[8px] font-bold tracking-widest uppercase sm:text-xs md:text-sm">
-                      {formattedDate}
-                    </span>
-                  </div>
-                  <div className="flex items-center gap-2 text-gray-500">
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      width="16"
-                      height="16"
-                      viewBox="0 0 24 24"
-                      fill="none"
-                      stroke="currentColor"
-                      strokeWidth="2"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      aria-hidden="true"
-                    >
-                      <path d="M12 6v6l4 2" />
-                      <circle cx="12" cy="12" r="10" />
-                    </svg>
-                    <span className="text-[8px] font-bold tracking-widest uppercase sm:text-xs md:text-sm">
-                      {readTime} min
-                    </span>
-                  </div>
-                </div>
-              </div>
-            </div>
+      <article className="mx-auto w-full max-w-6xl px-4 py-10 md:px-8 md:py-16 lg:px-12">
+        {tags.length > 0 && (
+          <div className="mb-6 flex flex-wrap gap-2">
+            {tags.map((tag) => (
+              <span
+                key={tag}
+                className="rounded-full border border-blue-500/30 bg-blue-500/10 px-3 py-1 text-xs font-semibold text-blue-300"
+              >
+                #{tag}
+              </span>
+            ))}
           </div>
-        </div>
-      </section>
+        )}
 
-      {/* Content Section */}
-      <section className="relative py-8 md:py-16 lg:py-24">
-        <div className="mx-auto w-full max-w-6xl px-4 md:px-8 lg:px-12">
-          <div className="animate-[fadeIn_0.8s_ease-out_0.2s_forwards] opacity-0">
-            <div className="prose prose-invert max-w-none space-y-4 text-sm leading-relaxed text-gray-400 sm:space-y-6 sm:text-base md:text-lg">
-              {/* Featured Image */}
-              <div className="relative aspect-video overflow-hidden rounded-xl border border-white/10 sm:rounded-2xl md:rounded-[2.5rem]">
-                <Image
-                  alt="blog featured image"
-                  className="h-full w-full object-cover"
-                  src={topicImage}
-                  fill
-                  sizes="(max-width: 768px) 100vw, 66vw"
-                  priority
-                  placeholder="empty"
-                />
-              </div>
+        <h1 className="mb-8 text-3xl leading-tight font-black tracking-tight text-white sm:text-4xl md:text-6xl">
+          {blog.title ?? "Untitled blog"}
+        </h1>
 
-              {/* Intro */}
-              {blogIntro && (
-                <div className="my-6 rounded-lg border-l-4 border-blue-600 bg-white/5 p-4 text-base text-white italic sm:my-8 sm:rounded-2xl sm:p-6 md:rounded-3xl md:p-10 md:text-lg lg:text-xl">
-                  &ldquo;{blogIntro}&rdquo;
-                </div>
-              )}
-
-              {/* Main Content */}
-              {mainContent && (
-                <div className="space-y-3 sm:space-y-4">
-                  {mainContent.includes("<") ? (
-                    <div dangerouslySetInnerHTML={{ __html: mainContent }} />
-                  ) : (
-                    <p>{mainContent}</p>
-                  )}
-                </div>
-              )}
-            </div>
+        <div className="mb-8 flex flex-wrap items-center gap-4 border-y border-white/10 py-5">
+          <Image
+            src={authorAvatar}
+            alt={`${blog.writerName ?? "Author"} profile`}
+            width={52}
+            height={52}
+            className="size-12 rounded-full border border-white/10 object-cover"
+          />
+          <div>
+            <p className="font-semibold text-white">
+              {blog.writerName ?? "E-Cell Community"}
+            </p>
+            <p className="text-xs text-slate-400">Contributor</p>
           </div>
+          <p className="ml-auto flex items-center gap-2 text-sm text-slate-400">
+            <FaCalendarAlt aria-hidden="true" />
+            {formattedDate}
+            <span aria-hidden="true">·</span>
+            {readTime} min read
+          </p>
         </div>
-      </section>
+
+        <div className="relative mb-8 aspect-video overflow-hidden rounded-2xl border border-white/10 bg-slate-900">
+          <Image
+            src={topicImage}
+            alt={blog.title ?? "Blog featured image"}
+            fill
+            sizes="(max-width: 768px) 100vw, 1200px"
+            priority
+            className="object-cover"
+          />
+        </div>
+
+        {intro && (
+          <p className="mb-8 rounded-r-2xl border-l-4 border-blue-500 bg-white/5 p-5 text-lg text-slate-200 italic">
+            {intro}
+          </p>
+        )}
+
+        {content && (
+          <div className="prose prose-invert max-w-none text-slate-300">
+            {content.includes("<") ? (
+              <div
+                dangerouslySetInnerHTML={{
+                  __html: sanitizeBlogHtml(content),
+                }}
+              />
+            ) : (
+              <p className="whitespace-pre-line">{content}</p>
+            )}
+          </div>
+        )}
+      </article>
     </>
   );
 }

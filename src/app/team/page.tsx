@@ -63,7 +63,7 @@ export default function TeamPage() {
             >
               <h1 className="3xl:text-[10rem] 4k:text-[12rem] my-6 flex flex-wrap justify-center gap-2 text-4xl leading-[0.85] font-black tracking-tighter text-white uppercase italic sm:gap-2.5 sm:text-5xl md:gap-3 md:text-6xl lg:justify-start lg:gap-3.5 lg:text-7xl xl:text-8xl 2xl:text-9xl">
                 <span>Meet</span>
-                <span>ours</span>
+                <span>our</span>
                 <span className="text-blue-500 lg:mx-0">Excellent</span>
                 <span>Team</span>
                 <span>Members</span>
